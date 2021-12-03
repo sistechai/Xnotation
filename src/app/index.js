@@ -25,6 +25,8 @@ import initialiseBrowserExitHandler from './tools/browserExit/browserExitHandler
 // Debugging Mode
 window.DEBUG = true;
 
+
+
 findUserOS();
 applyStyling();
 constructCanvas();

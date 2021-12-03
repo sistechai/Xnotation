@@ -1,5 +1,8 @@
 let defaultState = false;
 let removingPolygonPointsState = false;
+
+let TestDrawLineState = false;
+
 let addingPolygonPointsState = false;
 let movableObjectsState = true;
 let continuousDrawingState = true;
@@ -44,9 +47,17 @@ function getAlteringPolygonPointsState() {
 function getRemovingPolygonPointsState() {
   return removingPolygonPointsState;
 }
+function setTestDrawLineState(state){
+  addingPolygonPointsState = false;
+  TestDrawLineState = state;
+}
+
+function getTestDrawLineState(){
+  return TestDrawLineState;
+}
 
 function getAddingPolygonPointsState() {
-  return addingPolygonPointsState;
+    return addingPolygonPointsState;
 }
 
 function getMovableObjectsState() {
@@ -207,7 +218,18 @@ function setReadyToDrawShapeState(state) {
 }
 
 function setHasDrawnShapeState(state) {
+  console.log("hasDrawnShapeState 1 ", hasDrawnShapeState );
+  console.log("TestDrawLineState 1 ", TestDrawLineState );
+
   hasDrawnShapeState = state;
+
+  if (TestDrawLineState){
+    hasDrawnShapeState = true;
+  }
+  TestDrawLineState = false;
+  
+  console.log("hasDrawnShapeState 2 ", hasDrawnShapeState );
+  console.log("TestDrawLineState 2 ", TestDrawLineState);
 }
 
 function setCancelledReadyToDrawState(state) {
@@ -248,10 +270,13 @@ function setSettingsPopupOpenState(state) {
 
 function setExportDatasetsPopupOpenState(state) {
   exportDatasetsPopupOpenState = state;
+  console.log("exportDatasetsPopupOpenState", exportDatasetsPopupOpenState);
 }
 
 function setCurrentImageId(id) {
   currentImageId = id;
+  console.log("id", id);
+  console.log("in setCurrentImageId() id was set. Need in future for bugging the same Image Loading");
 }
 
 function setChangingMLGeneratedLabelNamesState(state) {
@@ -315,6 +340,10 @@ function setBoundingBoxCrosshairDropdownOpenState(state) {
 }
 
 export {
+
+  getTestDrawLineState,
+  setTestDrawLineState, 
+    
   getDefaultState,
   setDefaultState,
   getCurrentImageId,

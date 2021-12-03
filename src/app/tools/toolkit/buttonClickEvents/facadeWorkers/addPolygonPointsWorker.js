@@ -50,20 +50,30 @@ function discardAddPointsEvents(canvas) {
 }
 
 function initiateAddPolygonPointsEvents(canvas) {
+  canvas.discardActiveObject();
   if (getTestDrawLineState()){
+    setTestDrawLineState(false);
     setCreateNewLineButtonToActive();
+    purgeCanvasMouseEvents(canvas);
+
+    assignAddPointsOnExistingPolygonEvents(canvas);
+
+    console.log("!!! Line", setAddPointsButtonToActive());
+    setInitialStageOfAddPointsOnExistingPolygonMode(canvas);
+    setAddPointsButtonToActive();
+    setEditShapesButtonToDefault();
+    setDefaultState(false);
+    setAddingPolygonPointsState(true);
   }
 
-  canvas.discardActiveObject();
-
-  if (!getAddingPolygonPointsState()) {
+  else if (!getAddingPolygonPointsState()) {
     purgeCanvasMouseEvents(canvas);
+
     assignAddPointsOnExistingPolygonEvents(canvas);
+
+    console.log("!!! add to polygon", setAddPointsButtonToActive());
     setInitialStageOfAddPointsOnExistingPolygonMode(canvas);
-
     setAddPointsButtonToActive();
-    console.log("!!! setAddPointsButtonToActive", setAddPointsButtonToActive());
-
     setEditShapesButtonToDefault();
     setDefaultState(false);
     setAddingPolygonPointsState(true);

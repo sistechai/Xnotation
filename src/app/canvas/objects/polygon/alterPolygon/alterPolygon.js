@@ -19,6 +19,7 @@ import {
 import {
   getEditingLabelId, getLastPolygonActionWasMoveState,
   getNewShapeSelectedViaLabelListState, setNewShapeSelectedViaLabelListState,
+  getTestDrawLineState,
 } from '../../../../tools/state.js';
 import { highlightShapeFill, defaultShapeFill } from '../../allShapes/allShapes.js';
 
@@ -48,6 +49,10 @@ function getPolygonIdIfEditing() {
 function getPolygonIfEditing() {
   if (editingPolygon) {
     return polygon;
+  }
+  else if (getTestDrawLineState){
+    console.log("##########get Polygon if Editing");
+    return canvas;
   }
   return null;
 }

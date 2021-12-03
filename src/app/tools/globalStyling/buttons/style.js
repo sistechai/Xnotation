@@ -38,6 +38,7 @@ function getButtonElements() {
   buttons.buttonClassElements = document.getElementsByClassName('buttons');
   buttons.popupLabelButtonClassElements = document.getElementsByClassName('popup-label-button');
   buttons.popupLabelDisabledButtonClassElements = document.getElementsByClassName('popup-label-button-disabled');
+  console.log("buttons", buttons);
   // buttons.exportDatasetsPopupExportButton = document.getElementById('export-datasets-popup-export-button');
   return buttons;
 }

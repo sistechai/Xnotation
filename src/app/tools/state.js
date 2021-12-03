@@ -218,18 +218,12 @@ function setReadyToDrawShapeState(state) {
 }
 
 function setHasDrawnShapeState(state) {
-  console.log("hasDrawnShapeState 1 ", hasDrawnShapeState );
-  console.log("TestDrawLineState 1 ", TestDrawLineState );
-
   hasDrawnShapeState = state;
 
   if (TestDrawLineState){
     hasDrawnShapeState = true;
   }
   TestDrawLineState = false;
-  
-  console.log("hasDrawnShapeState 2 ", hasDrawnShapeState );
-  console.log("TestDrawLineState 2 ", TestDrawLineState);
 }
 
 function setCancelledReadyToDrawState(state) {

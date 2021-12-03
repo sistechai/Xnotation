@@ -10,6 +10,8 @@ import toggleSettingsPopup from './facadeWorkers/toggleSettingsPopUpWorker.js';
 import initiateEditShapesEvent from './facadeWorkers/editShapesWorker.js';
 import displayUploadDatasetsModal from './facadeWorkers/displayUploadDatasetsModalWorker.js';
 
+import { setTestDrawLineState } from '../../state.js';
+
 let canvas = null;
 
 function createNewBndBoxBtnClick() {
@@ -18,6 +20,11 @@ function createNewBndBoxBtnClick() {
 
 function createNewPolygonBtnClick() {
   initiateCreateNewPolygonEvents(canvas);
+}
+function testDrawLine() {
+  setTestDrawLineState(true);
+  console.log("setTestDrawLineState(true)");
+  initiateAddPolygonPointsEvents(canvas);
 }
 
 function addPointsBtnClick() {
@@ -73,4 +80,5 @@ export {
   zoomBtnClick,
   settingsBtnClick,
   editShapesBtnClick,
+  testDrawLine,
 };

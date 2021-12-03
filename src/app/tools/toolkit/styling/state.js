@@ -14,6 +14,9 @@ let removePolygonPointsButtonElement = null;
 let addPolygonPointsButtonElement = null;
 let removeLabelsButtonElement = null;
 let editShapesButtonElement = null;
+
+let createLineButtonElement = null;
+
 let zoomInButtonElement = null;
 let zoomOutButtonElement = null;
 let createBoundingBoxButtonElement = null;
@@ -133,6 +136,18 @@ function setZoomInButtonToDisabled() {
   setButtonToDisabled(zoomInButtonElement);
 }
 
+function setCreateNewLineToDisabled() {
+  setButtonToDisabled(createLineButtonElement);
+}
+
+function setCreateNewLineToDefault(){
+  setButtonToDefault(createLineButtonElement);
+}
+
+function setCreateNewLineToGrey(){
+  setButtonToGreyDefault(createLineButtonElement);
+}
+
 function setZoomOutButtonToDefault() {
   setButtonToDefault(zoomOutButtonElement);
 }
@@ -218,10 +233,15 @@ function setInitialToolkitButtonStyling() {
   setRemoveLabelsButtonToDisabled();
   setCreatePolygonButtonToDisabled();
   setCreateBoundingBoxButtonToDisabled();
+
+  setCreateNewLineToDisabled();
 }
 
 function identifyToolkitButtons() {
   editShapesButtonElement = document.getElementById('edit-shapes-button');
+
+  createLineButtonElement = document.getElementById('create-line-button');
+
   removePolygonPointsButtonElement = document.getElementById('remove-points-button');
   addPolygonPointsButtonElement = document.getElementById('add-points-button');
   removeLabelsButtonElement = document.getElementById('remove-labels-button');

@@ -1,5 +1,8 @@
 import purgeCanvasMouseEvents from '../../../../canvas/mouseInteractions/mouseEvents/resetCanvasUtils/purgeAllMouseHandlers.js';
 import {
+
+  getTestDrawLineState, setTestDrawLineState,
+
   setAddingPolygonPointsState, getAddingPolygonPointsState, setDefaultState,
   getContinuousDrawingState, getLastDrawingModeState, getCancelledReadyToDrawState,
   getRemovingPointsAfterCancelDrawState,
@@ -21,6 +24,7 @@ import {
 // Originally designed to be turned off after the points have been successfully added to a polygon
 
 function discardAddPointsEvents(canvas) {
+  console.log("1 getCancelledReadyToDrawState()", getCancelledReadyToDrawState());
   if (getContinuousDrawingState()
   && (getCancelledReadyToDrawState() || getRemovingPointsAfterCancelDrawState())) {
     removePolygonPoints();
@@ -41,16 +45,25 @@ function discardAddPointsEvents(canvas) {
 }
 
 function initiateAddPolygonPointsEvents(canvas) {
+  if (getTestDrawLineState()){
+    console.log("else if get Test");
+  }
+
   canvas.discardActiveObject();
+
   if (!getAddingPolygonPointsState()) {
     purgeCanvasMouseEvents(canvas);
     assignAddPointsOnExistingPolygonEvents(canvas);
     setInitialStageOfAddPointsOnExistingPolygonMode(canvas);
+
     setAddPointsButtonToActive();
+    console.log("!!! setAddPointsButtonToActive", setAddPointsButtonToActive());
+
     setEditShapesButtonToDefault();
     setDefaultState(false);
     setAddingPolygonPointsState(true);
-  } else if (isAddingPointsToPolygon()) {
+  }
+  else if (isAddingPointsToPolygon()) {
     purgeCanvasMouseEvents(canvas);
     assignAddPointsOnExistingPolygonEvents(canvas);
     resetAddPoints();

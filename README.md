@@ -1,4 +1,4 @@
-# Online Image Annotation
+# Web Image Annotation
 
 ## Description
 

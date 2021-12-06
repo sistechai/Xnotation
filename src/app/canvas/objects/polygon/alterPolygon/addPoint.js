@@ -6,6 +6,7 @@ import { changePolygonPointsToAddImpl } from './changePointsStyle.js';
 import { getLabelById } from '../../label/label.js';
 import { preventOutOfBoundsPointsOnMove } from '../../sharedUtils/moveBlockers.js';
 import setInitialStageOfAddPointsOnExistingPolygonMode from '../../../mouseInteractions/cursorModes/initialiseAddPointsOnExistingPolygonMode.js';
+import {getTestDrawLineState} from '../../../../tools/state.js';
 
 let canvas = null;
 let activeLine = null;
@@ -15,8 +16,17 @@ let initialPoint = null;
 let pointsArray = [];
 let defaultPointHoverMode = true;
 
+let firstPointOnLineIndex = 0;
+
 function drawLineImpl(pointer) {
-  console.log("drawLineImpl");
+  if ( (firstPointOnLineIndex === 0) && (getTestDrawLineState()) ){
+    console.log("activeLine", activeLine);
+    activeLine.set({ x1: pointer.x, y1: pointer.y });
+    activeLine.setCoords();
+    canvas.renderAll();
+    firstPointOnLineIndex++;
+  }
+
   activeLine.set({ x2: pointer.x, y2: pointer.y });
   activeLine.setCoords();
   canvas.renderAll();
@@ -51,6 +61,7 @@ function moveAddablePointImpl(event) {
     lineArray[pointId + 1].set({ x1: xCenterPoint, y1: yCenterPoint });
   } else {
     activeLine.set({ x1: xCenterPoint, y1: yCenterPoint });
+    console.log("activeLine.set");
   }
 }
 

@@ -6,7 +6,7 @@ import {
   addPointsMouseOver, resetAddPointProperties, addPointsMouseOut,
 } from '../../../objects/polygon/alterPolygon/alterPolygon.js';
 import { enableActiveObjectsAppearInFront, preventActiveObjectsAppearInFront } from '../../../utils/canvasUtils.js';
-import { getCurrentZoomState, getDoubleScrollCanvasState, setSessionDirtyState } from '../../../../tools/state.js';
+import { getCurrentZoomState, getDoubleScrollCanvasState, setSessionDirtyState, getTestDrawLineState } from '../../../../tools/state.js';
 import { highlightLabelInTheList, removeHighlightOfListLabel } from '../../../../tools/labelList/labelListHighlightUtils.js';
 import { setRemoveLabelsButtonToDefault, setRemoveLabelsButtonToDisabled } from '../../../../tools/toolkit/styling/state.js';
 import { getLastMouseMoveEvent } from '../../../../keyEvents/mouse/mouseMove.js';
@@ -147,10 +147,15 @@ function addPoints(event) {
 }
 
 function pointMouseDownEvents(event) {
-  if (!addingPoints) {
+  if (!addingPoints)
+  {
     if (event.target) {
+      console.log("event.target", event.target);
       enableActiveObjectsAppearInFront(canvas);
-      if (event.target.shapeName === 'point') {
+
+      if ( (event.target.shapeName === 'point') || (getTestDrawLineState() ===true) )
+      {
+        console.log("@@@@@@@@@@ getTestDrawLineState", getTestDrawLineState() );
         const pointer = canvas.getPointer(event.e);
         initializeAddNewPoints(event.target, pointer);
         addingPoints = true;
@@ -162,10 +167,14 @@ function pointMouseDownEvents(event) {
         preventActiveObjectsAppearInFront(canvas);
       }
       selectedNothing = false;
-    } else {
+    }
+
+    else {
       selectedNothing = true;
     }
-  } else {
+  }
+
+  else {
     addPoints(event);
   }
 }

@@ -16,6 +16,7 @@ let pointsArray = [];
 let defaultPointHoverMode = true;
 
 function drawLineImpl(pointer) {
+  console.log("drawLineImpl");
   activeLine.set({ x2: pointer.x, y2: pointer.y });
   activeLine.setCoords();
   canvas.renderAll();
@@ -40,6 +41,7 @@ function addPointsMouseOutImpl(event) {
 }
 
 function moveAddablePointImpl(event) {
+  console.log("moveAddablePointImpl");
   preventOutOfBoundsPointsOnMove(event.target, canvas);
   const xCenterPoint = event.target.getCenterPoint().x;
   const yCenterPoint = event.target.getCenterPoint().y;

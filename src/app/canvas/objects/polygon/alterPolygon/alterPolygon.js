@@ -31,33 +31,100 @@ let polygonPoints = [];
 let editingPolygon = false;
 let preventNewPolygonInitialisation = false;
 
-function getPolygonEditingStatus() {
-  return editingPolygon;
-}
-
 function setPolygonEditingStatus(status) {
   editingPolygon = status;
+  //console.log("00 editingPolygon", editingPolygon);
+  //console.log("00 getTestDrawLineState", getTestDrawLineState());
+  if (editingPolygon && (getTestDrawLineState() === true) ) {
+    //console.log("1111 editingPolygon", editingPolygon);
+    //console.log("1111 getTestDrawLineState", getTestDrawLineState());
+    /// draw line anaway expected
+    //drawLineImpl(pointer);
+    console.log("1etTestDrawLineState()", getTestDrawLineState());
+    drawLineOnMouseMove(pointer);
+
+  }
+}
+
+function initializeAddNewPoints(shape, pointer) {
+  initializeAddNewPointsImpl(shape, pointer, canvas);
+}
+
+function addFirstPoint(event) {
+  addFirstPointImpl(event);
+}
+
+function addPoint(pointer) {
+  addPointImpl(pointer);
+}
+
+function drawLineOnMouseMove(pointer) {
+  //console.log("pointer",pointer);
+  drawLineImpl(pointer);
+}
+
+function moveAddablePoint(event) {
+  moveAddablePointImpl(event);
+}
+
+function addPointsMouseOver(event) {
+  addPointsMouseOverImpl(event);
+}
+
+function resetAddPointProperties(canvasObj) {
+  resetAddPointPropertiesImpl(canvasObj);
+}
+
+function clearAllAddPointsData() {
+  clearAllAddPointsDataImpl();
+}
+
+function resetAddPoints() {
+  resetAddPointsImpl();
+}
+
+function addPointsMouseOut(event) {
+  addPointsMouseOutImpl(event);
+}
+
+function isAddingPointsToPolygon() {
+  return isAddingPointsToPolygonImpl();
+}
+
+function completePolygon(finalPoint) {
+  completePolygonImpl(polygon, polygon.points, finalPoint);
+  polygonPoints = [];
+  resetPolygonSelectableArea();
+  setPolygonEditingStatus(false);
+}
+
+function getPolygonIfEditing() {
+  console.log("333 editingPolygon", editingPolygon);
+  if (editingPolygon) {
+    return polygon;
+  }
+  // else if (getTestDrawLineState() ){
+  //   console.log("44444##########get Polygon if Editing");
+  //   return canvas;
+  // }
+  return null;
 }
 
 function getPolygonIdIfEditing() {
+  console.log("5555editingPolygon", editingPolygon);
   if (editingPolygon) {
     return polygon.id;
   }
   return null;
 }
 
-function getPolygonIfEditing() {
-  if (editingPolygon) {
-    return polygon;
-  }
-  else if (getTestDrawLineState){
-    console.log("##########get Polygon if Editing");
-    return canvas;
-  }
-  return null;
+function getPolygonEditingStatus() {
+  console.log("2222editingPolygon", editingPolygon);
+  return editingPolygon;
 }
 
 function sendPolygonPointsToFront(canvasArg) {
+  console.log("66editingPolygon", editingPolygon);
   canvas = canvas || canvasArg;
   sendPolygonPointsToFrontImpl(canvas, polygonPoints);
   setPolygonEditingStatus(true);
@@ -161,57 +228,6 @@ function removePolygon(lableObjectFromLabelList) {
 
 function removePolygonPoint(pointId, existingPolygon) {
   removePolygonPointImpl(canvas, polygon, polygonPoints, pointId, existingPolygon);
-}
-
-function initializeAddNewPoints(shape, pointer) {
-  initializeAddNewPointsImpl(shape, pointer, canvas);
-}
-
-function addFirstPoint(event) {
-  addFirstPointImpl(event);
-}
-
-function addPoint(pointer) {
-  addPointImpl(pointer);
-}
-
-function drawLineOnMouseMove(pointer) {
-  drawLineImpl(pointer);
-}
-
-function moveAddablePoint(event) {
-  moveAddablePointImpl(event);
-}
-
-function addPointsMouseOver(event) {
-  addPointsMouseOverImpl(event);
-}
-
-function resetAddPointProperties(canvasObj) {
-  resetAddPointPropertiesImpl(canvasObj);
-}
-
-function clearAllAddPointsData() {
-  clearAllAddPointsDataImpl();
-}
-
-function resetAddPoints() {
-  resetAddPointsImpl();
-}
-
-function addPointsMouseOut(event) {
-  addPointsMouseOutImpl(event);
-}
-
-function isAddingPointsToPolygon() {
-  return isAddingPointsToPolygonImpl();
-}
-
-function completePolygon(finalPoint) {
-  completePolygonImpl(polygon, polygon.points, finalPoint);
-  polygonPoints = [];
-  resetPolygonSelectableArea();
-  setPolygonEditingStatus(false);
 }
 
 function highlightSelectedPolygonViaPoint() {

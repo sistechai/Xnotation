@@ -47,14 +47,17 @@ function getAlteringPolygonPointsState() {
 function getRemovingPolygonPointsState() {
   return removingPolygonPointsState;
 }
+
+////////////// New Line
 function setTestDrawLineState(state){
-  addingPolygonPointsState = false;
   TestDrawLineState = state;
+  return state;
 }
 
 function getTestDrawLineState(){
   return TestDrawLineState;
 }
+//////////////
 
 function getAddingPolygonPointsState() {
     return addingPolygonPointsState;
@@ -264,7 +267,6 @@ function setSettingsPopupOpenState(state) {
 
 function setExportDatasetsPopupOpenState(state) {
   exportDatasetsPopupOpenState = state;
-  console.log("exportDatasetsPopupOpenState", exportDatasetsPopupOpenState);
 }
 
 function setCurrentImageId(id) {

@@ -21,11 +21,13 @@ function createNewBndBoxBtnClick() {
 function createNewPolygonBtnClick() {
   initiateCreateNewPolygonEvents(canvas);
 }
+
+///// New Line
 function testDrawLine() {
   setTestDrawLineState(true);
-  console.log("setTestDrawLineState(true)");
   initiateAddPolygonPointsEvents(canvas);
 }
+//////
 
 function addPointsBtnClick() {
   initiateAddPolygonPointsEvents(canvas);
@@ -43,18 +45,6 @@ function assignCanvasMouseEvents(canvasObj) {
   canvas = canvasObj;
 }
 
-function exportDatasetsBtnClick() {
-  toggleExportDatasetsPopup(canvas);
-}
-
-function uploadDatasetsBtnClick() {
-  displayUploadDatasetsModal();
-}
-
-function machineLearningBtnClick() {
-  displayMachineLearningModal(canvas);
-}
-
 function zoomBtnClick(activity) {
   zoomCanvas(canvas, activity);
 }
@@ -66,7 +56,19 @@ function settingsBtnClick() {
 function editShapesBtnClick() {
   initiateEditShapesEvent(canvas);
 }
+///////// unimportant
+function exportDatasetsBtnClick() {
+  toggleExportDatasetsPopup(canvas);
+}
 
+function uploadDatasetsBtnClick() {
+  displayUploadDatasetsModal();
+}
+
+function machineLearningBtnClick() {
+  displayMachineLearningModal(canvas);
+}
+/////////////////
 export {
   assignCanvasMouseEvents,
   createNewBndBoxBtnClick,

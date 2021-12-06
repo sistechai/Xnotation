@@ -33,21 +33,21 @@ let preventNewPolygonInitialisation = false;
 
 function setPolygonEditingStatus(status) {
   editingPolygon = status;
-  //console.log("00 editingPolygon", editingPolygon);
-  //console.log("00 getTestDrawLineState", getTestDrawLineState());
-  if (editingPolygon && (getTestDrawLineState() === true) ) {
-    //console.log("1111 editingPolygon", editingPolygon);
-    //console.log("1111 getTestDrawLineState", getTestDrawLineState());
-    /// draw line anaway expected
-    //drawLineImpl(pointer);
-    console.log("1etTestDrawLineState()", getTestDrawLineState());
-    drawLineOnMouseMove(pointer);
-
-  }
 }
 
 function initializeAddNewPoints(shape, pointer) {
+  console.log('-------- init pointer', pointer);
   initializeAddNewPointsImpl(shape, pointer, canvas);
+
+  if (getTestDrawLineState()){
+    console.log('+++++ draw linetrue   true init pointer', pointer);
+    //initializeAddNewPointsImpl( null, pointer, canvas);
+    //addFirstPoint(event);
+    //addFirstPointImpl(event);
+    ///addPoint(pointer);
+    //addPointImpl(pointer);
+    drawLineOnMouseMove(pointer);
+  }
 }
 
 function addFirstPoint(event) {
@@ -59,7 +59,6 @@ function addPoint(pointer) {
 }
 
 function drawLineOnMouseMove(pointer) {
-  //console.log("pointer",pointer);
   drawLineImpl(pointer);
 }
 

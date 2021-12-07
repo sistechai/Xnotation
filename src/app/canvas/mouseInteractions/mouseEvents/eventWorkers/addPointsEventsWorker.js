@@ -152,15 +152,27 @@ function pointMouseDownEvents(event) {
     if (event.target) {
       console.log("event.target", event.target);
       enableActiveObjectsAppearInFront(canvas);
-
-      if ( (event.target.shapeName === 'point') || (getTestDrawLineState() ===true) )
+//////
+      if (event.target.shapeName === 'point')
       {
-        console.log("@@@@@@@@@@ getTestDrawLineState", getTestDrawLineState() );
         const pointer = canvas.getPointer(event.e);
         initializeAddNewPoints(event.target, pointer);
         addingPoints = true;
         addFirstPointMode = true;
-      } else {
+      }
+////// New Line
+      else if (getTestDrawLineState() === true) {
+        console.log("0000000 getTestDrawLineState", getTestDrawLineState() );
+        const pointer = canvas.getPointer(event.e);
+       // addPointsMouseOver(event.e);
+        //shape = null;
+        mouseOverEvents(event.e);
+        initializeAddNewPoints(null, pointer, canvas);
+        addingPoints = true;
+        addFirstPointMode = true;
+      }
+/////////////
+      else {
         if (event.target.shapeName === 'polygon') {
           newPolygonSelected = (event.target.id !== selectedPolygonId);
         }

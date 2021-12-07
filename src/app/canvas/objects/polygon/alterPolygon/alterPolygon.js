@@ -36,18 +36,7 @@ function setPolygonEditingStatus(status) {
 }
 
 function initializeAddNewPoints(shape, pointer) {
-  console.log('-------- init pointer', pointer);
   initializeAddNewPointsImpl(shape, pointer, canvas);
-
-  if (getTestDrawLineState()){
-    console.log('+++++ draw linetrue   true init pointer', pointer);
-    //initializeAddNewPointsImpl( null, pointer, canvas);
-    //addFirstPoint(event);
-    //addFirstPointImpl(event);
-    ///addPoint(pointer);
-    //addPointImpl(pointer);
-    drawLineOnMouseMove(pointer);
-  }
 }
 
 function addFirstPoint(event) {

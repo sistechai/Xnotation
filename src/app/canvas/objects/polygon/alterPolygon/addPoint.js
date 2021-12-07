@@ -15,45 +15,22 @@ let tempPointIndex = 0;
 let initialPoint = null;
 let pointsArray = [];
 let defaultPointHoverMode = true;
-
 let firstPointOnLineIndex = 0;
 
 function drawLineImpl(pointer) {
-  if ( (firstPointOnLineIndex === 0) && (getTestDrawLineState()) ){
-    console.log("activeLine", activeLine);
-    activeLine.set({ x1: pointer.x, y1: pointer.y });
-    activeLine.setCoords();
-    canvas.renderAll();
-    firstPointOnLineIndex++;
-  }
-
   activeLine.set({ x2: pointer.x, y2: pointer.y });
   activeLine.setCoords();
   canvas.renderAll();
 }
 
+// Works if process Edit Shapes is activated
 function isAddingPointsToPolygonImpl() {
   return activeLine;
 }
-
-function addPointsMouseOverImpl(event) {
-  if (defaultPointHoverMode && event.target && event.target.shapeName === 'point') {
-    event.target.stroke = 'green';
-    canvas.renderAll();
-  }
-}
-
-function addPointsMouseOutImpl(event) {
-  if (event.target && event.target.shapeName === 'point') {
-    event.target.stroke = '#333333';
-    canvas.renderAll();
-  }
-}
-
+// ???
 function moveAddablePointImpl(event) {
-  console.log("moveAddablePointImpl");
   preventOutOfBoundsPointsOnMove(event.target, canvas);
-  const xCenterPoint = event.target.getCenterPoint().x;
+  const xCenterPoint = event.target.getCenterdrawLineOnMouseMovePoint().x;
   const yCenterPoint = event.target.getCenterPoint().y;
   const { pointId } = event.target;
   lineArray[pointId].set({ x2: xCenterPoint, y2: yCenterPoint });
@@ -61,7 +38,30 @@ function moveAddablePointImpl(event) {
     lineArray[pointId + 1].set({ x1: xCenterPoint, y1: yCenterPoint });
   } else {
     activeLine.set({ x1: xCenterPoint, y1: yCenterPoint });
-    console.log("activeLine.set");
+  }
+}
+// Changes the polygon's borders after mouse over polygon.
+function addPointsMouseOverImpl(event) {
+  if (defaultPointHoverMode && event.target && event.target.shapeName === 'point')
+  {
+    event.target.stroke = 'green';
+    canvas.renderAll();
+  }
+  if (getTestDrawLineState()) {
+    console.log("over over over over, getTestDrawLineState()", getTestDrawLineState());
+    addFirstPointImpl(event);
+    //createNewLine(event.x, event.y, (event.x+120), (event.y+120));
+    //canvas.renderAll();
+  }
+}
+function addPointsMouseOutImpl(event) {
+  if (event.target && event.target.shapeName === 'point') {
+    event.target.stroke = '#333333';
+    canvas.renderAll();
+  }
+  if (getTestDrawLineState()) {
+    console.log("out out out out, getTestDrawLineState()", getTestDrawLineState());
+    //canvas.renderAll();
   }
 }
 
@@ -72,13 +72,28 @@ function createNewLine(...coordinates) {
 }
 
 function initializeAddNewPointsImpl(shape, pointer, canvasObj) {
-  shape.stroke = '#333333';
-  canvas = canvasObj;
-  setAddPointsMode(canvas, shape);
-  createNewLine(shape.left, shape.top, pointer.x, pointer.y);
-  initialPoint = shape;
-  canvas.bringToFront(initialPoint);
-  defaultPointHoverMode = false;
+
+  ////New Line
+  if (shape === null){
+    canvas = canvasObj;
+    //addPointsMouseOverImpl(pointer);
+    console.log("pointer", pointer);
+    // setAddPointsMode(canvas, shape);
+    // createNewLine(shape.left, shape.top, pointer.x, pointer.y);
+    // initialPoint = shape;
+    // canvas.bringToFront(initialPoint);
+    // defaultPointHoverMode = false;
+  }
+
+  else {
+    shape.stroke = '#333333';
+    canvas = canvasObj;
+    setAddPointsMode(canvas, shape);
+    createNewLine(shape.left, shape.top, pointer.x, pointer.y);
+    initialPoint = shape;
+    canvas.bringToFront(initialPoint);
+    defaultPointHoverMode = false;
+  }
 }
 
 function addFirstPointImpl(event) {

@@ -222,11 +222,6 @@ function setReadyToDrawShapeState(state) {
 
 function setHasDrawnShapeState(state) {
   hasDrawnShapeState = state;
-
-  if (TestDrawLineState){
-    hasDrawnShapeState = true;
-  }
-  TestDrawLineState = false;
 }
 
 function setCancelledReadyToDrawState(state) {

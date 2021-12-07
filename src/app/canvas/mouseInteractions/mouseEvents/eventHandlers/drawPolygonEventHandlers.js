@@ -11,6 +11,7 @@ function assignDrawPolygonEvents(canvas, resume) {
     prepareCanvasForNewPolygon(canvas);
   } else {
     resumeDrawingAfterRemovePoints();
+    console.log("resumeDrawingAfterRemovePoints");
   }
   canvas.on('mouse:down', (e) => {
     instantiatePolygon(e);

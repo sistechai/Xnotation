@@ -87,19 +87,13 @@ function completePolygon(finalPoint) {
 }
 
 function getPolygonIfEditing() {
-  console.log("333 editingPolygon", editingPolygon);
   if (editingPolygon) {
     return polygon;
   }
-  // else if (getTestDrawLineState() ){
-  //   console.log("44444##########get Polygon if Editing");
-  //   return canvas;
-  // }
   return null;
 }
 
 function getPolygonIdIfEditing() {
-  console.log("5555editingPolygon", editingPolygon);
   if (editingPolygon) {
     return polygon.id;
   }
@@ -107,12 +101,10 @@ function getPolygonIdIfEditing() {
 }
 
 function getPolygonEditingStatus() {
-  console.log("2222editingPolygon", editingPolygon);
   return editingPolygon;
 }
 
 function sendPolygonPointsToFront(canvasArg) {
-  console.log("66editingPolygon", editingPolygon);
   canvas = canvas || canvasArg;
   sendPolygonPointsToFrontImpl(canvas, polygonPoints);
   setPolygonEditingStatus(true);

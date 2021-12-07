@@ -25,7 +25,8 @@ function createNewPolygonBtnClick() {
 ///// New Line
 function testDrawLine() {
   setTestDrawLineState(true);
-  initiateAddPolygonPointsEvents(canvas);
+  console.log("testDrawLine going");
+  initiateCreateNewPolygonEvents(canvas);
 }
 //////
 

@@ -258,4 +258,6 @@ export {
   clearAllAddPointsDataImpl,
   addPointsMouseOutImpl,
   resetAddPointsImpl,
+
+    createNewLine,
 };

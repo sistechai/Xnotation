@@ -10,6 +10,7 @@ function assignCanvasForCrosshairToggle(canvasObj) {
 }
 
 function toggleCrosshair() {
+  console.log("@@@@@@@@@@@@ toggleCrosshair");
   if (getCrosshairForBoundingBoxVisibleState()) {
     if (getCreateBoundingBoxButtonState() === 'active') {
       removeCrosshair(canvas);

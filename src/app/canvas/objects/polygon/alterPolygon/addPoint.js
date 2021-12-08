@@ -17,16 +17,20 @@ let pointsArray = [];
 let defaultPointHoverMode = true;
 let firstPointOnLineIndex = 0;
 
+/// Draws temporary activeLine
 function drawLineImpl(pointer) {
   activeLine.set({ x2: pointer.x, y2: pointer.y });
   activeLine.setCoords();
-  canvas.renderAll();
+  if (!getTestDrawLineState()) {
+    canvas.renderAll();
+  }
 }
 
 // Works if process Edit Shapes is activated
 function isAddingPointsToPolygonImpl() {
   return activeLine;
 }
+
 // ???
 function moveAddablePointImpl(event) {
   preventOutOfBoundsPointsOnMove(event.target, canvas);
@@ -40,6 +44,7 @@ function moveAddablePointImpl(event) {
     activeLine.set({ x1: xCenterPoint, y1: yCenterPoint });
   }
 }
+
 // Changes the polygon's borders after mouse over polygon.
 function addPointsMouseOverImpl(event) {
   if (defaultPointHoverMode && event.target && event.target.shapeName === 'point')
@@ -67,8 +72,11 @@ function addPointsMouseOutImpl(event) {
 
 function createNewLine(...coordinates) {
   activeLine = new fabric.Line(coordinates, polygonProperties.newLine());
-  canvas.add(activeLine);
-  canvas.renderAll();
+  console.log("-----activeLine", activeLine);
+  if (!getTestDrawLineState()) {
+    canvas.add(activeLine);
+    canvas.renderAll();
+  }
 }
 
 function initializeAddNewPointsImpl(shape, pointer, canvasObj) {
@@ -259,5 +267,5 @@ export {
   addPointsMouseOutImpl,
   resetAddPointsImpl,
 
-    createNewLine,
+    createNewLine,  
 };

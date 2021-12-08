@@ -11,7 +11,8 @@ import {
   getTestDrawLineState,
 
 } from '../../../tools/state.js';
-import { createNewLine } from './alterPolygon/addPoint.js'
+import { drawLineOnMouseMove } from './alterPolygon/alterPolygon.js';
+import { isAddingPointsToPolygonImpl, createNewLine, } from './alterPolygon/addPoint.js';
 
 import { preventOutOfBoundsPointsOnMove } from '../sharedUtils/moveBlockers.js';
 import { preventOutOfBoundsOnNewObject } from '../sharedUtils/newObjectBlockers.js';
@@ -160,26 +161,30 @@ if (pointArray.length === 2) {
 }
 */
 
-////////////
+////////////// Also for New Line
 function addPoint(pointer) {
   setPolygonDrawingInProgressState(true);
   const isNewPoint = true;
   const point = new fabric.Circle(polygonProperties.newPoint(pointId, pointer, isNewPoint));
+
+  console.log("pointId", pointId)
   pointId += 1;
+
   let points = [pointer.x, pointer.y, pointer.x, pointer.y];
-  console.log("AAAAAAAAAAAAAA1 addPoint");
+
 // activeShape comprises all points of polygon. Activates if has 2 points as minimum
   if (activeShape) {
 
     points = activeShape.get('points');
 
-    console.log("AAAAAAAAAAAAAA1 POINTS", points);
     points.push({
       x: pointer.x,
       y: pointer.y,
     });
 
-      const polygon = new fabric.Polygon(points, polygonProperties.newTempPolygon());
+    console.log("points", points);
+
+    const polygon = new fabric.Polygon(points, polygonProperties.newTempPolygon());
 
 // Reduces the opacity of temporary Polygon and removes at the end the temporary Polygon
       canvas.remove(activeShape);
@@ -192,31 +197,48 @@ function addPoint(pointer) {
 
   }
 
+  // if there is 1 point on the scene
   else {
     const polyPoint = [{
       x: pointer.x,
       y: pointer.y,
     }];
-    const polygon = new fabric.Polygon(polyPoint, polygonProperties.newTempPolygon());
+
+    const polygon = new fabric.Polygon(polyPoint, polygonProperties.newTempPolygon()); /// activeLine
     activeShape = polygon;
     canvas.add(polygon);
-    console.log("else&&&&&&&&&&&&????????????????????????????");
 
     //// Line
     if (getTestDrawLineState())
     {
-      console.log("Line mode");
-      setPolygonDrawingInProgressState(true);
-      pointId = 0;
-      points = [pointer.x, pointer.y, pointer.x, pointer.y];
-      console.log("end addPoint");
+      console.log("4 Line mode");
+      console.log("111 points", points);
+      points.push({
+        x: pointer.x,
+        y: pointer.y,
+      });
+      //points = [pointer.x, pointer.y, pointer.x, pointer.y];
+      console.log("4 points", points);
       pointArray = [];
-      activeShape = undefined;
+
+      //activeShape = null;
+      createNewLine(...points);
+      canvas.add(polygon);
+      canvas.renderAll();
+      isAddingPointsToPolygonImpl();
+      //drawLineOnMouseMove(pointer); // calls drawLineImpl(pointer) from ./alterPolygon/addPoint.js
+      polygon.set({ x2: pointer.x, y2: pointer.y });
+      polygon.setCoords();
     }
+
   }
+  console.log("1 point mode");
 
   canvas.add(point);
-  if (pointArray.length === 0) {
+
+  // if 1 point on the scene
+  if ( (pointArray.length === 0) || (getTestDrawLineState()) ) {
+    console.log("2 point mode points", points);
     invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(pointer));
     canvas.add(invisiblePoint);
     point.set(polygonProperties.firstPoint());
@@ -226,16 +248,19 @@ function addPoint(pointer) {
   }
   preventOutOfBoundsPointsOnMove(point, canvas);
   pointArray.push(point);
-
+  console.log("3 point mode points", points);
   drawTemporaryShape(pointer);
 
-  if (activeShape) {
-    activeShape.sendToBack();
-  }
-  
+  activeShape.sendToBack();
+
   canvas.selection = false;
   const { x, y } = pointer;
   lastNewPointPosition = { x, y };
+  if (getTestDrawLineState()) {
+    console.log("eeend pointId", pointId);
+    setPolygonDrawingInProgressState(true);
+    //pointId = 0;
+  }
 }
 ////////
 

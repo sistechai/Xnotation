@@ -172,43 +172,38 @@ function addPoint(pointer) {
 
   let points = [pointer.x, pointer.y, pointer.x, pointer.y];
 
+// Only for polygon mode
 // activeShape comprises all points of polygon. Activates if has 2 points as minimum
-  if (activeShape) {
-
+  if (activeShape && (!getTestDrawLineState())) {
     points = activeShape.get('points');
-
     points.push({
       x: pointer.x,
       y: pointer.y,
     });
-
-    console.log("points", points);
-
     const polygon = new fabric.Polygon(points, polygonProperties.newTempPolygon());
-
 // Reduces the opacity of temporary Polygon and removes at the end the temporary Polygon
       canvas.remove(activeShape);
-
 // Adds lines and temporary polygon
       canvas.add(polygon);
       activeShape = polygon;
       currentlyHoveredPoint = point;
       canvas.renderAll();
-
   }
 
-  // if there is 1 point on the scene
-  else {
+// Line mode
+// if there is 1 point on the scene
+   else {
+
     const polyPoint = [{
       x: pointer.x,
       y: pointer.y,
     }];
-
     const polygon = new fabric.Polygon(polyPoint, polygonProperties.newTempPolygon()); /// activeLine
     activeShape = polygon;
     canvas.add(polygon);
 
-    //// Line
+    //// Line mode === true
+    console.log("???? Line mode",getTestDrawLineState());
     if (getTestDrawLineState())
     {
       console.log("4 Line mode");

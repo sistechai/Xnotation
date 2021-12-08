@@ -197,7 +197,6 @@ function setCreatePolygonButtonToActive() {
 }
 
 function setEditShapesButtonToActive() {
-  console.log("!!!!!!!!!!!!!!!!!!!!!!!!! setEditShapesButtonToActive");
   setButtonToActive(editShapesButtonElement);
   editShapesState = state.ACTIVE;
   if (createBoundingBoxState === state.ACTIVE) {

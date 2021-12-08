@@ -19,6 +19,9 @@ import { preventOutOfBoundsOnNewObject } from '../sharedUtils/newObjectBlockers.
 import {
   setAddPointsButtonToDefault, setRemovePointsButtonToDefault,
   setRemoveLabelsButtonToDefault, setCreatePolygonButtonToActive,
+
+  setCreateNewLineToDisabled, setCreateNewLineToDefault, setCreateNewLineToGrey, setCreateNewLineButtonToActive,
+
 } from '../../../tools/toolkit/styling/state.js';
 import { getLastMouseMoveEvent } from '../../../keyEvents/mouse/mouseMove.js';
 
@@ -163,18 +166,18 @@ if (pointArray.length === 2) {
 
 ////////////// Also for New Line
 function addPoint(pointer) {
+  if (!getTestDrawLineState()){
+    setCreatePolygonButtonToActive();
+  }
   setPolygonDrawingInProgressState(true);
   const isNewPoint = true;
   const point = new fabric.Circle(polygonProperties.newPoint(pointId, pointer, isNewPoint));
-
-  console.log("pointId", pointId)
   pointId += 1;
-
   let points = [pointer.x, pointer.y, pointer.x, pointer.y];
 
 // Only for polygon mode
 // activeShape comprises all points of polygon. Activates if has 2 points as minimum
-  if (activeShape && (!getTestDrawLineState())) {
+  if (activeShape && (!getTestDrawLineState()) ) {
     points = activeShape.get('points');
     points.push({
       x: pointer.x,
@@ -190,10 +193,12 @@ function addPoint(pointer) {
       canvas.renderAll();
   }
 
-// Line mode
+// Line mode + polygon mode
 // if there is 1 point on the scene
    else {
-
+    if (!getTestDrawLineState()){
+      setCreatePolygonButtonToActive();
+    }
     const polyPoint = [{
       x: pointer.x,
       y: pointer.y,
@@ -203,44 +208,40 @@ function addPoint(pointer) {
     canvas.add(polygon);
 
     //// Line mode === true
-    console.log("???? Line mode",getTestDrawLineState());
     if (getTestDrawLineState())
     {
-      console.log("4 Line mode");
-      console.log("111 points", points);
       points.push({
         x: pointer.x,
         y: pointer.y,
       });
-      //points = [pointer.x, pointer.y, pointer.x, pointer.y];
-      console.log("4 points", points);
       pointArray = [];
-
-      //activeShape = null;
       createNewLine(...points);
       canvas.add(polygon);
       canvas.renderAll();
       isAddingPointsToPolygonImpl();
-      //drawLineOnMouseMove(pointer); // calls drawLineImpl(pointer) from ./alterPolygon/addPoint.js
       polygon.set({ x2: pointer.x, y2: pointer.y });
       polygon.setCoords();
     }
-
   }
-  console.log("1 point mode");
 
   canvas.add(point);
 
-  // if 1 point on the scene
+  // if only 1 point on the scene
   if ( (pointArray.length === 0) || (getTestDrawLineState()) ) {
-    console.log("2 point mode points", points);
     invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(pointer));
     canvas.add(invisiblePoint);
     point.set(polygonProperties.firstPoint());
-    setAddPointsButtonToDefault();
-    setRemovePointsButtonToDefault();
-    setRemoveLabelsButtonToDefault();
+    if (!getTestDrawLineState()) {
+      setRemovePointsButtonToDefault();
+      setRemoveLabelsButtonToDefault();
+      setCreateNewLineToDefault();
+    }
+
+    if (getTestDrawLineState()){
+      setCreateNewLineButtonToActive();
+    }
   }
+
   preventOutOfBoundsPointsOnMove(point, canvas);
   pointArray.push(point);
   console.log("3 point mode points", points);
@@ -375,14 +376,10 @@ function instantiatePolygon(event) {
 
 // only if polygon exists and we draw on it new points of polygon, place of intersection
     if (event.target && event.target.shapeName) {
-      console.log("if (event.target && event.target.shapeName) {", event.target.shapeName);
       if (event.target.shapeName === 'invisiblePoint') {
-        //////////////////
-        if ( (pointArray.length > 2) ) { //&& (!getTestDrawLineState()) ) {
-          console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% getTestDrawLineState()" , getTestDrawLineState());
+          if ( (pointArray.length > 2) ) { //&& (!getTestDrawLineState()) ) {
           generatePolygon();
         }
-        ////////////////
       } else if (event.target.shapeName === 'tempPoint') {
         mouseIsDownOnTempPoint = true;
       } else if (polygonMode) {

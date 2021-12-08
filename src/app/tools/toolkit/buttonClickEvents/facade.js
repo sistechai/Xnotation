@@ -11,8 +11,9 @@ import initiateEditShapesEvent from './facadeWorkers/editShapesWorker.js';
 import displayUploadDatasetsModal from './facadeWorkers/displayUploadDatasetsModalWorker.js';
 
 import { setTestDrawLineState } from '../../state.js';
+import { setCreateNewLineButtonToActive } from '../styling/state.js';
 
-let canvas = null;
+  let canvas = null;
 
 function createNewBndBoxBtnClick() {
   initiateCreateNewBndBoxEvents(canvas);
@@ -25,6 +26,7 @@ function createNewPolygonBtnClick() {
 ///// New Line
 function testDrawLine() {
   setTestDrawLineState(true);
+  setCreateNewLineButtonToActive();
   console.log("testDrawLine going");
   initiateCreateNewPolygonEvents(canvas);
 }

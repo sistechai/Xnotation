@@ -3,6 +3,7 @@ import assignDrawPolygonEvents from '../../../../canvas/mouseInteractions/mouseE
 import {
   setDefaultState, setAlteringPolygonPointsState,
   setLastDrawingModeState, setHasDrawnShapeState,
+  getTestDrawLineState,
 } from '../../../state.js';
 import { setEditShapesButtonToDefault, setCreatePolygonButtonToActive } from '../../styling/state.js';
 
@@ -10,7 +11,9 @@ function initiateCreateNewPolygonEvents(canvas) {
   if (canvas.backgroundImage) {
     purgeCanvasMouseEvents(canvas);
     assignDrawPolygonEvents(canvas);
-    setCreatePolygonButtonToActive();
+    if (!getTestDrawLineState()) {
+      setCreatePolygonButtonToActive();
+    }
     setEditShapesButtonToDefault();
     setDefaultState(false);
     setAlteringPolygonPointsState(false);

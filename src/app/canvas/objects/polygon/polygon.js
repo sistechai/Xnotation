@@ -124,34 +124,6 @@ function lockMovementIfAssertedByState(polygon) {
   }
 }
 
-function generatePolygon() {
-  const points = [];
-  pointArray.forEach((point) => {
-    points.push({
-      x: point.left,
-      y: point.top,
-    });
-    canvas.remove(point);
-  });
-  canvas.remove(invisiblePoint);
-  invisiblePoint = null;
-
-  removeActiveShape();
-  const polygon = new fabric.Polygon(points, polygonProperties.newPolygon());
-  // find out why on add new polygon points, the cursor changes immediately after adding them
-
-  lockMovementIfAssertedByState(polygon);
-  canvas.add(polygon);
-
-  activeShape = null;
-  polygonMode = false;
-  drawingFinished = true;
-  prepareLabelShape(polygon, canvas);
-  showLabellerModal();
-  setPolygonDrawingInProgressState(false);
-  setSessionDirtyState(true);
-}
-
 /* initial point should begin with one color and switch when there are 3
  points to indicate that a new polygon can be created
 let points = [pointer.x, pointer.y, pointer.x, pointer.y];
@@ -244,7 +216,6 @@ function addPoint(pointer) {
 
   preventOutOfBoundsPointsOnMove(point, canvas);
   pointArray.push(point);
-  console.log("3 point mode points", points);
   drawTemporaryShape(pointer);
 
   activeShape.sendToBack();
@@ -253,12 +224,47 @@ function addPoint(pointer) {
   const { x, y } = pointer;
   lastNewPointPosition = { x, y };
   if (getTestDrawLineState()) {
-    console.log("eeend pointId", pointId);
     setPolygonDrawingInProgressState(true);
-    //pointId = 0;
-  }
+   }
 }
 ////////
+
+// Initialized after "enter", and creates final polygon. 
+// Check:
+// 1. Last point for New Line has not been drawn;
+// 2. Create an array with all points of line like pointArray;
+// 3. States;
+// 4. MouseMove;
+// 5. Points color should be white.
+
+function generatePolygon() {
+  const points = [];
+  pointArray.forEach((point) => {
+    points.push({
+      x: point.left,
+      y: point.top,
+    });
+    console.log("111111111111points", points);
+    canvas.remove(point);
+  });
+  canvas.remove(invisiblePoint);
+  invisiblePoint = null;
+
+  removeActiveShape();
+  const polygon = new fabric.Polygon(points, polygonProperties.newPolygon());
+  // find out why on add new polygon points, the cursor changes immediately after adding them
+
+  lockMovementIfAssertedByState(polygon);
+  canvas.add(polygon);
+
+  activeShape = null;
+  polygonMode = false;
+  drawingFinished = true;
+  prepareLabelShape(polygon, canvas);
+  showLabellerModal();
+  setPolygonDrawingInProgressState(false);
+  setSessionDirtyState(true);
+}
 
 function getTempPolygon() {
   if (activeShape) {
@@ -332,7 +338,8 @@ function polygonMouseOutEvents(event) {
 }
 
 function generatePolygonViaKeyboard() {
-  if (pointArray.length > 2) {
+  if ( (pointArray.length > 2) || (getTestDrawLineState()) ) 
+  {
     generatePolygon();
   }
 }

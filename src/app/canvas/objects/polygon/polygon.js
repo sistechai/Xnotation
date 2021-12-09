@@ -11,22 +11,26 @@ import {
   getTestDrawLineState,
 
 } from '../../../tools/state.js';
-import { drawLineOnMouseMove } from './alterPolygon/alterPolygon.js';
-import { isAddingPointsToPolygonImpl, createNewLine, } from './alterPolygon/addPoint.js';
 
+import { isAddingPointsToPolygonImpl, createNewLine, } from './alterPolygon/addPoint.js';
 import { preventOutOfBoundsPointsOnMove } from '../sharedUtils/moveBlockers.js';
 import { preventOutOfBoundsOnNewObject } from '../sharedUtils/newObjectBlockers.js';
+
 import {
   setAddPointsButtonToDefault, setRemovePointsButtonToDefault,
   setRemoveLabelsButtonToDefault, setCreatePolygonButtonToActive,
 
   setCreateNewLineToDisabled, setCreateNewLineToDefault, setCreateNewLineToGrey, setCreateNewLineButtonToActive,
+  setCreatePolygonButtonToDefault,
 
 } from '../../../tools/toolkit/styling/state.js';
 import { getLastMouseMoveEvent } from '../../../keyEvents/mouse/mouseMove.js';
 
 let canvas = null;
 let pointArray = [];
+
+let pointArrayNewLine = [];
+
 let polygonMode = true;
 let activeShape = null;
 let pointId = 0;
@@ -186,6 +190,9 @@ function addPoint(pointer) {
         x: pointer.x,
         y: pointer.y,
       });
+
+      pointArrayNewLine.push(pointArray);
+      console.log("pointArrayNewLine", pointArrayNewLine);
       pointArray = [];
       createNewLine(...points);
       canvas.add(polygon);
@@ -203,14 +210,16 @@ function addPoint(pointer) {
     invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(pointer));
     canvas.add(invisiblePoint);
     point.set(polygonProperties.firstPoint());
-    if (!getTestDrawLineState()) {
+
+///// New Line mode
+    if (getTestDrawLineState()){
+      setCreateNewLineButtonToActive();
+      pointArrayNewLine.push(point);
+    }
+    else {
       setRemovePointsButtonToDefault();
       setRemoveLabelsButtonToDefault();
       setCreateNewLineToDefault();
-    }
-
-    if (getTestDrawLineState()){
-      setCreateNewLineButtonToActive();
     }
   }
 
@@ -223,9 +232,11 @@ function addPoint(pointer) {
   canvas.selection = false;
   const { x, y } = pointer;
   lastNewPointPosition = { x, y };
-  if (getTestDrawLineState()) {
-    setPolygonDrawingInProgressState(true);
-   }
+  console.log("======pointArrayNewLine", pointArrayNewLine);
+  console.log("======pointArray", pointArray);
+  // if (getTestDrawLineState()) {
+  //   setPolygonDrawingInProgressState(true);
+  //  }
 }
 ////////
 
@@ -244,9 +255,11 @@ function generatePolygon() {
       x: point.left,
       y: point.top,
     });
-    console.log("111111111111points", points);
     canvas.remove(point);
   });
+
+  console.log("gggg pointArray[0]", pointArray[0]);
+  console.log("gggg pointArray[1]", pointArray[1]);
   canvas.remove(invisiblePoint);
   invisiblePoint = null;
 
@@ -262,8 +275,43 @@ function generatePolygon() {
   drawingFinished = true;
   prepareLabelShape(polygon, canvas);
   showLabellerModal();
+
   setPolygonDrawingInProgressState(false);
+
+
   setSessionDirtyState(true);
+}
+
+function clearPolygonData() {
+
+  if (getTestDrawLineState()){
+    setCreateNewLineButtonToActive();
+    setCreatePolygonButtonToDefault();
+  }
+
+  if (pointArray[0]) {
+    console.log("pointArray[0]", pointArray[0]);
+    console.log("pointArray[1]", pointArray[1]);
+    pointArray.forEach((point) => {
+      canvas.remove(point);
+    });
+    canvas.remove(invisiblePoint);
+    invisiblePoint = null;
+    removeActiveShape();
+
+    pointArray = [];
+    pointArrayNewLine = [];
+
+    activeShape = null;
+    pointId = 0;
+    mouseMoved = false;
+    drawingFinished = false;
+    ignoredFirstMouseMovement = false;
+    setPolygonDrawingInProgressState(false);
+    lastMouseEvent = null;
+    createdInvisiblePoint = false;
+    lastNewPointPosition = { x: -1, y: -1 };
+  }
 }
 
 function getTempPolygon() {
@@ -275,34 +323,12 @@ function getTempPolygon() {
   return null;
 }
 
-
 function getCurrentlyHoveredDrawPoint() {
   return currentlyHoveredPoint;
 }
 
 function isPolygonDrawingFinished() {
   return drawingFinished;
-}
-
-function clearPolygonData() {
-  if (pointArray[0]) {
-    pointArray.forEach((point) => {
-      canvas.remove(point);
-    });
-    canvas.remove(invisiblePoint);
-    invisiblePoint = null;
-    removeActiveShape();
-    pointArray = [];
-    activeShape = null;
-    pointId = 0;
-    mouseMoved = false;
-    drawingFinished = false;
-    ignoredFirstMouseMovement = false;
-    setPolygonDrawingInProgressState(false);
-    lastMouseEvent = null;
-    createdInvisiblePoint = false;
-    lastNewPointPosition = { x: -1, y: -1 };
-  }
 }
 
 function resetNewPolygonData() {

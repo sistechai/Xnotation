@@ -267,9 +267,11 @@ function initiateToolkitButtonsStyling() {
 export {
   getAddPointsButtonState,
   getEditShapesButtonState,
+
   setZoomInButtonToDefault,
   setZoomInButtonToDisabled,
   setZoomOutButtonToDefault,
+
   getRemovePointsButtonState,
   setZoomOutButtonToDisabled,
   setAddPointsButtonToActive,
@@ -287,10 +289,12 @@ export {
   setCreatePolygonButtonToActive,
   setRemoveLabelsButtonToDisabled,
   getCreateBoundingBoxButtonState,
+
   setCreatePolygonButtonToDefault,
   setCreatePolygonButtonToDisabled,
   setPolygonEditingButtonsToDefault,
   setPolygonEditingButtonsToDisabled,
+
   setCreateBoundingBoxButtonToActive,
   setCreateBoundingBoxButtonToDefault,
   setCreateBoundingBoxButtonToDisabled,

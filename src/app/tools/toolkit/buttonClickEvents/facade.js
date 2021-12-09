@@ -12,8 +12,19 @@ import displayUploadDatasetsModal from './facadeWorkers/displayUploadDatasetsMod
 
 import { setTestDrawLineState } from '../../state.js';
 import { setCreateNewLineButtonToActive } from '../styling/state.js';
+import removePolygonPointsImpl from '../../../canvas/objects/polygon/alterPolygon/removePoints.js';
 
   let canvas = null;
+  
+  ///// New Line
+function testDrawLine() {
+
+  setTestDrawLineState(true);
+  setCreateNewLineButtonToActive();
+  console.log("testDrawLine going");
+  initiateCreateNewPolygonEvents(canvas);
+}
+//////
 
 function createNewBndBoxBtnClick() {
   initiateCreateNewBndBoxEvents(canvas);
@@ -22,15 +33,6 @@ function createNewBndBoxBtnClick() {
 function createNewPolygonBtnClick() {
   initiateCreateNewPolygonEvents(canvas);
 }
-
-///// New Line
-function testDrawLine() {
-  setTestDrawLineState(true);
-  setCreateNewLineButtonToActive();
-  console.log("testDrawLine going");
-  initiateCreateNewPolygonEvents(canvas);
-}
-//////
 
 function addPointsBtnClick() {
   initiateAddPolygonPointsEvents(canvas);

@@ -1,3 +1,5 @@
+import {getTestDrawLineState} from '../../../tools/state.js';
+
 const polygonProperties = {};
 
 let pointStrokedWidth = 0.5;
@@ -171,19 +173,39 @@ function generatestartingAddPolygonPoint(pointId, pointCoordinates) {
 }
 
 function generateNewPolygon() {
-  return {
-    stroke: 'hsla(186, 8%, 50%, 1)',
-    strokeWidth: newPolygonStrokeWidth,
-    fill: 'rgba(237, 237, 237, 0.01)',
-    perPixelTargetFind: true,
-    hasBorders: false,
-    hasControls: false,
-    shapeName: 'polygon',
-    selectable: false,
-    evented: true,
-    objectCaching: false,
-    numberOfNullPolygonPoints: 0,
-  };
+
+  if (!getTestDrawLineState()) {
+    return {
+      stroke: 'hsla(186, 8%, 50%, 1)',
+      strokeWidth: newPolygonStrokeWidth,
+      fill: 'rgba(237, 237, 237, 0.01)',
+      perPixelTargetFind: true,
+      hasBorders: false,
+      hasControls: false,
+      shapeName: 'polygon',
+      selectable: false,
+      evented: true,
+      objectCaching: false,
+      numberOfNullPolygonPoints: 0,
+    };
+  }
+
+  /// Line Mode
+  else {
+    return {
+      stroke: 'hsla(186, 8%, 50%, 1)',
+      strokeWidth: newPolygonStrokeWidth,
+      fill: 'rgba(237, 237, 237, 0.01)',
+      perPixelTargetFind: true,
+      hasBorders: false,
+      hasControls: false,
+      shapeName: 'newLine',
+      selectable: false,
+      evented: true,
+      objectCaching: false,
+      numberOfNullPolygonPoints: 0,
+    };
+  }
 }
 
 function generateNewTempPolygon() {

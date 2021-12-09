@@ -238,8 +238,6 @@ function addPoint(pointer) {
   canvas.selection = false;
   const { x, y } = pointer;
   lastNewPointPosition = { x, y };
-  console.log("======pointArrayNewLine", pointArrayNewLine);
-  console.log("======pointArray", pointArray);
   // if (getTestDrawLineState()) {
   //   setPolygonDrawingInProgressState(true);
   //  }
@@ -252,10 +250,12 @@ function addPoint(pointer) {
 // 2. Create an array with all points of line like pointArray;
 // 3. States;
 // 4. MouseMove after add point draws many points;
-// 5. Points color should be white.
-// 6. State of New Polygon can't change after New Line process, it is New Line process
 
-// 7. After Create New Line, is automatically New Polygon state. - fixed
+// 5. Fixed - Points color should be white.
+// 6. Fixed - State of New Polygon can't change after New Line process, it is New Line process
+// 7. Fixed - After Create New Line, is automatically New Polygon state.
+
+// 8. setLastDrawingModeState('newLine') - have to define this state
 
 function generatePolygon() {
   const points = [];
@@ -267,8 +267,6 @@ function generatePolygon() {
     canvas.remove(point);
   });
 
-  console.log("gggg pointArray[0]", pointArray[0]);
-  console.log("gggg pointArray[1]", pointArray[1]);
   canvas.remove(invisiblePoint);
   invisiblePoint = null;
 
@@ -292,8 +290,7 @@ function generatePolygon() {
 function clearPolygonData() {
 
   if (pointArray[0]) {
-    console.log("pointArray[1]", pointArray[1]);
-    pointArray.forEach((point) => {
+      pointArray.forEach((point) => {
       canvas.remove(point);
     });
     canvas.remove(invisiblePoint);
@@ -319,7 +316,6 @@ function clearPolygonData() {
     setCreatePolygonButtonToDefault();
 
     setTestDrawLineState(false);
-    console.log("111111 set" );
   }
 }
 

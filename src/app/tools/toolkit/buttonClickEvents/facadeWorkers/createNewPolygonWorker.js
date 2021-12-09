@@ -7,15 +7,20 @@ import {
   getTestDrawLineState, setTestDrawLineState,
 
 } from '../../../state.js';
-import { setEditShapesButtonToDefault, setCreatePolygonButtonToActive } from '../../styling/state.js';
+
+import removePoints from '../../../../canvas/objects/polygon/alterPolygon/removePoints.js';
+
+import { setEditShapesButtonToDefault, setCreatePolygonButtonToActive, setCreateNewLineToDefault, } from '../../styling/state.js';
 
 function initiateCreateNewPolygonEvents(canvas) {
   if (canvas.backgroundImage) {
-    purgeCanvasMouseEvents(canvas);
-    assignDrawPolygonEvents(canvas);
     if (!getTestDrawLineState()) {
       setCreatePolygonButtonToActive();
+      setCreateNewLineToDefault();
     }
+    purgeCanvasMouseEvents(canvas);
+    assignDrawPolygonEvents(canvas);
+
     setEditShapesButtonToDefault();
     setDefaultState(false);
     setAlteringPolygonPointsState(false);

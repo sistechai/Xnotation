@@ -4,7 +4,7 @@ import {
   setDefaultState, setAlteringPolygonPointsState,
   setLastDrawingModeState, setHasDrawnShapeState,
 
-  getTestDrawLineState, setTestDrawLineState
+  getTestDrawLineState, setTestDrawLineState,
 
 } from '../../../state.js';
 import { setEditShapesButtonToDefault, setCreatePolygonButtonToActive } from '../../styling/state.js';
@@ -19,8 +19,13 @@ function initiateCreateNewPolygonEvents(canvas) {
     setEditShapesButtonToDefault();
     setDefaultState(false);
     setAlteringPolygonPointsState(false);
+
     if (!getTestDrawLineState()) {
       setLastDrawingModeState('polygon');
+    }
+
+    else {
+      setLastDrawingModeState('newLine');
     }
     setHasDrawnShapeState(false);
   }

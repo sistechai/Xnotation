@@ -286,15 +286,12 @@ function generatePolygon() {
   showLabellerModal();
 
   setPolygonDrawingInProgressState(false);
-
-
   setSessionDirtyState(true);
 }
 
 function clearPolygonData() {
 
   if (pointArray[0]) {
-    console.log("clear pointArray[0]", pointArray[0]);
     console.log("pointArray[1]", pointArray[1]);
     pointArray.forEach((point) => {
       canvas.remove(point);
@@ -320,6 +317,9 @@ function clearPolygonData() {
   if (getTestDrawLineState()){
     setCreateNewLineButtonToActive();
     setCreatePolygonButtonToDefault();
+
+    setTestDrawLineState(false);
+    console.log("111111 set" );
   }
 }
 

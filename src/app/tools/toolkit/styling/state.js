@@ -24,6 +24,7 @@ let createPolygonButtonElement = null;
 let removeImagesButtonElement = null;
 
 function polygonsPresentInCurrentImage() {
+  console.log("current image");
   const currentShapes = getAllExistingShapes();
   const shapeIds = Object.keys(currentShapes);
   for (let i = 0; i < shapeIds.length; i += 1) {

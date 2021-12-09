@@ -148,11 +148,14 @@ function addPoint(pointer) {
   setPolygonDrawingInProgressState(true);
   const isNewPoint = true;
   const point = new fabric.Circle(polygonProperties.newPoint(pointId, pointer, isNewPoint));
+
+  console.log("ppppp point", point);
+
   pointId += 1;
   let points = [pointer.x, pointer.y, pointer.x, pointer.y];
 
 // Only for polygon mode
-// activeShape comprises all points of polygon. Activates if has 2 points as minimum
+  // activeShape comprises all points of polygon. Activates if has 2 points as minimum
   if (activeShape && (!getTestDrawLineState()) ) {
     points = activeShape.get('points');
     points.push({
@@ -160,9 +163,9 @@ function addPoint(pointer) {
       y: pointer.y,
     });
     const polygon = new fabric.Polygon(points, polygonProperties.newTempPolygon());
-// Reduces the opacity of temporary Polygon and removes at the end the temporary Polygon
+  // Reduces the opacity of temporary Polygon and removes at the end the temporary Polygon
       canvas.remove(activeShape);
-// Adds lines and temporary polygon
+ // Adds lines and temporary polygon
       canvas.add(polygon);
       activeShape = polygon;
       currentlyHoveredPoint = point;
@@ -208,8 +211,10 @@ function addPoint(pointer) {
   // if only 1 point on the scene
   if ( (pointArray.length === 0) || (getTestDrawLineState()) ) {
     invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(pointer));
+
+    console.log("invisiblePoint", invisiblePoint);
+
     canvas.add(invisiblePoint);
-    point.set(polygonProperties.firstPoint());
 
 ///// New Line mode
     if (getTestDrawLineState()){
@@ -217,6 +222,7 @@ function addPoint(pointer) {
       pointArrayNewLine.push(point);
     }
     else {
+      point.set(polygonProperties.firstPoint());
       setRemovePointsButtonToDefault();
       setRemoveLabelsButtonToDefault();
       setCreateNewLineToDefault();
@@ -245,10 +251,11 @@ function addPoint(pointer) {
 // 1. Last point for New Line has not been drawn;
 // 2. Create an array with all points of line like pointArray;
 // 3. States;
-// 4. MouseMove;
+// 4. MouseMove after add point draws many points;
 // 5. Points color should be white.
-// 6. State of New Polygon can't change after New Line process
-// 7. After Create New Line, is automatically New Plygon state.
+// 6. State of New Polygon can't change after New Line process, it is New Line process
+
+// 7. After Create New Line, is automatically New Polygon state. - fixed
 
 function generatePolygon() {
   const points = [];

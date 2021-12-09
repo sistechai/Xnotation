@@ -17,7 +17,9 @@ function initiateCreateNewPolygonEvents(canvas) {
     setEditShapesButtonToDefault();
     setDefaultState(false);
     setAlteringPolygonPointsState(false);
-    setLastDrawingModeState('polygon');
+    if (!getTestDrawLineState()) {
+      setLastDrawingModeState('polygon');
+    }
     setHasDrawnShapeState(false);
   }
 }

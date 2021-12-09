@@ -8,7 +8,7 @@ import {
   getMovableObjectsState, getAddingPolygonPointsState, setSessionDirtyState,
   setReadyToDrawShapeState, getCurrentZoomState, getDoubleScrollCanvasState,
 
-  getTestDrawLineState,
+  getTestDrawLineState, setTestDrawLineState,
 
 } from '../../../tools/state.js';
 
@@ -247,6 +247,8 @@ function addPoint(pointer) {
 // 3. States;
 // 4. MouseMove;
 // 5. Points color should be white.
+// 6. State of New Polygon can't change after New Line process
+// 7. After Create New Line, is automatically New Plygon state.
 
 function generatePolygon() {
   const points = [];
@@ -284,13 +286,8 @@ function generatePolygon() {
 
 function clearPolygonData() {
 
-  if (getTestDrawLineState()){
-    setCreateNewLineButtonToActive();
-    setCreatePolygonButtonToDefault();
-  }
-
   if (pointArray[0]) {
-    console.log("pointArray[0]", pointArray[0]);
+    console.log("clear pointArray[0]", pointArray[0]);
     console.log("pointArray[1]", pointArray[1]);
     pointArray.forEach((point) => {
       canvas.remove(point);
@@ -311,6 +308,11 @@ function clearPolygonData() {
     lastMouseEvent = null;
     createdInvisiblePoint = false;
     lastNewPointPosition = { x: -1, y: -1 };
+  }
+
+  if (getTestDrawLineState()){
+    setCreateNewLineButtonToActive();
+    setCreatePolygonButtonToDefault();
   }
 }
 

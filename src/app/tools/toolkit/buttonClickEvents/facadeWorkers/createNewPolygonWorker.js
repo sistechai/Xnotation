@@ -25,13 +25,13 @@ function initiateCreateNewPolygonEvents(canvas) {
     setDefaultState(false);
     setAlteringPolygonPointsState(false);
 
-    if (!getTestDrawLineState()) {
+    // if (!getTestDrawLineState()) {
       setLastDrawingModeState('polygon');
-    }
-
-    else {
-      setLastDrawingModeState('newLine');
-    }
+    // }
+    //
+    // else {
+    //   setLastDrawingModeState('newLine');
+    // }
     setHasDrawnShapeState(false);
   }
 }

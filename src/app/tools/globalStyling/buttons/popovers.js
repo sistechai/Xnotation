@@ -16,6 +16,7 @@ function setDoNotDisplayButtonAfterTimeoutStateToFalse() {
 }
 
 function assignLeftSideBarMouseEnterEvent() {
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa assigh");
   document.getElementById('left-side-bar').addEventListener('mouseenter', () => {
     doNotDisplayButtonAfterTimeoutState = false;
   });
@@ -61,12 +62,15 @@ function checkIfButtonShouldBeDisplayedAfterAfterTimeout() {
 }
 
 function removeActiveButtonPopover() {
+  console.log("!!!!!!!!!!!!!!!!!11remove active button");
   if (checkIfButtonShouldBeDisplayedAfterAfterTimeout()) {
     doNotDisplayButtonAfterTimeoutState = true;
+    console.log("111111111remove active button");
   }
   if (activePopover) {
     activePopover.style.display = 'none';
     activePopover = null;
+    console.log("2222222remove active button");
   }
 }
 
@@ -98,6 +102,7 @@ function mouseEnterCoreButton(event, id) {
   }
 }
 
+// Mouse event on button, pop up  information
 function mouseLeaveCoreButton(event) {
   const { tagName } = event.target;
   if (tagName === 'BUTTON' || tagName === 'A') {
@@ -131,6 +136,7 @@ function removeUploadImagesButtonPopoverBugFix() {
   const uploadDatasetsButton = document.getElementById('upload-images-button');
   uploadDatasetsButton.addEventListener('mouseup', () => {
     hasUploadImagesButtonBeenClicked = true;
+    console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwhasUploadImagesButtonBeenClicked", hasUploadImagesButtonBeenClicked);
   });
 }
 

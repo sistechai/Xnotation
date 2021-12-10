@@ -73,6 +73,7 @@ function discardRemovePointsEvents(canvas) {
 
 // split up to more readable
 function initiateRemovePolygonPointsEvents(canvas) {
+  console.log("777777777777777777777--- initiate remove Polygon points events");
   canvas.discardActiveObject();
   removeHighlightOfListLabel();
   removeEditedPolygonId();

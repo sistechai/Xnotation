@@ -60,24 +60,9 @@ function discardAddPointsEvents(canvas) {
 
 function initiateAddPolygonPointsEvents(canvas) {
   canvas.discardActiveObject();
-
-  ///// New Line
-  if (getTestDrawLineState()){
-    setCreateNewLineButtonToActive(); // On Left menu
-    purgeCanvasMouseEvents(canvas);
-    assignAddPointsOnExistingPolygonEvents(canvas); // calls function pointMouseDownEvents from /canvas/mouseInteractions/mouseEvents/eventWorkers/addPointsEventsWorker.js
-
-    setInitialStageOfAddPointsOnExistingPolygonMode(canvas);
-    setEditShapesButtonToDefault();
-    setDefaultState(false);
-    setAddingPolygonPointsState(true);
-  }
-
-  else if (!getAddingPolygonPointsState()) {
+  if (!getAddingPolygonPointsState()) {
     purgeCanvasMouseEvents(canvas);
     assignAddPointsOnExistingPolygonEvents(canvas);
-
-    console.log("!!! add to polygon", setAddPointsButtonToActive());
     setInitialStageOfAddPointsOnExistingPolygonMode(canvas);
     setAddPointsButtonToActive();
     setEditShapesButtonToDefault();

@@ -80,9 +80,6 @@ function resizeAllObjectsDimensionsByDoubleScale(newFileSizeRatio, canvas) {
           point.x *= newFileSizeRatio.width;
           point.y *= newFileSizeRatio.height;
         });
-
-        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!case polygon");
-
         resetPolygonSelectableArea(object, newFileSizeRatio);
         setPolygonLabelOffsetProps(object, object.points[0]);
         break;

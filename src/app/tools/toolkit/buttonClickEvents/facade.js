@@ -20,18 +20,19 @@ import removePolygonPointsImpl from '../../../canvas/objects/polygon/alterPolygo
 function testDrawLine() {
 
   setTestDrawLineState(true);
-  setCreateNewLineButtonToActive();
   console.log("testDrawLine going");
+  initiateCreateNewPolygonEvents(canvas);
+}
+//////
+
+////// Polygon
+function createNewPolygonBtnClick() {
   initiateCreateNewPolygonEvents(canvas);
 }
 //////
 
 function createNewBndBoxBtnClick() {
   initiateCreateNewBndBoxEvents(canvas);
-}
-
-function createNewPolygonBtnClick() {
-  initiateCreateNewPolygonEvents(canvas);
 }
 
 function addPointsBtnClick() {

@@ -6,13 +6,17 @@ import { getRemovingPolygonPointsState, getPolygonDrawingInProgressState } from 
 import { removeActiveButtonPopover } from '../../../globalStyling/buttons/popovers.js';
 import isLeftMouseButtonClick from '../../../utils/buttons/clickEvents.js';
 import isElement from '../../../utils/elementType.js';
-
+import { setCreateNewLineToDefault, setCreateNewLineToDisabled, } from '../../styling/state.js';
 
 function interruptAllCanvasEventsBeforeFunc(func, event) {
-  if (event && !isLeftMouseButtonClick(event)) return;
+  if (event && !isLeftMouseButtonClick(event)) {
+    return;
+  }
   removeActiveButtonPopover();
   interruptAllCanvasEvents();
-  if (func) func();
+  if (func) {
+    func();
+  }
 }
 
 function func1IfDrawRemovePointsElseInterruptAllWthFunc2(func1, func2, event) {
@@ -22,6 +26,7 @@ function func1IfDrawRemovePointsElseInterruptAllWthFunc2(func1, func2, event) {
     if (func1) func1();
   } else if (func2) {
     interruptAllCanvasEvents();
+    console.log("fuuuuuunc1111111 ");
     func2();
   }
 }

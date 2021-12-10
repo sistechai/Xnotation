@@ -27,11 +27,14 @@ function assignToolkitButtonClickEventHandlers() {
   window.editShapes = doNothingIfLabellingInProgress.bind(this, editShapesBtnClick);
 
 /// New Line
-  window.createNewLine = doNothingIfLabellingOrAddingNewPoints.bind(this, testDrawLine);
+  window.createNewLine = func1IfDrawRemovePointsElseInterruptAllWthFunc2.bind(this, removePolygonPointBtnClick, testDrawLine);
 ////
 
-  window.createNewBndBox = interruptAllCanvasEventsBeforeFunc.bind(this, createNewBndBoxBtnClick);
+//// POlygon  
   window.createNewPolygon = func1IfDrawRemovePointsElseInterruptAllWthFunc2.bind(this, removePolygonPointBtnClick, createNewPolygonBtnClick);
+////
+  
+  window.createNewBndBox = interruptAllCanvasEventsBeforeFunc.bind(this, createNewBndBoxBtnClick);
   window.addPoints = doNothingIfLabellingOrAddingNewPoints.bind(this, addPointsBtnClick);
   window.removePoint = doNothingIfLabellingInProgress.bind(this, removePolygonPointBtnClick);
   window.cancel = interruptAllCanvasEventsBeforeFunc.bind(this, resetCanvasEventsToDefault);

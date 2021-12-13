@@ -5,11 +5,16 @@ import { getPolygonDrawingInProgressState } from '../../state.js';
 import { getAllExistingShapes } from '../../../canvas/objects/allShapes/allShapes.js';
 
 const state = { ACTIVE: 'active', DEFAULT: 'default', DISABLED: 'disabled' };
+
 let removePointsState = state.DEFAULT;
+
+let createLineState = state.DEFAULT;
+
 let addPointsState = state.DEFAULT;
 let createBoundingBoxState = state.DEFAULT;
 let createPolygonState = state.DEFAULT;
 let editShapesState = state.DEFAULT;
+
 let removePolygonPointsButtonElement = null;
 let addPolygonPointsButtonElement = null;
 let removeLabelsButtonElement = null;
@@ -102,6 +107,54 @@ function getAddPointsButtonState() {
   return addPointsState;
 }
 
+// Create Polygon
+function setCreatePolygonButtonToActive() {
+  setButtonToActive(createPolygonButtonElement);
+  createPolygonState = state.ACTIVE;
+  if (createBoundingBoxState === state.ACTIVE) {
+    setCreateBoundingBoxButtonToDefault();
+    console.log("/////////// createBoundingBoxState", createBoundingBoxState);
+  }
+  if (editShapesState === state.ACTIVE) {
+    setEditShapesButtonToDefault();
+    console.log("/////////// editShapesState", editShapesState);
+  }
+  if (createLineState === state.ACTIVE) {
+    setCreatePolygonButtonToDefault();
+    console.log("/////////// createLineState", createLineState);
+  }
+  console.log("/////////// createPolygonState", createPolygonState);
+}
+
+// New Line
+
+function setCreateNewLineButtonToActive() {
+  setButtonToActive(createLineButtonElement);
+  createLineState = state.ACTIVE;
+  if (createBoundingBoxState === state.ACTIVE) setCreateBoundingBoxButtonToDefault();
+  if (createPolygonState === state.ACTIVE) setCreatePolygonButtonToDefault();
+  if (addPointsState === state.ACTIVE) setAddPointsButtonToDefault();
+  if (removePointsState === state.ACTIVE) setRemovePointsDefault();
+  if (editShapesState === state.ACTIVE) setEditShapesButtonToDefault();
+}
+
+function setCreateNewLineToDisabled() {
+  setButtonToDisabled(createLineButtonElement);
+  createLineState = state.DISABLED;
+}
+function setCreateNewLineToDefault(){
+  setButtonToDefault(createLineButtonElement);
+  createLineState = state.DEFAULT;
+}
+function setCreateNewLineToGrey(){
+  setButtonToGreyDefault(createLineButtonElement);
+}
+
+function getCreateLineButtonState() {
+  return createLineState;
+}
+
+// Remove Points
 function setRemovePointsDefault() {
   setButtonToDefault(removePolygonPointsButtonElement);
   removePointsState = state.DEFAULT;
@@ -141,25 +194,7 @@ function setZoomOutButtonToDisabled() {
   setButtonToDisabled(zoomOutButtonElement);
 }
 
-// New Line
-function setCreateNewLineToDisabled() {
-  setButtonToDisabled(createLineButtonElement);
-}
-function setCreateNewLineToDefault(){
-  setButtonToDefault(createLineButtonElement);
-}
-function setCreateNewLineToGrey(){
-  setButtonToGreyDefault(createLineButtonElement);
-}
-function setCreateNewLineButtonToActive() {
-  setButtonToActive(createLineButtonElement);
-
-  editShapesState = state.ACTIVE;
-  if (createBoundingBoxState === state.ACTIVE) setCreateBoundingBoxButtonToDefault();
-  if (createPolygonState === state.ACTIVE) setCreatePolygonButtonToDefault();
-}
-
-// Polygon Editing
+// Polygon Editing = Remove + Add Points
 function setPolygonEditingButtonsToDisabled() {
   if (!polygonsPresentInCurrentImage()) {
     setRemovePointsDisabled();
@@ -188,13 +223,6 @@ function setRemovePointsButtonToDefault() {
 function setPolygonEditingButtonsToDefault() {
   setAddPointsButtonToDefault();
   setRemovePointsButtonToDefault();
-}
-
-function setCreatePolygonButtonToActive() {
-  setButtonToActive(createPolygonButtonElement);
-  createPolygonState = state.ACTIVE;
-  if (createBoundingBoxState === state.ACTIVE) setCreateBoundingBoxButtonToDefault();
-  if (editShapesState === state.ACTIVE) setEditShapesButtonToDefault();
 }
 
 function setEditShapesButtonToActive() {

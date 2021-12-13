@@ -13,11 +13,12 @@ import removePoints from '../../../../canvas/objects/polygon/alterPolygon/remove
 import { setEditShapesButtonToDefault, setCreatePolygonButtonToActive, setCreateNewLineToDefault, } from '../../styling/state.js';
 
 function initiateCreateNewPolygonEvents(canvas) {
+  canvas.discardActiveObject();
   if (canvas.backgroundImage) {
-    if (!getTestDrawLineState()) {
-      setCreatePolygonButtonToActive();
-      setCreateNewLineToDefault();
-    }
+    // if (!getTestDrawLineState()) {
+    //   setCreatePolygonButtonToActive();
+    //   setCreateNewLineToDefault();
+    // }
     purgeCanvasMouseEvents(canvas);
     assignDrawPolygonEvents(canvas);
 
@@ -32,7 +33,7 @@ function initiateCreateNewPolygonEvents(canvas) {
     // else {
     //   setLastDrawingModeState('newLine');
     // }
-    setHasDrawnShapeState(false);
+    setHasDrawnShapeState(false);    
   }
 }
 

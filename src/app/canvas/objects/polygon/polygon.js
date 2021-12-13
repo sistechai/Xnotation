@@ -43,6 +43,9 @@ let drawingFinished = false;
 let currentlyHoveredPoint = null;
 let ignoredFirstMouseMovement = false;
 let lastNewPointPosition = { x: -1, y: -1 };
+
+let lastPointer;
+
 let movedOverflowScroll = false;
 let createdInvisiblePoint = false;
 let mouseIsDownOnTempPoint = false;
@@ -142,16 +145,16 @@ if (pointArray.length === 2) {
 
 ////////////// Also for New Line
 function addPoint(pointer) {
-//   if (!getTestDrawLineState()){
-//     setCreatePolygonButtonToActive();
-//   }
+  // if (!getTestDrawLineState()){
+  //   setCreatePolygonButtonToActive();
+  // }
   setPolygonDrawingInProgressState(true);
   const isNewPoint = true;
   const point = new fabric.Circle(polygonProperties.newPoint(pointId, pointer, isNewPoint));
 
-  if (getTestDrawLineState()) {
-    setCreateNewLineButtonToActive();
-  }
+  // if (getTestDrawLineState()) {
+  //   setCreateNewLineButtonToActive();
+  // }
 
   pointId += 1;
   let points = [pointer.x, pointer.y, pointer.x, pointer.y];
@@ -177,9 +180,9 @@ function addPoint(pointer) {
 // Line mode + polygon mode
 // if there is 1 point on the scene
    else {
-    if (!getTestDrawLineState()){
-      setCreatePolygonButtonToActive();
-    }
+    // if (!getTestDrawLineState()){
+    //   setCreatePolygonButtonToActive();
+    // }
     const polyPoint = [{
       x: pointer.x,
       y: pointer.y,
@@ -196,8 +199,6 @@ function addPoint(pointer) {
         y: pointer.y,
       });
 
-      ////pointArrayNewLine.push(pointArray);
-      console.log("22222222 pointArrayNewLine", pointArrayNewLine);
       pointArray = [];
       createNewLine(...points);
       canvas.add(polygon);
@@ -217,19 +218,19 @@ function addPoint(pointer) {
 
 ///// New Line mode
     if (getTestDrawLineState()){
-      setCreateNewLineButtonToActive();
+      //setCreateNewLineButtonToActive();
+      console.log("setCreateNewLineButtonToActive()", setCreateNewLineButtonToActive());
      // pointArrayNewLine.push(point);
     }
     else {
       point.set(polygonProperties.firstPoint());
+      setAddPointsButtonToDefault();
       setRemovePointsButtonToDefault();
       setRemoveLabelsButtonToDefault();
-      setCreateNewLineToDefault();
+      //setCreateNewLineToDefault();
     }
   }
-
   preventOutOfBoundsPointsOnMove(point, canvas);
-
   pointArrayNewLine.push(point);
 
   // Line Mode
@@ -248,20 +249,12 @@ function addPoint(pointer) {
     // });
 
   pointArray.push(point);
-
   drawTemporaryShape(pointer);
-
   activeShape.sendToBack();
-
   canvas.selection = false;
   const { x, y } = pointer;
   lastNewPointPosition = { x, y };
-  console.log("lastNewPointPosition", lastNewPointPosition);
-  // if (getTestDrawLineState()) {
-  //   setPolygonDrawingInProgressState(true);
-  //  }
 }
-////////
 
 // Initialized after "enter", and creates final polygon. 
 // Check:
@@ -274,25 +267,17 @@ function addPoint(pointer) {
 function generatePolygon() {
 
   // To add last Point
-  if (getTestDrawLineState()) {
-    let lastPoint = new fabric.Circle(polygonProperties.invisiblePoint(lastNewPointPosition));
-    canvas.add(lastPoint);
-   }
-
   const points = [];
-
-  // Polygon mode
-    pointArray.forEach((point) => {
-      points.push({
-        x: point.left,
-        y: point.top,
-      });
-      canvas.remove(point);
+  pointArray.forEach((point) => {
+    points.push({
+      x: point.left,
+      y: point.top,
     });
+    canvas.remove(point);
+  });
 
   canvas.remove(invisiblePoint);
   invisiblePoint = null;
-
   removeActiveShape();
   const polygon = new fabric.Polygon(points, polygonProperties.newPolygon());
   // find out why on add new polygon points, the cursor changes immediately after adding them
@@ -305,10 +290,9 @@ function generatePolygon() {
   drawingFinished = true;
   prepareLabelShape(polygon, canvas);
   showLabellerModal();
-
   setPolygonDrawingInProgressState(false);
   setSessionDirtyState(true);
-  console.log("polygon generate###########");
+
 }
 
 function clearPolygonData() {
@@ -335,12 +319,12 @@ function clearPolygonData() {
     lastNewPointPosition = { x: -1, y: -1 };
   }
 
-  if (getTestDrawLineState()){
-    setCreateNewLineButtonToActive();
-    setCreatePolygonButtonToDefault();
-
-    setTestDrawLineState(false);
-  }
+  // if (getTestDrawLineState()){
+  //   setCreateNewLineButtonToActive();
+  //   setCreatePolygonButtonToDefault();
+  //
+  //   setTestDrawLineState(false);
+  // }
 }
 
 function getTempPolygon() {

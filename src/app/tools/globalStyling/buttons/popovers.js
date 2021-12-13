@@ -16,7 +16,6 @@ function setDoNotDisplayButtonAfterTimeoutStateToFalse() {
 }
 
 function assignLeftSideBarMouseEnterEvent() {
-  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa assigh");
   document.getElementById('left-side-bar').addEventListener('mouseenter', () => {
     doNotDisplayButtonAfterTimeoutState = false;
   });
@@ -62,15 +61,12 @@ function checkIfButtonShouldBeDisplayedAfterAfterTimeout() {
 }
 
 function removeActiveButtonPopover() {
-  console.log("!!!!!!!!!!!!!!!!!11remove active button");
   if (checkIfButtonShouldBeDisplayedAfterAfterTimeout()) {
     doNotDisplayButtonAfterTimeoutState = true;
-    console.log("111111111remove active button");
   }
   if (activePopover) {
     activePopover.style.display = 'none';
     activePopover = null;
-    console.log("2222222remove active button");
   }
 }
 

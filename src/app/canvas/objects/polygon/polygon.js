@@ -145,9 +145,12 @@ if (pointArray.length === 2) {
 
 ////////////// Also for New Line
 function addPoint(pointer) {
-  // if (!getTestDrawLineState()){
-  //   setCreatePolygonButtonToActive();
-  // }
+  if (getTestDrawLineState()){
+    setCreateNewLineButtonToActive();
+  }
+  else {
+    setTestDrawLineState(false);
+  }
   setPolygonDrawingInProgressState(true);
   const isNewPoint = true;
   const point = new fabric.Circle(polygonProperties.newPoint(pointId, pointer, isNewPoint));
@@ -293,6 +296,7 @@ function generatePolygon() {
   setPolygonDrawingInProgressState(false);
   setSessionDirtyState(true);
 
+  setTestDrawLineState(false);
 }
 
 function clearPolygonData() {
@@ -318,13 +322,6 @@ function clearPolygonData() {
     createdInvisiblePoint = false;
     lastNewPointPosition = { x: -1, y: -1 };
   }
-
-  // if (getTestDrawLineState()){
-  //   setCreateNewLineButtonToActive();
-  //   setCreatePolygonButtonToDefault();
-  //
-  //   setTestDrawLineState(false);
-  // }
 }
 
 function getTempPolygon() {

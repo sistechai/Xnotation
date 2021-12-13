@@ -9,19 +9,24 @@ import { zoomCanvas } from './facadeWorkers/zoomWorker.js';
 import toggleSettingsPopup from './facadeWorkers/toggleSettingsPopUpWorker.js';
 import initiateEditShapesEvent from './facadeWorkers/editShapesWorker.js';
 import displayUploadDatasetsModal from './facadeWorkers/displayUploadDatasetsModalWorker.js';
-
 import { setTestDrawLineState } from '../../state.js';
-import { setCreateNewLineButtonToActive } from '../styling/state.js';
-import removePolygonPointsImpl from '../../../canvas/objects/polygon/alterPolygon/removePoints.js';
+import { setCreateNewLineButtonToActive, getCreateLineState, setCreateNewLineToDefault, } from '../styling/state.js';
+let canvas = null;
 
-  let canvas = null;
-  
-  ///// New Line
+// Image upload
+function resetCanvasEventsToDefault() {
+  initiateResetCanvasEventsToDefaultEvent(canvas);
+  setCreateNewLineToDefault();
+}
+
+// New Line
 function testDrawLine() {
-
+  
   setTestDrawLineState(true);
   console.log("testDrawLine going");
+  
   initiateCreateNewPolygonEvents(canvas);
+  return 'testDrawLine';
 }
 //////
 
@@ -39,10 +44,7 @@ function addPointsBtnClick() {
   initiateAddPolygonPointsEvents(canvas);
 }
 
-function resetCanvasEventsToDefault() {
-  initiateResetCanvasEventsToDefaultEvent(canvas);
-}
-
+// unimportant
 function removePolygonPointBtnClick() {
   initiateRemovePolygonPointsEvents(canvas);
 }

@@ -2,11 +2,11 @@ import { isLabelling } from '../../../labellerModal/labellingProcess.js';
 import {
   interruptAllCanvasEvents, interruptCanvasToStartAddPoints,
 } from '../../../../canvas/mouseInteractions/mouseEvents/resetCanvasUtils/resetCanvasState.js';
-import { getRemovingPolygonPointsState, getPolygonDrawingInProgressState } from '../../../state.js';
+import { getRemovingPolygonPointsState, getPolygonDrawingInProgressState, setTestDrawLineState } from '../../../state.js';
 import { removeActiveButtonPopover } from '../../../globalStyling/buttons/popovers.js';
 import isLeftMouseButtonClick from '../../../utils/buttons/clickEvents.js';
 import isElement from '../../../utils/elementType.js';
-import { setCreateNewLineToDefault, setCreateNewLineToDisabled, } from '../../styling/state.js';
+import { setCreateNewLineToDefault, setCreateNewLineToDisabled, setCreateNewLineButtonToActive} from '../../styling/state.js';
 
 function interruptAllCanvasEventsBeforeFunc(func, event) {
   if (event && !isLeftMouseButtonClick(event)) {
@@ -37,6 +37,7 @@ function doNothingIfLabellingInProgress(func, element, event) {
 }
 
 function func1IfDrawRemovePointsElseInterruptAllWthFunc2(func1, func2, event) {
+
   if (event && !isLeftMouseButtonClick(event)) {
     console.log("11111111111111111 !isLeftMouseButtonClick 88888888888888888888888888888888");
     return;
@@ -45,10 +46,17 @@ function func1IfDrawRemovePointsElseInterruptAllWthFunc2(func1, func2, event) {
   if (getRemovingPolygonPointsState() && getPolygonDrawingInProgressState()) {
     console.log("111111111111111  ififififififi 88888888888888888888888888888888");
     if (func1) {
-      console.log("22222222222  ififififififi 88888888888888888888888888888888");
       func1();
     }
   } else if (func2) {
+
+    if (func2() === 'testDrawLine'){
+      setTestDrawLineState(true);
+    }
+    else {
+      setTestDrawLineState(false);
+    }
+
     interruptAllCanvasEvents();
     func2();
   }
@@ -60,7 +68,6 @@ function doNothingIfLabellingOrAddingNewPoints(func, element, event) {
     return;
   }
   if (isElement(element) && element.classList.contains('toolkit-button-disabled')) {
-    console.log("################### disabled tool kit");
     return;
   }
   removeActiveButtonPopover();

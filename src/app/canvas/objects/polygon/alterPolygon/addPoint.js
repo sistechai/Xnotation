@@ -17,15 +17,11 @@ let pointsArray = [];
 let defaultPointHoverMode = true;
 let firstPointOnLineIndex = 0;
 
-// Works in New Line process
+// Somehow, i did not find where it is used
 function isAddingPointsToPolygonImpl() {
-  console.log("%%%%%%%%%%%%%%% active line in isAddingPointstoPolygonImpl @@@@@@@@@@@@@@", activeLine);
-
-
-
+  console.log("?????????????????????????????????????????????? isAddingPointsToPolygonImpl");
   return activeLine;
 }
-
 /// Draws temporary activeLine ONLY for Add Points event
 // Active Line is a temporary line
 function drawLineImpl(pointer) {
@@ -46,7 +42,6 @@ function moveAddablePointImpl(event) {
     activeLine.set({ x1: xCenterPoint, y1: yCenterPoint });
   }
 }
-
 // Changes the polygon's borders after mouse over polygon.
 function addPointsMouseOverImpl(event) {
   if (defaultPointHoverMode && event.target && event.target.shapeName === 'point')
@@ -55,42 +50,20 @@ function addPointsMouseOverImpl(event) {
     canvas.renderAll();
   }
 }
-
 function addPointsMouseOutImpl(event) {
   if (event.target && event.target.shapeName === 'point') {
     event.target.stroke = '#333333';
     canvas.renderAll();
   }
-  if (getTestDrawLineState()) {
-    console.log("out out out out, getTestDrawLineState()", getTestDrawLineState());
-    //canvas.renderAll();
-  }
 }
-
 function createNewLine(...coordinates) {
   activeLine = new fabric.Line(coordinates, polygonProperties.newLine());
-  console.log("-----activeLine", activeLine);
   if (!getTestDrawLineState()) {
     canvas.add(activeLine);
     canvas.renderAll();
   }
 }
-
 function initializeAddNewPointsImpl(shape, pointer, canvasObj) {
-
-  ////New Line
-  if (shape === null){
-    canvas = canvasObj;
-    //addPointsMouseOverImpl(pointer);
-    console.log("pointer", pointer);
-    // setAddPointsMode(canvas, shape);
-    // createNewLine(shape.left, shape.top, pointer.x, pointer.y);
-    // initialPoint = shape;
-    // canvas.bringToFront(initialPoint);
-    // defaultPointHoverMode = false;
-  }
-
-  else {
     shape.stroke = '#333333';
     canvas = canvasObj;
     setAddPointsMode(canvas, shape);
@@ -98,9 +71,7 @@ function initializeAddNewPointsImpl(shape, pointer, canvasObj) {
     initialPoint = shape;
     canvas.bringToFront(initialPoint);
     defaultPointHoverMode = false;
-  }
 }
-
 function addFirstPointImpl(event) {
   changePolygonPointsToAddImpl(canvas);
   const pointer = canvas.getPointer(event.e);
@@ -116,6 +87,7 @@ function addFirstPointImpl(event) {
 }
 
 function addPointImpl(pointer) {
+  console.log("next point pointer", pointer);
   lineArray.push(activeLine);
   createNewLine(pointer.x, pointer.y, pointer.x, pointer.y);
   const isNewPoint = true;

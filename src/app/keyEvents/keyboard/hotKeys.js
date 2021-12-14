@@ -193,13 +193,6 @@ function backspaceKeyHandler() {
 
 function enterKeyHandler() {
 
-  if (getTestDrawLineState()) {
-    console.log("11111111111111111111111111       getTestDrawLineState()", getTestDrawLineState());
-    const activeLine = isAddingPointsToPolygonImpl();
-    canvas.remove(activeLine);
-    console.log("11111111111111111111111111       activeLine", activeLine);
-
-  }
   // The Second process after presssing Enter
   if (getLabellerModalDisplayedState()) {
     console.log("11111111111111111111111111     labelShape()  ");

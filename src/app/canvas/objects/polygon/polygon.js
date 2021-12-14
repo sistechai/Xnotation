@@ -12,7 +12,7 @@ import {
 
 } from '../../../tools/state.js';
 
-import { isAddingPointsToPolygonImpl, createNewLine, } from './alterPolygon/addPoint.js';
+import { isAddingPointsToPolygonImpl, createNewLine, addPointImpl } from './alterPolygon/addPoint.js';
 import { preventOutOfBoundsPointsOnMove } from '../sharedUtils/moveBlockers.js';
 import { preventOutOfBoundsOnNewObject } from '../sharedUtils/newObjectBlockers.js';
 
@@ -147,6 +147,7 @@ function addPoint(pointer) {
   if (getTestDrawLineState()){
     setCreateNewLineButtonToActive();
     setTestDrawLineState(true);
+    addPointImpl(pointer);
   }
   else {
     setCreatePolygonButtonToActive();

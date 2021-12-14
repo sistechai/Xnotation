@@ -130,7 +130,6 @@ function lockMovementIfAssertedByState(polygon) {
     polygon.set(immovableObjectProps);
   }
 }
-
 /* initial point should begin with one color and switch when there are 3
  points to indicate that a new polygon can be created
 let points = [pointer.x, pointer.y, pointer.x, pointer.y];
@@ -147,23 +146,21 @@ if (pointArray.length === 2) {
 function addPoint(pointer) {
   if (getTestDrawLineState()){
     setCreateNewLineButtonToActive();
+    setTestDrawLineState(true);
   }
   else {
+    setCreatePolygonButtonToActive();
     setTestDrawLineState(false);
   }
   setPolygonDrawingInProgressState(true);
   const isNewPoint = true;
-  const point = new fabric.Circle(polygonProperties.newPoint(pointId, pointer, isNewPoint));
 
-  // if (getTestDrawLineState()) {
-  //   setCreateNewLineButtonToActive();
-  // }
+  const point = new fabric.Circle(polygonProperties.newPoint(pointId, pointer, isNewPoint));
 
   pointId += 1;
   let points = [pointer.x, pointer.y, pointer.x, pointer.y];
 
-// Only for polygon mode
-  // activeShape comprises all points of polygon. Activates if has 2 points as minimum
+// Only for polygon mode. Activates if has 2 points as minimum
   if (activeShape && (!getTestDrawLineState()) ) {
     points = activeShape.get('points');
     points.push({
@@ -173,7 +170,7 @@ function addPoint(pointer) {
     const polygon = new fabric.Polygon(points, polygonProperties.newTempPolygon());
   // Reduces the opacity of temporary Polygon and removes at the end the temporary Polygon
       canvas.remove(activeShape);
- // Adds lines and temporary polygon
+  // Adds lines and temporary polygon
       canvas.add(polygon);
       activeShape = polygon;
       currentlyHoveredPoint = point;
@@ -183,9 +180,7 @@ function addPoint(pointer) {
 // Line mode + polygon mode
 // if there is 1 point on the scene
    else {
-    // if (!getTestDrawLineState()){
-    //   setCreatePolygonButtonToActive();
-    // }
+
     const polyPoint = [{
       x: pointer.x,
       y: pointer.y,
@@ -194,7 +189,7 @@ function addPoint(pointer) {
     activeShape = polygon;
     canvas.add(polygon);
 
-    //// Line mode === true
+    // Line mode
     if (getTestDrawLineState())
     {
       points.push({
@@ -267,6 +262,8 @@ function addPoint(pointer) {
 // 8. setLastDrawingModeState('newLine') - have to define this state
 
 // draws Polygon with green borders
+
+// Activates by 'enter' event
 function generatePolygon() {
 
   // To add last Point
@@ -279,15 +276,39 @@ function generatePolygon() {
     canvas.remove(point);
   });
 
-  canvas.remove(invisiblePoint);
-  invisiblePoint = null;
-  removeActiveShape();
-  const polygon = new fabric.Polygon(points, polygonProperties.newPolygon());
-  // find out why on add new polygon points, the cursor changes immediately after adding them
+  let polygon; // the entire polygon, and New line
 
+// For polygon mode
+  if (!getTestDrawLineState()) {
+    canvas.remove(invisiblePoint);
+    invisiblePoint = null;
+    removeActiveShape();
+    polygon = new fabric.Polygon(points, polygonProperties.newPolygon());
+  }
+
+// Draw New Line
+  else {
+    console.log("...................... Point Array New Line", pointArrayNewLine);
+    console.log("...................... LAST nEW pOINT Position", lastNewPointPosition);
+   // removeActiveShape();
+    const pointsNewLine = [];
+    pointArrayNewLine.forEach((point) => {
+      pointsNewLine.push({
+        x: point.left,
+        y: point.top,
+      });
+      //canvas.remove(point);
+    });
+    polygon = new fabric.Polygon(pointsNewLine, polygonProperties.newPolygon());
+
+    console.log("...................... invisiblePoint", invisiblePoint);
+    invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(invisiblePoint));
+    canvas.add(invisiblePoint);
+    console.log("...................... invisiblePoint", invisiblePoint);
+  }
+  // find out why on add new polygon points, the cursor changes immediately after adding them
   lockMovementIfAssertedByState(polygon);
   canvas.add(polygon);
-
   activeShape = null;
   polygonMode = false;
   drawingFinished = true;
@@ -305,7 +326,21 @@ function clearPolygonData() {
       pointArray.forEach((point) => {
       canvas.remove(point);
     });
-    canvas.remove(invisiblePoint);
+    //canvas.remove(invisiblePoint);
+      if (invisiblePoint) {//(!getTestDrawLineState()){
+        console.log("22222222222...................... invisiblePoint", invisiblePoint);
+
+        let lengthPointArrayNewLine = pointArrayNewLine.length - 1;
+          const position = { x: pointArrayNewLine[lengthPointArrayNewLine].left, y: pointArrayNewLine[lengthPointArrayNewLine].top };
+          invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(position));
+          canvas.add(invisiblePoint);
+        canvas.renderAll();
+
+      }
+     // else {
+        //console.log("3333333333333332222222222...................... invisiblePoint", invisiblePoint);
+     // }
+
     invisiblePoint = null;
     removeActiveShape();
 
@@ -413,6 +448,7 @@ function addPointViaKeyboard() {
 }
 
 function instantiatePolygon(event) {
+  console.log("instantiate");
   const pointer = canvas.getPointer(event.e);
   if (!isRightMouseButtonClicked(pointer)) {
     setReadyToDrawShapeState(false);
@@ -553,6 +589,7 @@ function resumeDrawingAfterRemovePoints() {
 }
 
 function removeInvisiblePoint() {
+  console.log("remove Invisible point ^^^^^^^^^^^^^^^^^^^^^^^^^^");
   canvas.remove(invisiblePoint);
   invisiblePoint = null;
 }

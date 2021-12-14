@@ -14,7 +14,9 @@ import {
   getUploadDatasetsModalDisplayedState, getMachineLearningModalDisplayedState,
   getAddingPolygonPointsState, getRemovingPolygonPointsState, getSettingsPopupOpenState,
   getRemoveImageModalDisplayedState, getReadyToDrawShapeState, getWelcomeModalDisplayedState,
+  getTestDrawLineState,
 } from '../../tools/state.js';
+import { isAddingPointsToPolygonImpl } from '../../canvas/objects/polygon/alterPolygon/addPoint.js';
 import { removeFillForAllShapes } from '../../canvas/objects/allShapes/allShapes.js';
 import { addPointViaKeyboard as addPointToNewPolygonViaKeyboard, generatePolygonViaKeyboard } from '../../canvas/objects/polygon/polygon.js';
 import { instantiateNewBoundingBox, finishDrawingBoundingBox } from '../../canvas/objects/boundingBox/boundingBox.js';
@@ -190,13 +192,28 @@ function backspaceKeyHandler() {
 }
 
 function enterKeyHandler() {
+
+  if (getTestDrawLineState()) {
+    console.log("11111111111111111111111111       getTestDrawLineState()", getTestDrawLineState());
+    const activeLine = isAddingPointsToPolygonImpl();
+    canvas.remove(activeLine);
+    console.log("11111111111111111111111111       activeLine", activeLine);
+
+  }
+  // The Second process after presssing Enter
   if (getLabellerModalDisplayedState()) {
+    console.log("11111111111111111111111111     labelShape()  ");
     labelShape();
-  } else if (getRemoveImageModalDisplayedState()) {
+  }
+
+  else if (getRemoveImageModalDisplayedState()) {
     window.approveRemoveImage();
   } else if (getWelcomeModalDisplayedState()) {
     closeWelcomeModal();
-  } else if (getPolygonDrawingInProgressState() && !getRemovingPolygonPointsState()) {
+  }
+
+  // The First process after presssing Enter
+  else if (getPolygonDrawingInProgressState() && !getRemovingPolygonPointsState()) {
     generatePolygonViaKeyboard();
   }
 }

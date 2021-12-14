@@ -6,7 +6,7 @@ import { changePolygonPointsToAddImpl } from './changePointsStyle.js';
 import { getLabelById } from '../../label/label.js';
 import { preventOutOfBoundsPointsOnMove } from '../../sharedUtils/moveBlockers.js';
 import setInitialStageOfAddPointsOnExistingPolygonMode from '../../../mouseInteractions/cursorModes/initialiseAddPointsOnExistingPolygonMode.js';
-import {getTestDrawLineState} from '../../../../tools/state.js';
+import {getTestDrawLineState, getRemovingPolygonPointsState, getPolygonDrawingInProgressState, getLabellerModalDisplayedState, } from '../../../../tools/state.js';
 
 let canvas = null;
 let activeLine = null;
@@ -17,20 +17,28 @@ let pointsArray = [];
 let defaultPointHoverMode = true;
 let firstPointOnLineIndex = 0;
 
-/// Draws temporary activeLine
-function drawLineImpl(pointer) {
-  activeLine.set({ x2: pointer.x, y2: pointer.y });
-  activeLine.setCoords();
-  if (!getTestDrawLineState()) {
-    canvas.renderAll();
-  }
-}
-
-// Works if process Edit Shapes is activated
+// Works in New Line process
 function isAddingPointsToPolygonImpl() {
+  console.log("active line in isAddingPointstoPolygonImpl @@@@@@@@@@@@@@", activeLine);
+
+  if ( ( getTestDrawLineState() ) && ( getLabellerModalDisplayedState() ) ) {
+    canvas.remove(activeLine);
+    console.log("@@@@@@@@@@@@@@ activeLine!!!!!!!!!!!!!!!!!!!!!!!!777", activeLine);
+    //addFirstPointImpl(event);
+    //canvas.renderAll();
+    clearLines();
+  }
+
   return activeLine;
 }
 
+/// Draws temporary activeLine ONLY for Add Points event
+// Active Line is a temporary line
+function drawLineImpl(pointer) {
+  activeLine.set({ x2: pointer.x, y2: pointer.y });
+  activeLine.setCoords();
+  canvas.renderAll();
+}
 // ???
 function moveAddablePointImpl(event) {
   preventOutOfBoundsPointsOnMove(event.target, canvas);
@@ -52,13 +60,8 @@ function addPointsMouseOverImpl(event) {
     event.target.stroke = 'green';
     canvas.renderAll();
   }
-  if (getTestDrawLineState()) {
-    console.log("over over over over, getTestDrawLineState()", getTestDrawLineState());
-    addFirstPointImpl(event);
-    //createNewLine(event.x, event.y, (event.x+120), (event.y+120));
-    //canvas.renderAll();
-  }
 }
+
 function addPointsMouseOutImpl(event) {
   if (event.target && event.target.shapeName === 'point') {
     event.target.stroke = '#333333';
@@ -155,6 +158,7 @@ function resetEditingPolygonPoints() {
 }
 
 function clearTempPoints() {
+  console.log("++++++++++++++++ clear temp points");
   canvas.remove(activeLine);
   pointsArray.forEach((point) => {
     canvas.remove(point);

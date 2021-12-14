@@ -18,17 +18,20 @@ import { executeFunctionOnceOnMouseOver } from '../../../../keyEvents/mouse/mous
 
 function setNewState(canvas) {
   if (getContinuousDrawingState()) {
+    console.log("if --------------- ", );
     purgeCanvasMouseEvents(canvas);
     if (getLastDrawingModeState() === 'polygon') {
       assignDrawPolygonEvents(canvas);
     } else if (getLastDrawingModeState() === 'boundingBox') {
       assignDrawBoundingBoxEvents(canvas);
       if (getCrosshairUsedOnCanvasState()) {
+        console.log("if (getCrosshairUsedOnCanvasState()) --------------- ");
         executeFunctionOnceOnMouseOver(moveCrosshair);
       }
     }
     setDefaultState(false);
   } else {
+    console.log("else --------------- ");
     assignDefaultEvents(canvas, null, getAddingPolygonPointsState());
     setDefaultState(true);
     if (getCurrentImage()) {
@@ -41,6 +44,7 @@ function setNewState(canvas) {
 
 function initiateResetCanvasEventsToDefaultEvent(canvas) {
   canvas.discardActiveObject();
+  console.log("canvas.discardActiveObject() --------------- ");
   if (!getDefaultState()) {
     purgeCanvasMouseEvents(canvas);
     if (getAddingPolygonPointsState()) {

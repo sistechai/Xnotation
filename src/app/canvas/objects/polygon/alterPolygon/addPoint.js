@@ -19,15 +19,9 @@ let firstPointOnLineIndex = 0;
 
 // Works in New Line process
 function isAddingPointsToPolygonImpl() {
-  console.log("active line in isAddingPointstoPolygonImpl @@@@@@@@@@@@@@", activeLine);
+  console.log("%%%%%%%%%%%%%%% active line in isAddingPointstoPolygonImpl @@@@@@@@@@@@@@", activeLine);
 
-  if ( ( getTestDrawLineState() ) && ( getLabellerModalDisplayedState() ) ) {
-    canvas.remove(activeLine);
-    console.log("@@@@@@@@@@@@@@ activeLine!!!!!!!!!!!!!!!!!!!!!!!!777", activeLine);
-    //addFirstPointImpl(event);
-    //canvas.renderAll();
-    clearLines();
-  }
+
 
   return activeLine;
 }

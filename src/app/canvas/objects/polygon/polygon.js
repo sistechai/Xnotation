@@ -21,7 +21,7 @@ import {
   setRemoveLabelsButtonToDefault, setCreatePolygonButtonToActive,
 
   setCreateNewLineToDisabled, setCreateNewLineToDefault, setCreateNewLineToGrey, setCreateNewLineButtonToActive,
-  setCreatePolygonButtonToDefault,
+  setCreatePolygonButtonToDefault, setCreateBoundingBoxButtonToDefault,
 
 } from '../../../tools/toolkit/styling/state.js';
 import { getLastMouseMoveEvent } from '../../../keyEvents/mouse/mouseMove.js';
@@ -198,16 +198,10 @@ function addPoint(pointer) {
       });
 
       pointArray = [];
-      createNewLine(...points);
-      canvas.add(polygon);
-      canvas.renderAll();
-      isAddingPointsToPolygonImpl();
-      polygon.set({ x2: pointer.x, y2: pointer.y });
-      polygon.setCoords();
     }
   }
 
-  canvas.add(point);
+  canvas.add(point); // adds the points where the 'mouse down' event happened
 
   // if only 1 point on the scene
   if ( (pointArray.length === 0) || (getTestDrawLineState()) ) {
@@ -216,8 +210,9 @@ function addPoint(pointer) {
 
 ///// New Line mode
     if (getTestDrawLineState()){
+      setCreateBoundingBoxButtonToDefault();
       //setCreateNewLineButtonToActive();
-      console.log("setCreateNewLineButtonToActive()", setCreateNewLineButtonToActive());
+      console.log("setCreateBoundingBoxButtonToDefault()", setCreateBoundingBoxButtonToDefault() );
      // pointArrayNewLine.push(point);
     }
     else {
@@ -283,29 +278,32 @@ function generatePolygon() {
     canvas.remove(invisiblePoint);
     invisiblePoint = null;
     removeActiveShape();
-    polygon = new fabric.Polygon(points, polygonProperties.newPolygon());
   }
+
+  polygon = new fabric.Polygon(points, polygonProperties.newPolygon()); // for now, got it from if cycle above
 
 // Draw New Line
-  else {
-    console.log("...................... Point Array New Line", pointArrayNewLine);
-    console.log("...................... LAST nEW pOINT Position", lastNewPointPosition);
-   // removeActiveShape();
-    const pointsNewLine = [];
-    pointArrayNewLine.forEach((point) => {
-      pointsNewLine.push({
-        x: point.left,
-        y: point.top,
-      });
-      //canvas.remove(point);
-    });
-    polygon = new fabric.Polygon(pointsNewLine, polygonProperties.newPolygon());
 
-    console.log("...................... invisiblePoint", invisiblePoint);
-    invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(invisiblePoint));
-    canvas.add(invisiblePoint);
-    console.log("...................... invisiblePoint", invisiblePoint);
-  }
+  // else {
+  //   console.log("...................... Point Array New Line", pointArrayNewLine);
+  //   console.log("...................... LAST nEW pOINT Position", lastNewPointPosition);
+  //  // removeActiveShape();
+  //   const pointsNewLine = [];
+  //   pointArrayNewLine.forEach((point) => {
+  //     pointsNewLine.push({
+  //       x: point.left,
+  //       y: point.top,
+  //     });
+  //     //canvas.remove(point);
+  //   });
+  //   polygon = new fabric.Polygon(pointsNewLine, polygonProperties.newPolygon());
+  //
+  //   console.log("...................... invisiblePoint", invisiblePoint);
+  //   invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(invisiblePoint));
+  //   canvas.add(invisiblePoint);
+  //   console.log("...................... invisiblePoint", invisiblePoint);
+  // }
+
   // find out why on add new polygon points, the cursor changes immediately after adding them
   lockMovementIfAssertedByState(polygon);
   canvas.add(polygon);

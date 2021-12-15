@@ -69,6 +69,7 @@ function movePoints(event) {
 }
 
 function removeActiveShape() {
+  console.log("-------------------------remove active shape");
   canvas.remove(activeShape);
   activeShape = null;
 }
@@ -153,16 +154,18 @@ function addPoint(pointer) {
     //addPointImpl(pointer); // for saving the last point of line on the scene
     canvas.add(point); // adds the points where the 'mouse down' event happened
   }
-  else {
+
+  else
+  {
     setCreatePolygonButtonToActive();
     setTestDrawLineState(false);
   }
-  setPolygonDrawingInProgressState(true);
 
+  setPolygonDrawingInProgressState(true);
   pointId += 1;
   let points = [pointer.x, pointer.y, pointer.x, pointer.y];
 
-// Only for polygon mode. Activates if has 2 points as minimum
+  // Only for polygon mode. Activates if has 2 points as minimum
   if ( (activeShape) && (!getTestDrawLineState()) ) {
     points = activeShape.get('points');
     points.push({
@@ -172,17 +175,18 @@ function addPoint(pointer) {
     const polygon = new fabric.Polygon(points, polygonProperties.newTempPolygon());
     // Reduces the opacity of temporary Polygon and removes at the end the temporary Polygon
     canvas.remove(activeShape);
-    console.log("canvas.remove(activeShape);", activeShape);
-    // Adds lines and temporary polygon
-    canvas.add(polygon);
+    canvas.add(polygon); // Adds lines and temporary polygon
     activeShape = polygon;
     currentlyHoveredPoint = point;
     canvas.renderAll();
   }
 
-// Line mode + polygon mode
-// if there is 1 point on the scene
-   else {
+  // Line mode + polygon mode
+  // if there is 1 point on the scene
+  else {
+
+    //canvas.remove(activeShape);
+    //canvas.add(polygon); // Adds lines and temporary polygon
 
     const polyPoint = [{
       x: pointer.x,
@@ -190,12 +194,13 @@ function addPoint(pointer) {
     }];
     const polygon = new fabric.Polygon(polyPoint, polygonProperties.newTempPolygon()); /// activeLine
     activeShape = polygon;
-    canvas.add(polygon);
+    //canvas.add(polygon);
 
     // Line mode
     if (getTestDrawLineState())
     {
       //canvas.remove(activeShape);
+      canvas.add(polygon);
       console.log("222222222canvas.remove(activeShape);", activeShape);
       points.push({
         x: pointer.x,
@@ -283,6 +288,10 @@ function generatePolygon() {
   if (!getTestDrawLineState()) {
     canvas.remove(invisiblePoint);
     invisiblePoint = null;
+    removeActiveShape();
+  }
+
+  else {
     removeActiveShape();
   }
 

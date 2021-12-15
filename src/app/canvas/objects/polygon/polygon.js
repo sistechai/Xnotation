@@ -163,20 +163,21 @@ function addPoint(pointer) {
   let points = [pointer.x, pointer.y, pointer.x, pointer.y];
 
 // Only for polygon mode. Activates if has 2 points as minimum
-  if (activeShape && (!getTestDrawLineState()) ) {
+  if ( (activeShape) && (!getTestDrawLineState()) ) {
     points = activeShape.get('points');
     points.push({
       x: pointer.x,
       y: pointer.y,
     });
     const polygon = new fabric.Polygon(points, polygonProperties.newTempPolygon());
-  // Reduces the opacity of temporary Polygon and removes at the end the temporary Polygon
-      canvas.remove(activeShape);
-  // Adds lines and temporary polygon
-      canvas.add(polygon);
-      activeShape = polygon;
-      currentlyHoveredPoint = point;
-      canvas.renderAll();
+    // Reduces the opacity of temporary Polygon and removes at the end the temporary Polygon
+    canvas.remove(activeShape);
+    console.log("canvas.remove(activeShape);", activeShape);
+    // Adds lines and temporary polygon
+    canvas.add(polygon);
+    activeShape = polygon;
+    currentlyHoveredPoint = point;
+    canvas.renderAll();
   }
 
 // Line mode + polygon mode
@@ -194,6 +195,8 @@ function addPoint(pointer) {
     // Line mode
     if (getTestDrawLineState())
     {
+      //canvas.remove(activeShape);
+      console.log("222222222canvas.remove(activeShape);", activeShape);
       points.push({
         x: pointer.x,
         y: pointer.y,
@@ -215,6 +218,7 @@ function addPoint(pointer) {
       setCreateBoundingBoxButtonToDefault();
       //setCreateNewLineButtonToActive();
       console.log("setCreateBoundingBoxButtonToDefault()", setCreateBoundingBoxButtonToDefault() );
+      canvas.add(point);
      // pointArrayNewLine.push(point);
     }
     else {

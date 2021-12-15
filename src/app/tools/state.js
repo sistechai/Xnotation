@@ -267,7 +267,6 @@ function setExportDatasetsPopupOpenState(state) {
 function setCurrentImageId(id) {
   currentImageId = id;
   console.log("id", id);
-  console.log("in setCurrentImageId() id was set. Need in future for bugging the same Image Loading");
 }
 
 function setChangingMLGeneratedLabelNamesState(state) {

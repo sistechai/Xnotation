@@ -194,20 +194,21 @@ function addPoint(pointer) {
     }];
     const polygon = new fabric.Polygon(polyPoint, polygonProperties.newTempPolygon()); /// activeLine
     activeShape = polygon;
-    //canvas.add(polygon);
 
     // Line mode
     if (getTestDrawLineState())
     {
       //canvas.remove(activeShape);
       canvas.add(polygon);
-      console.log("222222222canvas.remove(activeShape);", activeShape);
       points.push({
         x: pointer.x,
         y: pointer.y,
       });
 
       pointArray = [];
+    }
+    else{
+      canvas.add(polygon);
     }
   }
 
@@ -262,13 +263,10 @@ function addPoint(pointer) {
 
 // Initialized after "enter", and creates final polygon. 
 // Check:
-// 1. Last point for New Line has not been drawn;
-// 2. Create an array with all points of line like pointArray;
 // 3. States;
 // 8. setLastDrawingModeState('newLine') - have to define this state
 
 // draws Polygon with green borders
-
 // Activates by 'enter' event
 function generatePolygon() {
 

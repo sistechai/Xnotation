@@ -56,6 +56,20 @@ function qKeyHandler() {
   }
 }
 
+function lKeyHandler() {
+  if (!isAnyModalOpen() && !isEditingLabelInLabelList() && getCreatePolygonButtonState() !== 'disabled') {
+    window.onmousedown();
+    if (((getPolygonDrawingInProgressState() && !getRemovingPolygonPointsState())
+        || (getReadyToDrawShapeState() && getLastDrawingModeState() === 'polygon'))) {
+      addPointToNewPolygonViaKeyboard();
+    } else {
+      window.createNewPolygon();
+      removeFillForAllShapes();
+      canvas.upperCanvasEl.dispatchEvent(new Event('mousemove'));
+    }
+  }
+}
+
 function eKeyHandler() {
   if (!isAnyModalOpen() && !isEditingLabelInLabelList() && !getDefaultState() && getEditShapesButtonState() !== 'disabled') {
     closeAllPopups();
@@ -195,7 +209,6 @@ function enterKeyHandler() {
 
   // The Second process after presssing Enter
   if (getLabellerModalDisplayedState()) {
-    console.log("11111111111111111111111111     labelShape()  ");
     labelShape();
   }
 
@@ -271,6 +284,9 @@ function keyDownEventHandler(event) {
       break;
     case 'q':
       qKeyHandler();
+      break;
+    case 'l':
+      lKeyHandler();
       break;
     case 'e':
       eKeyHandler();

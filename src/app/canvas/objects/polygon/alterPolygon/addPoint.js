@@ -17,9 +17,8 @@ let pointsArray = [];
 let defaultPointHoverMode = true;
 let firstPointOnLineIndex = 0;
 
-// Somehow, i did not find where it is used
+// did not find where it is used
 function isAddingPointsToPolygonImpl() {
-  console.log("?????????????????????????????????????????????? isAddingPointsToPolygonImpl");
   return activeLine;
 }
 /// Draws temporary activeLine ONLY for Add Points event
@@ -87,7 +86,6 @@ function addFirstPointImpl(event) {
 }
 
 function addPointImpl(pointer) {
-  console.log("next point pointer", pointer);
   lineArray.push(activeLine);
   createNewLine(pointer.x, pointer.y, pointer.x, pointer.y);
   const isNewPoint = true;
@@ -236,5 +234,5 @@ export {
   addPointsMouseOutImpl,
   resetAddPointsImpl,
 
-    createNewLine,  
+  createNewLine,
 };

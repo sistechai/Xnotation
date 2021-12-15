@@ -220,38 +220,19 @@ function addPoint(pointer) {
     canvas.add(invisiblePoint);
 
 ///// New Line mode
-    if (getTestDrawLineState()){
-      setCreateBoundingBoxButtonToDefault();
-      //setCreateNewLineButtonToActive();
-      console.log("setCreateBoundingBoxButtonToDefault()", setCreateBoundingBoxButtonToDefault() );
-      canvas.add(point);
-     // pointArrayNewLine.push(point);
-    }
-    else {
+    if (!getTestDrawLineState()){
+
       point.set(polygonProperties.firstPoint());
       setAddPointsButtonToDefault();
       setRemovePointsButtonToDefault();
       setRemoveLabelsButtonToDefault();
-      //setCreateNewLineToDefault();
+    }
+    else {
+      canvas.add(point); // adds the last point
     }
   }
   preventOutOfBoundsPointsOnMove(point, canvas);
   pointArrayNewLine.push(point);
-
-  // Line Mode
-   // let arrL = pointArrayNewLine.length;
-    //
-    // let arrPoints = pointArrayNewLine.slice(arrL-2, arrL);
-    //
-    // console.log("== *-*-*-*-*-*-*-*arrPoints", arrPoints);
-    //
-    // arrPoints.forEach((point) => {
-    //   points.push({
-    //     x: point.left,
-    //     y: point.top,
-    //   });
-    //   //canvas.remove(point);
-    // });
 
   pointArray.push(point);
   drawTemporaryShape(pointer);
@@ -270,7 +251,6 @@ function addPoint(pointer) {
 // Activates by 'enter' event
 function generatePolygon() {
 
-  // To add last Point
   const points = [];
   pointArray.forEach((point) => {
     points.push({
@@ -294,28 +274,6 @@ function generatePolygon() {
   }
 
   polygon = new fabric.Polygon(points, polygonProperties.newPolygon()); // for now, got it from if cycle above
-
-// Draw New Line
-
-  // else {
-  //   console.log("...................... Point Array New Line", pointArrayNewLine);
-  //   console.log("...................... LAST nEW pOINT Position", lastNewPointPosition);
-  //  // removeActiveShape();
-  //   const pointsNewLine = [];
-  //   pointArrayNewLine.forEach((point) => {
-  //     pointsNewLine.push({
-  //       x: point.left,
-  //       y: point.top,
-  //     });
-  //     //canvas.remove(point);
-  //   });
-  //   polygon = new fabric.Polygon(pointsNewLine, polygonProperties.newPolygon());
-  //
-  //   console.log("...................... invisiblePoint", invisiblePoint);
-  //   invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(invisiblePoint));
-  //   canvas.add(invisiblePoint);
-  //   console.log("...................... invisiblePoint", invisiblePoint);
-  // }
 
   // find out why on add new polygon points, the cursor changes immediately after adding them
   lockMovementIfAssertedByState(polygon);
@@ -348,9 +306,6 @@ function clearPolygonData() {
         canvas.renderAll();
 
       }
-     // else {
-        //console.log("3333333333333332222222222...................... invisiblePoint", invisiblePoint);
-     // }
 
     invisiblePoint = null;
     removeActiveShape();

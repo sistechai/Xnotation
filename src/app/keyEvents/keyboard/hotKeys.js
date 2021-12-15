@@ -14,7 +14,9 @@ import {
   getUploadDatasetsModalDisplayedState, getMachineLearningModalDisplayedState,
   getAddingPolygonPointsState, getRemovingPolygonPointsState, getSettingsPopupOpenState,
   getRemoveImageModalDisplayedState, getReadyToDrawShapeState, getWelcomeModalDisplayedState,
-  getTestDrawLineState,
+
+  getTestDrawLineState, setTestDrawLineState,
+
 } from '../../tools/state.js';
 import { isAddingPointsToPolygonImpl } from '../../canvas/objects/polygon/alterPolygon/addPoint.js';
 import { removeFillForAllShapes } from '../../canvas/objects/allShapes/allShapes.js';
@@ -23,7 +25,13 @@ import { instantiateNewBoundingBox, finishDrawingBoundingBox } from '../../canva
 import {
   getCreatePolygonButtonState, getCreateBoundingBoxButtonState,
   getEditShapesButtonState, getRemovePointsButtonState, getAddPointsButtonState,
+
+  getCreateLineState, setCreateNewLineButtonToActive,
+
 } from '../../tools/toolkit/styling/state.js';
+
+import { testDrawLine } from '../../tools/toolkit/buttonClickEvents/facade.js';
+
 import { closeRemoveImagesModal } from '../../tools/imageList/removeImages/modal/style.js';
 import { removeTempPointViaKeyboard } from '../../canvas/mouseInteractions/mouseEvents/eventWorkers/removePointsOnNewPolygonEventsWorker.js';
 import { removePointViaKeyboard } from '../../canvas/mouseInteractions/mouseEvents/eventWorkers/removePointsEventsWorker.js';
@@ -50,23 +58,24 @@ function qKeyHandler() {
       addPointToNewPolygonViaKeyboard();
     } else {
       window.createNewPolygon();
+
       removeFillForAllShapes();
       canvas.upperCanvasEl.dispatchEvent(new Event('mousemove'));
     }
   }
 }
 
+// Line handler
 function lKeyHandler() {
-  if (!isAnyModalOpen() && !isEditingLabelInLabelList() && getCreatePolygonButtonState() !== 'disabled') {
+  if (!isAnyModalOpen() && !isEditingLabelInLabelList() && getCreateLineState() !== 'disabled') {
     window.onmousedown();
-    if (((getPolygonDrawingInProgressState() && !getRemovingPolygonPointsState())
-        || (getReadyToDrawShapeState() && getLastDrawingModeState() === 'polygon'))) {
-      addPointToNewPolygonViaKeyboard();
-    } else {
-      window.createNewPolygon();
-      removeFillForAllShapes();
-      canvas.upperCanvasEl.dispatchEvent(new Event('mousemove'));
-    }
+    closeAllPopups();
+
+    setCreateNewLineButtonToActive();
+    testDrawLine();
+
+    removeFillForAllShapes();
+    canvas.upperCanvasEl.dispatchEvent(new Event('mousemove'));
   }
 }
 

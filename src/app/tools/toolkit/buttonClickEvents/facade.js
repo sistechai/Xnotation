@@ -26,7 +26,7 @@ function testDrawLine() {
   console.log("testDrawLine going");
   
   initiateCreateNewPolygonEvents(canvas);
-  return 'testDrawLine';
+  return 'line';
 }
 //////
 

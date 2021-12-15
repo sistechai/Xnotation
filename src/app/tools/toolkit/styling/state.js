@@ -127,7 +127,8 @@ function setCreatePolygonButtonToActive() {
   if (editShapesState === state.ACTIVE) {
     setEditShapesButtonToDefault();
   }
-  if ((createLineState === state.ACTIVE) && (getCreateLineState()) ){
+  if (createLineState === state.ACTIVE)
+  {
     setCreateNewLineToDefault();
   }
 }

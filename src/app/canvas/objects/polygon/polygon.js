@@ -245,7 +245,7 @@ function addPoint(pointer) {
 // Initialized after "enter", and creates final polygon. 
 // Check:
 // 3. States;
-// 8. setLastDrawingModeState('newLine') - have to define this state
+// 8. setLastDrawingModeState('line') - have to define this state
 
 // draws Polygon with green borders
 // Activates by 'enter' event
@@ -283,10 +283,11 @@ function generatePolygon() {
   drawingFinished = true;
   prepareLabelShape(polygon, canvas);
   showLabellerModal();
+  console.log("after label", polygon);
   setPolygonDrawingInProgressState(false);
   setSessionDirtyState(true);
 
-  setTestDrawLineState(false);
+  //setTestDrawLineState(false);
 }
 
 function clearPolygonData() {
@@ -484,6 +485,7 @@ function prepareCanvasForNewPolygonsFromExternalSources(canvasObj) {
 }
 
 function resetDrawPolygonMode() {
+  console.log("resetttttttttttttttttttttttt------------------");
   polygonMode = true;
   setCreatePolygonButtonToActive();
   setReadyToDrawShapeState(true);

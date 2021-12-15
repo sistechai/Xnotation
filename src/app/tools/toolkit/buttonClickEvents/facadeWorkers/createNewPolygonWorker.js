@@ -30,6 +30,7 @@ function initiateCreateNewPolygonEvents(canvas) {
     }
 
     else {
+      setLastDrawingModeState('line');
       setTestDrawLineState(true);
       setCreateNewLineButtonToActive();
     }

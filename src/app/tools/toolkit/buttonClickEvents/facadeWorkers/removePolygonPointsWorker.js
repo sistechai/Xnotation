@@ -46,6 +46,7 @@ function assignRemovePointsEvents(canvas) {
 }
 
 function discardRemovePointsEvents(canvas) {
+  console.log("discardRemovePointsEvents -------------");
   // is this still drawing after manually removing all polygon points
   const isDrawingPolygon = getPolygonDrawingInProgressState();
   if (isDrawingPolygon) {

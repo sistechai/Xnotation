@@ -4,11 +4,15 @@ import labelProperties from '../label/properties.js';
 import { addNewLabelToListFromPopup, addExistingLabelToList } from '../../../tools/labelList/labelList.js';
 import { resizeAllPassedObjectsDimensionsBySingleScale, resizeLabelDimensionsBySingleScale } from '../objectsProperties/changeProperties.js';
 import { addToLabelOptions, getLabelColor } from '../../../tools/labelList/labelOptions.js';
-import { getLabelsVisibilityState } from '../../../tools/state.js';
+
+import { getLabelsVisibilityState, getTestDrawLineState, setTestDrawLineState, } from '../../../tools/state.js';
+
 import { addShape, addExistingShape, addShapeForInvisibleImage } from './allShapes.js';
 import { preventOutOfBoundsOnNewObject } from '../sharedUtils/newObjectBlockers.js';
 import { preprocessLabelText } from '../../../tools/utils/textProcessingUtils.js';
-import { setPolygonEditingButtonsToDefault, setRemoveLabelsButtonToDisabled } from '../../../tools/toolkit/styling/state.js';
+
+import { setPolygonEditingButtonsToDefault, setRemoveLabelsButtonToDisabled, setCreateNewLineButtonToActive, } from '../../../tools/toolkit/styling/state.js';
+import { testDrawLine } from '../../../tools/toolkit/buttonClickEvents/facade.js';
 
 let currentId = 0;
 let canvas = null;
@@ -17,6 +21,16 @@ function setShapeEditingIcons(shape) {
   if (shape.shapeName === 'polygon') {
     setPolygonEditingButtonsToDefault();
     setRemoveLabelsButtonToDisabled();
+    setTestDrawLineState(false);
+  }
+
+  if ( (getTestDrawLineState()) && (shape.shapeName !== 'bndBox') )
+  {
+    setCreateNewLineButtonToActive();
+    testDrawLine();
+  }
+  else {
+    setTestDrawLineState(false);
   }
 }
 

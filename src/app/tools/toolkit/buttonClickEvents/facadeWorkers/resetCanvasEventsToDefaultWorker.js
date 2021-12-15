@@ -16,22 +16,21 @@ import { getCurrentImage } from '../../../imageList/uploadImages/drawImageOnCanv
 import { moveCrosshair } from '../../../../canvas/mouseInteractions/cursorModes/drawWithCrosshairMode.js';
 import { executeFunctionOnceOnMouseOver } from '../../../../keyEvents/mouse/mouseOverOut.js';
 
+// New states after loading new image
 function setNewState(canvas) {
   if (getContinuousDrawingState()) {
-    console.log("if --------------- ", );
+    console.log("New states after loading new image --------------- ", );
     purgeCanvasMouseEvents(canvas);
     if (getLastDrawingModeState() === 'polygon') {
       assignDrawPolygonEvents(canvas);
     } else if (getLastDrawingModeState() === 'boundingBox') {
       assignDrawBoundingBoxEvents(canvas);
       if (getCrosshairUsedOnCanvasState()) {
-        console.log("if (getCrosshairUsedOnCanvasState()) --------------- ");
         executeFunctionOnceOnMouseOver(moveCrosshair);
       }
     }
     setDefaultState(false);
   } else {
-    console.log("else --------------- ");
     assignDefaultEvents(canvas, null, getAddingPolygonPointsState());
     setDefaultState(true);
     if (getCurrentImage()) {
@@ -44,7 +43,6 @@ function setNewState(canvas) {
 
 function initiateResetCanvasEventsToDefaultEvent(canvas) {
   canvas.discardActiveObject();
-  console.log("canvas.discardActiveObject() --------------- ");
   if (!getDefaultState()) {
     purgeCanvasMouseEvents(canvas);
     if (getAddingPolygonPointsState()) {

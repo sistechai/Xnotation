@@ -39,7 +39,7 @@ function discardAddPointsEvents(canvas) {
       setCreatePolygonButtonToActive();
     }
 
-    else if (getLastDrawingModeState() === 'newLine'){
+    else if (getLastDrawingModeState() === 'line'){
       console.log("getlast");
       setCreateNewLineButtonToActive();
       testDrawLine();

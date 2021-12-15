@@ -144,19 +144,20 @@ if (pointArray.length === 2) {
 
 ////////////// Also for New Line
 function addPoint(pointer) {
+  const isNewPoint = true;
+  const point = new fabric.Circle(polygonProperties.newPoint(pointId, pointer, isNewPoint));
+
   if (getTestDrawLineState()){
     setCreateNewLineButtonToActive();
     setTestDrawLineState(true);
-    addPointImpl(pointer);
+    //addPointImpl(pointer); // for saving the last point of line on the scene
+    canvas.add(point); // adds the points where the 'mouse down' event happened
   }
   else {
     setCreatePolygonButtonToActive();
     setTestDrawLineState(false);
   }
   setPolygonDrawingInProgressState(true);
-  const isNewPoint = true;
-
-  const point = new fabric.Circle(polygonProperties.newPoint(pointId, pointer, isNewPoint));
 
   pointId += 1;
   let points = [pointer.x, pointer.y, pointer.x, pointer.y];

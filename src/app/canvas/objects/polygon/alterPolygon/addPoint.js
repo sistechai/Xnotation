@@ -124,7 +124,6 @@ function resetEditingPolygonPoints() {
 }
 
 function clearTempPoints() {
-  console.log("++++++++++++++++ clear temp points");
   canvas.remove(activeLine);
   pointsArray.forEach((point) => {
     canvas.remove(point);

@@ -3,18 +3,38 @@ import assignDrawPolygonEvents from '../../../../canvas/mouseInteractions/mouseE
 import {
   setDefaultState, setAlteringPolygonPointsState,
   setLastDrawingModeState, setHasDrawnShapeState,
+
+  // New Line
+  getTestDrawLineState, setTestDrawLineState,
+
 } from '../../../state.js';
-import { setEditShapesButtonToDefault, setCreatePolygonButtonToActive } from '../../styling/state.js';
+import removePoints from '../../../../canvas/objects/polygon/alterPolygon/removePoints.js';
+import { setEditShapesButtonToDefault, setCreatePolygonButtonToActive, setCreateNewLineToDefault, setCreateNewLineButtonToActive,} from '../../styling/state.js';
+import {testDrawLine} from '../facade.js';
 
 function initiateCreateNewPolygonEvents(canvas) {
+  canvas.discardActiveObject();
   if (canvas.backgroundImage) {
+
     purgeCanvasMouseEvents(canvas);
     assignDrawPolygonEvents(canvas);
-    setCreatePolygonButtonToActive();
+
     setEditShapesButtonToDefault();
     setDefaultState(false);
     setAlteringPolygonPointsState(false);
-    setLastDrawingModeState('polygon');
+
+    if (!getTestDrawLineState()) {
+      setLastDrawingModeState('polygon');
+      setTestDrawLineState(false);
+      setCreatePolygonButtonToActive();
+    }
+
+    else {
+      setLastDrawingModeState('line');
+      setTestDrawLineState(true);
+      setCreateNewLineButtonToActive();
+    }
+
     setHasDrawnShapeState(false);
   }
 }

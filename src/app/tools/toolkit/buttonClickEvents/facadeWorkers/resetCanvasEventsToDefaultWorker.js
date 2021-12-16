@@ -16,8 +16,10 @@ import { getCurrentImage } from '../../../imageList/uploadImages/drawImageOnCanv
 import { moveCrosshair } from '../../../../canvas/mouseInteractions/cursorModes/drawWithCrosshairMode.js';
 import { executeFunctionOnceOnMouseOver } from '../../../../keyEvents/mouse/mouseOverOut.js';
 
+// New states after loading new image
 function setNewState(canvas) {
   if (getContinuousDrawingState()) {
+    console.log("New states after loading new image --------------- ", );
     purgeCanvasMouseEvents(canvas);
     if (getLastDrawingModeState() === 'polygon') {
       assignDrawPolygonEvents(canvas);

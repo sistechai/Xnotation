@@ -132,6 +132,9 @@ function resizeLabelDimensionsBySingleScale(object, newFileSizeRatio) {
 }
 
 function resizeAllPassedObjectsDimensionsBySingleScale(object, newFileSizeRatio) {
+
+console.log("?????????????????? resizeAllPassedObjectsDimensionsBySingleScale, object.shapeName", object.shapeName);
+
   switch (object.shapeName) {
     case 'polygon':
       object.points.forEach((point) => {

@@ -6,6 +6,7 @@ import { changePolygonPointsToAddImpl } from './changePointsStyle.js';
 import { getLabelById } from '../../label/label.js';
 import { preventOutOfBoundsPointsOnMove } from '../../sharedUtils/moveBlockers.js';
 import setInitialStageOfAddPointsOnExistingPolygonMode from '../../../mouseInteractions/cursorModes/initialiseAddPointsOnExistingPolygonMode.js';
+import {getTestDrawLineState, getRemovingPolygonPointsState, getPolygonDrawingInProgressState, getLabellerModalDisplayedState, } from '../../../../tools/state.js';
 
 let canvas = null;
 let activeLine = null;
@@ -14,34 +15,23 @@ let tempPointIndex = 0;
 let initialPoint = null;
 let pointsArray = [];
 let defaultPointHoverMode = true;
+let firstPointOnLineIndex = 0;
 
+// did not find where it is used
+function isAddingPointsToPolygonImpl() {
+  return activeLine;
+}
+/// Draws temporary activeLine ONLY for Add Points event
+// Active Line is a temporary line
 function drawLineImpl(pointer) {
   activeLine.set({ x2: pointer.x, y2: pointer.y });
   activeLine.setCoords();
   canvas.renderAll();
 }
-
-function isAddingPointsToPolygonImpl() {
-  return activeLine;
-}
-
-function addPointsMouseOverImpl(event) {
-  if (defaultPointHoverMode && event.target && event.target.shapeName === 'point') {
-    event.target.stroke = 'green';
-    canvas.renderAll();
-  }
-}
-
-function addPointsMouseOutImpl(event) {
-  if (event.target && event.target.shapeName === 'point') {
-    event.target.stroke = '#333333';
-    canvas.renderAll();
-  }
-}
-
+// ???
 function moveAddablePointImpl(event) {
   preventOutOfBoundsPointsOnMove(event.target, canvas);
-  const xCenterPoint = event.target.getCenterPoint().x;
+  const xCenterPoint = event.target.getCenterdrawLineOnMouseMovePoint().x;
   const yCenterPoint = event.target.getCenterPoint().y;
   const { pointId } = event.target;
   lineArray[pointId].set({ x2: xCenterPoint, y2: yCenterPoint });
@@ -51,23 +41,36 @@ function moveAddablePointImpl(event) {
     activeLine.set({ x1: xCenterPoint, y1: yCenterPoint });
   }
 }
-
+// Changes the polygon's borders after mouse over polygon.
+function addPointsMouseOverImpl(event) {
+  if (defaultPointHoverMode && event.target && event.target.shapeName === 'point')
+  {
+    event.target.stroke = 'green';
+    canvas.renderAll();
+  }
+}
+function addPointsMouseOutImpl(event) {
+  if (event.target && event.target.shapeName === 'point') {
+    event.target.stroke = '#333333';
+    canvas.renderAll();
+  }
+}
 function createNewLine(...coordinates) {
   activeLine = new fabric.Line(coordinates, polygonProperties.newLine());
-  canvas.add(activeLine);
-  canvas.renderAll();
+  if (!getTestDrawLineState()) {
+    canvas.add(activeLine);
+    canvas.renderAll();
+  }
 }
-
 function initializeAddNewPointsImpl(shape, pointer, canvasObj) {
-  shape.stroke = '#333333';
-  canvas = canvasObj;
-  setAddPointsMode(canvas, shape);
-  createNewLine(shape.left, shape.top, pointer.x, pointer.y);
-  initialPoint = shape;
-  canvas.bringToFront(initialPoint);
-  defaultPointHoverMode = false;
+    shape.stroke = '#333333';
+    canvas = canvasObj;
+    setAddPointsMode(canvas, shape);
+    createNewLine(shape.left, shape.top, pointer.x, pointer.y);
+    initialPoint = shape;
+    canvas.bringToFront(initialPoint);
+    defaultPointHoverMode = false;
 }
-
 function addFirstPointImpl(event) {
   changePolygonPointsToAddImpl(canvas);
   const pointer = canvas.getPointer(event.e);
@@ -230,4 +233,6 @@ export {
   clearAllAddPointsDataImpl,
   addPointsMouseOutImpl,
   resetAddPointsImpl,
+
+  createNewLine,
 };

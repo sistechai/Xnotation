@@ -30,13 +30,22 @@ import {
 // Originally designed to be turned off after the points have been successfully added to a polygon
 
 function discardAddPointsEvents(canvas) {
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@ getlast");
   if (getContinuousDrawingState()
   && (getCancelledReadyToDrawState() || getRemovingPointsAfterCancelDrawState())) {
     removePolygonPoints();
     if (getLastDrawingModeState() === 'polygon') {
       assignDrawPolygonEvents(canvas);
       setCreatePolygonButtonToActive();
-    } else if (getLastDrawingModeState() === 'boundingBox') {
+    }
+
+    else if (getLastDrawingModeState() === 'line'){
+      console.log("getlast");
+      setCreateNewLineButtonToActive();
+      testDrawLine();
+    }
+
+    else if (getLastDrawingModeState() === 'boundingBox') {
       assignDrawBoundingBoxEvents(canvas);
       setCreateBoundingBoxButtonToActive();
     }
@@ -50,20 +59,12 @@ function discardAddPointsEvents(canvas) {
 }
 
 function initiateAddPolygonPointsEvents(canvas) {
-  if (getTestDrawLineState()){
-    setCreateNewLineButtonToActive();
-  }
-
   canvas.discardActiveObject();
-
   if (!getAddingPolygonPointsState()) {
     purgeCanvasMouseEvents(canvas);
     assignAddPointsOnExistingPolygonEvents(canvas);
     setInitialStageOfAddPointsOnExistingPolygonMode(canvas);
-
     setAddPointsButtonToActive();
-    console.log("!!! setAddPointsButtonToActive", setAddPointsButtonToActive());
-
     setEditShapesButtonToDefault();
     setDefaultState(false);
     setAddingPolygonPointsState(true);

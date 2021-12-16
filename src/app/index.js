@@ -25,11 +25,12 @@ import initialiseBrowserExitHandler from './tools/browserExit/browserExitHandler
 // Debugging Mode
 window.DEBUG = true;
 
-
-
 findUserOS();
 applyStyling();
+
+// Initialized only once, when the page id downloaded, before first image downloaded
 constructCanvas();
+
 registerHotKeys();
 initialiseToolkit();
 initialiseLabellerModal();
@@ -37,11 +38,6 @@ initialiseSettingsPopup();
 registerWindowMouseEvents();
 initialiseWindowDimService();
 initialiseCoreButtonPopovers();
-
-// initialiseExportDatasetsPopup();
-// initialiseUploadDatasetsModal();
-// initialiseMachineLearningModal();
-
 assignPassiveEventListeners();
 initialiseRemoveImagesModal();
 initialiseImageListFunctionality();
@@ -51,5 +47,3 @@ initialiseImageSwitchPanelFunctionality();
 initialisePulseAnimationCancelling();
 initialiseShapeManipulationDeltas();
 initialiseBrowserExitHandler();
-
-// initialiseWelcomeModal();

@@ -3,11 +3,15 @@ import assignDrawBoundingBoxEvents from '../eventHandlers/drawBndBoxEventHandler
 import purgeCanvasMouseEvents from './purgeAllMouseHandlers.js';
 
 function setDrawingMode(mode, canvas) {
+  console.log("mode ============1111111111111", mode);
   purgeCanvasMouseEvents(canvas);
   if (mode === 'polygon') {
     assignDrawPolygonEvents(canvas);
   } else if (mode === 'boundingBox') {
     assignDrawBoundingBoxEvents(canvas);
+  }
+  else if (mode === 'line') {
+    console.log("mode line???============", mode);
   }
 }
 

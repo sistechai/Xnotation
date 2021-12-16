@@ -9,50 +9,48 @@ import { zoomCanvas } from './facadeWorkers/zoomWorker.js';
 import toggleSettingsPopup from './facadeWorkers/toggleSettingsPopUpWorker.js';
 import initiateEditShapesEvent from './facadeWorkers/editShapesWorker.js';
 import displayUploadDatasetsModal from './facadeWorkers/displayUploadDatasetsModalWorker.js';
-
 import { setTestDrawLineState } from '../../state.js';
-
+import { setCreateNewLineButtonToActive, getCreateLineState, setCreateNewLineToDefault, } from '../styling/state.js';
 let canvas = null;
 
-function createNewBndBoxBtnClick() {
-  initiateCreateNewBndBoxEvents(canvas);
+// Image upload
+function resetCanvasEventsToDefault() {
+  initiateResetCanvasEventsToDefaultEvent(canvas);
+  setCreateNewLineToDefault();
 }
 
+// New Line
+function testDrawLine() {
+  
+  setTestDrawLineState(true);
+  console.log("testDrawLine going");
+  
+  initiateCreateNewPolygonEvents(canvas);
+  return 'line';
+}
+//////
+
+////// Polygon
 function createNewPolygonBtnClick() {
   initiateCreateNewPolygonEvents(canvas);
 }
-function testDrawLine() {
-  setTestDrawLineState(true);
-  console.log("setTestDrawLineState(true)");
-  initiateAddPolygonPointsEvents(canvas);
+//////
+
+function createNewBndBoxBtnClick() {
+  initiateCreateNewBndBoxEvents(canvas);
 }
 
 function addPointsBtnClick() {
   initiateAddPolygonPointsEvents(canvas);
 }
 
-function resetCanvasEventsToDefault() {
-  initiateResetCanvasEventsToDefaultEvent(canvas);
-}
-
+// unimportant
 function removePolygonPointBtnClick() {
   initiateRemovePolygonPointsEvents(canvas);
 }
 
 function assignCanvasMouseEvents(canvasObj) {
   canvas = canvasObj;
-}
-
-function exportDatasetsBtnClick() {
-  toggleExportDatasetsPopup(canvas);
-}
-
-function uploadDatasetsBtnClick() {
-  displayUploadDatasetsModal();
-}
-
-function machineLearningBtnClick() {
-  displayMachineLearningModal(canvas);
 }
 
 function zoomBtnClick(activity) {
@@ -66,7 +64,19 @@ function settingsBtnClick() {
 function editShapesBtnClick() {
   initiateEditShapesEvent(canvas);
 }
+///////// unimportant
+function exportDatasetsBtnClick() {
+  toggleExportDatasetsPopup(canvas);
+}
 
+function uploadDatasetsBtnClick() {
+  displayUploadDatasetsModal();
+}
+
+function machineLearningBtnClick() {
+  displayMachineLearningModal(canvas);
+}
+/////////////////
 export {
   assignCanvasMouseEvents,
   createNewBndBoxBtnClick,

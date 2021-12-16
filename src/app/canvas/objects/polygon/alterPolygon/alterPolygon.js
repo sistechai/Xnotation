@@ -19,6 +19,7 @@ import {
 import {
   getEditingLabelId, getLastPolygonActionWasMoveState,
   getNewShapeSelectedViaLabelListState, setNewShapeSelectedViaLabelListState,
+  getTestDrawLineState,
 } from '../../../../tools/state.js';
 import { highlightShapeFill, defaultShapeFill } from '../../allShapes/allShapes.js';
 
@@ -30,12 +31,66 @@ let polygonPoints = [];
 let editingPolygon = false;
 let preventNewPolygonInitialisation = false;
 
-function getPolygonEditingStatus() {
-  return editingPolygon;
-}
-
 function setPolygonEditingStatus(status) {
   editingPolygon = status;
+}
+
+function initializeAddNewPoints(shape, pointer) {
+  initializeAddNewPointsImpl(shape, pointer, canvas);
+}
+
+function addFirstPoint(event) {
+  addFirstPointImpl(event);
+}
+
+function addPoint(pointer) {
+  addPointImpl(pointer);
+}
+
+function drawLineOnMouseMove(pointer) {
+  drawLineImpl(pointer);
+}
+
+function moveAddablePoint(event) {
+  moveAddablePointImpl(event);
+}
+
+function addPointsMouseOver(event) {
+  addPointsMouseOverImpl(event);
+}
+
+function resetAddPointProperties(canvasObj) {
+  resetAddPointPropertiesImpl(canvasObj);
+}
+
+function clearAllAddPointsData() {
+  clearAllAddPointsDataImpl();
+}
+
+function resetAddPoints() {
+  resetAddPointsImpl();
+}
+
+function addPointsMouseOut(event) {
+  addPointsMouseOutImpl(event);
+}
+
+function isAddingPointsToPolygon() {
+  return isAddingPointsToPolygonImpl();
+}
+
+function completePolygon(finalPoint) {
+  completePolygonImpl(polygon, polygon.points, finalPoint);
+  polygonPoints = [];
+  resetPolygonSelectableArea();
+  setPolygonEditingStatus(false);
+}
+
+function getPolygonIfEditing() {
+  if (editingPolygon) {
+    return polygon;
+  }
+  return null;
 }
 
 function getPolygonIdIfEditing() {
@@ -45,11 +100,8 @@ function getPolygonIdIfEditing() {
   return null;
 }
 
-function getPolygonIfEditing() {
-  if (editingPolygon) {
-    return polygon;
-  }
-  return null;
+function getPolygonEditingStatus() {
+  return editingPolygon;
 }
 
 function sendPolygonPointsToFront(canvasArg) {
@@ -156,57 +208,6 @@ function removePolygon(lableObjectFromLabelList) {
 
 function removePolygonPoint(pointId, existingPolygon) {
   removePolygonPointImpl(canvas, polygon, polygonPoints, pointId, existingPolygon);
-}
-
-function initializeAddNewPoints(shape, pointer) {
-  initializeAddNewPointsImpl(shape, pointer, canvas);
-}
-
-function addFirstPoint(event) {
-  addFirstPointImpl(event);
-}
-
-function addPoint(pointer) {
-  addPointImpl(pointer);
-}
-
-function drawLineOnMouseMove(pointer) {
-  drawLineImpl(pointer);
-}
-
-function moveAddablePoint(event) {
-  moveAddablePointImpl(event);
-}
-
-function addPointsMouseOver(event) {
-  addPointsMouseOverImpl(event);
-}
-
-function resetAddPointProperties(canvasObj) {
-  resetAddPointPropertiesImpl(canvasObj);
-}
-
-function clearAllAddPointsData() {
-  clearAllAddPointsDataImpl();
-}
-
-function resetAddPoints() {
-  resetAddPointsImpl();
-}
-
-function addPointsMouseOut(event) {
-  addPointsMouseOutImpl(event);
-}
-
-function isAddingPointsToPolygon() {
-  return isAddingPointsToPolygonImpl();
-}
-
-function completePolygon(finalPoint) {
-  completePolygonImpl(polygon, polygon.points, finalPoint);
-  polygonPoints = [];
-  resetPolygonSelectableArea();
-  setPolygonEditingStatus(false);
 }
 
 function highlightSelectedPolygonViaPoint() {

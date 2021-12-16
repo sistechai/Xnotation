@@ -26,11 +26,15 @@ import {
 function assignToolkitButtonClickEventHandlers() {
   window.editShapes = doNothingIfLabellingInProgress.bind(this, editShapesBtnClick);
 
-  window.createNewLine = doNothingIfLabellingOrAddingNewPoints.bind(this, testDrawLine);
-  console.log("testDrawLine", testDrawLine);
+/// New Line
+  window.createNewLine = func1IfDrawRemovePointsElseInterruptAllWthFunc2.bind(this, removePolygonPointBtnClick, testDrawLine);
+////
+
+//// POlygon  
+  window.createNewPolygon = func1IfDrawRemovePointsElseInterruptAllWthFunc2.bind(this, removePolygonPointBtnClick, createNewPolygonBtnClick);
+////
   
   window.createNewBndBox = interruptAllCanvasEventsBeforeFunc.bind(this, createNewBndBoxBtnClick);
-  window.createNewPolygon = func1IfDrawRemovePointsElseInterruptAllWthFunc2.bind(this, removePolygonPointBtnClick, createNewPolygonBtnClick);
   window.addPoints = doNothingIfLabellingOrAddingNewPoints.bind(this, addPointsBtnClick);
   window.removePoint = doNothingIfLabellingInProgress.bind(this, removePolygonPointBtnClick);
   window.cancel = interruptAllCanvasEventsBeforeFunc.bind(this, resetCanvasEventsToDefault);

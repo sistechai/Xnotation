@@ -14,14 +14,24 @@ import {
   getUploadDatasetsModalDisplayedState, getMachineLearningModalDisplayedState,
   getAddingPolygonPointsState, getRemovingPolygonPointsState, getSettingsPopupOpenState,
   getRemoveImageModalDisplayedState, getReadyToDrawShapeState, getWelcomeModalDisplayedState,
+
+  getTestDrawLineState, setTestDrawLineState,
+
 } from '../../tools/state.js';
+import { isAddingPointsToPolygonImpl } from '../../canvas/objects/polygon/alterPolygon/addPoint.js';
 import { removeFillForAllShapes } from '../../canvas/objects/allShapes/allShapes.js';
 import { addPointViaKeyboard as addPointToNewPolygonViaKeyboard, generatePolygonViaKeyboard } from '../../canvas/objects/polygon/polygon.js';
 import { instantiateNewBoundingBox, finishDrawingBoundingBox } from '../../canvas/objects/boundingBox/boundingBox.js';
 import {
   getCreatePolygonButtonState, getCreateBoundingBoxButtonState,
   getEditShapesButtonState, getRemovePointsButtonState, getAddPointsButtonState,
+
+  getCreateLineState, setCreateNewLineButtonToActive,
+
 } from '../../tools/toolkit/styling/state.js';
+
+import { testDrawLine } from '../../tools/toolkit/buttonClickEvents/facade.js';
+
 import { closeRemoveImagesModal } from '../../tools/imageList/removeImages/modal/style.js';
 import { removeTempPointViaKeyboard } from '../../canvas/mouseInteractions/mouseEvents/eventWorkers/removePointsOnNewPolygonEventsWorker.js';
 import { removePointViaKeyboard } from '../../canvas/mouseInteractions/mouseEvents/eventWorkers/removePointsEventsWorker.js';
@@ -48,9 +58,24 @@ function qKeyHandler() {
       addPointToNewPolygonViaKeyboard();
     } else {
       window.createNewPolygon();
+
       removeFillForAllShapes();
       canvas.upperCanvasEl.dispatchEvent(new Event('mousemove'));
     }
+  }
+}
+
+// Line handler
+function lKeyHandler() {
+  if (!isAnyModalOpen() && !isEditingLabelInLabelList() && getCreateLineState() !== 'disabled') {
+    window.onmousedown();
+    closeAllPopups();
+
+    setCreateNewLineButtonToActive();
+    testDrawLine();
+
+    removeFillForAllShapes();
+    canvas.upperCanvasEl.dispatchEvent(new Event('mousemove'));
   }
 }
 
@@ -190,13 +215,20 @@ function backspaceKeyHandler() {
 }
 
 function enterKeyHandler() {
+
+  // The Second process after presssing Enter
   if (getLabellerModalDisplayedState()) {
     labelShape();
-  } else if (getRemoveImageModalDisplayedState()) {
+  }
+
+  else if (getRemoveImageModalDisplayedState()) {
     window.approveRemoveImage();
   } else if (getWelcomeModalDisplayedState()) {
     closeWelcomeModal();
-  } else if (getPolygonDrawingInProgressState() && !getRemovingPolygonPointsState()) {
+  }
+
+  // The First process after presssing Enter
+  else if (getPolygonDrawingInProgressState() && !getRemovingPolygonPointsState()) {
     generatePolygonViaKeyboard();
   }
 }
@@ -261,6 +293,9 @@ function keyDownEventHandler(event) {
       break;
     case 'q':
       qKeyHandler();
+      break;
+    case 'l':
+      lKeyHandler();
       break;
     case 'e':
       eKeyHandler();

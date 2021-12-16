@@ -9,8 +9,10 @@ import {
 function assignDrawPolygonEvents(canvas, resume) {
   if (!resume) {
     prepareCanvasForNewPolygon(canvas);
+    console.log("resume", resume);
   } else {
     resumeDrawingAfterRemovePoints();
+    console.log("resumeDrawingAfterRemovePoints");
   }
   canvas.on('mouse:down', (e) => {
     instantiatePolygon(e);

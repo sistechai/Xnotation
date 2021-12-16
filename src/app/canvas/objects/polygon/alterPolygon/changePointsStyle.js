@@ -4,8 +4,12 @@ import {
   prepareObjectsForEditablePolygonPoints, setObjectPropertiesToDefault,
 } from '../../objectsProperties/changeProperties.js';
 import { getDefaultState, getAddingPolygonPointsState } from '../../../../tools/state.js';
+import { setCreateNewLineToDefault } from '../../../../tools/toolkit/styling/state.js';
 
 function displayPolygonPointsWithStyleImpl(canvas, polygon, polygonPointsProps) {
+
+  setCreateNewLineToDefault();
+
   let pointId = 0;
   const polygonPoints = [];
   const totalPointNumber = polygon.points.length;

@@ -1,5 +1,6 @@
 function removePolygonPointsImpl(canvas, polygonPoints) {
-  if (polygonPoints.length !== 0) {
+
+  if ( (polygonPoints.length !== 0) ) {
     polygonPoints.forEach((point) => {
       canvas.remove(point);
     });

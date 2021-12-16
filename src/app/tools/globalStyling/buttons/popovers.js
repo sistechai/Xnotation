@@ -98,6 +98,7 @@ function mouseEnterCoreButton(event, id) {
   }
 }
 
+// Mouse event on button, pop up  information
 function mouseLeaveCoreButton(event) {
   const { tagName } = event.target;
   if (tagName === 'BUTTON' || tagName === 'A') {
@@ -131,6 +132,7 @@ function removeUploadImagesButtonPopoverBugFix() {
   const uploadDatasetsButton = document.getElementById('upload-images-button');
   uploadDatasetsButton.addEventListener('mouseup', () => {
     hasUploadImagesButtonBeenClicked = true;
+    console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwhasUploadImagesButtonBeenClicked", hasUploadImagesButtonBeenClicked);
   });
 }
 

@@ -1,4 +1,5 @@
 function setRemovePointsOnDrawNewPolygonMode(canvas) {
+  console.log("setRemovePointsOnDrawNewPolygonMode(canvas)");
   canvas.defaultCursor = 'default';
   canvas.hoverCursor = 'default';
   canvas.renderAll();

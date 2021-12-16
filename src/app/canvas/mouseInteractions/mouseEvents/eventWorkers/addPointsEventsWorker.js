@@ -147,25 +147,32 @@ function addPoints(event) {
 }
 
 function pointMouseDownEvents(event) {
-  if (!addingPoints) {
+  if (!addingPoints)
+  {
     if (event.target) {
       enableActiveObjectsAppearInFront(canvas);
-      if (event.target.shapeName === 'point') {
+      if (event.target.shapeName === 'point')
+      {
         const pointer = canvas.getPointer(event.e);
         initializeAddNewPoints(event.target, pointer);
         addingPoints = true;
         addFirstPointMode = true;
-      } else {
+      }
+      else {
         if (event.target.shapeName === 'polygon') {
           newPolygonSelected = (event.target.id !== selectedPolygonId);
         }
         preventActiveObjectsAppearInFront(canvas);
       }
       selectedNothing = false;
-    } else {
+    }
+
+    else {
       selectedNothing = true;
     }
-  } else {
+  }
+
+  else {
     addPoints(event);
   }
 }

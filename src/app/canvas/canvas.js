@@ -41,7 +41,9 @@ function constructCanvas() {
   repopulateCanvasReference(currentCanvasInstance);
 }
 
+// Activates on the scene after switching to another image, with another image id
 function reassignReferenceToNewCanvas() {
+  console.log("reassignReferenceToNewCanvas ----------------------");
   currentCanvasInstance = reasignCanvas();
   assignNewCanvasForUtils(currentCanvasInstance);
   repopulateCanvasReference(currentCanvasInstance);

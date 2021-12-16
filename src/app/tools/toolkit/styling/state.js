@@ -168,9 +168,7 @@ function setAddPointsButtonToActive() {
   if (createBoundingBoxState === state.ACTIVE) setCreateBoundingBoxButtonToDefault();
   if (createPolygonState === state.ACTIVE) setCreatePolygonButtonToDefault();
   if (removePointsState === state.ACTIVE) setRemovePointsDefault();
-  if ((createLineState === state.ACTIVE) && (getCreateLineState()) ){
-    setCreateNewLineToDefault();
-  }
+  if (createLineState === state.ACTIVE) setCreateNewLineToDefault();
 }
 
 function setRemovePointsButtonToActive() {
@@ -179,9 +177,7 @@ function setRemovePointsButtonToActive() {
   if (createPolygonState === state.ACTIVE
       && !getPolygonDrawingInProgressState()) setCreatePolygonButtonToDefault();
   if (addPointsState === state.ACTIVE) setAddPointsDefault();
-  if ((createLineState === state.ACTIVE) && (getCreateLineState()) ){
-    setCreateNewLineToDefault();
-  }
+  if (createLineState === state.ACTIVE) setCreateNewLineToDefault();
 }
 
 // New Line state ???/

@@ -63,8 +63,8 @@ function func1IfDrawRemovePointsElseInterruptAllWthFunc2(func1, func2, event) {
 }
 
 function doNothingIfLabellingOrAddingNewPoints(func, element, event) {
+  setTestDrawLineState(false);
   if (event && !isLeftMouseButtonClick(event)) {
-    console.log("! is left Mouse do nothing interrupt canvas to start");
     return;
   }
   if (isElement(element) && element.classList.contains('toolkit-button-disabled')) {

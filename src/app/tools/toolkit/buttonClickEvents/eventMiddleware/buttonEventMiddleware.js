@@ -20,7 +20,6 @@ function interruptAllCanvasEventsBeforeFunc(func, event) {
 }
 
 function interruptAllCanvasEventsBeforeMultipleFunc(funcs, event) {
-  console.log("Before multiple function 64646464444444444664646466444444");
   if (event && !isLeftMouseButtonClick(event)) return;
   removeActiveButtonPopover();
   interruptAllCanvasEvents();
@@ -39,18 +38,16 @@ function doNothingIfLabellingInProgress(func, element, event) {
 function func1IfDrawRemovePointsElseInterruptAllWthFunc2(func1, func2, event) {
 
   if (event && !isLeftMouseButtonClick(event)) {
-    console.log("11111111111111111 !isLeftMouseButtonClick 88888888888888888888888888888888");
     return;
   }
   removeActiveButtonPopover();
   if (getRemovingPolygonPointsState() && getPolygonDrawingInProgressState()) {
-    console.log("111111111111111  ififififififi 88888888888888888888888888888888");
     if (func1) {
       func1();
     }
   } else if (func2) {
 
-    if (func2() === 'testDrawLine'){
+    if (func2() === 'line'){
       setTestDrawLineState(true);
     }
     else {
@@ -78,7 +75,7 @@ function doNothingIfLabellingOrAddingNewPoints(func, element, event) {
 }
 
 function interruptAllCanvasEventsIfLabellingInProgress(func) {
-  console.log("iiiiiiiii interupt!");
+  console.log("????? interruptAllCanvasEventsIfLabellingInProgress(func), func", func);
   removeActiveButtonPopover();
   if (isLabelling()) {
     interruptAllCanvasEvents();

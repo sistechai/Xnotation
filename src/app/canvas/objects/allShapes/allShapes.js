@@ -1,4 +1,5 @@
 import { incrementShapeType, decrementShapeType } from '../../../tools/globalStatistics/globalStatistics.js';
+import { getTestDrawLineState } from '../../../tools/state.js';
 
 let shapes = {};
 let canvas = null;
@@ -74,14 +75,19 @@ function changeShapeColorById(id, color) {
 }
 
 function highlightShapeFill(id) {
-  const highlightColor = shapes[id].color.highlight;
-  shapes[id].shapeRef.set('fill', highlightColor);
+
+  if (!getTestDrawLineState()) {
+    const highlightColor = shapes[id].color.highlight;
+    shapes[id].shapeRef.set('fill', highlightColor);
+  }
   canvas.renderAll();
 }
 
 function defaultShapeFill(id) {
-  const defaultColor = shapes[id].color.default;
-  shapes[id].shapeRef.set('fill', defaultColor);
+  if (!getTestDrawLineState()) {
+    const defaultColor = shapes[id].color.default;
+    shapes[id].shapeRef.set('fill', defaultColor);
+  }
   canvas.renderAll();
 }
 

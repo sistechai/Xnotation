@@ -24,6 +24,7 @@ function selectShape(shapeId) {
 }
 
 function deselectShape() {
+  console.log("deselectShape");
   removeHighlightOfListLabel();
   setRemoveLabelsButtonToDisabled();
 }
@@ -64,6 +65,7 @@ function setPolygonNotEditableOnClick() {
 }
 
 function pointMouseDownEvents(event) {
+  console.log("??????????event.target.shapeName", event.target.shapeName)
   if (event.target) {
     enableActiveObjectsAppearInFront(canvas);
     if (event.target.shapeName === 'point') {

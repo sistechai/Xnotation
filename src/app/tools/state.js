@@ -1,3 +1,5 @@
+import { setCreateNewLineToDefault } from './toolkit/styling/state.js';
+
 let defaultState = false;
 let removingPolygonPointsState = false;
 
@@ -267,6 +269,7 @@ function setExportDatasetsPopupOpenState(state) {
 function setCurrentImageId(id) {
   currentImageId = id;
   console.log("id", id);
+  if (currentImageId == '0') setCreateNewLineToDefault();
 }
 
 function setChangingMLGeneratedLabelNamesState(state) {

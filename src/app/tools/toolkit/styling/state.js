@@ -59,6 +59,7 @@ function setCreateBoundingBoxButtonToDefault() {
 function setCreateBoundingBoxButtonToDisabled() {
   setButtonToDisabled(createBoundingBoxButtonElement);
   createBoundingBoxState = state.DISABLED;
+  setCreateNewLineToDisabled();
 }
 function getCreateBoundingBoxButtonState() {
   return createBoundingBoxState;

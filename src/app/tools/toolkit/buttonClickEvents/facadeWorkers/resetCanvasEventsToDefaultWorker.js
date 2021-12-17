@@ -15,7 +15,7 @@ import assignDrawPolygonEvents from '../../../../canvas/mouseInteractions/mouseE
 import { getCurrentImage } from '../../../imageList/uploadImages/drawImageOnCanvas.js';
 import { moveCrosshair } from '../../../../canvas/mouseInteractions/cursorModes/drawWithCrosshairMode.js';
 import { executeFunctionOnceOnMouseOver } from '../../../../keyEvents/mouse/mouseOverOut.js';
-import { setCreateNewLineButtonToActive } from '../../styling/state.js';
+import { setCreateNewLineButtonToActive, setCreateNewLineToDefault, } from '../../styling/state.js';
 
 import { testDrawLine } from '../facade.js';
 
@@ -39,19 +39,22 @@ function setNewState(canvas) {
       setCreateNewLineButtonToActive();
       assignDrawPolygonEvents(canvas);
       testDrawLine();
-      console.log("New states after loading new image ---------------  getLastDrawingModeState()", getLastDrawingModeState());
     }
 
     setDefaultState(false);
   }
 
   else {
+    console.log("----- else ", getLastDrawingModeState());
     assignDefaultEvents(canvas, null, getAddingPolygonPointsState());
-    setDefaultState(true);
+    purgeCanvasMouseEvents(true);
     if (getCurrentImage()) {
       setEditShapesButtonToActive();
       setCreatePolygonButtonToDefault();
       setCreateBoundingBoxButtonToDefault();
+
+      setCreateNewLineToDefault();
+
     }
   }
 }

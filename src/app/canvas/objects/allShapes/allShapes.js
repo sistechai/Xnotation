@@ -35,6 +35,7 @@ function getNumberOfShapes() {
 }
 
 function getAllExistingShapes() {
+  console.log("???? getAllExisting shapes", shapes);
   return shapes;
 }
 

@@ -16,25 +16,20 @@ let canvas = null;
 // Image upload
 function resetCanvasEventsToDefault() {
   initiateResetCanvasEventsToDefaultEvent(canvas);
-  setCreateNewLineToDefault();
+  //setCreateNewLineToDefault();
 }
 
 // New Line
 function testDrawLine() {
-  
   setTestDrawLineState(true);
-  console.log("testDrawLine going");
-  
   initiateCreateNewPolygonEvents(canvas);
   return 'line';
 }
-//////
 
 ////// Polygon
 function createNewPolygonBtnClick() {
   initiateCreateNewPolygonEvents(canvas);
 }
-//////
 
 function createNewBndBoxBtnClick() {
   initiateCreateNewBndBoxEvents(canvas);
@@ -64,7 +59,7 @@ function settingsBtnClick() {
 function editShapesBtnClick() {
   initiateEditShapesEvent(canvas);
 }
-///////// unimportant
+
 function exportDatasetsBtnClick() {
   toggleExportDatasetsPopup(canvas);
 }
@@ -76,7 +71,7 @@ function uploadDatasetsBtnClick() {
 function machineLearningBtnClick() {
   displayMachineLearningModal(canvas);
 }
-/////////////////
+
 export {
   assignCanvasMouseEvents,
   createNewBndBoxBtnClick,

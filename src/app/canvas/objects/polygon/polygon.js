@@ -156,7 +156,7 @@ function addPoint(pointer) {
     setCreateNewLineButtonToActive();
     setTestDrawLineState(true);
     //addPointImpl(pointer); // for saving the last point of line on the scene
-    canvas.add(point); // adds the points where the 'mouse down' event happened
+    //canvas.add(point); // adds the points where the 'mouse down' event happened
 
     point.stroke = 'violet';
     point.fill = 'yellow';
@@ -246,17 +246,23 @@ function addPoint(pointer) {
      setAddPointsButtonToDefault();
      setRemovePointsButtonToDefault();
      setRemoveLabelsButtonToDefault();
+
   }
 
   preventOutOfBoundsPointsOnMove(point, canvas);
   pointArrayNewLine.push(point);
 
   pointArray.push(point);
+
   drawTemporaryShape(pointer);
   activeShape.sendToBack();
   canvas.selection = false;
   const { x, y } = pointer;
   lastNewPointPosition = { x, y };
+
+  if (getTestDrawLineState()){
+    pointArray = []; // to delete last point of New line
+  }
 }
 
 // Initialized after "enter", and creates final polygon. 
@@ -287,6 +293,7 @@ function generatePolygon() {
   }
 
   else {
+    //canvas.add(invisiblePoint);
     removeActiveShape(); //Removes the last Active Line
   }
 
@@ -307,11 +314,24 @@ function generatePolygon() {
   //setTestDrawLineState(false);
 }
 
-function clearPolygonData() {
-  console.log("......................clearPolygonData pointArray", pointArray);
-  console.log("......................clearPolygonData pointArrayNewLine", pointArrayNewLine);
+// To delete points on new canvas
+function clearLineData(){
+  if (pointArrayNewLine[0]) {
+    pointArrayNewLine.forEach((point) => {
+      canvas.remove(point);
+    });
+  }
+}
 
-  if (pointArray[0] || pointArrayNewLine[0]) {
+function clearPolygonData() {
+
+  // if (pointArrayNewLine[0]) {
+  //   pointArrayNewLine.forEach((point) => {
+  //     canvas.remove(point);
+  //   });
+  // }
+
+  if (pointArray[0]) {
 
     console.log("......................if clearPolygonData pointArray", pointArray);
     console.log("......................if clearPolygonData pointArrayNewLine", pointArrayNewLine);
@@ -319,6 +339,7 @@ function clearPolygonData() {
       pointArray.forEach((point) => {
       canvas.remove(point);
     });
+
     // pointArrayNewLine.forEach((point) => {
     //   canvas.remove(point);
     // });
@@ -732,4 +753,6 @@ export {
   placeholderToAddMouseDownEvents,
   createNewPolygonFromCoordinates,
   prepareCanvasForNewPolygonsFromExternalSources,
+
+  clearLineData,
 };

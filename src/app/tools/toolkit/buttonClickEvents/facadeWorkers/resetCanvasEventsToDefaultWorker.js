@@ -18,6 +18,7 @@ import { executeFunctionOnceOnMouseOver } from '../../../../keyEvents/mouse/mous
 
 import { setCreateNewLineButtonToActive, setCreateNewLineToDefault, } from '../../styling/state.js';
 import { testDrawLine } from '../facade.js';
+import { clearLineData } from '../../../../canvas/objects/polygon/polygon.js';
 
 // New states after loading new image
 function setNewState(canvas) {
@@ -52,6 +53,7 @@ function setNewState(canvas) {
     assignDefaultEvents(canvas, null, getAddingPolygonPointsState());
     purgeCanvasMouseEvents(true);
     if (getCurrentImage()) {
+      console.log("get current image = true -------");
       setEditShapesButtonToActive();
       setCreatePolygonButtonToDefault();
       setCreateBoundingBoxButtonToDefault();
@@ -75,6 +77,9 @@ function initiateResetCanvasEventsToDefaultEvent(canvas) {
       setPolygonEditingButtonsToDefault();
       setAlteringPolygonPointsState(false);
     }
+
+    clearLineData();
+
     setNewState(canvas);
   }
 }

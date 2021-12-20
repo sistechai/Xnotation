@@ -35,11 +35,11 @@ function getNumberOfShapes() {
 }
 
 function getAllExistingShapes() {
-  console.log("???? getAllExisting shapes", shapes);
   return shapes;
 }
 
 function removeAllShapeRefs() {
+  console.log("???? removeAllShapeRefs shapes", shapes);
   shapes = {};
 }
 

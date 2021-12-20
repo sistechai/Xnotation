@@ -13,11 +13,13 @@ function getCurrentCanvasContainerElement() {
 }
 
 function switchCurrentCanvasContainerElement() {
+  console.log("111111111 switchCurrentCanvasContainerElement", currentCanvasContainerElement)
   currentCanvasContainerElement = canvasElement1Displaying
     ? canvasContainerElement2 : canvasContainerElement1;
 }
 
 function switchCanvasContainerElementsStyle() {
+  console.log("111111111-switchCanvasContainerElementsStyle");
   setTimeout(() => {
     if (canvasElement1Displaying) {
       canvasContainerElement1.style.display = 'none';
@@ -46,14 +48,17 @@ function switchCanvasContainerElements() {
 }
 
 function enableActiveObjectsAppearInFront() {
+  console.log("111111111-enableActiveObjectsAppearInFront");
   canvas.preserveObjectStacking = false;
 }
 
 function preventActiveObjectsAppearInFront() {
+  console.log("111111111-preventActiveObjectsAppearInFront");
   if (canvas) { canvas.preserveObjectStacking = true; }
 }
 
 function assignNewCanvasForUtils(newCanvasObj) {
+  console.log("111111111-assign");
   oldCanvas = canvas;
   canvas = newCanvasObj;
 }

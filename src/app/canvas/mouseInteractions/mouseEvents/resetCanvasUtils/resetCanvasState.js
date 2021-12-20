@@ -37,6 +37,7 @@ function interruptCanvasEventsWithoutRemovingExistingPoints() {
     setPolygonEditingButtonsToDefault();
     setAlteringPolygonPointsState(false);
   }
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
   setRemoveLabelsButtonToDisabled();
   setPolygonEditingButtonsToDefault();
 }

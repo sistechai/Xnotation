@@ -53,7 +53,6 @@ function setNewState(canvas) {
     assignDefaultEvents(canvas, null, getAddingPolygonPointsState());
     purgeCanvasMouseEvents(true);
     if (getCurrentImage()) {
-      console.log("get current image = true -------");
       setEditShapesButtonToActive();
       setCreatePolygonButtonToDefault();
       setCreateBoundingBoxButtonToDefault();
@@ -64,8 +63,10 @@ function setNewState(canvas) {
   }
 }
 
+// if to switch to the images, or load the image
 function initiateResetCanvasEventsToDefaultEvent(canvas) {
   canvas.discardActiveObject();
+  console.log("initiate reset ");
   if (!getDefaultState()) {
     purgeCanvasMouseEvents(canvas);
     if (getAddingPolygonPointsState()) {
@@ -78,7 +79,10 @@ function initiateResetCanvasEventsToDefaultEvent(canvas) {
       setAlteringPolygonPointsState(false);
     }
 
+    // To delete New line points
     clearLineData();
+
+    console.log("test init");
 
     setNewState(canvas);
   }

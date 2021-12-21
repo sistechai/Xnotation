@@ -71,7 +71,6 @@ function initiateResetCanvasEventsToDefaultEvent(canvas) {
   //canvas.discardActiveObject();
 
   if (!getDefaultState()) {
-    console.log("initiate reset getDefaultState()) {", getDefaultState());
     purgeCanvasMouseEvents(canvas);
     if (getAddingPolygonPointsState()) {
       setDefaultCursorModeAfterAlteringPolygonPoints(canvas);

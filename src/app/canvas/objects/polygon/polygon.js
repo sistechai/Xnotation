@@ -310,6 +310,7 @@ function generatePolygon() {
   setSessionDirtyState(true);
 
   console.log("test generate");
+  pointArrayNewLine = [];
   //setTestDrawLineState(false);
 }
 
@@ -339,28 +340,28 @@ function clearLineData(){
 
 function clearPolygonData() {
 
-    if (pointArray[0] || pointArrayNewLine[0]) {
+    if (pointArray[0]) { // || pointArrayNewLine[0]) {
       pointArray.forEach((point) => {
       canvas.remove(point);
       });
 
       //canvas.remove(invisiblePoint);
-      if (invisiblePoint) {//(!getTestDrawLineState()){
+      //if (invisiblePoint) {//(!getTestDrawLineState()){
 
 
-        let lengthPointArrayNewLine = pointArrayNewLine.length - 1;
-          const position = { x: pointArrayNewLine[lengthPointArrayNewLine].left, y: pointArrayNewLine[lengthPointArrayNewLine].top };
+        //let lengthPointArrayNewLine = pointArrayNewLine.length - 1;
+          //const position = { x: pointArrayNewLine[lengthPointArrayNewLine].left, y: pointArrayNewLine[lengthPointArrayNewLine].top };
           //invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(position));
           //canvas.add(invisiblePoint);
-        canvas.renderAll();
+        //canvas.renderAll();
 
-      }
+      //}
 
     invisiblePoint = null;
     removeActiveShape();
 
     pointArray = [];
-    pointArrayNewLine = [];
+    //pointArrayNewLine = [];
 
     activeShape = null;
     pointId = 0;

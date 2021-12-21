@@ -292,6 +292,7 @@ function generatePolygon() {
   else {
     //canvas.add(invisiblePoint);
     removeActiveShape(); //Removes the last Active Line
+    //clearLineData();
   }
 
   polygon = new fabric.Polygon(points, polygonProperties.newPolygon()); // for now, got it from if cycle above
@@ -320,14 +321,15 @@ function resetDrawPolygonMode() {
   setReadyToDrawShapeState(true);
   drawingFinished = false;
   clearPolygonData();
-  console.log("test reset pointArrayNewLine", pointArrayNewLine);
-  console.log("test reset pointArray", pointArray);
   setDrawCursorMode(canvas);
 }
 
 // To delete points on new canvas
 // Only after uploading new image
 function clearLineData(){
+  console.log("test reset pointArrayNewLine", pointArrayNewLine);
+  console.log("test reset pointArray", pointArray);
+
   if (pointArrayNewLine[0]) {
     pointArrayNewLine.forEach((point) => {
       canvas.remove(point);
@@ -337,7 +339,7 @@ function clearLineData(){
 
 function clearPolygonData() {
 
-    if (pointArray[0]) {
+    if (pointArray[0] || pointArrayNewLine[0]) {
       pointArray.forEach((point) => {
       canvas.remove(point);
       });
@@ -423,11 +425,10 @@ function polygonMouseOutEvents(event) {
 }
 
 function generatePolygonViaKeyboard() {
-  console.log("!!!!!!!!!!!!!!! temp pointArrayNewLine", pointArrayNewLine);
   if ( (pointArray.length > 2) || (getTestDrawLineState() && (pointArrayNewLine.length > 1)) )
   {
     generatePolygon();
-    pointArrayNewLine = [];
+    //pointArrayNewLine = [];
   }
 }
 
@@ -502,6 +503,7 @@ function instantiatePolygon(event) {
     lastMouseEvent = event;
   }
 }
+
 // ????
 function placeHolderFunc() {}
 function assignMouseUpClickFunc() {
@@ -511,7 +513,6 @@ function placeholderToAddMouseDownEvents() {
   mouseIsDownOnTempPoint = false;
   mouseUpClick();
 }
-
 function skipMouseUpEvent() {
   canvas.__eventListeners['mouse:down'] = [];
   canvas.on('mouse:down', (e) => {
@@ -520,6 +521,11 @@ function skipMouseUpEvent() {
     }
   });
   assignMouseUpClickFunc();
+}
+// ????
+function prepareCanvasForNewPolygonsFromExternalSources(canvasObj) {
+  canvas = canvasObj;
+  setDrawCursorMode(canvas);
 }
 
 // Being evoked 2 times before Polygon Mode
@@ -541,13 +547,8 @@ function prepareCanvasForNewPolygon(canvasObj) {
   }
 }
 
-// ????
-function prepareCanvasForNewPolygonsFromExternalSources(canvasObj) {
-  canvas = canvasObj;
-  setDrawCursorMode(canvas);
-}
-
 function cleanPolygonFromEmptyPoints() {
+  console.log("????????????? empty points");
   const polygonPoints = activeShape.get('points');
   const points = [];
   polygonPoints.forEach((point) => {
@@ -610,7 +611,6 @@ function resumeDrawingAfterRemovePoints() {
 }
 
 function removeInvisiblePoint() {
-  console.log("remove Invisible point ^^^^^^^^^^^^^^^^^^^^^^^^^^  //canvas.remove(invisiblePoint); //?????");
   //canvas.remove(invisiblePoint); //?????
   invisiblePoint = null;
 }
@@ -724,6 +724,7 @@ function scrolledViaScrollbar() {
 }
 
 function createNewPolygonFromCoordinates(points, imageScalingDimensions, imageLengthDimensions) {
+  console.log("create New Polygon");
   const polygon = new fabric.Polygon(points, polygonProperties.newPolygon());
   preventOutOfBoundsOnNewObject(polygon, imageScalingDimensions, imageLengthDimensions);
   lockMovementIfAssertedByState(polygon);

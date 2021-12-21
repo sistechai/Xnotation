@@ -65,9 +65,13 @@ function setNewState(canvas) {
 
 // if to switch to the images, or load the image
 function initiateResetCanvasEventsToDefaultEvent(canvas) {
-  canvas.discardActiveObject();
-  console.log("initiate reset ");
+
+  // ?? anyway deletes Line from previous image.
+  // ?? Polygon and box remain.
+  //canvas.discardActiveObject();
+
   if (!getDefaultState()) {
+    console.log("initiate reset getDefaultState()) {", getDefaultState());
     purgeCanvasMouseEvents(canvas);
     if (getAddingPolygonPointsState()) {
       setDefaultCursorModeAfterAlteringPolygonPoints(canvas);

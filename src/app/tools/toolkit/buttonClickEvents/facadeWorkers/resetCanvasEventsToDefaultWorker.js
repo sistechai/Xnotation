@@ -23,8 +23,6 @@ import { clearLineData } from '../../../../canvas/objects/polygon/polygon.js';
 // New states after loading new image
 function setNewState(canvas) {
 
-  console.log("???????? ----- setNewState ", getLastDrawingModeState());
-
   if (getContinuousDrawingState()) {
     purgeCanvasMouseEvents(canvas);
 
@@ -84,8 +82,6 @@ function initiateResetCanvasEventsToDefaultEvent(canvas) {
 
     // To delete New line points
     clearLineData();
-
-    console.log("test init");
 
     setNewState(canvas);
   }

@@ -67,6 +67,7 @@ function changePolygonPointsToAddImpl(canvas) {
   canvas.renderAll();
 }
 
+// Evoked after editing polygon, before box
 function changeObjectsToPolygonPointsToDefaultImpl(canvas) {
   if (canvas) {
     canvas.forEachObject((iteratedObj) => {

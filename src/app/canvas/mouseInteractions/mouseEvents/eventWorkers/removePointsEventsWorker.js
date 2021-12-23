@@ -23,8 +23,8 @@ function selectShape(shapeId) {
   setRemoveLabelsButtonToDefault();
 }
 
+// after highlighting points to remove
 function deselectShape() {
-  console.log("deselectShape");
   removeHighlightOfListLabel();
   setRemoveLabelsButtonToDisabled();
 }

@@ -1,5 +1,6 @@
 import { incrementShapeType, decrementShapeType } from '../../../tools/globalStatistics/globalStatistics.js';
 import { getTestDrawLineState } from '../../../tools/state.js';
+import { clearLineData } from '../polygon/polygon.js';
 
 let shapes = {};
 let canvas = null;
@@ -105,7 +106,14 @@ function changeShapeLabelText(id, newText) {
 }
 
 function removeShape(id) {
+  if (shapes[id].shapeRef === 'newLine') {
+    console.log("test polygon remove shape shapes[id].shapeRef", shapes[id].shapeRef);
+    clearLineData();
+  }
+
   decrementShapeType(shapes[id].shapeRef);
+
+  // removes from the canvas the polygon
   canvas.remove(shapes[id].shapeRef);
   delete shapes[id];
 }

@@ -17,7 +17,6 @@ function setScalingEventListeners() {
 
 // Before every Mode
 function purgeCanvasMouseEvents(canvas) {
-  console.log("purge");
   if (canvas.__eventListeners) {
     canvas.__eventListeners['mouse:down'] = [];
     canvas.__eventListeners['mouse:over'] = [];

@@ -101,11 +101,12 @@ function getCreateLineState() {
 function setCreateNewLineButtonToActive() {
   setButtonToActive(createLineButtonElement);
   createLineState = state.ACTIVE;
+  editShapesState = state.DEFAULT;
   if (createBoundingBoxState === state.ACTIVE) setCreateBoundingBoxButtonToDefault();
   if (createPolygonState === state.ACTIVE) setCreatePolygonButtonToDefault();
   if (addPointsState === state.ACTIVE) setAddPointsButtonToDefault();
   if (removePointsState === state.ACTIVE) setRemovePointsDefault();
-  if (editShapesState === state.ACTIVE) setEditShapesButtonToDefault();
+  //if (editShapesState === state.ACTIVE) setEditShapesButtonToDefault();
 }
 
 function setAddPointsActive() {

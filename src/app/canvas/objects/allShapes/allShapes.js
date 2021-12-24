@@ -25,6 +25,9 @@ function addShapeForInvisibleImage(shapeObj, shapeColor) {
 
 function addExistingShape(shapeObj, id) {
   shapes[id] = shapeObj;
+  console.log("*** shapeObj",shapeObj);
+  console.log("*** id",id);
+  console.log("*** shapes[id]", shapes[id]);
 }
 
 function getShapeById(id) {

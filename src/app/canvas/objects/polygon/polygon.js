@@ -85,6 +85,9 @@ function addPoint(pointer) {
 
   if (getTestDrawLineState()){
     setCreateNewLineButtonToActive();
+
+    //setAddPointsButtonToDefault();
+
     setTestDrawLineState(true);
     point.stroke = 'violet';
     point.fill = 'yellow';
@@ -555,7 +558,7 @@ function prepareCanvasForNewPolygon(canvasObj) {
   canvas.discardActiveObject();
   setDrawCursorMode(canvas);
   setReadyToDrawShapeState(true);
-  if (getAddingPolygonPointsState()) {
+  if (getAddingPolygonPointsState() || getTestDrawLineState() ) {
     setAddPointsButtonToDefault();
     setAddingPolygonPointsState(false);
     mouseUpClick = skipMouseUpEvent;

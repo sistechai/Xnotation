@@ -1,4 +1,4 @@
-import { setCreateNewLineToDefault } from './toolkit/styling/state.js';
+import { setCreateNewLineToDefault, setEditShapesButtonToDefault } from './toolkit/styling/state.js';
 
 let defaultState = false;
 let removingPolygonPointsState = false;
@@ -53,6 +53,9 @@ function getRemovingPolygonPointsState() {
 ////////////// New Line
 function setTestDrawLineState(state){
   TestDrawLineState = state;
+  // if (state) {
+  //   setEditShapesButtonToDefault();
+  // }
   return state;
 }
 
@@ -168,11 +171,12 @@ function getRemoveImageModalDisplayedState() {
 function getWelcomeModalDisplayedState() {
   return welcomeModalDisplayedState;
 }
-
+// ??
 function getSessionDirtyState() {
+  console.log("sessionDirty", sessionDirty);
   return sessionDirty;
 }
-
+//
 function getHasMachineLearningButtonBeenHighligtedState() {
   return hasMachineLearningButtonBeenHighligted;
 }
@@ -194,6 +198,7 @@ function setDefaultState(state) {
 }
 
 function setAlteringPolygonPointsState(state) {
+  console.log("setAlteringPolygonPointsState");
   removingPolygonPointsState = state;
   addingPolygonPointsState = state;
 }

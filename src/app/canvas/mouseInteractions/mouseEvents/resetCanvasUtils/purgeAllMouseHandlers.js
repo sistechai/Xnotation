@@ -4,6 +4,7 @@ import { getCanvasReferences } from '../../../utils/fabricUtils.js';
 // and when switching between older and newer ones
 function setScalingEventListeners() {
   const { canvas1, canvas2 } = getCanvasReferences();
+  console.log("getCanvasReferences()", getCanvasReferences())
   if (canvas1 && canvas1.__eventListeners
     && canvas1.__eventListeners['object:scaling'] && canvas1.__eventListeners['object:scaling'].length > 1) {
     canvas1.__eventListeners['object:scaling'].pop();
@@ -14,6 +15,7 @@ function setScalingEventListeners() {
   }
 }
 
+// Before every Mode
 function purgeCanvasMouseEvents(canvas) {
   if (canvas.__eventListeners) {
     canvas.__eventListeners['mouse:down'] = [];

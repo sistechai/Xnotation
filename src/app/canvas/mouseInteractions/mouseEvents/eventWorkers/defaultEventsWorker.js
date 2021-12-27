@@ -65,6 +65,7 @@ function setEditablePolygonOnClickFunc(event) {
 }
 
 function setEditablePolygonWhenPolygonMoved(event) {
+  console.log("When Polygon Moved move newPolygonSelected", newPolygonSelected);
   if (newPolygonSelected) {
     setEditablePolygonAfterMoving(canvas, event.target);
     selectedShapeId = event.target.id;
@@ -181,7 +182,9 @@ function shapeMouseOutEvents(event) {
 }
 
 // look at this
+// reacts if to press on shape: polygon, bndbox, tempPoint - points of Line, point - points of polygon
 function polygonMouseUpEvents(event) {
+
   mouseIsDown = false;
   if (event.target && event.target.shapeName === 'bndBox') {
     if (boundingBoxMoved) { boundingBoxMoved = false; }
@@ -195,14 +198,18 @@ function polygonMouseUpEvents(event) {
     canvas.bringToFront(event.target);
     canvas.bringToFront(labelObject);
     clearControlSelectedObject();
-  } else if (polygonMoved) {
-    selectShape(event.target.id);
+  }
+
+  else if (polygonMoved) {
+    console.log(" 22  polygonMoved move ", event.target.id);
     validateAndFixOutOfBoundsPolygonShapePointsAfterMove(event.target);
     setEditablePolygonWhenPolygonMoved(event);
     highlightShapeFill(event.target.id);
     canvas.bringToFront(labelObject);
     setLastPolygonActionWasMoveState(true);
-  } else if (newPolygonSelected) {
+  }
+
+  else if (newPolygonSelected) {
     if (finishedAddingNewPoints) {
       finishedAddingNewPoints = false;
     } else {
@@ -211,19 +218,28 @@ function polygonMouseUpEvents(event) {
     canvas.bringToFront(event.target);
     setEditablePolygonOnClick(event);
     canvas.bringToFront(labelObject);
-  } else if (polygonPointMoved) {
+  }
+
+  else if (polygonPointMoved) {
     resetPolygonSelectableAreaAfterPointMoved();
     setSessionDirtyState(true);
-  } else if (event.target && event.target.shapeName === 'polygon') {
+  }
+
+  else if (event.target && event.target.shapeName === 'polygon') {
     selectShape(event.target.id);
     sendPolygonPointsToFront(canvas);
-  } else if (!event.target && getPolygonEditingStatus()) {
+  }
+
+  else if (!event.target && getPolygonEditingStatus()) {
     deselectShape();
     setPolygonNotEditableOnClick();
-  } else if (selectedShapeId != null || shapeSetToInvisible) {
+  }
+
+  else if (selectedShapeId != null || shapeSetToInvisible) {
     deselectShape();
     shapeSetToInvisible = false;
   }
+
   if (getShapeMovingState()) {
     handleShapeFillAfterMove(event);
     if (polygonMoved) { polygonMoved = false; }

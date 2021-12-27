@@ -79,7 +79,9 @@ function isAddingPointsToPolygon() {
   return isAddingPointsToPolygonImpl();
 }
 
+// the final point is the last point to add to polygon
 function completePolygon(finalPoint) {
+  console.log("polygon finalPoint", finalPoint);
   completePolygonImpl(polygon, polygon.points, finalPoint);
   polygonPoints = [];
   resetPolygonSelectableArea();
@@ -111,11 +113,14 @@ function sendPolygonPointsToFront(canvasArg) {
 }
 
 function displayPolygonPoints() {
+  console.log(" display polygon Points", polygonPoints);
+  console.log(" display polygon.points", polygon.points);
   if (!preventNewPolygonInitialisation) {
     polygonPoints = displayPolygonPointsWithStyleImpl(
       canvas, polygon, polygonProperties.existingPolygonPoint,
     );
-  } else {
+  }
+  else {
     preventNewPolygonInitialisation = false;
     sendPolygonPointsToFront();
   }
@@ -147,30 +152,37 @@ function cleanPolygonPointsArray() {
 }
 
 function getPolygonPointsArray() {
+  console.log(" get polygon points array polygonPoints", polygonPoints);
   return polygonPoints;
 }
 
 function removePolygonPoints() {
+  console.log("remove polygonPoints", polygonPoints);
   if (getLastPolygonActionWasMoveState()) {
     if (getEditingLabelId() === null || getNewShapeSelectedViaLabelListState()) {
       polygonPoints = removePolygonPointsImpl(canvas, polygonPoints);
     } else {
       preventNewPolygonInitialisation = true;
     }
-  } else {
+  }
+
+  else {
     polygonPoints = removePolygonPointsImpl(canvas, polygonPoints);
   }
   setNewShapeSelectedViaLabelListState(false);
   setPolygonEditingStatus(false);
 }
 
+// After adding or removing points, if to press box.
 function changePolygonPointsPropertiesToDefault(canvasObj) {
   // naming convention?
   canvas = !canvasObj ? canvas : canvasObj;
   changeObjectsToPolygonPointsToDefaultImpl(canvas);
 }
 
+// After hitting Edit Shape, it moves polygon
 function displayPolygonPointsAfterMove() {
+  console.log("----------------- display Polygon after move ");
   polygon = displayPolygonPointsAfterMoveImpl(canvas, polygon, polygonPoints);
   setPolygonEditingStatus(true);
 }
@@ -194,12 +206,19 @@ function movePolygonPoint(event, labelObject) {
   movePolygonPointImpl(event, polygon, labelObject);
 }
 
+// removes shapes from Labels bar
 function removePolygon(lableObjectFromLabelList) {
+  console.log("remove polygon lableObjectFromLabelList.shapeName", lableObjectFromLabelList.shapeName);
   if (editingPolygon) {
     removePolygonImpl(canvas, polygon);
     return polygon.id;
   }
   if (lableObjectFromLabelList && lableObjectFromLabelList.shapeName === 'polygon') {
+    removePolygonImpl(canvas, lableObjectFromLabelList);
+    return lableObjectFromLabelList.id;
+  }
+  // Line
+  if (lableObjectFromLabelList && lableObjectFromLabelList.shapeName === 'newLine') {
     removePolygonImpl(canvas, lableObjectFromLabelList);
     return lableObjectFromLabelList.id;
   }

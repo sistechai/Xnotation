@@ -9,9 +9,11 @@ let currentCanvasContainerElement = null;
 let timeoutMilliseconds = 0;
 
 function getCurrentCanvasContainerElement() {
+  console.log("currentCanvasContainerElement", currentCanvasContainerElement);
   return currentCanvasContainerElement;
 }
 
+// Evokes only if to switch images
 function switchCurrentCanvasContainerElement() {
   currentCanvasContainerElement = canvasElement1Displaying
     ? canvasContainerElement2 : canvasContainerElement1;

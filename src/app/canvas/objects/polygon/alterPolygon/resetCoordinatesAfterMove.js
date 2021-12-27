@@ -51,7 +51,10 @@ function generateNewPoints(movedPoints) {
   return movedPointsCoordinates;
 }
 
+// Evoked after moving whole Polygon, not only one point
+// !!! Add moving function for Line
 function movePolygonToNewPosition() {
+  console.log("move to new position currentPolygon", currentPolygon);
   const newPosition = currentPolygon._calcDimensions();
   currentPolygon.set({
     left: newPosition.left,
@@ -68,6 +71,7 @@ function movePolygonToNewPosition() {
 }
 
 function generatePolygonAfterMove(polygonObj, polygonPointsArray, canvasObj, polygonPropertiesObj) {
+  console.log("move generate after move ", currentPolygon);
   setObjets(polygonObj, polygonPointsArray, canvasObj, polygonPropertiesObj);
   const newPolygon = generateNewPolygon();
   canvas.add(newPolygon);

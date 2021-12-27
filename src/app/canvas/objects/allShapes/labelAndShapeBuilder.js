@@ -39,7 +39,7 @@ function findInitialLabelLocation(shape) {
   if (shape.shapeName === 'bndBox') {
     locationObj.left = shape.left + labelProperties.boundingBoxOffsetProperties().left;
     locationObj.top = shape.top;
-  } else if (shape.shapeName === 'polygon') {
+  } else if (shape.shapeName === 'polygon' || shape.shapeName === 'newLine') {
     const left = shape.points[0].x - labelProperties.pointOffsetProperties().left;
     const top = shape.points[0].y - labelProperties.pointOffsetProperties().top;
     locationObj.left = left;
@@ -75,7 +75,11 @@ function generateLabelShapeGroup(shape, text, image, isUsingMachineLearning) {
   const preprocessedText = preprocessLabelText(text);
   shape.set('id', currentId);
   shape.set('shapeLabelText', preprocessedText);
+
+  // for line it doen't generate location
   const initialLocation = findInitialLabelLocation(shape);
+  console.log("generateLabelShapeGroup initialLocation shape", shape);
+
   const textShape = new fabric.Text(preprocessedText,
     labelProperties.getLabelProps(initialLocation, shape.shapeName));
   addToLabelOptions(textShape.text);

@@ -10,6 +10,7 @@ let targetShape = null;
 let canvas = null;
 
 function prepareLabelShape(shape, canvasObj) {
+  console.log("prepareLabelShape shape", shape);
   waitingForLabelCursorMode(canvasObj);
   targetShape = shape;
   canvas = canvasObj;

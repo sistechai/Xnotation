@@ -15,12 +15,14 @@ import assignDrawPolygonEvents from '../../../../canvas/mouseInteractions/mouseE
 import { getCurrentImage } from '../../../imageList/uploadImages/drawImageOnCanvas.js';
 import { moveCrosshair } from '../../../../canvas/mouseInteractions/cursorModes/drawWithCrosshairMode.js';
 import { executeFunctionOnceOnMouseOver } from '../../../../keyEvents/mouse/mouseOverOut.js';
-import { setCreateNewLineButtonToActive, setCreateNewLineToDefault, } from '../../styling/state.js';
 
+import { setCreateNewLineButtonToActive, setCreateNewLineToDefault, } from '../../styling/state.js';
 import { testDrawLine } from '../facade.js';
+import { clearLineData } from '../../../../canvas/objects/polygon/polygon.js';
 
 // New states after loading new image
 function setNewState(canvas) {
+
   if (getContinuousDrawingState()) {
     purgeCanvasMouseEvents(canvas);
 
@@ -45,7 +47,7 @@ function setNewState(canvas) {
   }
 
   else {
-    console.log("----- else ", getLastDrawingModeState());
+
     assignDefaultEvents(canvas, null, getAddingPolygonPointsState());
     purgeCanvasMouseEvents(true);
     if (getCurrentImage()) {
@@ -59,8 +61,13 @@ function setNewState(canvas) {
   }
 }
 
+// if to switch to the images, or load the image
 function initiateResetCanvasEventsToDefaultEvent(canvas) {
-  canvas.discardActiveObject();
+
+  // ?? anyway deletes Line from previous image.
+  // ?? Polygon and box remain.
+  //canvas.discardActiveObject();
+
   if (!getDefaultState()) {
     purgeCanvasMouseEvents(canvas);
     if (getAddingPolygonPointsState()) {
@@ -72,6 +79,10 @@ function initiateResetCanvasEventsToDefaultEvent(canvas) {
       setPolygonEditingButtonsToDefault();
       setAlteringPolygonPointsState(false);
     }
+
+    // To delete New line points
+    clearLineData();
+
     setNewState(canvas);
   }
 }

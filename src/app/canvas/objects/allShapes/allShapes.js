@@ -1,5 +1,6 @@
 import { incrementShapeType, decrementShapeType } from '../../../tools/globalStatistics/globalStatistics.js';
 import { getTestDrawLineState } from '../../../tools/state.js';
+import { clearLineData } from '../polygon/polygon.js';
 
 let shapes = {};
 let canvas = null;
@@ -24,6 +25,9 @@ function addShapeForInvisibleImage(shapeObj, shapeColor) {
 
 function addExistingShape(shapeObj, id) {
   shapes[id] = shapeObj;
+  console.log("*** shapeObj",shapeObj);
+  console.log("*** id",id);
+  console.log("*** shapes[id]", shapes[id]);
 }
 
 function getShapeById(id) {
@@ -35,11 +39,11 @@ function getNumberOfShapes() {
 }
 
 function getAllExistingShapes() {
-  console.log("???? getAllExisting shapes", shapes);
   return shapes;
 }
 
 function removeAllShapeRefs() {
+  console.log("???? removeAllShapeRefs shapes", shapes);
   shapes = {};
 }
 
@@ -105,7 +109,14 @@ function changeShapeLabelText(id, newText) {
 }
 
 function removeShape(id) {
+  if (shapes[id].shapeRef === 'newLine') {
+    console.log("test polygon remove shape shapes[id].shapeRef", shapes[id].shapeRef);
+    clearLineData();
+  }
+
   decrementShapeType(shapes[id].shapeRef);
+
+  // removes from the canvas the polygon
   canvas.remove(shapes[id].shapeRef);
   delete shapes[id];
 }

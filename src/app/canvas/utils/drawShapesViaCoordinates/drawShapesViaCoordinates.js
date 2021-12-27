@@ -53,6 +53,7 @@ function generateNewBoundingBox(shapeCoordinates, imageScalingDimensions,
 }
 
 function generateNewPolygon(shapeCoordinates, imageScalingDimensions, imageLengthDimensions) {
+  console.log("!!!!!!!!!!generateNewPolygon");
   const points = [];
   for (let i = 0; i < shapeCoordinates.points.length; i += 2) {
     points.push({

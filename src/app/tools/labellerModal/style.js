@@ -201,7 +201,7 @@ function changeStyleWhenInputInvalid() {
 }
 
 function changeStyleToAllowSubmit() {
-  submitButtonElement.style.backgroundColor = 'rgb(205, 232, 205)';
+  submitButtonElement.style.backgroundColor = 'rgb(169, 169, 205)';
   setTimeout(() => {
     submitButtonElement.classList.replace('popup-label-button-disabled', 'popup-label-button');
   });
@@ -230,6 +230,7 @@ function showLabellerModal() {
     inputElement.select();
     highlightInitialLabelOptionOnInit();
   }, 0);
+  console.log("inputElement", inputElement);
 }
 
 function setLabellerPopupDimProperties(lightupTimePeriodArg, dimTimePeriodArg, dimIntensityArg) {

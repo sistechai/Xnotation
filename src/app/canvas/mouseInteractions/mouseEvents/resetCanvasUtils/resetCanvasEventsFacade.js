@@ -5,6 +5,7 @@ import { getLastDrawingModeState } from '../../../../tools/state.js';
 let resetCanvasEventsFunc = null;
 let canvas = null;
 
+// at the very beginning, and if to change the images between each other
 function setResetCanvasEventsToDefaultFunc(func, canvasObj) {
   resetCanvasEventsFunc = func;
   canvas = canvasObj;
@@ -16,6 +17,7 @@ function resetCanvasEventsToDefault() {
 }
 
 function setContinuousDrawingModeToLast() {
+  console.log("??????????????????????? setContinuousDrawingModeToLast!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   setDrawingMode(getLastDrawingModeState(), canvas);
 }
 

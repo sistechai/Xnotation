@@ -14,6 +14,9 @@ import {
 import { removeHighlightOfListLabel } from '../../../../tools/labelList/labelListHighlightUtils.js';
 import { setPolygonEditingButtonsToDefault, setRemoveLabelsButtonToDisabled } from '../../../../tools/toolkit/styling/state.js';
 
+// Before uploading image
+// Before switching to another image
+// Before: New Line, Polygon, Box and Add Point
 function interruptCanvasEventsWithoutRemovingExistingPoints() {
   removeHighlightOfListLabel();
   resetNewPolygonData();
@@ -33,10 +36,12 @@ function interruptCanvasEventsWithoutRemovingExistingPoints() {
     if (getAddingPolygonPointsState()) {
       clearAllAddPointsData();
     }
+    console.log("@ getAddingPolygonPointsState");
     changePolygonPointsPropertiesToDefault();
     setPolygonEditingButtonsToDefault();
     setAlteringPolygonPointsState(false);
   }
+
   setRemoveLabelsButtonToDisabled();
   setPolygonEditingButtonsToDefault();
 }

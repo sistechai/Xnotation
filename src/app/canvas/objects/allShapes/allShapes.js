@@ -6,12 +6,23 @@ let shapes = {};
 let canvas = null;
 
 function createNewShapeObject(shapeObj, shapeColor) {
+
+  if (shapeObj.shapeName === 'newLine') {
+    console.log("!!! label shapeobjName", shapeObj.shapeName);
+
+
+
+    console.log("!!! label shapeobjName", shapeObj.shapeName);
+  }
+
   const newShapeObject = { shapeRef: shapeObj, color: shapeColor, visibility: true };
   newShapeObject.shapeRef.set('fill', shapeColor.default);
   newShapeObject.shapeRef.set('stroke', shapeColor.stroke);
+
   return newShapeObject;
 }
 
+// creates shape and changes its color
 function addShape(shapeObj, shapeColor, id) {
   shapes[id] = createNewShapeObject(shapeObj, shapeColor);
   incrementShapeType(shapeObj);

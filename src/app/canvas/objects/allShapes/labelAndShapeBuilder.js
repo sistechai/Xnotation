@@ -47,7 +47,6 @@ function findInitialLabelLocation(shape) {
     setPolygonLabelOffsetProps(shape, shape.points[0]);
   }
   console.log("labelProperties.", labelProperties);
-  console.log("labelProperties shape.", shape);
   return locationObj;
 }
 
@@ -59,6 +58,7 @@ function generateLabel(label, objectVisibility) {
   canvas.bringToFront(label);
 }
 
+//has not been evoked
 function populateImageProperties(image, shapeRefObject, label, id) {
   image.shapes[id] = shapeRefObject;
   image.labels[id] = label;
@@ -106,6 +106,7 @@ function generateLabelShapeGroup(shape, text, image, isUsingMachineLearning) {
       shape.set('shapeLabelText', preprocessedText);
       const strokeColor = shape.stroke;
       console.log("!!!! label strokeColor", strokeColor);
+
     }
   }
 
@@ -161,6 +162,7 @@ function repopulateHiddenImageObjects(newImageDimensions, existingShapes, existi
   });
 }
 
+// being evoked after every switching the images
 function repopulateVisibleImageObjects(previousDimensions, existingShapes, existingLabels) {
   const newFileSizeRatio = calculateNewImageHeightRatio(previousDimensions)
       / previousDimensions.oldImageHeightRatio;

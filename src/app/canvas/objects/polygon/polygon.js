@@ -236,7 +236,7 @@ function generatePolygon() {
     // For LockMovement, set false
     setMovableObjectsState(false);
     // ??
-    //polygon.target.shapeName = 'line';
+    polygon.shapeName = 'newLine';
     // console.log("polygon.target.shapeName = 'line'; ", polygon.target.shapeName );
     lockMovementIfAssertedByState(polygon);
   }

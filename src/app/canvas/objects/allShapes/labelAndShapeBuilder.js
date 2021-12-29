@@ -77,11 +77,9 @@ function generateLabelShapeGroup(shape, text, image, isUsingMachineLearning) {
   const preprocessedText = preprocessLabelText(text);
   shape.set('id', currentId);
   shape.set('shapeLabelText', preprocessedText);
-  console.log("label shape", shape);
 
   // for line it doen't generate location
   const initialLocation = findInitialLabelLocation(shape);
-  console.log("generateLabelShapeGroup initialLocation shape", shape);
 
   const textShape = new fabric.Text(preprocessedText,
       labelProperties.getLabelProps(initialLocation, shape.shapeName));
@@ -97,7 +95,6 @@ function generateLabelShapeGroup(shape, text, image, isUsingMachineLearning) {
     generateLabel(textShape);
     // the place for defining color
     addShape(shape, shapeColor, currentId);
-    console.log("!!!! label shapeColor", shapeColor);
     addNewLabelToListFromPopup(textShape.text, currentId, shapeColor.label);
 
     if (shape.shapeName === 'newLine') {
@@ -105,7 +102,8 @@ function generateLabelShapeGroup(shape, text, image, isUsingMachineLearning) {
       shape.set('ownCaching', false);
       shape.set('shapeLabelText', preprocessedText);
       const strokeColor = shape.stroke;
-      console.log("!!!! label strokeColor", strokeColor);
+      shape.set('stroke', strokeColor);
+      console.log("22!!!! label shape stroke", shape.stroke);
 
     }
   }

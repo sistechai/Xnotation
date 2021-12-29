@@ -350,6 +350,7 @@ function changeToExistingImage(id) {
   removeAllLabelListItems();
   const timesZoomedOut = resetZoom(true);
   drawImageFromList(images[id].data);
+  console.log("images[id].shapes", images[id].shapes);
   repopulateLabelAndShapeObjects(images[id].shapes, images[id].labels,
     images[id].imageDimensions, images[id].data);
   switchCanvasContainerElements();

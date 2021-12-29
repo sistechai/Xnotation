@@ -57,6 +57,7 @@ function addPointsMouseOutImpl(event) {
 }
 function createNewLine(...coordinates) {
   activeLine = new fabric.Line(coordinates, polygonProperties.newLine());
+  console.log("active Line", activeLine);
   if (!getTestDrawLineState()) {
     canvas.add(activeLine);
     canvas.renderAll();

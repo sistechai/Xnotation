@@ -188,10 +188,12 @@ function generateNewPolygon() {
       objectCaching: false,
       numberOfNullPolygonPoints: 0,
     };
+    console.log("!! ^^ check Polygon mode in generate Polygon");
   }
 
   /// Line Mode
   else {
+    console.log("!! ^^ check Line mode in generate Polygon");
     return {
       stroke: 'hsla(186, 8%, 50%, 1)',
       strokeWidth: newPolygonStrokeWidth,

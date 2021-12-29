@@ -7,17 +7,17 @@ let canvas = null;
 
 function createNewShapeObject(shapeObj, shapeColor) {
 
-  if (shapeObj.shapeName === 'newLine') {
-    console.log("!!! label shapeobjName", shapeObj.shapeName);
-
-
-
-    console.log("!!! label shapeobjName", shapeObj.shapeName);
-  }
-
   const newShapeObject = { shapeRef: shapeObj, color: shapeColor, visibility: true };
   newShapeObject.shapeRef.set('fill', shapeColor.default);
   newShapeObject.shapeRef.set('stroke', shapeColor.stroke);
+
+  console.log("!!! label shapeColor.stroke", shapeColor.stroke);
+  console.log("!!! label newShapeObject", newShapeObject);
+
+  if (shapeObj.shapeName === 'newLine') {
+    newShapeObject.shapeRef.set('stroke', shapeColor.stroke);
+    console.log("!!! label shapeobjName", shapeObj.shapeName);
+  }
 
   return newShapeObject;
 }

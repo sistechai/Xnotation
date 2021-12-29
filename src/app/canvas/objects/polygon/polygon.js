@@ -219,25 +219,32 @@ function generatePolygon() {
     lockMovementIfAssertedByState(polygon);
     canvas.add(polygon);
   }
+
+
   // For Line Mode
   else {
     removeActiveShape(); //Removes the last Active Line
 
-    let lengthArray = pointsNewLine.length;
+    const lengthArray = pointsNewLine.length;
+    console.log("+++ lengthArray", lengthArray)
+
     let i=1;
     let tempArrayLine = [];
 
-    for (i; i < lengthArray; i++){
-      console.log("+++ i ", i)
+    //for (i=1; i < lengthArray; i++){
+      //console.log("+++ i ", i)
 
-      tempArrayLine = pointsNewLine.slice(i-1, i+1);
+      //tempArrayLine.push(pointsNewLine[i-1], pointsNewLine[i]);
+      //console.log("+++ tempArrayLine", tempArrayLine);
 
-      console.log("+++ tempArrayLine", tempArrayLine);
-      polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon()); // for now, got it from if cycle above
+      polygon = new fabric.Polygon(pointsNewLine, polygonProperties.newPolygon()); // for now, got it from if cycle above
+
+      console.log("++ polygon" , polygon)
       canvas.add(polygon);
+
       //tempArrayLine = [];
 
-      activeShape = null;
+      //activeShape = null;
       polygonMode = false;
       drawingFinished = true;
       prepareLabelShape(polygon, canvas);
@@ -245,14 +252,20 @@ function generatePolygon() {
       setPolygonDrawingInProgressState(false);
       setSessionDirtyState(true);
 
-      pointArrayNewLine = [];
-      pointArrayNewLineCopyToClearCanvas = [];
-
+    if (lengthArray>2) {
+      tempArrayLine.push(pointsNewLine[0], pointsNewLine[lengthArray - 1]);
+      console.log("+++ tempArrayLine", tempArrayLine);
+      activeShape = tempArrayLine;
+      //polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon());
+      //canvas.remove(polygon);
+      removeActiveShape();
     }
 
-    canvas.add(polygon);
+      pointArrayNewLine = [];
+      pointArrayNewLineCopyToClearCanvas = [];
+    //}
+    //canvas.add(polygon);
     //polygon = new fabric.Polygon(pointsNewLine, polygonProperties.newPolygon()); // for now, got it from if cycle above
-
     lockMovementIfAssertedByState(polygon);
 
     //canvas.add(polygon);

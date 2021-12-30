@@ -220,24 +220,26 @@ function generatePolygon() {
     canvas.add(polygon);
   }
 
-
   // For Line Mode
   else {
     removeActiveShape(); //Removes the last Active Line
 
     const lengthArray = pointsNewLine.length;
     console.log("+++ lengthArray", lengthArray)
-
-    let i=1;
+    let i;
     let tempArrayLine = [];
 
-    //for (i=1; i < lengthArray; i++){
-      //console.log("+++ i ", i)
 
-      //tempArrayLine.push(pointsNewLine[i-1], pointsNewLine[i]);
-      //console.log("+++ tempArrayLine", tempArrayLine);
 
-      polygon = new fabric.Polygon(pointsNewLine, polygonProperties.newPolygon()); // for now, got it from if cycle above
+      tempArrayLine.push(...pointsNewLine);
+
+      for (i = lengthArray- 1; i>-1; i--) {
+        console.log("i ", i);
+        tempArrayLine.push(pointsNewLine[i])
+      }
+    console.log("+++ tempArrayLine", tempArrayLine);
+
+      polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon()); // for now, got it from if cycle above
 
       console.log("++ polygon" , polygon)
       canvas.add(polygon);
@@ -252,14 +254,14 @@ function generatePolygon() {
       setPolygonDrawingInProgressState(false);
       setSessionDirtyState(true);
 
-    if (lengthArray>2) {
-      tempArrayLine.push(pointsNewLine[0], pointsNewLine[lengthArray - 1]);
-      console.log("+++ tempArrayLine", tempArrayLine);
-      activeShape = tempArrayLine;
-      //polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon());
-      //canvas.remove(polygon);
-      removeActiveShape();
-    }
+    // if (lengthArray>2) {
+    //   tempArrayLine.push(pointsNewLine[0], pointsNewLine[lengthArray - 1]);
+    //   console.log("+++ tempArrayLine", tempArrayLine);
+    //   activeShape = tempArrayLine;
+    //   //polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon());
+    //   //canvas.remove(polygon);
+    //   removeActiveShape();
+    // }
 
       pointArrayNewLine = [];
       pointArrayNewLineCopyToClearCanvas = [];
@@ -498,11 +500,10 @@ function instantiatePolygon(event) {
         addPoint(pointer);
       }
 
-      // line
+      // TODO: LineMode. Not working for now. Should be inside the line! But it reacts inside the line, which was drawn as polygon.
       else {
-        console.log("inside the line!!!");
+        console.log("??? TODO: LineMode. Not working for now. Should be inside the line! But it reacts inside the line, which was drawn as polygon");
       }
-
     }
 
     // Here the place of drawing line for polygon

@@ -6,7 +6,7 @@ import { changePolygonPointsToAddImpl } from './changePointsStyle.js';
 import { getLabelById } from '../../label/label.js';
 import { preventOutOfBoundsPointsOnMove } from '../../sharedUtils/moveBlockers.js';
 import setInitialStageOfAddPointsOnExistingPolygonMode from '../../../mouseInteractions/cursorModes/initialiseAddPointsOnExistingPolygonMode.js';
-import {getTestDrawLineState, getRemovingPolygonPointsState, getPolygonDrawingInProgressState, getLabellerModalDisplayedState, } from '../../../../tools/state.js';
+import {getTestDrawLineState } from '../../../../tools/state.js';
 
 let canvas = null;
 let activeLine = null;
@@ -15,12 +15,15 @@ let tempPointIndex = 0;
 let initialPoint = null;
 let pointsArray = [];
 let defaultPointHoverMode = true;
-let firstPointOnLineIndex = 0;
+
+let yellowPoint;
+let yellowPointsArray;
 
 // did not find where it is used
 function isAddingPointsToPolygonImpl() {
   return activeLine;
 }
+
 /// Draws temporary activeLine ONLY for Add Points event
 // Active Line is a temporary line
 function drawLineImpl(pointer) {
@@ -28,6 +31,7 @@ function drawLineImpl(pointer) {
   activeLine.setCoords();
   canvas.renderAll();
 }
+
 // ???
 function moveAddablePointImpl(event) {
   preventOutOfBoundsPointsOnMove(event.target, canvas);
@@ -41,6 +45,7 @@ function moveAddablePointImpl(event) {
     activeLine.set({ x1: xCenterPoint, y1: yCenterPoint });
   }
 }
+
 // Changes the polygon's borders after mouse over polygon.
 function addPointsMouseOverImpl(event) {
   if (defaultPointHoverMode && event.target && event.target.shapeName === 'point')
@@ -49,20 +54,22 @@ function addPointsMouseOverImpl(event) {
     canvas.renderAll();
   }
 }
+
 function addPointsMouseOutImpl(event) {
   if (event.target && event.target.shapeName === 'point') {
     event.target.stroke = '#333333';
     canvas.renderAll();
   }
 }
+
 function createNewLine(...coordinates) {
   activeLine = new fabric.Line(coordinates, polygonProperties.newLine());
-  console.log("active Line", activeLine);
   if (!getTestDrawLineState()) {
     canvas.add(activeLine);
     canvas.renderAll();
   }
 }
+
 function initializeAddNewPointsImpl(shape, pointer, canvasObj) {
     shape.stroke = '#333333';
     canvas = canvasObj;
@@ -72,6 +79,7 @@ function initializeAddNewPointsImpl(shape, pointer, canvasObj) {
     canvas.bringToFront(initialPoint);
     defaultPointHoverMode = false;
 }
+
 function addFirstPointImpl(event) {
   changePolygonPointsToAddImpl(canvas);
   const pointer = canvas.getPointer(event.e);
@@ -106,7 +114,9 @@ function removeEditingPolygonPoints() {
   canvas.forEachObject((iteratedObj) => {
     if (iteratedObj.shapeName === 'point') {
       canvas.remove(iteratedObj);
-    } else if (iteratedObj.shapeName === 'initialAddPoint') {
+    }
+
+    else if (iteratedObj.shapeName === 'initialAddPoint') {
       canvas.remove(iteratedObj);
     }
   });
@@ -155,32 +165,54 @@ function resetAddPointsImpl() {
   }
 }
 
-function calculateTotalLineDistance(pointsArr) {
-  let totalDistance = 0;
-  for (let i = 0; i < pointsArr.length - 1; i += 1) {
-    const distance = Math.hypot(pointsArr[i + 1].x - pointsArr[i].x,
-      pointsArr[i + 1].y - pointsArr[i].y);
-    totalDistance += distance;
-  }
-  return totalDistance;
+//only for line mode to add yellow points to existing line
+// TODO: object for keeping yellow points
+function addYellowPoint(i, pointer) {
+  yellowPoint = new fabric.Circle(polygonProperties.newPoint(i, pointer, true));
+  yellowPoint.stroke = 'violet';
+  yellowPoint.fill = 'yellow';
+  canvas.add(yellowPoint);
+  // yellowPointsArray.push(yellowPoint);
 }
 
+// pointsArray keeps temporary points, which will be added to final shape
+// in which x: pointsArray[i].left, y: pointsArray[i].top
 function addNewPointsByTheirAddDirection(newPointsArray, firstPointId, lastPointId) {
+  let i = 0;
+
   if (firstPointId < lastPointId) {
     pointsArray.forEach((point) => {
       newPointsArray.push({ x: point.left, y: point.top });
+      addYellowPoint(i, { x: pointsArray[i].left, y: pointsArray[i].top });
+      i++;
     });
-  } else {
-    for (let i = pointsArray.length - 1; i > -1; i -= 1) {
+  }
+
+  else {
+    for (i = pointsArray.length - 1; i > -1; i -= 1) {
       newPointsArray.push({ x: pointsArray[i].left, y: pointsArray[i].top });
+      addYellowPoint(i, { x: pointsArray[i].left, y: pointsArray[i].top });
     }
   }
+  console.log("&&& newPointsArray", newPointsArray);
+  console.log("&&& yellow points array", yellowPointsArray);
 }
 
 function realignLabel(polygon) {
   const labelShape = getLabelById(polygon.id);
   labelShape.left = polygon.points[0].x - labelProperties.pointOffsetProperties().left;
   labelShape.top = polygon.points[0].y - labelProperties.pointOffsetProperties().top;
+}
+
+function calculateTotalLineDistance(pointsArr) {
+  let totalDistance = 0;
+  for (let i = 0; i < pointsArr.length - 1; i += 1) {
+    const distance = Math.hypot(pointsArr[i + 1].x - pointsArr[i].x,
+        pointsArr[i + 1].y - pointsArr[i].y);
+    totalDistance += distance;
+  }
+  console.log("&&& totalDistance", totalDistance);
+  return totalDistance;
 }
 
 function completePolygonImpl(polygon, originalPointsArray, finalPoint) {

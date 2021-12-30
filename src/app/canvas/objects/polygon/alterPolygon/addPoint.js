@@ -17,7 +17,8 @@ let pointsArray = [];
 let defaultPointHoverMode = true;
 
 let yellowPoint;
-let yellowPointsArray;
+let yellowPointsArray = [];
+let yellowPointsId = 0;
 
 // did not find where it is used
 function isAddingPointsToPolygonImpl() {
@@ -165,34 +166,40 @@ function resetAddPointsImpl() {
   }
 }
 
-//only for line mode to add yellow points to existing line
-// TODO: object for keeping yellow points
-function addYellowPoint(i, pointer) {
-  yellowPoint = new fabric.Circle(polygonProperties.newPoint(i, pointer, true));
+// only for line mode to add yellow points to existing line
+// yellowPointsArray keeps all added yellow points coordinate and their id, which defined by adding points order
+function addYellowPoint(pointId, pointer) {
+  yellowPoint = new fabric.Circle(polygonProperties.newPoint(pointId, pointer, true));
   yellowPoint.stroke = 'violet';
   yellowPoint.fill = 'yellow';
   canvas.add(yellowPoint);
-  // yellowPointsArray.push(yellowPoint);
+  yellowPointsArray.push({yellowPointsId, pointer});
 }
 
 // pointsArray keeps temporary points, which will be added to final shape
 // in which x: pointsArray[i].left, y: pointsArray[i].top
-function addNewPointsByTheirAddDirection(newPointsArray, firstPointId, lastPointId) {
-  let i = 0;
+function addNewPointsByTheirAddDirection(newPointsArray, firstPointId, lastPointId, polygon) {
+  let pointId = 0;
 
   if (firstPointId < lastPointId) {
     pointsArray.forEach((point) => {
       newPointsArray.push({ x: point.left, y: point.top });
-      addYellowPoint(i, { x: pointsArray[i].left, y: pointsArray[i].top });
-      i++;
+      if (polygon.previousShapeName === 'newLine') {
+        addYellowPoint(pointId, {x: pointsArray[pointId].left, y: pointsArray[pointId].top});
+        pointId++;
+      }
     });
+    yellowPointsId++;
   }
 
   else {
-    for (i = pointsArray.length - 1; i > -1; i -= 1) {
-      newPointsArray.push({ x: pointsArray[i].left, y: pointsArray[i].top });
-      addYellowPoint(i, { x: pointsArray[i].left, y: pointsArray[i].top });
+    for (pointId = pointsArray.length - 1; pointId > -1; pointId -= 1) {
+      newPointsArray.push({ x: pointsArray[pointId].left, y: pointsArray[pointId].top });
+      if (polygon.previousShapeName === 'newLine') {
+        addYellowPoint(pointId, {x: pointsArray[pointId].left, y: pointsArray[pointId].top});
+      }
     }
+    yellowPointsId++;
   }
   console.log("&&& newPointsArray", newPointsArray);
   console.log("&&& yellow points array", yellowPointsArray);
@@ -239,13 +246,13 @@ function completePolygonImpl(polygon, originalPointsArray, finalPoint) {
   if (innerArrayDistance < outerArrayDistance) {
     startingIdOfNewArray += 1;
     newPointsArray = derefPointsArray.slice(0, startingIdOfNewArray);
-    addNewPointsByTheirAddDirection(newPointsArray, initialPoint.pointId, finalPoint.pointId);
+    addNewPointsByTheirAddDirection(newPointsArray, initialPoint.pointId, finalPoint.pointId, polygon);
     for (let i = endingIdIdOfNewArray; i < derefPointsArray.length; i += 1) {
       newPointsArray.push(derefPointsArray[i]);
     }
   } else {
     newPointsArray = derefPointsArray.slice(startingIdOfNewArray, endingIdIdOfNewArray + 1);
-    addNewPointsByTheirAddDirection(newPointsArray, finalPoint.pointId, initialPoint.pointId);
+    addNewPointsByTheirAddDirection(newPointsArray, finalPoint.pointId, initialPoint.pointId, polygon);
   }
   polygon.set({ points: newPointsArray });
   setInitialStageOfAddPointsOnExistingPolygonMode(canvas);

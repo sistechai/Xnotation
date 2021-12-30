@@ -99,6 +99,7 @@ function generateLabelShapeGroup(shape, text, image, isUsingMachineLearning) {
 
     if (shape.shapeName === 'newLine') {
       shape.set('shapeName', 'polygon');
+      //shape.set('previousShapeName', 'newLine');
       shape.set('ownCaching', false);
       shape.set('shapeLabelText', preprocessedText);
       const strokeColor = shape.stroke;

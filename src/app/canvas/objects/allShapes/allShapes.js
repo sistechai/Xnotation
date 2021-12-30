@@ -92,10 +92,10 @@ function changeShapeColorById(id, color) {
 
 function highlightShapeFill(id) {
 
-  if (!getTestDrawLineState()) {
+  //if (!getTestDrawLineState()) {
     const highlightColor = shapes[id].color.highlight;
     shapes[id].shapeRef.set('fill', highlightColor);
-  }
+  //}
   canvas.renderAll();
 }
 

@@ -226,17 +226,15 @@ function generatePolygon() {
 
     const lengthArray = pointsNewLine.length;
     console.log("+++ lengthArray", lengthArray)
-    let i;
+    //let i;
     let tempArrayLine = [];
-
-
 
       tempArrayLine.push(...pointsNewLine);
 
-      for (i = lengthArray- 1; i>-1; i--) {
-        console.log("i ", i);
-        tempArrayLine.push(pointsNewLine[i])
-      }
+      //for (i = lengthArray- 1; i>-1; i--) {
+        //console.log("i ", i);
+        tempArrayLine.push(pointsNewLine[lengthArray- 1])
+      //}
     console.log("+++ tempArrayLine", tempArrayLine);
 
       polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon()); // for now, got it from if cycle above

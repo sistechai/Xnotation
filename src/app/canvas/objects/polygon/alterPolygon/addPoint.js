@@ -201,29 +201,13 @@ function addNewPointsByTheirAddDirection(newPointsArray, firstPointId, lastPoint
     }
     yellowPointsId++;
   }
-  console.log("&&& newPointsArray", newPointsArray);
-  console.log("&&& yellow points array", yellowPointsArray);
-}
-
-function realignLabel(polygon) {
-  const labelShape = getLabelById(polygon.id);
-  labelShape.left = polygon.points[0].x - labelProperties.pointOffsetProperties().left;
-  labelShape.top = polygon.points[0].y - labelProperties.pointOffsetProperties().top;
-}
-
-function calculateTotalLineDistance(pointsArr) {
-  let totalDistance = 0;
-  for (let i = 0; i < pointsArr.length - 1; i += 1) {
-    const distance = Math.hypot(pointsArr[i + 1].x - pointsArr[i].x,
-        pointsArr[i + 1].y - pointsArr[i].y);
-    totalDistance += distance;
-  }
-  console.log("&&& totalDistance", totalDistance);
-  return totalDistance;
 }
 
 function completePolygonImpl(polygon, originalPointsArray, finalPoint) {
   const derefPointsArray = originalPointsArray.slice();
+  console.log("^^ polygon", polygon);
+  console.log("^^ originalPointsArray", originalPointsArray);
+  console.log("^^ derefPointsArray", derefPointsArray);
   let newPointsArray = [];
   let startingIdOfNewArray = Math.min(initialPoint.pointId, finalPoint.pointId);
   const endingIdIdOfNewArray = Math.max(initialPoint.pointId, finalPoint.pointId);
@@ -260,6 +244,21 @@ function completePolygonImpl(polygon, originalPointsArray, finalPoint) {
   realignLabel(polygon);
 }
 
+//
+function realignLabel(polygon) {
+  const labelShape = getLabelById(polygon.id);
+  labelShape.left = polygon.points[0].x - labelProperties.pointOffsetProperties().left;
+  labelShape.top = polygon.points[0].y - labelProperties.pointOffsetProperties().top;
+}
+function calculateTotalLineDistance(pointsArr) {
+  let totalDistance = 0;
+  for (let i = 0; i < pointsArr.length - 1; i += 1) {
+    const distance = Math.hypot(pointsArr[i + 1].x - pointsArr[i].x,
+        pointsArr[i + 1].y - pointsArr[i].y);
+    totalDistance += distance;
+  }
+  return totalDistance;
+}
 export {
   initializeAddNewPointsImpl,
   addFirstPointImpl,

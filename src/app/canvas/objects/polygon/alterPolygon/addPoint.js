@@ -20,31 +20,12 @@ let yellowPoint;
 let yellowPointsArray = [];
 let yellowPointsId = 0;
 
-// did not find where it is used
-function isAddingPointsToPolygonImpl() {
-  return activeLine;
-}
-
 /// Draws temporary activeLine ONLY for Add Points event
 // Active Line is a temporary line
 function drawLineImpl(pointer) {
   activeLine.set({ x2: pointer.x, y2: pointer.y });
   activeLine.setCoords();
   canvas.renderAll();
-}
-
-// ???
-function moveAddablePointImpl(event) {
-  preventOutOfBoundsPointsOnMove(event.target, canvas);
-  const xCenterPoint = event.target.getCenterdrawLineOnMouseMovePoint().x;
-  const yCenterPoint = event.target.getCenterPoint().y;
-  const { pointId } = event.target;
-  lineArray[pointId].set({ x2: xCenterPoint, y2: yCenterPoint });
-  if ((pointId + 1) !== tempPointIndex) {
-    lineArray[pointId + 1].set({ x1: xCenterPoint, y1: yCenterPoint });
-  } else {
-    activeLine.set({ x1: xCenterPoint, y1: yCenterPoint });
-  }
 }
 
 // Changes the polygon's borders after mouse over polygon.
@@ -205,9 +186,7 @@ function addNewPointsByTheirAddDirection(newPointsArray, firstPointId, lastPoint
 
 function completePolygonImpl(polygon, originalPointsArray, finalPoint) {
   const derefPointsArray = originalPointsArray.slice();
-  console.log("^^ polygon", polygon);
-  console.log("^^ originalPointsArray", originalPointsArray);
-  console.log("^^ derefPointsArray", derefPointsArray);
+
   let newPointsArray = [];
   let startingIdOfNewArray = Math.min(initialPoint.pointId, finalPoint.pointId);
   const endingIdIdOfNewArray = Math.max(initialPoint.pointId, finalPoint.pointId);
@@ -242,6 +221,24 @@ function completePolygonImpl(polygon, originalPointsArray, finalPoint) {
   setInitialStageOfAddPointsOnExistingPolygonMode(canvas);
   clearAllAddPointsDataImpl();
   realignLabel(polygon);
+  console.log("^^ polygon", polygon);
+  console.log("^^ originalPointsArray", originalPointsArray);
+  console.log("^^ derefPointsArray", derefPointsArray);
+}
+
+// ???
+function moveAddablePointImpl(event) {
+  preventOutOfBoundsPointsOnMove(event.target, canvas);
+  const xCenterPoint = event.target.getCenterdrawLineOnMouseMovePoint().x;
+  const yCenterPoint = event.target.getCenterPoint().y;
+  const { pointId } = event.target;
+  lineArray[pointId].set({ x2: xCenterPoint, y2: yCenterPoint });
+  console.log("??? ^^ lineArray", lineArray)
+  if ((pointId + 1) !== tempPointIndex) {
+    lineArray[pointId + 1].set({ x1: xCenterPoint, y1: yCenterPoint });
+  } else {
+    activeLine.set({ x1: xCenterPoint, y1: yCenterPoint });
+  }
 }
 
 //
@@ -258,6 +255,10 @@ function calculateTotalLineDistance(pointsArr) {
     totalDistance += distance;
   }
   return totalDistance;
+}
+// did not find where it is used
+function isAddingPointsToPolygonImpl() {
+  return activeLine;
 }
 export {
   initializeAddNewPointsImpl,

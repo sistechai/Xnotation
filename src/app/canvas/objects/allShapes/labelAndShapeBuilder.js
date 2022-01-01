@@ -46,17 +46,19 @@ function findInitialLabelLocation(shape) {
     locationObj.top = top;
     setPolygonLabelOffsetProps(shape, shape.points[0]);
   }
+  console.log("labelProperties.", labelProperties);
   return locationObj;
 }
 
 function generateLabel(label, objectVisibility) {
   label.visible = (objectVisibility === undefined || objectVisibility)
-    && getLabelsVisibilityState();
+      && getLabelsVisibilityState();
   label.setVisibilityButtonActiveFlagById = false;
   canvas.add(label);
   canvas.bringToFront(label);
 }
 
+//has not been evoked
 function populateImageProperties(image, shapeRefObject, label, id) {
   image.shapes[id] = shapeRefObject;
   image.labels[id] = label;
@@ -78,22 +80,35 @@ function generateLabelShapeGroup(shape, text, image, isUsingMachineLearning) {
 
   // for line it doen't generate location
   const initialLocation = findInitialLabelLocation(shape);
-  console.log("generateLabelShapeGroup initialLocation shape", shape);
 
   const textShape = new fabric.Text(preprocessedText,
-    labelProperties.getLabelProps(initialLocation, shape.shapeName));
+      labelProperties.getLabelProps(initialLocation, shape.shapeName));
   addToLabelOptions(textShape.text);
   const shapeColor = getLabelColor(textShape.text);
   addLabelRef(textShape, currentId);
+
   // sending image reference when not current image
   if (image) {
     const shapeRefObject = addShapeForInvisibleImage(shape, shapeColor);
     populateImageProperties(image, shapeRefObject, textShape, currentId);
   } else {
     generateLabel(textShape);
+    // the place for defining color
     addShape(shape, shapeColor, currentId);
     addNewLabelToListFromPopup(textShape.text, currentId, shapeColor.label);
+
+    if (shape.shapeName === 'newLine') {
+      shape.set('shapeName', 'polygon');
+      //shape.set('previousShapeName', 'newLine');
+      shape.set('ownCaching', false);
+      shape.set('shapeLabelText', preprocessedText);
+      const strokeColor = shape.stroke;
+      shape.set('stroke', strokeColor);
+      console.log("22!!!! label shape stroke", shape.stroke);
+
+    }
   }
+
   setShapeEditingIcons(shape);
   if (isUsingMachineLearning) {
     replaceCurrentShapeColourPropertiesWithMLPallette(shape);
@@ -109,7 +124,7 @@ function repopulateLabelShapeGroup(shapeObj, label, id, newFileSizeRatio) {
   addLabelRef(label, id);
   const shapeColor = getLabelColor(shapeObj.shapeRef.shapeLabelText);
   addExistingLabelToList(shapeObj.shapeRef.shapeLabelText, id,
-    shapeColor.label, shapeObj.visibility);
+      shapeColor.label, shapeObj.visibility);
 }
 
 function repopulateVisibleLabelShapeGroup(shapeObj, label, id, newFileSizeRatio) {
@@ -118,7 +133,7 @@ function repopulateVisibleLabelShapeGroup(shapeObj, label, id, newFileSizeRatio)
 }
 
 function repopoulateHiddenLabelShapeGroup(shapeObj, label, id,
-  imageDimensions, newFileSizeRatio) {
+                                          imageDimensions, newFileSizeRatio) {
   resizeAllPassedObjectsDimensionsBySingleScale(shapeObj.shapeRef, newFileSizeRatio);
   const imageScalingDimensions = { scaleX: newFileSizeRatio, scaleY: newFileSizeRatio };
   const imageLengthDimensions = {
@@ -142,27 +157,30 @@ function repopulateHiddenImageObjects(newImageDimensions, existingShapes, existi
   labelProperties.setPolygonOffsetProperties(newPolygonOffsetProperties);
   Object.keys(existingShapes).forEach((key) => {
     repopoulateHiddenLabelShapeGroup(existingShapes[key], existingLabels[key], key,
-      imageDimensions, newFileSizeRatio);
+        imageDimensions, newFileSizeRatio);
   });
 }
 
+// being evoked after every switching the images
 function repopulateVisibleImageObjects(previousDimensions, existingShapes, existingLabels) {
   const newFileSizeRatio = calculateNewImageHeightRatio(previousDimensions)
-    / previousDimensions.oldImageHeightRatio;
+      / previousDimensions.oldImageHeightRatio;
   const newPolygonOffsetProperties = {
     width: newFileSizeRatio * previousDimensions.polygonOffsetLeft,
     height: newFileSizeRatio * previousDimensions.polygonOffsetTop,
   };
+  console.log("repopulateVisibleImageObjects newPolygonOffsetProperties label", newPolygonOffsetProperties);
   labelProperties.setPolygonOffsetProperties(newPolygonOffsetProperties);
   Object.keys(existingShapes).forEach((key) => {
     repopulateVisibleLabelShapeGroup(existingShapes[key], existingLabels[key], key,
-      newFileSizeRatio);
+        newFileSizeRatio);
   });
   canvas.renderAll();
 }
 
+// After switching the images
 function repopulateLabelAndShapeObjects(existingShapes, existingLabels,
-  previousDimensions, newImageDimensions) {
+                                        previousDimensions, newImageDimensions) {
   if (previousDimensions && previousDimensions.originalHeight) {
     repopulateVisibleImageObjects(previousDimensions, existingShapes, existingLabels);
   } else if (Object.keys(existingShapes).length > 0) {

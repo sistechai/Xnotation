@@ -6,12 +6,23 @@ let shapes = {};
 let canvas = null;
 
 function createNewShapeObject(shapeObj, shapeColor) {
+
   const newShapeObject = { shapeRef: shapeObj, color: shapeColor, visibility: true };
   newShapeObject.shapeRef.set('fill', shapeColor.default);
   newShapeObject.shapeRef.set('stroke', shapeColor.stroke);
+
+  console.log("!!! label shapeColor.stroke", shapeColor.stroke);
+  console.log("!!! label newShapeObject", newShapeObject);
+
+  if (shapeObj.shapeName === 'newLine') {
+    newShapeObject.shapeRef.set('stroke', shapeColor.stroke);
+    console.log("!!! label shapeobjName", shapeObj.shapeName);
+  }
+
   return newShapeObject;
 }
 
+// creates shape and changes its color
 function addShape(shapeObj, shapeColor, id) {
   shapes[id] = createNewShapeObject(shapeObj, shapeColor);
   incrementShapeType(shapeObj);
@@ -81,10 +92,10 @@ function changeShapeColorById(id, color) {
 
 function highlightShapeFill(id) {
 
-  if (!getTestDrawLineState()) {
+  //if (!getTestDrawLineState()) {
     const highlightColor = shapes[id].color.highlight;
     shapes[id].shapeRef.set('fill', highlightColor);
-  }
+  //}
   canvas.renderAll();
 }
 

@@ -183,15 +183,18 @@ function generateNewPolygon() {
       hasBorders: false,
       hasControls: false,
       shapeName: 'polygon',
+      previousShapeName: 'polygon',
       selectable: false,
       evented: true,
       objectCaching: false,
       numberOfNullPolygonPoints: 0,
     };
+    console.log("!! ^^ check Polygon mode in generate Polygon");
   }
 
   /// Line Mode
   else {
+    console.log("!! ^^ check Line mode in generate Polygon");
     return {
       stroke: 'hsla(186, 8%, 50%, 1)',
       strokeWidth: newPolygonStrokeWidth,
@@ -200,6 +203,7 @@ function generateNewPolygon() {
       hasBorders: false,
       hasControls: false,
       shapeName: 'newLine',
+      previousShapeName: 'newLine',
       selectable: false,
       evented: true,
       objectCaching: false,

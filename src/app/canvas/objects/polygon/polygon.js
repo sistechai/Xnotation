@@ -7,22 +7,14 @@ import {
   setPolygonDrawingInProgressState, setAddingPolygonPointsState,
   getMovableObjectsState, getAddingPolygonPointsState, setSessionDirtyState,
   setReadyToDrawShapeState, getCurrentZoomState, getDoubleScrollCanvasState,
-
-  getTestDrawLineState, setTestDrawLineState, setMovableObjectsState,
-
+  getTestDrawLineState, setTestDrawLineState,
 } from '../../../tools/state.js';
-
-import { isAddingPointsToPolygonImpl, createNewLine, addPointImpl } from './alterPolygon/addPoint.js';
 import { preventOutOfBoundsPointsOnMove } from '../sharedUtils/moveBlockers.js';
 import { preventOutOfBoundsOnNewObject } from '../sharedUtils/newObjectBlockers.js';
-
 import {
   setAddPointsButtonToDefault, setRemovePointsButtonToDefault,
   setRemoveLabelsButtonToDefault, setCreatePolygonButtonToActive,
-
-  setCreateNewLineToDisabled, setCreateNewLineToDefault, setCreateNewLineToGrey, setCreateNewLineButtonToActive,
-  setCreatePolygonButtonToDefault, setCreateBoundingBoxButtonToDefault,
-
+  setCreateNewLineButtonToActive,
 } from '../../../tools/toolkit/styling/state.js';
 import { getLastMouseMoveEvent } from '../../../keyEvents/mouse/mouseMove.js';
 
@@ -47,8 +39,6 @@ let drawingFinished = false;
 let currentlyHoveredPoint = null;
 let ignoredFirstMouseMovement = false;
 let lastNewPointPosition = { x: -1, y: -1 };
-
-let lastPointer;
 
 let movedOverflowScroll = false;
 let createdInvisiblePoint = false;
@@ -85,9 +75,6 @@ function addPoint(pointer) {
 
   if (getTestDrawLineState()){
     setCreateNewLineButtonToActive();
-
-    //setAddPointsButtonToDefault();
-
     setTestDrawLineState(true);
     point.stroke = 'violet';
     point.fill = 'yellow';
@@ -99,7 +86,7 @@ function addPoint(pointer) {
     setTestDrawLineState(false);
   }
 
-  // Only for polygon mode. Activates if has 2 points as minimum
+  // Only for polygon mode. Activates, if it has 2 points as minimum
   if ( (activeShape) && (!getTestDrawLineState()) ) {
     points = activeShape.get('points');
     points.push({
@@ -110,7 +97,6 @@ function addPoint(pointer) {
 
     // Reduces the opacity of temporary Polygon and removes at the end the temporary Polygon
     canvas.remove(activeShape);
-
     canvas.add(polygon); // Adds lines and temporary polygon
     activeShape = polygon;
     currentlyHoveredPoint = point;
@@ -120,20 +106,16 @@ function addPoint(pointer) {
   // Line mode + polygon mode
   // if there is 1 point on the scene
   else {
-
-    //canvas.remove(activeShape);
-
+    // polyPoint array keeps for line in i=0 - the active Line's direction, the pointer (mouse move), in i=1 - the yellow point of line
+    // polyPoint array keeps for Polygon its points, within last point, instead of last point - another point?
     const polyPoint = [{
       x: pointer.x,
       y: pointer.y,
     }];
+    console.log(" ^^^ polyPoint", polyPoint);
     const polygon = new fabric.Polygon(polyPoint, polygonProperties.newTempPolygon()); /// activeLine
-
     activeShape = polygon;
     activeShapeNewLine = polygon;
-
-    console.log("00000activeshape --------------", activeShape);
-    console.log("00000activeshapeNewLine --------------", activeShapeNewLine);
 
     // Line mode
     if (getTestDrawLineState())
@@ -152,22 +134,16 @@ function addPoint(pointer) {
       canvas.add(polygon);
     }
   }
-
   canvas.add(point); // adds the points where the 'mouse down' event happened
-
-  console.log("22 activeshape --------------", activeShape);
-  console.log("22 activeshapeNewLine --------------", activeShapeNewLine);
-  console.log("pointArrayNewLineToClear--------------", pointArrayNewLineCopyToClearCanvas);
-
   // if only 1 point on the scene
   // Polygon mode
   if ((pointArray.length === 0) && (!getTestDrawLineState()) ) {
     invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(pointer));
     canvas.add(invisiblePoint);
-       point.set(polygonProperties.firstPoint());
-       setAddPointsButtonToDefault();
-       setRemovePointsButtonToDefault();
-       setRemoveLabelsButtonToDefault();
+    point.set(polygonProperties.firstPoint());
+    setAddPointsButtonToDefault();
+    setRemovePointsButtonToDefault();
+    setRemoveLabelsButtonToDefault();
   }
 
   // Line Mode
@@ -230,20 +206,56 @@ function generatePolygon() {
     lockMovementIfAssertedByState(polygon);
     canvas.add(polygon);
   }
+
   // For Line Mode
   else {
     removeActiveShape(); //Removes the last Active Line
-    polygon = new fabric.Polygon(pointsNewLine, polygonProperties.newPolygon()); // for now, got it from if cycle above
-    //canvas.remove(polygon);
-    lineMode = false;
-    resetDrawPolygonMode();
+
+    const lengthArray = pointsNewLine.length;
+    console.log("+++ lengthArray", lengthArray)
+    let i;
+    let tempArrayLine = [];
+
+      tempArrayLine.push(...pointsNewLine);
+
+    for (i = lengthArray- 1; i>-1; i--) {
+        //console.log("i ", i);
+        tempArrayLine.push(pointsNewLine[i]);
+    }
+    console.log("+++ tempArrayLine", tempArrayLine);
+
+      polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon()); // for now, got it from if cycle above
+
+      console.log("++ polygon" , polygon)
+      canvas.add(polygon);
+
+      //tempArrayLine = [];
+
+      //activeShape = null;
+      polygonMode = false;
+      drawingFinished = true;
+      // prepareLabelShape(polygon, canvas);
+      // showLabellerModal();
+      // setPolygonDrawingInProgressState(false);
+      // setSessionDirtyState(true);
+      // pointArrayNewLine = [];
+      // pointArrayNewLineCopyToClearCanvas = [];
+      lockMovementIfAssertedByState(polygon);
+      lineMode = false;
+    //resetDrawPolygonMode();
 
     // For LockMovement, set false
-    setMovableObjectsState(false);
+    //setMovableObjectsState(false);
     // ??
-    //polygon.target.shapeName = 'line';
-    // console.log("polygon.target.shapeName = 'line'; ", polygon.target.shapeName );
-    lockMovementIfAssertedByState(polygon);
+    //polygon.shapeName = 'newLine';
+
+    console.log("polygon.shapeName  ", polygon.shapeName );
+
+    //lockMovementIfAssertedByState(polygon);
+
+    //prepareCanvasForNewPolygon(canvas);
+
+
   }
 
   activeShape = null;
@@ -251,6 +263,7 @@ function generatePolygon() {
   drawingFinished = true;
   prepareLabelShape(polygon, canvas);
   showLabellerModal();
+  console.log("000 show labeller Modal polygon", polygon);
   setPolygonDrawingInProgressState(false);
   setSessionDirtyState(true);
 
@@ -266,7 +279,6 @@ function resetDrawPolygonMode() {
 
   // Polygon Mode
   if (!getTestDrawLineState()) {
-    console.log("resetdrawPolygon Mode");
     polygonMode = true;
     setCreatePolygonButtonToActive();
     setReadyToDrawShapeState(true);
@@ -280,8 +292,6 @@ function resetDrawPolygonMode() {
     setCreateNewLineButtonToActive();
     setReadyToDrawShapeState(true);
     drawingFinished = false;
-
-    console.log("line resetDrawPolygonMode");
     //??
     // clearPolygonData();
 
@@ -292,15 +302,10 @@ function resetDrawPolygonMode() {
 // To delete points on new canvas
 // Only after uploading new image
 function clearLineData(){
-  console.log("test reset pointArray", pointArray);
-  console.log("test reset pointArrayNewLine", pointArrayNewLine);
-  console.log("test reset pointArrayNewLineCopyToClearCAnvas", pointArrayNewLineCopyToClearCanvas);
-
 
   if (pointArrayNewLine[0]) {
     pointArrayNewLine.forEach((point) => {
       canvas.remove(point);
-      console.log("test remove point", pointArrayNewLine);
     });
   }
   //pointArrayNewLine = [];
@@ -309,22 +314,22 @@ function clearLineData(){
 
 function clearPolygonData() {
 
-    if (pointArray[0]) { // || pointArrayNewLine[0]) {
-      pointArray.forEach((point) => {
+  if (pointArray[0]) { // || pointArrayNewLine[0]) {
+    pointArray.forEach((point) => {
       canvas.remove(point);
-      });
+    });
 
-      //canvas.remove(invisiblePoint);
-      //if (invisiblePoint) {//(!getTestDrawLineState()){
+    //canvas.remove(invisiblePoint);
+    //if (invisiblePoint) {//(!getTestDrawLineState()){
 
 
-        //let lengthPointArrayNewLine = pointArrayNewLine.length - 1;
-          //const position = { x: pointArrayNewLine[lengthPointArrayNewLine].left, y: pointArrayNewLine[lengthPointArrayNewLine].top };
-          //invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(position));
-          //canvas.add(invisiblePoint);
-        //canvas.renderAll();
+    //let lengthPointArrayNewLine = pointArrayNewLine.length - 1;
+    //const position = { x: pointArrayNewLine[lengthPointArrayNewLine].left, y: pointArrayNewLine[lengthPointArrayNewLine].top };
+    //invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(position));
+    //canvas.add(invisiblePoint);
+    //canvas.renderAll();
 
-      //}
+    //}
 
     invisiblePoint = null;
     removeActiveShape();
@@ -367,7 +372,6 @@ function resetNewPolygonData() {
 }
 
 function changeInitialPointColour(colour) {
-  console.log("changeInitialPointColour");
   if (pointArray.length > 2) {
     pointArray[0].stroke = colour;
   }
@@ -416,9 +420,9 @@ function addPointViaKeyboard() {
         generatePolygon();
       }
     } else if (
-      (pointer.x === lastNewPointPosition.x && pointer.y === lastNewPointPosition.y)
-      || (lastMouseEvent.target && lastMouseEvent.target.shapeName === 'tempPoint')
-      || (createdInvisiblePoint && Number.isNaN(pointer.x))) {
+        (pointer.x === lastNewPointPosition.x && pointer.y === lastNewPointPosition.y)
+        || (lastMouseEvent.target && lastMouseEvent.target.shapeName === 'tempPoint')
+        || (createdInvisiblePoint && Number.isNaN(pointer.x))) {
       // placeholder
     } else {
       if (!pointer.x || !pointer.y) {
@@ -444,7 +448,7 @@ function instantiatePolygon(event) {
     setReadyToDrawShapeState(false);
     // only if polygon exists and we draw on it new points of polygon, place of intersection
     if (event.target && event.target.shapeName) {
-     if (event.target.shapeName === 'invisiblePoint') {
+      if (event.target.shapeName === 'invisiblePoint') {
         // if to press on the beginning point of the Polygon, it finishes the Polygon
         // does not work with Line Mode
         if ( (pointArray.length > 2) ) {
@@ -461,16 +465,14 @@ function instantiatePolygon(event) {
         addPoint(pointer);
       }
 
-      // line
+      // TODO: LineMode. Not working for now. Should be inside the line! But it reacts inside the line, which was drawn as polygon.
       else {
-        console.log("inside the line!!!");
-     }
-
+        console.log("??? TODO: LineMode. Not working for now. Should be inside the line! But it reacts inside the line, which was drawn as polygon");
+      }
     }
 
     // Here the place of drawing line for polygon
     else if (polygonMode) {
-      console.log("polygonMode", polygonMode);
       addPoint(pointer);
     }
 
@@ -486,7 +488,10 @@ function isRightMouseButtonClicked(pointer) {
   }
   return false;
 }
+
 // Active for each movement of mouse
+// Active Shape for polygon consists of all points
+// Active Shape for line consists of 1 or 2 points
 function drawTemporaryShape(pointer) {
   if (activeShape) {
     if (!movedOverflowScroll) {
@@ -508,7 +513,7 @@ function drawTemporaryShape(pointer) {
 
 // After 'enter' sets the points in array
 function lockMovementIfAssertedByState(polygon) {
-  if (!getMovableObjectsState() && (!getTestDrawLineState()) ) {
+  if (!getMovableObjectsState()) {
     const immovableObjectProps = {
       lockMovementX: true,
       lockMovementY: true,
@@ -516,17 +521,6 @@ function lockMovementIfAssertedByState(polygon) {
     };
     polygon.set(immovableObjectProps);
   }
-
-  // Line Mode
-  if (!getMovableObjectsState() && (getTestDrawLineState()) ) {
-    const immovableObjectProps = {
-      lockMovementX: true,
-      lockMovementY: true,
-      hoverCursor: 'default',
-    };
-    polygon.set(immovableObjectProps);
-  }
-  console.log("Line and polygon in Array global", polygon);
 }
 
 // No need to consider
@@ -542,18 +536,13 @@ function drawPolygon(event) {
   const pointer = canvas.getPointer(event.e);
   drawTemporaryShape(pointer);
 }
+
 // Being evoked 2 times before Polygon Mode
 // Being evoked 2 times before Line Mode + after 'enter' at the end of process
 // Being evoked 2 times after loading new image
 function prepareCanvasForNewPolygon(canvasObj) {
   canvas = canvasObj;
-  console.log("???????????????? prepare");
-  // if (!getTestDrawLineState()) {
   polygonMode = true;
-  // }
-  // else {
-  //   lineMode = true;
-  // }
   drawingFinished = false;
   canvas.discardActiveObject();
   setDrawCursorMode(canvas);
@@ -566,8 +555,10 @@ function prepareCanvasForNewPolygon(canvasObj) {
     mouseUpClick = placeHolderFunc;
   }
 }
+
 // ?????
 function repositionCrosshair(pointer) {
+  console.log("^^ pointer", pointer);
   const points = activeShape.get('points');
   points[pointArray.length] = {
     x: pointer.x,
@@ -583,6 +574,7 @@ function repositionCrosshair(pointer) {
   polygon.sendToBack();
   setPolygonDrawingInProgressState(true);
 }
+
 function movePoints(event) {
   if (activeShape) {
     preventOutOfBoundsPointsOnMove(event.target, canvas);
@@ -593,14 +585,18 @@ function movePoints(event) {
     };
   }
 }
+
 function placeHolderFunc() {}
+
 function assignMouseUpClickFunc() {
   mouseUpClick = placeHolderFunc;
 }
+
 function placeholderToAddMouseDownEvents() {
   mouseIsDownOnTempPoint = false;
   mouseUpClick();
 }
+
 function skipMouseUpEvent() {
   canvas.__eventListeners['mouse:down'] = [];
   canvas.on('mouse:down', (e) => {
@@ -610,6 +606,7 @@ function skipMouseUpEvent() {
   });
   assignMouseUpClickFunc();
 }
+
 function prepareCanvasForNewPolygonsFromExternalSources(canvasObj) {
   canvas = canvasObj;
   setDrawCursorMode(canvas);
@@ -653,6 +650,7 @@ function cleanPolygonFromEmptyPoints() {
   });
   canvas.renderAll();
 }
+
 function resumeDrawingAfterRemovePoints() {
   mouseMoved = false;
   ignoredFirstMouseMovement = false;
@@ -673,10 +671,12 @@ function resumeDrawingAfterRemovePoints() {
     drawTemporaryShape(pointer);
   });
 }
+
 function removeInvisiblePoint() {
   //canvas.remove(invisiblePoint); //?????
   invisiblePoint = null;
 }
+
 function getScrollWidth() {
   // create a div with the scroll
   const div = document.createElement('div');
@@ -786,7 +786,6 @@ function scrolledViaScrollbar() {
 }
 
 function createNewPolygonFromCoordinates(points, imageScalingDimensions, imageLengthDimensions) {
-  console.log("create New Polygon");
   const polygon = new fabric.Polygon(points, polygonProperties.newPolygon());
   preventOutOfBoundsOnNewObject(polygon, imageScalingDimensions, imageLengthDimensions);
   lockMovementIfAssertedByState(polygon);

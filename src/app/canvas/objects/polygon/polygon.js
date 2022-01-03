@@ -24,7 +24,7 @@ let pointArray = [];
 let pointArrayNewLine = [];
 let pointArrayNewLineCopyToClearCanvas = [];
 let activeShape = null;
-let activeShapeNewLine = null;
+let activeShapeNewLineArray = [];
 
 let polygonMode = true;
 let lineMode = true;
@@ -48,9 +48,22 @@ let mouseIsDownOnTempPoint = false;
 // For Line Mode is evoked only initialization
 // Active shape consider all grey lines and Active Line - for Polygon Mode.
 // Active shape consider only last line with two points forming considered line.
+// Removes the last Active Line for Line Mode and Polygon Mode.
 function removeActiveShape() {
-  canvas.remove(activeShape);
-  activeShape = null;
+  // Polygon Mode
+  if (!getTestDrawLineState()) {
+    canvas.remove(activeShape);
+    activeShape = null;
+  }
+  // Line Mode
+  // TODO: to remove all temporary lines
+  else {
+    canvas.remove(activeShape);
+    activeShape = null;
+    activeShapeNewLineArray.forEach((points) => {
+      canvas.remove(points);
+    });
+  }
 }
 
 /* initial point should begin with one color and switch when there are 3
@@ -112,15 +125,14 @@ function addPoint(pointer) {
       x: pointer.x,
       y: pointer.y,
     }];
-    console.log(" ^^^ polyPoint", polyPoint);
     const polygon = new fabric.Polygon(polyPoint, polygonProperties.newTempPolygon()); /// activeLine
     activeShape = polygon;
-    activeShapeNewLine = polygon;
+    activeShapeNewLineArray.push(polygon);
+    console.log(" ^^^ activeShapeNewLineArray", activeShapeNewLineArray);
 
     // Line mode
     if (getTestDrawLineState())
     {
-      //canvas.remove(activeShape);
       canvas.add(polygon);
       points.push({
         x: pointer.x,
@@ -197,19 +209,25 @@ function generatePolygon() {
   });
 
   let polygon; // the entire polygon, and New line
-// For polygon mode
+
+  // For Polygon mode
   if (!getTestDrawLineState()) {
-    invisiblePoint = null;
+    // ???
+    //invisiblePoint = null;
     removeActiveShape();
     polygon = new fabric.Polygon(points, polygonProperties.newPolygon()); // for now, got it from if cycle above
-    // find out why on add new polygon points, the cursor changes immediately after adding them
     lockMovementIfAssertedByState(polygon);
     canvas.add(polygon);
   }
 
   // For Line Mode
   else {
-    removeActiveShape(); //Removes the last Active Line
+    // ???
+    // invisiblePoint = null;
+
+    //Removes the last Active Line
+    // TODO: to remove all temporary lines
+    removeActiveShape();
 
     const lengthArray = pointsNewLine.length;
     console.log("+++ lengthArray", lengthArray)
@@ -511,20 +529,7 @@ function drawTemporaryShape(pointer) {
   }
 }
 
-// After 'enter' sets the points in array
-function lockMovementIfAssertedByState(polygon) {
-  if (!getMovableObjectsState()) {
-    const immovableObjectProps = {
-      lockMovementX: true,
-      lockMovementY: true,
-      hoverCursor: 'default',
-    };
-    polygon.set(immovableObjectProps);
-  }
-}
-
-// No need to consider
-// Works only while drawing polygon and line, until 'enter'
+// Reacts on each mouse move, while drawing polygon and line, until 'enter'
 // draws the line for New line process
 function drawPolygon(event) {
   if (ignoredFirstMouseMovement) {
@@ -535,6 +540,19 @@ function drawPolygon(event) {
   lastMouseEvent = event;
   const pointer = canvas.getPointer(event.e);
   drawTemporaryShape(pointer);
+}
+
+// sets the points of polygon or line as immovable object
+// for setting this property, need to hit check box in settings - 'movable object'
+function lockMovementIfAssertedByState(polygon) {
+  if (!getMovableObjectsState()) {
+    const immovableObjectProps = {
+      lockMovementX: true,
+      lockMovementY: true,
+      hoverCursor: 'default',
+    };
+    polygon.set(immovableObjectProps);
+  }
 }
 
 // Being evoked 2 times before Polygon Mode
@@ -558,7 +576,6 @@ function prepareCanvasForNewPolygon(canvasObj) {
 
 // ?????
 function repositionCrosshair(pointer) {
-  console.log("^^ pointer", pointer);
   const points = activeShape.get('points');
   points[pointArray.length] = {
     x: pointer.x,

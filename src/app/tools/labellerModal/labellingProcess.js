@@ -23,7 +23,7 @@ function prepareLabelShape(shape, canvasObj) {
 function removeTargetShape() {
   canvas.remove(targetShape);
   labellingState = false;
-  console.log("?? ^^ TODO: to remove also active Lines of new Line, and yellow points ^^^  targetShape", targetShape);
+  console.log("?? ^^ TODO: to remove yellow points ^^^  targetShape", targetShape);
 }
 
 function setCursorMode() {

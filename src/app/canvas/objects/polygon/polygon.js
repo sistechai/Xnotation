@@ -56,7 +56,6 @@ function removeActiveShape() {
     activeShape = null;
   }
   // Line Mode
-  // TODO: to remove all temporary lines
   else {
     canvas.remove(activeShape);
     activeShape = null;

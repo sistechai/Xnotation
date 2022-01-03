@@ -62,6 +62,9 @@ function removeActiveShape() {
     activeShapeNewLineArray.forEach((points) => {
       canvas.remove(points);
     });
+    pointArrayNewLine.forEach( (points) => {
+      canvas.remove(points);
+    });
   }
 }
 
@@ -89,7 +92,7 @@ function addPoint(pointer) {
     setCreateNewLineButtonToActive();
     setTestDrawLineState(true);
     point.stroke = 'violet';
-    point.fill = 'yellow';
+    point.fill = 'white';
   }
 
   else
@@ -127,7 +130,6 @@ function addPoint(pointer) {
     const polygon = new fabric.Polygon(polyPoint, polygonProperties.newTempPolygon()); /// activeLine
     activeShape = polygon;
     activeShapeNewLineArray.push(polygon);
-    console.log(" ^^^ activeShapeNewLineArray", activeShapeNewLineArray);
 
     // Line mode
     if (getTestDrawLineState())

@@ -165,22 +165,22 @@ function addNewPointsByTheirAddDirection(newPointsArray, firstPointId, lastPoint
   if (firstPointId < lastPointId) {
     pointsArray.forEach((point) => {
       newPointsArray.push({ x: point.left, y: point.top });
-      if (polygon.previousShapeName === 'newLine') {
-        addYellowPoint(pointId, {x: pointsArray[pointId].left, y: pointsArray[pointId].top});
-        pointId++;
-      }
+      // if (polygon.previousShapeName === 'newLine') {
+      //   addYellowPoint(pointId, {x: pointsArray[pointId].left, y: pointsArray[pointId].top});
+      //   pointId++;
+      // }
     });
-    yellowPointsId++;
+    //yellowPointsId++;
   }
 
   else {
     for (pointId = pointsArray.length - 1; pointId > -1; pointId -= 1) {
       newPointsArray.push({ x: pointsArray[pointId].left, y: pointsArray[pointId].top });
-      if (polygon.previousShapeName === 'newLine') {
-        addYellowPoint(pointId, {x: pointsArray[pointId].left, y: pointsArray[pointId].top});
-      }
+      // if (polygon.previousShapeName === 'newLine') {
+      //   addYellowPoint(pointId, {x: pointsArray[pointId].left, y: pointsArray[pointId].top});
+      // }
     }
-    yellowPointsId++;
+    // yellowPointsId++;
   }
 }
 

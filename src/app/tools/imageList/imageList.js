@@ -28,6 +28,8 @@ import {
   getHasMachineLearningButtonBeenHighligtedState, getLastDrawingModeState,
 } from '../state.js';
 
+import {getNumberOfShapeTypes} from '../globalStatistics/globalStatistics.js';
+
 let currentlyActiveElement = null;
 let imageContainerElement = null;
 const images = [];
@@ -215,6 +217,15 @@ function addNewImage(imageName, imageData) {
     data: imageData, name: imageName, shapes: {}, labels: {}, thumbnailElementRef,
   };
   images.push(imageObject);
+  console.log("-------- imageName", imageName);
+  console.log("-------- imageObject", imageObject);
+}
+
+function exportJSON(){
+  console.log("-------- images", images);
+  console.log("-------- images.length", images.length);
+  console.log("-------- images file name", images[0].name);
+  console.log("-------- images getNumberOfShapeTypes() ", getNumberOfShapeTypes() );
 }
 
 function captureCurrentImageData() {
@@ -407,4 +418,5 @@ export {
   addImageFromMultiUploadToList, updateCurrentImageIds, getLastImageIdByName,
   setDefaultImageThumbnailHighlightToMLSelected, removeTickSVGOverImageThumbnail,
   removeMLThumbnailHighlight, removeSelectedMLThumbnailHighlight, getImageIdByName,
+    exportJSON,
 };

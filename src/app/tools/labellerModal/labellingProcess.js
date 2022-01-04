@@ -19,11 +19,9 @@ function prepareLabelShape(shape, canvasObj) {
 
 // if to press 'cancel' on 'label choosing  bar'
 // the line and points should be removed
-// TODO: to remove also active Lines of new Line, and yellow points
 function removeTargetShape() {
   canvas.remove(targetShape);
   labellingState = false;
-  console.log("?? ^^ TODO: to remove yellow points ^^^  targetShape", targetShape);
 }
 
 function setCursorMode() {

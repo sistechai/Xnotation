@@ -9,7 +9,6 @@ let currentCanvasContainerElement = null;
 let timeoutMilliseconds = 0;
 
 function getCurrentCanvasContainerElement() {
-  console.log("currentCanvasContainerElement", currentCanvasContainerElement);
   return currentCanvasContainerElement;
 }
 
@@ -48,16 +47,19 @@ function switchCanvasContainerElements() {
 }
 
 function enableActiveObjectsAppearInFront() {
+  console.log("!!!!!!!!!!!!current canvas", canvas);
   canvas.preserveObjectStacking = false;
 }
 
 function preventActiveObjectsAppearInFront() {
+  console.log("!!!!!!!!!!!!current canvas", canvas);
   if (canvas) { canvas.preserveObjectStacking = true; }
 }
 
 function assignNewCanvasForUtils(newCanvasObj) {
   oldCanvas = canvas;
   canvas = newCanvasObj;
+  console.log("!!!!!!!!!!!!current canvas", canvas);
 }
 
 function assignTimeoutMillisecondsDependingOnBrowser() {
@@ -65,6 +67,7 @@ function assignTimeoutMillisecondsDependingOnBrowser() {
 }
 
 function assignCanvasForUtils(canvasObj) {
+  console.log("!!!!!!!!!!!!current canvas", canvas);
   canvas = canvasObj;
   canvas.randomProperty = 'test';
   canvasContainerElement1 = document.getElementById('canvas-absolute-container-1');

@@ -18,8 +18,7 @@ import {
 } from './changePointsStyle.js';
 import {
   getEditingLabelId, getLastPolygonActionWasMoveState,
-  getNewShapeSelectedViaLabelListState, setNewShapeSelectedViaLabelListState,
-  getTestDrawLineState,
+  getNewShapeSelectedViaLabelListState, setNewShapeSelectedViaLabelListState
 } from '../../../../tools/state.js';
 import { highlightShapeFill, defaultShapeFill } from '../../allShapes/allShapes.js';
 
@@ -152,15 +151,22 @@ function cleanPolygonPointsArray() {
 }
 
 function getPolygonPointsArray() {
-  console.log(" get polygon points array polygonPoints", polygonPoints);
   return polygonPoints;
 }
 
+// complicated function
+// evoked by many functions
+// if to call New Line function for the first time is evoked 2 times
+// if to call Polygon function is evoked 1 time
+// if to hit Remove Points evoked too
 function removePolygonPoints() {
   console.log("remove polygonPoints", polygonPoints);
   if (getLastPolygonActionWasMoveState()) {
     if (getEditingLabelId() === null || getNewShapeSelectedViaLabelListState()) {
       polygonPoints = removePolygonPointsImpl(canvas, polygonPoints);
+
+      // 2 times for NEw Line?
+      //polygonPoints = removePolygonPointsImpl(canvas, polygonPoints);
     } else {
       preventNewPolygonInitialisation = true;
     }
@@ -168,6 +174,9 @@ function removePolygonPoints() {
 
   else {
     polygonPoints = removePolygonPointsImpl(canvas, polygonPoints);
+    // 2 times for NEw Line?
+    //polygonPoints = removePolygonPointsImpl(canvas, polygonPoints);
+    console.log("^^^^ else remove polygonPoints", polygonPoints);
   }
   setNewShapeSelectedViaLabelListState(false);
   setPolygonEditingStatus(false);
@@ -182,7 +191,6 @@ function changePolygonPointsPropertiesToDefault(canvasObj) {
 
 // After hitting Edit Shape, it moves polygon
 function displayPolygonPointsAfterMove() {
-  console.log("----------------- display Polygon after move ");
   polygon = displayPolygonPointsAfterMoveImpl(canvas, polygon, polygonPoints);
   setPolygonEditingStatus(true);
 }
@@ -208,7 +216,6 @@ function movePolygonPoint(event, labelObject) {
 
 // removes shapes from Labels bar
 function removePolygon(lableObjectFromLabelList) {
-  console.log("remove polygon lableObjectFromLabelList.shapeName", lableObjectFromLabelList.shapeName);
   if (editingPolygon) {
     removePolygonImpl(canvas, polygon);
     return polygon.id;

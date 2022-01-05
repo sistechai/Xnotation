@@ -9,7 +9,6 @@ function incrementShapeType(shapeObj) {
   else if (shapeObj.shapeName === 'newLine') {
     numberOfShapeTypes.newLines += 1;
   }
-  console.log("^^^^^^^^^^^^^^^ INCREMENT numberOfShapeTypes", numberOfShapeTypes);
 }
 
 function decrementShapeType(shapeObj) {
@@ -21,7 +20,6 @@ function decrementShapeType(shapeObj) {
   else if (shapeObj.shapeName === 'newLine') {
     numberOfShapeTypes.newLines -= 1;
   }
-  console.log("^^^^^^^^^^^^^^^ DECREMENT numberOfShapeTypes", numberOfShapeTypes);
 }
 
 function getNumberOfShapeTypes() {

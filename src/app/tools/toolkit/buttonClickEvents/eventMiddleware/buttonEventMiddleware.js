@@ -75,7 +75,6 @@ function doNothingIfLabellingOrAddingNewPoints(func, element, event) {
 }
 
 function interruptAllCanvasEventsIfLabellingInProgress(func) {
-  console.log("????? interruptAllCanvasEventsIfLabellingInProgress(func), func", func);
   removeActiveButtonPopover();
   if (isLabelling()) {
     interruptAllCanvasEvents();

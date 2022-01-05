@@ -46,7 +46,6 @@ function findInitialLabelLocation(shape) {
     locationObj.top = top;
     setPolygonLabelOffsetProps(shape, shape.points[0]);
   }
-  console.log("labelProperties.", labelProperties);
   return locationObj;
 }
 
@@ -99,13 +98,10 @@ function generateLabelShapeGroup(shape, text, image, isUsingMachineLearning) {
 
     if (shape.shapeName === 'newLine') {
       shape.set('shapeName', 'polygon');
-      //shape.set('previousShapeName', 'newLine');
       shape.set('ownCaching', false);
       shape.set('shapeLabelText', preprocessedText);
       const strokeColor = shape.stroke;
       shape.set('stroke', strokeColor);
-      console.log("22!!!! label shape stroke", shape.stroke);
-
     }
   }
 
@@ -169,7 +165,6 @@ function repopulateVisibleImageObjects(previousDimensions, existingShapes, exist
     width: newFileSizeRatio * previousDimensions.polygonOffsetLeft,
     height: newFileSizeRatio * previousDimensions.polygonOffsetTop,
   };
-  console.log("repopulateVisibleImageObjects newPolygonOffsetProperties label", newPolygonOffsetProperties);
   labelProperties.setPolygonOffsetProperties(newPolygonOffsetProperties);
   Object.keys(existingShapes).forEach((key) => {
     repopulateVisibleLabelShapeGroup(existingShapes[key], existingLabels[key], key,

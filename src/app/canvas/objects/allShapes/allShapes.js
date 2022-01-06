@@ -14,10 +14,19 @@ let annotation = {
 };
 
 let imagesInformationArray = [];
-let file_name;
+//let file_name;
 let imageId = null;
 
-function getStatementsForJSON(images) {
+
+function createNewShapeObject(shapeObj, shapeColor) {
+  const newShapeObject = { shapeRef: shapeObj, color: shapeColor, visibility: true };
+  newShapeObject.shapeRef.set('fill', shapeColor.default);
+  newShapeObject.shapeRef.set('stroke', shapeColor.stroke);
+  getStatementsForJSON();
+  return newShapeObject;
+}
+
+function getStatementsForJSON(){//images) {
 
   let colorHex;
   let currentShapes = getAllExistingShapes();
@@ -48,7 +57,6 @@ function getStatementsForJSON(images) {
   }
 
   imageId = getCurrentImageId();
-  file_name = images[imageId].name;
 
   annotation.polygons = [...polygons];
   annotation.lines = [...lines];
@@ -56,7 +64,7 @@ function getStatementsForJSON(images) {
 
   imagesInformationArray[imageId] = {
     "annotation": annotation,
-    'file_name': file_name,
+   // 'file_name': images[imageId].name;,
   };
 
   polygons = [];
@@ -115,14 +123,6 @@ function HSLToHex(hslColor) {
     b = "0" + b;
 
   return "#" + r + g + b;
-}
-
-
-function createNewShapeObject(shapeObj, shapeColor) {
-  const newShapeObject = { shapeRef: shapeObj, color: shapeColor, visibility: true };
-  newShapeObject.shapeRef.set('fill', shapeColor.default);
-  newShapeObject.shapeRef.set('stroke', shapeColor.stroke);
-  return newShapeObject;
 }
 
 function getAllExistingShapes() {

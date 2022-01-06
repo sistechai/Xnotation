@@ -3,19 +3,13 @@ import assignDrawPolygonEvents from '../../../../canvas/mouseInteractions/mouseE
 import {
   setDefaultState, setAlteringPolygonPointsState,
   setLastDrawingModeState, setHasDrawnShapeState,
-
-  // New Line
   getTestDrawLineState, setTestDrawLineState,
-
 } from '../../../state.js';
-import removePoints from '../../../../canvas/objects/polygon/alterPolygon/removePoints.js';
 import { setEditShapesButtonToDefault, setCreatePolygonButtonToActive, setCreateNewLineToDefault, setCreateNewLineButtonToActive,} from '../../styling/state.js';
 
 function initiateCreateNewPolygonEvents(canvas) {
   canvas.discardActiveObject();
-  console.log("??????????????????????????????????????????? canvas.discardActiveObject()", canvas.discardActiveObject());
   if (canvas.backgroundImage) {
-
     purgeCanvasMouseEvents(canvas);
     assignDrawPolygonEvents(canvas);
 

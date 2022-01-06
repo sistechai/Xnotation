@@ -1,123 +1,29 @@
 import { incrementShapeType, decrementShapeType } from '../../../tools/globalStatistics/globalStatistics.js';
-import { getTestDrawLineState } from '../../../tools/state.js';
+import { getTestDrawLineState, getCurrentImageId } from '../../../tools/state.js';
 
 let shapes = {};
 let canvas = null;
 
-let pointsLinePolygon = [];
-let color;
-let idObject = null;
-let objectJSONImageId = {};
-let file_name;
-
-let polygons = [];
-let lines = [];
-let rectangles = [];
-let annotation = {
-  polygons: null,
-  lines: null,
-  rectangles: null,
-};
-
 function createNewShapeObject(shapeObj, shapeColor) {
-
   const newShapeObject = { shapeRef: shapeObj, color: shapeColor, visibility: true };
   newShapeObject.shapeRef.set('fill', shapeColor.default);
   newShapeObject.shapeRef.set('stroke', shapeColor.stroke);
-
-  statementsToJSON (newShapeObject);
-
   return newShapeObject;
 }
 
-function HSLToHex(hslColor) {
-  // hslColor = hsl(154, 98%, 54%);
-  // regular expression to get numbers;
-  // numbers is array: ['154', '98', '54' ];
-  const NUMERIC_REGEXP = /[-]{0,1}[\d]*[.]{0,1}[\d]+/g;
-  const numbers = hslColor.match(NUMERIC_REGEXP);
-
-  let h,s,l;
-
-  h = numbers[0];
-  s = numbers[1];
-  l = numbers[2];
-
-  s /= 100;
-  l /= 100;
-
-  let c = (1 - Math.abs(2 * l - 1)) * s,
-      x = c * (1 - Math.abs((h / 60) % 2 - 1)),
-      m = l - c/2,
-      r = 0,
-      g = 0,
-      b = 0;
-
-  if (0 <= h && h < 60) {
-    r = c; g = x; b = 0;
-  } else if (60 <= h && h < 120) {
-    r = x; g = c; b = 0;
-  } else if (120 <= h && h < 180) {
-    r = 0; g = c; b = x;
-  } else if (180 <= h && h < 240) {
-    r = 0; g = x; b = c;
-  } else if (240 <= h && h < 300) {
-    r = x; g = 0; b = c;
-  } else if (300 <= h && h < 360) {
-    r = c; g = 0; b = x;
-  }
-  // Having obtained RGB, convert channels to hex
-  r = Math.round((r + m) * 255).toString(16);
-  g = Math.round((g + m) * 255).toString(16);
-  b = Math.round((b + m) * 255).toString(16);
-
-  // Prepend 0s, if necessary
-  if (r.length == 1)
-    r = "0" + r;
-  if (g.length == 1)
-    g = "0" + g;
-  if (b.length == 1)
-    b = "0" + b;
-
-  return "#" + r + g + b;
+function getAllExistingShapes() {
+  return shapes;
 }
 
-function statementsToJSON (newShapeObject){
-
-  let colorHex;
-
-  if (newShapeObject.shapeRef.previousShapeName === 'polygon') {
-    colorHex = HSLToHex (newShapeObject.color.stroke);
-    polygons.push({
-      "points": newShapeObject.shapeRef.points,
-      "color": colorHex,
-    });
-    //annotation.rectangles.set("polygons", polygons);
-    //annotation.set('polygons', polygons);
-  }
-
-  if (newShapeObject.shapeRef.previousShapeName === 'newLine') {
-    colorHex = HSLToHex (newShapeObject.color.stroke);
-    lines.push({
-      "points": newShapeObject.shapeRef.points,
-      "color": colorHex,
-    });
-    //annotation.set('lines', lines);
-  }
-
-  if (newShapeObject.shapeRef.shapeName === 'bndBox'){
-   colorHex = HSLToHex (newShapeObject.color.stroke);
-    rectangles.push({
-      "color": colorHex,
-      "points": newShapeObject.shapeRef.aCoords
-    });
-    //annotation.set('rectangles', rectangles);
-  }
-
-  console.log("polygons", polygons);
-  console.log("rectangles", rectangles);
-  console.log("lines", lines);
-
+// refactor the side effect of removing shape refs
+function retrieveAllShapeRefs() {
+  const shapeRefs = {};
+  Object.keys(shapes).forEach((key) => {
+    shapeRefs[key] = shapes[key];
+    canvas.remove(shapes[key].shapeRef);
+  });
+  shapes = {};
+  return shapeRefs;
 }
 
 // creates shape and changes its color
@@ -144,23 +50,8 @@ function getNumberOfShapes() {
   return Object.keys(shapes).length;
 }
 
-function getAllExistingShapes() {
-  return shapes;
-}
-
 function removeAllShapeRefs() {
   shapes = {};
-}
-
-// refactor the side effect of removing shape refs
-function retrieveAllShapeRefs() {
-  const shapeRefs = {};
-  Object.keys(shapes).forEach((key) => {
-    shapeRefs[key] = shapes[key];
-    canvas.remove(shapes[key].shapeRef);
-  });
-  shapes = {};
-  return shapeRefs;
 }
 
 function getShapeColorById(id) {
@@ -212,7 +103,6 @@ function changeShapeLabelText(id, newText) {
 
 function removeShape(id) {
   decrementShapeType(shapes[id].shapeRef);
-
   // removes from the canvas the polygon
   canvas.remove(shapes[id].shapeRef);
   delete shapes[id];

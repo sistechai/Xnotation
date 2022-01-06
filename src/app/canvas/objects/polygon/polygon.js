@@ -168,21 +168,16 @@ function addPoint(pointer) {
     setAddPointsButtonToDefault();
     setRemovePointsButtonToDefault();
     setRemoveLabelsButtonToDefault();
-
     pointArrayNewLine.push(point);
     pointArrayNewLineCopyToClearCanvas.push(point);
   }
-
   preventOutOfBoundsPointsOnMove(point, canvas);
-
   pointArray.push(point);
-
   drawTemporaryShape(pointer);
   activeShape.sendToBack();
   canvas.selection = false;
   const { x, y } = pointer;
   lastNewPointPosition = { x, y };
-
   if (getTestDrawLineState()){
     pointArray = []; // to delete last point of New line
   }
@@ -199,7 +194,6 @@ function generatePolygon() {
     });
     canvas.remove(point);
   });
-
   const pointsNewLine = [];
   pointArrayNewLineCopyToClearCanvas.forEach((point) => {
     pointsNewLine.push({
@@ -231,22 +225,16 @@ function generatePolygon() {
     removeActiveShape();
 
     const lengthArray = pointsNewLine.length;
-    console.log("+++ lengthArray", lengthArray)
     let i;
     let tempArrayLine = [];
 
       tempArrayLine.push(...pointsNewLine);
 
     for (i = lengthArray- 1; i>-1; i--) {
-        //console.log("i ", i);
         tempArrayLine.push(pointsNewLine[i]);
     }
-    console.log("+++ tempArrayLine", tempArrayLine);
-
-      polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon()); // for now, got it from if cycle above
-
-      console.log("++ polygon" , polygon)
-      canvas.add(polygon);
+    polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon()); // for now, got it from if cycle above
+    canvas.add(polygon);
 
       //tempArrayLine = [];
 
@@ -261,20 +249,6 @@ function generatePolygon() {
       // pointArrayNewLineCopyToClearCanvas = [];
       lockMovementIfAssertedByState(polygon);
       lineMode = false;
-    //resetDrawPolygonMode();
-
-    // For LockMovement, set false
-    //setMovableObjectsState(false);
-    // ??
-    //polygon.shapeName = 'newLine';
-
-    console.log("polygon.shapeName  ", polygon.shapeName );
-
-    //lockMovementIfAssertedByState(polygon);
-
-    //prepareCanvasForNewPolygon(canvas);
-
-
   }
 
   activeShape = null;
@@ -282,7 +256,6 @@ function generatePolygon() {
   drawingFinished = true;
   prepareLabelShape(polygon, canvas);
   showLabellerModal();
-  console.log("000 show labeller Modal polygon", polygon);
   setPolygonDrawingInProgressState(false);
   setSessionDirtyState(true);
 
@@ -483,11 +456,6 @@ function instantiatePolygon(event) {
       else if (polygonMode) {
         addPoint(pointer);
       }
-
-      // TODO: LineMode. Not working for now. Should be inside the line! But it reacts inside the line, which was drawn as polygon.
-      else {
-        console.log("??? TODO: LineMode. Not working for now. Should be inside the line! But it reacts inside the line, which was drawn as polygon");
-      }
     }
 
     // Here the place of drawing line for polygon
@@ -575,7 +543,6 @@ function prepareCanvasForNewPolygon(canvasObj) {
   }
 }
 
-// ?????
 function repositionCrosshair(pointer) {
   const points = activeShape.get('points');
   points[pointArray.length] = {

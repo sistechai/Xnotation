@@ -80,7 +80,6 @@ function isAddingPointsToPolygon() {
 
 // the final point is the last point to add to polygon
 function completePolygon(finalPoint) {
-  console.log("polygon finalPoint", finalPoint);
   completePolygonImpl(polygon, polygon.points, finalPoint);
   polygonPoints = [];
   resetPolygonSelectableArea();
@@ -112,8 +111,6 @@ function sendPolygonPointsToFront(canvasArg) {
 }
 
 function displayPolygonPoints() {
-  console.log(" display polygon Points", polygonPoints);
-  console.log(" display polygon.points", polygon.points);
   if (!preventNewPolygonInitialisation) {
     polygonPoints = displayPolygonPointsWithStyleImpl(
       canvas, polygon, polygonProperties.existingPolygonPoint,
@@ -160,7 +157,6 @@ function getPolygonPointsArray() {
 // if to call Polygon function is evoked 1 time
 // if to hit Remove Points evoked too
 function removePolygonPoints() {
-  console.log("remove polygonPoints", polygonPoints);
   if (getLastPolygonActionWasMoveState()) {
     if (getEditingLabelId() === null || getNewShapeSelectedViaLabelListState()) {
       polygonPoints = removePolygonPointsImpl(canvas, polygonPoints);
@@ -174,10 +170,7 @@ function removePolygonPoints() {
 
   else {
     polygonPoints = removePolygonPointsImpl(canvas, polygonPoints);
-    // 2 times for NEw Line?
-    //polygonPoints = removePolygonPointsImpl(canvas, polygonPoints);
-    console.log("^^^^ else remove polygonPoints", polygonPoints);
-  }
+    }
   setNewShapeSelectedViaLabelListState(false);
   setPolygonEditingStatus(false);
 }

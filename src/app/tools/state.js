@@ -38,6 +38,15 @@ let crosshairForBoundingBoxVisibleState = true;
 let crosshairUsedOnCanvasState = false;
 let boundingBoxCrosshairDropdownOpenState = false;
 
+function setCurrentImageId(id) {
+  currentImageId = id;
+  if (currentImageId == '0') setCreateNewLineToDefault();
+}
+
+function getCurrentImageId() {
+  return currentImageId;
+}
+
 function getDefaultState() {
   return defaultState;
 }
@@ -53,16 +62,12 @@ function getRemovingPolygonPointsState() {
 ////////////// New Line
 function setTestDrawLineState(state){
   TestDrawLineState = state;
-  // if (state) {
-  //   setEditShapesButtonToDefault();
-  // }
   return state;
 }
 
 function getTestDrawLineState(){
   return TestDrawLineState;
 }
-//////////////
 
 function getAddingPolygonPointsState() {
     return addingPolygonPointsState;
@@ -128,10 +133,6 @@ function getExportDatasetsPopupOpenState() {
   return exportDatasetsPopupOpenState;
 }
 
-function getCurrentImageId() {
-  return currentImageId;
-}
-
 function getChangingMLGeneratedLabelNamesState() {
   return changingMLGeneratedLabelNamesState;
 }
@@ -171,12 +172,11 @@ function getRemoveImageModalDisplayedState() {
 function getWelcomeModalDisplayedState() {
   return welcomeModalDisplayedState;
 }
-// ??
+
 function getSessionDirtyState() {
-  console.log("sessionDirty", sessionDirty);
   return sessionDirty;
 }
-//
+
 function getHasMachineLearningButtonBeenHighligtedState() {
   return hasMachineLearningButtonBeenHighligted;
 }
@@ -198,7 +198,6 @@ function setDefaultState(state) {
 }
 
 function setAlteringPolygonPointsState(state) {
-  console.log("setAlteringPolygonPointsState");
   removingPolygonPointsState = state;
   addingPolygonPointsState = state;
 }
@@ -269,12 +268,6 @@ function setSettingsPopupOpenState(state) {
 
 function setExportDatasetsPopupOpenState(state) {
   exportDatasetsPopupOpenState = state;
-}
-
-function setCurrentImageId(id) {
-  currentImageId = id;
-  console.log("id", id);
-  if (currentImageId == '0') setCreateNewLineToDefault();
 }
 
 function setChangingMLGeneratedLabelNamesState(state) {

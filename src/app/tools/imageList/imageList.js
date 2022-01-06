@@ -46,7 +46,7 @@ function exportJSON(){
   console.log("??????????  images", images);
   console.log("?????????? images file name", images[0].name);
   console.log("?????????? images[id].shapes", images[0].shapes);
-  getStatementsForJSON();
+  getStatementsForJSON(images);
 }
 
 function updateCurrentImageIds(currentId, newId) {

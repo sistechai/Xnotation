@@ -17,11 +17,9 @@ let imagesInformationArray = [];
 let file_name;
 let imageId = null;
 
-function getStatementsForJSON() {
+function getStatementsForJSON(images) {
 
   let colorHex;
-
-
   let currentShapes = getAllExistingShapes();
 
   let key;
@@ -50,13 +48,15 @@ function getStatementsForJSON() {
   }
 
   imageId = getCurrentImageId();
+  file_name = images[imageId].name;
 
   annotation.polygons = [...polygons];
   annotation.lines = [...lines];
   annotation.rectangles = [...rectangles];
 
   imagesInformationArray[imageId] = {
-    "annotation": annotation
+    "annotation": annotation,
+    'file_name': file_name,
   };
 
   polygons = [];

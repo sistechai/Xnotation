@@ -1,28 +1,26 @@
 import { incrementShapeType, decrementShapeType } from '../../../tools/globalStatistics/globalStatistics.js';
 import { getTestDrawLineState, getCurrentImageId } from '../../../tools/state.js';
-
 let shapes = {};
 let canvas = null;
 
 let polygons = [];
 let lines = [];
 let rectangles = [];
+
 let annotation = {
   polygons: null,
   lines: null,
   rectangles: null
 };
-
 let imagesInformationArray = [];
-//let file_name;
 let imageId = null;
-
+//let file_name;
 
 function createNewShapeObject(shapeObj, shapeColor) {
   const newShapeObject = { shapeRef: shapeObj, color: shapeColor, visibility: true };
   newShapeObject.shapeRef.set('fill', shapeColor.default);
   newShapeObject.shapeRef.set('stroke', shapeColor.stroke);
-  getStatementsForJSON();
+  //getStatementsForJSON();
   return newShapeObject;
 }
 
@@ -58,7 +56,7 @@ function getStatementsForJSON(){//images) {
 
   imageId = getCurrentImageId();
 
-  annotation.polygons = [...polygons];
+  annotation.polygons = polygons;
   annotation.lines = [...lines];
   annotation.rectangles = [...rectangles];
 

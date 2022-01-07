@@ -31,7 +31,7 @@ import {
   setHasMachineLearningButtonBeenHighligtedState, getCrosshairUsedOnCanvasState,
   getHasMachineLearningButtonBeenHighligtedState, getLastDrawingModeState, getCurrentImageId,
 } from '../state.js';
-import { getStatementsForJSON } from '../../canvas/objects/allShapes/allShapes.js';
+import { getStatementsForCurrentImageToJSON } from '../../canvas/objects/allShapes/allShapes.js';
 
 let currentlyActiveElement = null;
 let imageContainerElement = null;
@@ -46,7 +46,13 @@ function exportJSON(){
   console.log("??????????  images", images);
   console.log("?????????? images file name", images[0].name);
   console.log("?????????? images[id].shapes", images[0].shapes);
-  getStatementsForJSON(images);
+  if (images.length === 1){
+    console.log("images.length", images.length);
+    getStatementsForCurrentImageToJSON(images);
+  }
+  else {
+    getStatementsForCurrentImageToJSON();
+  }
 }
 
 function updateCurrentImageIds(currentId, newId) {

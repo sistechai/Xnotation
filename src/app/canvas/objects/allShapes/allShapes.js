@@ -24,7 +24,7 @@ function createNewShapeObject(shapeObj, shapeColor) {
   return newShapeObject;
 }
 
-function getStatementsForJSON(){//images) {
+function getStatementsForCurrentImageToJSON(images) {
   let colorHex;
   let currentShapes = getAllExistingShapes();
   let key;
@@ -58,14 +58,14 @@ function getStatementsForJSON(){//images) {
 
   imageId = getCurrentImageId();
 
-  //annotation.polygons = polygons;
-  //annotation.lines = lines;
-  //annotation.rectangles = rectangles;
+  annotation.polygons = polygons;
+  annotation.lines = lines;
+  annotation.rectangles = rectangles;
 
-  //imagesInformationArray[imageId] = {
-    //"annotation": annotation,
-   // 'file_name': images[imageId].name;,
-  //};
+  imagesInformationArray[imageId] = {
+    "annotation": annotation,
+    'file_name': images[imageId].name,
+  };
 
   console.log("imagesInformationArray", imagesInformationArray);
   console.log("imagesInformationArray rectangles", rectangles);
@@ -232,5 +232,5 @@ export {
   removeFillForAllShapes, getShapeVisibilityById, addShapeForInvisibleImage,
   getShapeById, getShapeColorById, changeShapeColorById, changeShapeLabelText,
   addShape, addExistingShape, removeAllShapeRefs, assignCanvasForShapeFillManipulation,
-  getStatementsForJSON
+  getStatementsForCurrentImageToJSON
 };

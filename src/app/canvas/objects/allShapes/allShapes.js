@@ -6,21 +6,21 @@ let canvas = null;
 let polygons = [];
 let lines = [];
 let rectangles = [];
-
 let annotation = {
   polygons: null,
   lines: null,
   rectangles: null
 };
+
+// Array of objects comprises:
+// 'file_name' and 'annotation'.
 let imagesInformationArray = [];
 let imageId = null;
-//let file_name;
 
 function createNewShapeObject(shapeObj, shapeColor) {
   const newShapeObject = { shapeRef: shapeObj, color: shapeColor, visibility: true };
   newShapeObject.shapeRef.set('fill', shapeColor.default);
   newShapeObject.shapeRef.set('stroke', shapeColor.stroke);
-  //getStatementsForJSON();
   return newShapeObject;
 }
 
@@ -32,6 +32,7 @@ function getStatementsForCurrentImageToJSON(images) {
   polygons = [];
   lines = [];
   rectangles = [];
+
   for (key in currentShapes) {
     if (currentShapes[key].shapeRef.previousShapeName === 'polygon') {
       colorHex = HSLToHex(currentShapes[key].color.stroke);
@@ -67,10 +68,10 @@ function getStatementsForCurrentImageToJSON(images) {
     'file_name': images[imageId].name,
   };
 
-  console.log("imagesInformationArray", imagesInformationArray);
   console.log("imagesInformationArray rectangles", rectangles);
   console.log("imagesInformationArray lines", lines);
   console.log("imagesInformationArray polygons", polygons);
+  console.log("imagesInformationArray", imagesInformationArray);
 }
 
 function HSLToHex(hslColor) {

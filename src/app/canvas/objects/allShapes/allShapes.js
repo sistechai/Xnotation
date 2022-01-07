@@ -40,7 +40,6 @@ function getStatementsForCurrentImageToJSON(images) {
       }
 
       polygons.push({
-        //"points": currentShapes[key].shapeRef.points,
         "color": colorHex,
         'points': points
       });

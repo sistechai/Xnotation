@@ -42,7 +42,9 @@ function exportJSON(){
 
 function writeJSON(objectJSON){
   const stringJSON = JSON.stringify(objectJSON);
-  console.log("stringJSON", stringJSON);
+  let stringJSONparsed = JSON.parse(stringJSON);
+  console.log("stringJSON", stringJSONparsed);
+  return stringJSONparsed;
 }
 
 // evoked before uploading new image or swithching the images

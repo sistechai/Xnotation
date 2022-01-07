@@ -34,6 +34,7 @@ function getStatementsForCurrentImageToJSON(images) {
   for (key in currentShapes) {
     if (currentShapes[key].shapeRef.previousShapeName === 'polygon') {
       colorHex = HSLToHex(currentShapes[key].color.stroke);
+
       for (let i=0; i< currentShapes[key].shapeRef.points.length; i++) {
         points.push(currentShapes[key].shapeRef.points[i].x, currentShapes[key].shapeRef.points[i].y);
       }
@@ -43,21 +44,47 @@ function getStatementsForCurrentImageToJSON(images) {
         "color": colorHex,
         'points': points
       });
+
       points = [];
+
     }
     if (currentShapes[key].shapeRef.previousShapeName === 'newLine') {
       colorHex = HSLToHex(currentShapes[key].color.stroke);
+
+      for (let i=0; i< currentShapes[key].shapeRef.points.length; i++) {
+        points.push(currentShapes[key].shapeRef.points[i].x, currentShapes[key].shapeRef.points[i].y);
+      }
+
       lines.push({
-        "points": currentShapes[key].shapeRef.points,
+        'points': points,
+        //"points": currentShapes[key].shapeRef.points,
         "color": colorHex,
       });
+
+      points = [];
+
     }
     if (currentShapes[key].shapeRef.shapeName === 'bndBox'){
       colorHex = HSLToHex(currentShapes[key].color.stroke);
+
+      console.log("points.push(currentShapes[key].shapeRef.points", currentShapes[key].shapeRef);
+
+      //for (let i=0; i< currentShapes[key].shapeRef.points.length; i++) {
+      points.push(currentShapes[key].shapeRef.aCoords.br.x, currentShapes[key].shapeRef.aCoords.br.y);
+      points.push(currentShapes[key].shapeRef.aCoords.tr.x, currentShapes[key].shapeRef.aCoords.tr.y);
+      points.push(currentShapes[key].shapeRef.aCoords.tl.x, currentShapes[key].shapeRef.aCoords.tl.y);
+      points.push(currentShapes[key].shapeRef.aCoords.bl.x, currentShapes[key].shapeRef.aCoords.bl.y);
+      //}
+
+
       rectangles.push({
-        "points": currentShapes[key].shapeRef.aCoords,
+        //"points": currentShapes[key].shapeRef.aCoords,
         "color": colorHex,
+        'points': points
       });
+
+      points = [];
+
     }
   }
   imageId = getCurrentImageId();

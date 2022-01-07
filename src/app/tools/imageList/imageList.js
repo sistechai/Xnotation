@@ -47,11 +47,10 @@ function exportJSON(){
   console.log("?????????? images file name", images[0].name);
   console.log("?????????? images[id].shapes", images[0].shapes);
   if (images.length === 1){
-    console.log("images.length", images.length);
     getStatementsForCurrentImageToJSON(images);
   }
   else {
-    getStatementsForCurrentImageToJSON();
+    getStatementsForCurrentImageToJSON(images);
   }
 }
 

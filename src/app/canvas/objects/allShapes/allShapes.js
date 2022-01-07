@@ -58,19 +58,28 @@ function getStatementsForCurrentImageToJSON(images) {
   }
 
   imageId = getCurrentImageId();
+  console.log("imageId", imageId);
 
-  annotation.polygons = polygons;
-  annotation.lines = lines;
-  annotation.rectangles = rectangles;
+  annotation.polygons = polygons.slice(0);
+  annotation.lines = lines.slice(0);
+  annotation.rectangles = rectangles.slice(0);
+
+  let copiedAnnotation = Object.assign({}, annotation);
+  copiedAnnotation.polygons = annotation.polygons;
+  copiedAnnotation.lines = annotation.lines;
+  copiedAnnotation.rectangles = annotation.rectangles;
 
   imagesInformationArray[imageId] = {
-    "annotation": annotation,
+    "annotation": copiedAnnotation,
     'file_name': images[imageId].name,
   };
 
-  console.log("imagesInformationArray rectangles", rectangles);
-  console.log("imagesInformationArray lines", lines);
-  console.log("imagesInformationArray polygons", polygons);
+  copiedAnnotation = {};
+  annotation = {};
+
+  //console.log("imagesInformationArray rectangles", rectangles);
+  //console.log("imagesInformationArray lines", lines);
+  console.log("222 imageId", imageId);
   console.log("imagesInformationArray", imagesInformationArray);
 }
 

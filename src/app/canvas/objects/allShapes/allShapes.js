@@ -25,11 +25,13 @@ function createNewShapeObject(shapeObj, shapeColor) {
 }
 
 function getStatementsForJSON(){//images) {
-
   let colorHex;
   let currentShapes = getAllExistingShapes();
-
   let key;
+
+  polygons = [];
+  lines = [];
+  rectangles = [];
   for (key in currentShapes) {
     if (currentShapes[key].shapeRef.previousShapeName === 'polygon') {
       colorHex = HSLToHex(currentShapes[key].color.stroke);
@@ -56,19 +58,19 @@ function getStatementsForJSON(){//images) {
 
   imageId = getCurrentImageId();
 
-  annotation.polygons = polygons;
-  annotation.lines = [...lines];
-  annotation.rectangles = [...rectangles];
+  //annotation.polygons = polygons;
+  //annotation.lines = lines;
+  //annotation.rectangles = rectangles;
 
-  imagesInformationArray[imageId] = {
-    "annotation": annotation,
+  //imagesInformationArray[imageId] = {
+    //"annotation": annotation,
    // 'file_name': images[imageId].name;,
-  };
+  //};
 
-  polygons = [];
-  lines = [];
-  rectangles = [];
   console.log("imagesInformationArray", imagesInformationArray);
+  console.log("imagesInformationArray rectangles", rectangles);
+  console.log("imagesInformationArray lines", lines);
+  console.log("imagesInformationArray polygons", polygons);
 }
 
 function HSLToHex(hslColor) {

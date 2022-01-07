@@ -6,11 +6,6 @@ let canvas = null;
 let polygons = [];
 let lines = [];
 let rectangles = [];
-let annotation = {
-  polygons: null,
-  lines: null,
-  rectangles: null
-};
 
 // Array of objects comprises:
 // 'file_name' and 'annotation'.
@@ -24,6 +19,7 @@ function createNewShapeObject(shapeObj, shapeColor) {
   return newShapeObject;
 }
 
+// saves each image information
 function getStatementsForCurrentImageToJSON(images) {
   let colorHex;
   let currentShapes = getAllExistingShapes();
@@ -56,9 +52,12 @@ function getStatementsForCurrentImageToJSON(images) {
       });
     }
   }
-
   imageId = getCurrentImageId();
-  console.log("imageId", imageId);
+  let annotation = {
+    polygons: null,
+    lines: null,
+    rectangles: null
+  };
 
   annotation.polygons = polygons.slice(0);
   annotation.lines = lines.slice(0);
@@ -70,17 +69,24 @@ function getStatementsForCurrentImageToJSON(images) {
   copiedAnnotation.rectangles = annotation.rectangles;
 
   imagesInformationArray[imageId] = {
-    "annotation": copiedAnnotation,
-    'file_name': images[imageId].name,
+    rectangles: copiedAnnotation.rectangles,
+    polygons: copiedAnnotation.polygons,
+    lines: copiedAnnotation.lines
   };
 
-  copiedAnnotation = {};
-  annotation = {};
+  let objectJSON = {};
 
-  //console.log("imagesInformationArray rectangles", rectangles);
-  //console.log("imagesInformationArray lines", lines);
-  console.log("222 imageId", imageId);
-  console.log("imagesInformationArray", imagesInformationArray);
+  for (imageId = 0;imageId < imagesInformationArray.length; imageId++) {
+    objectJSON[imageId] = {
+      "annotation": imagesInformationArray[imageId],
+      'file_name': images[imageId].name,
+    }
+  }
+
+  //copiedAnnotation = {};
+  annotation = {};
+  console.log("objectJSON", objectJSON);
+  return objectJSON;
 }
 
 function HSLToHex(hslColor) {

@@ -45,7 +45,11 @@ const ANIMATION_DURATION_MILLISECONDS = 300;
 function exportJSON(){
   console.log("??????????  images", images);
   console.log("?????????? images file name", images[0].name);
-  console.log("?????????? images[id].shapes", images[0].shapes);
+
+  for (let i=0; i<images.length; i++) {
+
+    console.log("?????????? images[id].shapes", images[i].shapes);
+  }
   if (images.length === 1){
     getStatementsForCurrentImageToJSON(images);
   }
@@ -55,6 +59,9 @@ function exportJSON(){
 }
 
 function updateCurrentImageIds(currentId, newId) {
+  console.log("?????????? retrieve currentId", currentId);
+  console.log("?????????? retrieve newId", newId);
+
   currentlySelectedImageId = currentId;
   newImageId = newId;
 }
@@ -234,7 +241,10 @@ function addNewImage(imageName, imageData) {
   images.push(imageObject);
 }
 
+// evoked before uploading new image or swithching the images
 function captureCurrentImageData() {
+  console.log("currentlySelectedImageId", currentlySelectedImageId);
+  getStatementsForCurrentImageToJSON(images);
   images[currentlySelectedImageId].labels = retrieveAllLabelRefs();
   images[currentlySelectedImageId].shapes = retrieveAllShapeRefs();
   removeAllLabelRefs();
@@ -367,7 +377,6 @@ function changeToExistingImage(id) {
   removeAllLabelListItems();
   const timesZoomedOut = resetZoom(true);
   drawImageFromList(images[id].data);
-  console.log("?????????? images[id].shapes", images[id].shapes);
   repopulateLabelAndShapeObjects(images[id].shapes, images[id].labels,
     images[id].imageDimensions, images[id].data);
   switchCanvasContainerElements();

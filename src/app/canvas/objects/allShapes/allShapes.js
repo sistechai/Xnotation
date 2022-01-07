@@ -29,13 +29,21 @@ function getStatementsForCurrentImageToJSON(images) {
   lines = [];
   rectangles = [];
 
+  let points = [];
+
   for (key in currentShapes) {
     if (currentShapes[key].shapeRef.previousShapeName === 'polygon') {
       colorHex = HSLToHex(currentShapes[key].color.stroke);
+      for (let i=0; i< currentShapes[key].shapeRef.points.length; i++) {
+        points.push(currentShapes[key].shapeRef.points[i].x, currentShapes[key].shapeRef.points[i].y);
+      }
+
       polygons.push({
-        "points": currentShapes[key].shapeRef.points,
+        //"points": currentShapes[key].shapeRef.points,
         "color": colorHex,
+        'points': points
       });
+      points = [];
     }
     if (currentShapes[key].shapeRef.previousShapeName === 'newLine') {
       colorHex = HSLToHex(currentShapes[key].color.stroke);

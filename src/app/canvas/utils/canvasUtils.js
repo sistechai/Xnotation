@@ -9,7 +9,6 @@ let currentCanvasContainerElement = null;
 let timeoutMilliseconds = 0;
 
 function getCurrentCanvasContainerElement() {
-  console.log("currentCanvasContainerElement", currentCanvasContainerElement);
   return currentCanvasContainerElement;
 }
 

@@ -230,7 +230,6 @@ function showLabellerModal() {
     inputElement.select();
     highlightInitialLabelOptionOnInit();
   }, 0);
-  console.log("inputElement", inputElement);
 }
 
 function setLabellerPopupDimProperties(lightupTimePeriodArg, dimTimePeriodArg, dimIntensityArg) {

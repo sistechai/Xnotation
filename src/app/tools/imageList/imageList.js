@@ -17,16 +17,13 @@ import { setDefaultCursorMode } from '../../canvas/mouseInteractions/cursorModes
 import { changeExistingImagesMovability } from '../settingsPopup/options/movableObjects.js';
 import { removeWatermarkFromCanvasAreaBackground } from '../../canvas/utils/watermark.js';
 import { initiateButtonPulseAnimation } from '../utils/buttons/pulseAnimation.js';
-import {
-  setZoomInButtonToDefault, setCreatePolygonButtonToActive, setRemoveImagesButtonDefault,
+import { setZoomInButtonToDefault, setCreatePolygonButtonToActive, setRemoveImagesButtonDefault,
   setCreateBoundingBoxButtonToDefault, setCreatePolygonButtonToDefault, setEditShapesButtonToActive,
-  setCreateBoundingBoxButtonToActive, setPolygonEditingButtonsToDefault,
-} from '../toolkit/styling/state.js';
-import {
-  getDefaultState, setCurrentImageId, getContinuousDrawingState,
+  setCreateBoundingBoxButtonToActive, setPolygonEditingButtonsToDefault } from '../toolkit/styling/state.js';
+import { getDefaultState, setCurrentImageId, getContinuousDrawingState,
   setHasMachineLearningButtonBeenHighligtedState, getCrosshairUsedOnCanvasState,
-  getHasMachineLearningButtonBeenHighligtedState, getLastDrawingModeState,
-} from '../state.js';
+  getHasMachineLearningButtonBeenHighligtedState, getLastDrawingModeState } from '../state.js';
+import { getStatementsForCurrentImageToJSON } from '../../canvas/objects/allShapes/allShapes.js';
 
 let currentlyActiveElement = null;
 let imageContainerElement = null;
@@ -36,6 +33,49 @@ let canvas = null;
 let newImageId = 0;
 let hasCurrentImageThumbnailRedBorder = false;
 const ANIMATION_DURATION_MILLISECONDS = 300;
+
+function exportJSON(){
+  let objectJSON = {};
+  objectJSON = getStatementsForCurrentImageToJSON(images);
+  writeJSON(objectJSON);
+}
+
+function writeJSON(objectJSON){
+  const stringJSON = JSON.stringify(objectJSON);
+  let stringJSONparsed = JSON.parse(stringJSON);
+  console.log("stringJSON", stringJSONparsed);
+  return stringJSONparsed;
+}
+
+// evoked before uploading new image or swithching the images
+function captureCurrentImageData() {
+
+  getStatementsForCurrentImageToJSON(images);
+
+  images[currentlySelectedImageId].labels = retrieveAllLabelRefs();
+  images[currentlySelectedImageId].shapes = retrieveAllShapeRefs();
+  removeAllLabelRefs();
+  removeAllShapeRefs();
+  const currentlySelectedImageProperties = getImageProperties();
+  const imageDimensions = {};
+  imageDimensions.scaleX = currentlySelectedImageProperties.scaleX;
+  imageDimensions.scaleY = currentlySelectedImageProperties.scaleY;
+  imageDimensions.originalWidth = currentlySelectedImageProperties.originalWidth;
+  imageDimensions.originalHeight = currentlySelectedImageProperties.originalHeight;
+  imageDimensions.oldImageHeightRatio = calculateCurrentImageHeightRatio();
+  imageDimensions.polygonOffsetLeft = labelProperties.pointOffsetProperties().left;
+  imageDimensions.polygonOffsetTop = labelProperties.pointOffsetProperties().top;
+  images[currentlySelectedImageId].imageDimensions = imageDimensions;
+}
+
+function setDefaultImageProperties(image, imageMetadata) {
+  image.imageDimensions = { scaleX: 1, scaleY: 1 };
+  image.shapes = {};
+  image.labels = {};
+  image.size = imageMetadata.size;
+  image.numberOfMLGeneratedShapes = 0;
+  image.analysedByML = false;
+}
 
 function updateCurrentImageIds(currentId, newId) {
   currentlySelectedImageId = currentId;
@@ -217,23 +257,6 @@ function addNewImage(imageName, imageData) {
   images.push(imageObject);
 }
 
-function captureCurrentImageData() {
-  images[currentlySelectedImageId].labels = retrieveAllLabelRefs();
-  images[currentlySelectedImageId].shapes = retrieveAllShapeRefs();
-  removeAllLabelRefs();
-  removeAllShapeRefs();
-  const currentlySelectedImageProperties = getImageProperties();
-  const imageDimensions = {};
-  imageDimensions.scaleX = currentlySelectedImageProperties.scaleX;
-  imageDimensions.scaleY = currentlySelectedImageProperties.scaleY;
-  imageDimensions.originalWidth = currentlySelectedImageProperties.originalWidth;
-  imageDimensions.originalHeight = currentlySelectedImageProperties.originalHeight;
-  imageDimensions.oldImageHeightRatio = calculateCurrentImageHeightRatio();
-  imageDimensions.polygonOffsetLeft = labelProperties.pointOffsetProperties().left;
-  imageDimensions.polygonOffsetTop = labelProperties.pointOffsetProperties().top;
-  images[currentlySelectedImageId].imageDimensions = imageDimensions;
-}
-
 function saveAndRemoveCurrentImageDetails() {
   if (images.length > 1) {
     captureCurrentImageData();
@@ -247,15 +270,6 @@ function saveAndRemoveCurrentImageDetails() {
   setMLGeneratedShapesToOriginalColorPallette();
   currentlySelectedImageId = newImageId;
   setCurrentImageId(newImageId);
-}
-
-function setDefaultImageProperties(image, imageMetadata) {
-  image.imageDimensions = { scaleX: 1, scaleY: 1 };
-  image.shapes = {};
-  image.labels = {};
-  image.size = imageMetadata.size;
-  image.numberOfMLGeneratedShapes = 0;
-  image.analysedByML = false;
 }
 
 function setToolkitStylingOnNewImage() {
@@ -350,7 +364,6 @@ function changeToExistingImage(id) {
   removeAllLabelListItems();
   const timesZoomedOut = resetZoom(true);
   drawImageFromList(images[id].data);
-  console.log("images[id].shapes", images[id].shapes);
   repopulateLabelAndShapeObjects(images[id].shapes, images[id].labels,
     images[id].imageDimensions, images[id].data);
   switchCanvasContainerElements();
@@ -407,4 +420,5 @@ export {
   addImageFromMultiUploadToList, updateCurrentImageIds, getLastImageIdByName,
   setDefaultImageThumbnailHighlightToMLSelected, removeTickSVGOverImageThumbnail,
   removeMLThumbnailHighlight, removeSelectedMLThumbnailHighlight, getImageIdByName,
+    exportJSON,
 };

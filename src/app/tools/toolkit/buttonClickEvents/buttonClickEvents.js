@@ -10,7 +10,6 @@ import {
   settingsBtnClick,
   addPointsBtnClick,
   createNewBndBoxBtnClick,
-  exportDatasetsBtnClick,
   testDrawLine,
 } from './facade.js';
 
@@ -21,6 +20,8 @@ import {
   interruptAllCanvasEventsBeforeMultipleFunc,
   doNothingIfLabellingInProgress,
 } from './eventMiddleware/buttonEventMiddleware.js';
+
+import {exportJSON} from "../../imageList/imageList.js";
 
 
 function assignToolkitButtonClickEventHandlers() {
@@ -38,7 +39,11 @@ function assignToolkitButtonClickEventHandlers() {
   window.addPoints = doNothingIfLabellingOrAddingNewPoints.bind(this, addPointsBtnClick);
   window.removePoint = doNothingIfLabellingInProgress.bind(this, removePolygonPointBtnClick);
   window.cancel = interruptAllCanvasEventsBeforeFunc.bind(this, resetCanvasEventsToDefault);
-  window.toggleExportDatasetsPopup = removeButtonPopoverIfActive.bind(this, exportDatasetsBtnClick);
+
+//// Export to JSON file
+  window.toggleExportDatasetsPopup = removeButtonPopoverIfActive.bind(this, exportJSON);
+////
+
   window.uploadDatasets = interruptAllCanvasEventsBeforeMultipleFunc.bind(this,[resetCanvasEventsToDefault, removeButtonPopoverIfActive, uploadDatasetsBtnClick]);
   window.displayMachineLearningModal = interruptAllCanvasEventsBeforeMultipleFunc.bind(this, [resetCanvasEventsToDefault, removeButtonPopoverIfActive, machineLearningBtnClick]);
   window.zoom = doNothingIfNotLeftMouseButtonPressWthArg.bind(this, zoomBtnClick);

@@ -7,6 +7,7 @@ import { removeActiveButtonPopover } from '../../../globalStyling/buttons/popove
 import isLeftMouseButtonClick from '../../../utils/buttons/clickEvents.js';
 import isElement from '../../../utils/elementType.js';
 import { setCreateNewLineToDefault, setCreateNewLineToDisabled, setCreateNewLineButtonToActive} from '../../styling/state.js';
+import { testDrawLine} from '../facade.js';
 
 function interruptAllCanvasEventsBeforeFunc(func, event) {
   if (event && !isLeftMouseButtonClick(event)) {
@@ -50,6 +51,7 @@ function func1IfDrawRemovePointsElseInterruptAllWthFunc2(func1, func2, event) {
       setCreateNewLineButtonToActive();
       console.log("func2", func2);
       setTestDrawLineState(true);
+      //testDrawLine();
     }
     else {
       setTestDrawLineState(false);

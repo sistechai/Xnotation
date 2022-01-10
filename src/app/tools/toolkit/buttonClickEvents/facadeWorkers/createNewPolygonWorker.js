@@ -25,10 +25,10 @@ function initiateCreateNewPolygonEvents(canvas) {
     }
 
     else {
-      console.log("---------------etLastDrawingModeState", getLastDrawingModeState());
+      console.log("---------------getLastDrawingModeState", getLastDrawingModeState());
       setLastDrawingModeState('line');
       setTestDrawLineState(true);
-      setCreateNewLineButtonToActive();
+      //setCreateNewLineButtonToActive();
     }
 
     setHasDrawnShapeState(false);

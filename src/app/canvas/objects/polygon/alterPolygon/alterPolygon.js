@@ -217,11 +217,6 @@ function removePolygon(lableObjectFromLabelList) {
     removePolygonImpl(canvas, lableObjectFromLabelList);
     return lableObjectFromLabelList.id;
   }
-  // Line
-  if (lableObjectFromLabelList && lableObjectFromLabelList.shapeName === 'newLine') {
-    removePolygonImpl(canvas, lableObjectFromLabelList);
-    return lableObjectFromLabelList.id;
-  }
   return null;
 }
 

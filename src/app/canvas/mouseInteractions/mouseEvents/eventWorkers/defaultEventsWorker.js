@@ -138,7 +138,9 @@ function polygonMouseDownEvents(event) {
         }
         labelObject = getLabelById(event.target.id);
         newPolygonSelected = true;
-      } else {
+      }
+
+      else {
         newPolygonSelected = false;
       }
       preventActiveObjectsAppearInFront(canvas);

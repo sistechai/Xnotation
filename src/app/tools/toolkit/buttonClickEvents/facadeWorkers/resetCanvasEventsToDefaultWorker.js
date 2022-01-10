@@ -8,7 +8,7 @@ import {
 import {
   getCrosshairUsedOnCanvasState, setAlteringPolygonPointsState,
   getDefaultState, getAddingPolygonPointsState, getLastDrawingModeState,
-  setDefaultState, getAlteringPolygonPointsState, getContinuousDrawingState,
+  setDefaultState, getAlteringPolygonPointsState, getContinuousDrawingState, setLastDrawingModeState,
 } from '../../../state.js';
 import assignDrawBoundingBoxEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/drawBndBoxEventHandlers.js';
 import assignDrawPolygonEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/drawPolygonEventHandlers.js';
@@ -37,6 +37,7 @@ function setNewState(canvas) {
     }
 
     else if (getLastDrawingModeState() === 'line'){
+      //setLastDrawingModeState("?");
       console.log("at average probability that is here");
       setCreateNewLineButtonToActive();
       assignDrawPolygonEvents(canvas);

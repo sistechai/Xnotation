@@ -30,7 +30,7 @@ import {
 // Originally designed to be turned off after the points have been successfully added to a polygon
 
 function discardAddPointsEvents(canvas) {
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@ getlast");
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@ getlast getLastDrawingModeState", getLastDrawingModeState() );
   if (getContinuousDrawingState()
   && (getCancelledReadyToDrawState() || getRemovingPointsAfterCancelDrawState())) {
     removePolygonPoints();
@@ -39,11 +39,11 @@ function discardAddPointsEvents(canvas) {
       setCreatePolygonButtonToActive();
     }
 
-    else if (getLastDrawingModeState() === 'line'){
-      console.log("getlast");
-      setCreateNewLineButtonToActive();
-      testDrawLine();
-    }
+    // else if (getLastDrawingModeState() === 'line'){
+    //   console.log("getlast");
+    //   setCreateNewLineButtonToActive();
+    //   testDrawLine();
+    // }
 
     else if (getLastDrawingModeState() === 'boundingBox') {
       assignDrawBoundingBoxEvents(canvas);

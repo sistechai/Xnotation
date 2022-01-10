@@ -1,8 +1,8 @@
 import { createLabelShape, removeTargetShape, isLabelling } from './labellingProcess.js';
-import { resetCanvasEventsToDefault } from '../toolkit/buttonClickEvents/facade.js';
+import {resetCanvasEventsToDefault, testDrawLine} from '../toolkit/buttonClickEvents/facade.js';
 import {
   getLastDrawingModeState, setHasDrawnShapeState,
-  getContinuousDrawingState, getCrosshairUsedOnCanvasState,
+  getContinuousDrawingState, getCrosshairUsedOnCanvasState, setTestDrawLineState,
 } from '../state.js';
 import { resetDrawPolygonMode } from '../../canvas/objects/polygon/polygon.js';
 import { resetDrawBoundingBoxMode } from '../../canvas/objects/boundingBox/boundingBox.js';
@@ -41,15 +41,23 @@ function initialiseLabellerModalLocalVariables() {
 }
 
 function resetDrawingMode() {
+  console.log("reset!!!!!!!!!");
   if (!getContinuousDrawingState()) {
     resetCanvasEventsToDefault();
     if (getCrosshairUsedOnCanvasState()) {
       removeOutsideCrosshairEventListeners();
     }
-  } else if (getLastDrawingModeState() === 'polygon') {
+  }
+  else if  (getLastDrawingModeState() === 'polygon') {
     resetDrawPolygonMode();
-  } else if (getLastDrawingModeState() === 'boundingBox') {
+  }
+  else if (getLastDrawingModeState() === 'boundingBox') {
     resetDrawBoundingBoxMode();
+  }
+  else if (getLastDrawingModeState() === 'line') {
+    setTestDrawLineState(true);
+    //resetDrawPolygonMode();
+    testDrawLine();
   }
 }
 

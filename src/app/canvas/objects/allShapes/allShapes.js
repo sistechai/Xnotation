@@ -240,13 +240,15 @@ function changeShapeColorById(id, color) {
 }
 
 function highlightShapeFill(id) {
-    const highlightColor = shapes[id].color.highlight;
-    shapes[id].shapeRef.set('fill', highlightColor);
-    canvas.renderAll();
+ if (shapes[id]) {
+   const highlightColor = shapes[id].color.highlight;
+   shapes[id].shapeRef.set('fill', highlightColor);
+   canvas.renderAll();
+ }
 }
 
 function defaultShapeFill(id) {
-  if (!getTestDrawLineState()) {
+  if (shapes[id]) {
     const defaultColor = shapes[id].color.default;
     shapes[id].shapeRef.set('fill', defaultColor);
   }

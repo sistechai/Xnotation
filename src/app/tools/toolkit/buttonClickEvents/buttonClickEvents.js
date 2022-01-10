@@ -31,7 +31,7 @@ function assignToolkitButtonClickEventHandlers() {
   window.createNewLine = func1IfDrawRemovePointsElseInterruptAllWthFunc2.bind(this, removePolygonPointBtnClick, testDrawLine);
 ////
 
-//// POlygon  
+//// Polygon
   window.createNewPolygon = func1IfDrawRemovePointsElseInterruptAllWthFunc2.bind(this, removePolygonPointBtnClick, createNewPolygonBtnClick);
 ////
   

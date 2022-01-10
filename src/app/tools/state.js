@@ -38,6 +38,16 @@ let crosshairForBoundingBoxVisibleState = true;
 let crosshairUsedOnCanvasState = false;
 let boundingBoxCrosshairDropdownOpenState = false;
 
+////////////// New Line
+function setTestDrawLineState(state){
+  TestDrawLineState = state;
+  return state;
+}
+
+function getTestDrawLineState(){
+  return TestDrawLineState;
+}
+
 function setCurrentImageId(id) {
   currentImageId = id;
   if (currentImageId == '0') setCreateNewLineToDefault();
@@ -57,16 +67,6 @@ function getAlteringPolygonPointsState() {
 
 function getRemovingPolygonPointsState() {
   return removingPolygonPointsState;
-}
-
-////////////// New Line
-function setTestDrawLineState(state){
-  TestDrawLineState = state;
-  return state;
-}
-
-function getTestDrawLineState(){
-  return TestDrawLineState;
 }
 
 function getAddingPolygonPointsState() {

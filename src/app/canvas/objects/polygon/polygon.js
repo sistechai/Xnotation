@@ -268,7 +268,7 @@ function generatePolygon() {
 // Only after button 'enter' being hit for Polygon.
 // I will evoke this function after 'enter' for Line Mode
 function resetDrawPolygonMode() {
-
+  console.log("Line Mode getTestDrawLineState()", getTestDrawLineState());
   // Polygon Mode
   if (!getTestDrawLineState()) {
     polygonMode = true;
@@ -277,9 +277,11 @@ function resetDrawPolygonMode() {
     drawingFinished = false;
     clearPolygonData();
     setDrawCursorMode(canvas);
+    console.log("Line Mode", lineMode);
   }
   // Line Mode
   else {
+    console.log("Line Mode", lineMode);
     lineMode = true;
     setCreateNewLineButtonToActive();
     setReadyToDrawShapeState(true);
@@ -461,6 +463,7 @@ function instantiatePolygon(event) {
     // Here the place of drawing line for polygon
     else if (polygonMode) {
       addPoint(pointer);
+      console.log("--------- lineMode", lineMode);
     }
 
     // ??? fix for double click to draw first point bug

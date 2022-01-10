@@ -22,7 +22,6 @@ import { clearLineData } from '../../../../canvas/objects/polygon/polygon.js';
 
 // New states after loading new image
 function setNewState(canvas) {
-
   if (getContinuousDrawingState()) {
     purgeCanvasMouseEvents(canvas);
 
@@ -38,6 +37,7 @@ function setNewState(canvas) {
     }
 
     else if (getLastDrawingModeState() === 'line'){
+      console.log("at average probability that is here");
       setCreateNewLineButtonToActive();
       assignDrawPolygonEvents(canvas);
       testDrawLine();

@@ -1,4 +1,4 @@
-import {getTestDrawLineState} from '../../../tools/state.js';
+import {getTestDrawLineState, setTestDrawLineState} from '../../../tools/state.js';
 
 const polygonProperties = {};
 
@@ -189,12 +189,12 @@ function generateNewPolygon() {
       objectCaching: false,
       numberOfNullPolygonPoints: 0,
     };
-    console.log("!! ^^ check Polygon mode in generate Polygon");
   }
 
   /// Line Mode
   else {
     console.log("!! ^^ check Line mode in generate Polygon");
+    setTestDrawLineState(true);
     return {
       stroke: 'hsla(186, 8%, 50%, 1)',
       strokeWidth: newPolygonStrokeWidth,

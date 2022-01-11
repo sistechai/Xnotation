@@ -13,6 +13,7 @@ function setAllObjectsToUneditable(canvas) {
 }
 
 function setDrawCursorMode(canvas) {
+  console.log("setDrawCursorMode( canvas", canvas);
   canvas.discardActiveObject();
   setAllObjectsToUneditable(canvas);
   canvas.defaultCursor = 'crosshair';

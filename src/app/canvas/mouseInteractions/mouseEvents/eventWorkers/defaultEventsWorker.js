@@ -65,7 +65,7 @@ function setEditablePolygonOnClickFunc(event) {
 }
 
 function setEditablePolygonWhenPolygonMoved(event) {
-  console.log("When Polygon Moved move newPolygonSelected", newPolygonSelected);
+  console.log("222222 When Polygon Moved move newPolygonSelected = ", newPolygonSelected);
   if (newPolygonSelected) {
     setEditablePolygonAfterMoving(canvas, event.target);
     selectedShapeId = event.target.id;
@@ -138,7 +138,9 @@ function polygonMouseDownEvents(event) {
         }
         labelObject = getLabelById(event.target.id);
         newPolygonSelected = true;
-      } else {
+      }
+
+      else {
         newPolygonSelected = false;
       }
       preventActiveObjectsAppearInFront(canvas);
@@ -201,7 +203,7 @@ function polygonMouseUpEvents(event) {
   }
 
   else if (polygonMoved) {
-    console.log(" 22  polygonMoved move ", event.target.id);
+    console.log("222 polygonMoved=true, event.target.id)", event.target.id);
     validateAndFixOutOfBoundsPolygonShapePointsAfterMove(event.target);
     setEditablePolygonWhenPolygonMoved(event);
     highlightShapeFill(event.target.id);
@@ -294,10 +296,13 @@ function shapeMouseOverEvents(event) {
     }
     if (event.target.shapeName === 'point') {
       highlightSelectedPolygonViaPoint();
-    } else {
+    }
+
+    else {
       highlightShapeFill(event.target.id);
     }
   }
+
 }
 
 function removeEditedPolygonId() {

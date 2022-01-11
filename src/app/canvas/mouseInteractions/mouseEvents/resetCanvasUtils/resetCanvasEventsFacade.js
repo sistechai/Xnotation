@@ -17,7 +17,6 @@ function resetCanvasEventsToDefault() {
 }
 
 function setContinuousDrawingModeToLast() {
-  console.log("??????????????????????? setContinuousDrawingModeToLast!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   setDrawingMode(getLastDrawingModeState(), canvas);
 }
 

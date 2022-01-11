@@ -2,12 +2,13 @@ import purgeCanvasMouseEvents from '../../../../canvas/mouseInteractions/mouseEv
 import assignDrawPolygonEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/drawPolygonEventHandlers.js';
 import {
   setDefaultState, setAlteringPolygonPointsState,
-  setLastDrawingModeState, setHasDrawnShapeState,
+  setLastDrawingModeState, getLastDrawingModeState, setHasDrawnShapeState,
   getTestDrawLineState, setTestDrawLineState,
 } from '../../../state.js';
 import { setEditShapesButtonToDefault, setCreatePolygonButtonToActive, setCreateNewLineToDefault, setCreateNewLineButtonToActive,} from '../../styling/state.js';
 
 function initiateCreateNewPolygonEvents(canvas) {
+  console.log("!1111111!!!!!getLastDrawingModeState", getLastDrawingModeState());
   canvas.discardActiveObject();
   if (canvas.backgroundImage) {
     purgeCanvasMouseEvents(canvas);
@@ -24,9 +25,10 @@ function initiateCreateNewPolygonEvents(canvas) {
     }
 
     else {
+      console.log("---------------getLastDrawingModeState", getLastDrawingModeState());
       setLastDrawingModeState('line');
       setTestDrawLineState(true);
-      setCreateNewLineButtonToActive();
+      //setCreateNewLineButtonToActive();
     }
 
     setHasDrawnShapeState(false);

@@ -3,6 +3,7 @@ import {
 } from './styling.js';
 import { getPolygonDrawingInProgressState, getTestDrawLineState, } from '../../state.js';
 import { getAllExistingShapes } from '../../../canvas/objects/allShapes/allShapes.js';
+import { testDrawLine } from '../buttonClickEvents/facade.js';
 
 const state = { ACTIVE: 'active', DEFAULT: 'default', DISABLED: 'disabled' };
 
@@ -107,6 +108,7 @@ function setCreateNewLineButtonToActive() {
   if (addPointsState === state.ACTIVE) setAddPointsButtonToDefault();
   if (removePointsState === state.ACTIVE) setRemovePointsDefault();
   //if (editShapesState === state.ACTIVE) setEditShapesButtonToDefault();
+  //testDrawLine();
 }
 
 function setAddPointsActive() {

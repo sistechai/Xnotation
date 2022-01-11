@@ -1,4 +1,5 @@
 import { setCreateNewLineToDefault, setEditShapesButtonToDefault } from './toolkit/styling/state.js';
+import {testDrawLine} from "./toolkit/buttonClickEvents/facade.js";
 
 let defaultState = false;
 let removingPolygonPointsState = false;
@@ -38,6 +39,25 @@ let crosshairForBoundingBoxVisibleState = true;
 let crosshairUsedOnCanvasState = false;
 let boundingBoxCrosshairDropdownOpenState = false;
 
+function getLastDrawingModeState() {
+  // if (lastDrawingModeState === 'line') {
+  //   console.log("%%%%%%%%%%%%%%%lastDrawingModeState", lastDrawingModeState);
+  //   setTestDrawLineState(true);
+  //   testDrawLine();
+  // }
+  return lastDrawingModeState;
+}
+
+////////////// New Line
+function setTestDrawLineState(state){
+  TestDrawLineState = state;
+  return state;
+}
+
+function getTestDrawLineState(){
+  return TestDrawLineState;
+}
+
 function setCurrentImageId(id) {
   currentImageId = id;
   if (currentImageId == '0') setCreateNewLineToDefault();
@@ -59,16 +79,6 @@ function getRemovingPolygonPointsState() {
   return removingPolygonPointsState;
 }
 
-////////////// New Line
-function setTestDrawLineState(state){
-  TestDrawLineState = state;
-  return state;
-}
-
-function getTestDrawLineState(){
-  return TestDrawLineState;
-}
-
 function getAddingPolygonPointsState() {
     return addingPolygonPointsState;
 }
@@ -79,10 +89,6 @@ function getMovableObjectsState() {
 
 function getContinuousDrawingState() {
   return continuousDrawingState;
-}
-
-function getLastDrawingModeState() {
-  return lastDrawingModeState;
 }
 
 function getReadyToDrawShapeState() {

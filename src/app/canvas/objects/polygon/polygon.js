@@ -240,6 +240,7 @@ function generatePolygon() {
 
       //activeShape = null;
       polygonMode = false;
+      lineMode = false;
       drawingFinished = true;
       // prepareLabelShape(polygon, canvas);
       // showLabellerModal();
@@ -253,6 +254,7 @@ function generatePolygon() {
 
   activeShape = null;
   polygonMode = false;
+  lineMode = false;
   drawingFinished = true;
   prepareLabelShape(polygon, canvas);
   showLabellerModal();
@@ -268,27 +270,12 @@ function generatePolygon() {
 // Only after button 'enter' being hit for Polygon.
 // I will evoke this function after 'enter' for Line Mode
 function resetDrawPolygonMode() {
-
-  // Polygon Mode
-  if (!getTestDrawLineState()) {
     polygonMode = true;
     setCreatePolygonButtonToActive();
     setReadyToDrawShapeState(true);
     drawingFinished = false;
     clearPolygonData();
     setDrawCursorMode(canvas);
-  }
-  // Line Mode
-  else {
-    lineMode = true;
-    setCreateNewLineButtonToActive();
-    setReadyToDrawShapeState(true);
-    drawingFinished = false;
-    //??
-    // clearPolygonData();
-
-    setDrawCursorMode(canvas);
-  }
 }
 
 // To delete points on new canvas
@@ -459,8 +446,13 @@ function instantiatePolygon(event) {
     }
 
     // Here the place of drawing line for polygon
+    else if (lineMode){
+      addPoint(pointer);
+      console.log("--------- lineMode", lineMode);
+    }
     else if (polygonMode) {
       addPoint(pointer);
+      console.log("--------- polygonMode", polygonMode);
     }
 
     // ??? fix for double click to draw first point bug
@@ -530,11 +522,12 @@ function lockMovementIfAssertedByState(polygon) {
 function prepareCanvasForNewPolygon(canvasObj) {
   canvas = canvasObj;
   polygonMode = true;
+  lineMode = true;
   drawingFinished = false;
   canvas.discardActiveObject();
   setDrawCursorMode(canvas);
   setReadyToDrawShapeState(true);
-  if (getAddingPolygonPointsState() || getTestDrawLineState() ) {
+  if (getAddingPolygonPointsState()){ //|| getTestDrawLineState() ) {
     setAddPointsButtonToDefault();
     setAddingPolygonPointsState(false);
     mouseUpClick = skipMouseUpEvent;
@@ -658,7 +651,6 @@ function resumeDrawingAfterRemovePoints() {
 }
 
 function removeInvisiblePoint() {
-  //canvas.remove(invisiblePoint); //?????
   invisiblePoint = null;
 }
 

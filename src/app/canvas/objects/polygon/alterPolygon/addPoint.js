@@ -20,6 +20,8 @@ let yellowPoint;
 let yellowPointsArray = [];
 let yellowPointsId = 0;
 
+let linePointersArray = [];
+
 /// Draws temporary activeLine ONLY for Add Points event
 // Active Line is a temporary line
 function drawLineImpl(pointer) {
@@ -51,13 +53,17 @@ function createNewLine(...coordinates) {
     canvas.renderAll();
   }
 }
-
+// pointer is initial point
 function initializeAddNewPointsImpl(shape, pointer, canvasObj) {
     shape.stroke = '#333333';
     canvas = canvasObj;
     setAddPointsMode(canvas, shape);
     createNewLine(shape.left, shape.top, pointer.x, pointer.y);
     initialPoint = shape;
+    //if ()
+  console.log("%%%%%%%%% initialPoint", initialPoint);
+  console.log("%%%%%%%%% pointer", pointer);
+  //linePointersArray.push(pointer);
     canvas.bringToFront(initialPoint);
     defaultPointHoverMode = false;
 }
@@ -65,6 +71,8 @@ function initializeAddNewPointsImpl(shape, pointer, canvasObj) {
 function addFirstPointImpl(event) {
   changePolygonPointsToAddImpl(canvas);
   const pointer = canvas.getPointer(event.e);
+  console.log("%%%%%%%%%2222222222 pointer", pointer);
+  linePointersArray.push(pointer);
   lineArray.push(activeLine);
   createNewLine(pointer.x, pointer.y, pointer.x, pointer.y);
   const isNewPoint = true;
@@ -77,6 +85,9 @@ function addFirstPointImpl(event) {
 }
 
 function addPointImpl(pointer) {
+  linePointersArray.push(pointer);
+  console.log("%%%%%%%%%3333333333332 pointer", pointer);
+  console.log("%%%%%%%%%3333333333332 linePointersArray", linePointersArray);
   lineArray.push(activeLine);
   createNewLine(pointer.x, pointer.y, pointer.x, pointer.y);
   const isNewPoint = true;
@@ -172,21 +183,33 @@ function addNewPointsByTheirAddDirection(newPointsArray, firstPointId, lastPoint
       newPointsArray.push({ x: pointsArray[pointId].left, y: pointsArray[pointId].top });
     }
   }
-
-  console.log("^^ deref  direction 13 polygon",  polygon);
-  console.log("^^ deref  direction 13 newPointsArray",  newPointsArray);
-  console.log("^^ deref firstPointId", firstPointId);
-  console.log("^^ deref lastPointId", lastPointId);
 }
 
 function completePolygonImpl(polygon, originalPointsArray, finalPoint) {
+  let derefPointsArray = originalPointsArray.slice();
+  let lineFinalPointId;
+  lineFinalPointId = finalPoint.pointId;
 
-  console.log("^^ 000 deref polygon",  polygon);
-  const derefPointsArray = originalPointsArray.slice();
+  if (polygon.previousShapeName === 'newLine') {
+    let arrayMiddle = derefPointsArray.length/2;
+    derefPointsArray = originalPointsArray.slice(0, arrayMiddle);
+    if (initialPoint.pointId > arrayMiddle-1) {
+      initialPoint.pointId =originalPointsArray.length - initialPoint.pointId - 1;
+    }
+
+    if (finalPoint.pointId > arrayMiddle-1) {
+      finalPoint.pointId =originalPointsArray.length - finalPoint.pointId - 1;
+    }
+  }
 
   let newPointsArray = [];
   let startingIdOfNewArray = Math.min(initialPoint.pointId, finalPoint.pointId);
   const endingIdIdOfNewArray = Math.max(initialPoint.pointId, finalPoint.pointId);
+
+  console.log("^^ deref  initialPoint.pointId",  initialPoint.pointId);
+  console.log("^^ deref  finalPoint.pointId",  finalPoint.pointId);
+  console.log("^^ deref  endingIdIdOfNewArray",  endingIdIdOfNewArray);
+  console.log("^^ deref lineFinalPointId", lineFinalPointId);
 
   const innerArray = [];
   for (let i = startingIdOfNewArray; i < endingIdIdOfNewArray + 1; i += 1) {
@@ -214,28 +237,43 @@ function completePolygonImpl(polygon, originalPointsArray, finalPoint) {
     newPointsArray = derefPointsArray.slice(startingIdOfNewArray, endingIdIdOfNewArray + 1);
     addNewPointsByTheirAddDirection(newPointsArray, finalPoint.pointId, initialPoint.pointId, polygon);
   }
+
+  if (polygon.previousShapeName === 'newLine') {
+    let lineFinalArray = [];
+    lineFinalArray.push(newPointsArray[initialPoint.pointId]);
+
+    // for (let i = 0; i < newPointsArray.length; i++) {
+    //   if ((i !== initialPoint.pointId) && (i !== finalPoint.pointId)) {
+    //     lineFinalArray.push(newPointsArray[i]);
+    //   }
+    // }
+    for (let i = 0; i < linePointersArray.length; i++) {
+      //if ((i !== initialPoint.pointId) && (i !== finalPoint.pointId)) {
+        lineFinalArray.push(linePointersArray[i]);
+      //}
+    }
+
+    lineFinalArray.push(newPointsArray[finalPoint.pointId]);
+
+    console.log("^^ lineFinalArray", lineFinalArray);
+    let tempArrayLine = [];
+
+    tempArrayLine.push(...lineFinalArray);
+
+    for (let i = lineFinalArray.length - 1; i > -1; i--) {
+      tempArrayLine.push(lineFinalArray[i]);
+    }
+    console.log("^^111111111111 tempArrayLine", tempArrayLine);
+    newPointsArray = tempArrayLine.slice();
+    tempArrayLine = [];
+    lineFinalArray = [];
+    linePointersArray = [];
+  }
+
   polygon.set({ points: newPointsArray });
   setInitialStageOfAddPointsOnExistingPolygonMode(canvas);
   clearAllAddPointsDataImpl();
   realignLabel(polygon);
-
-  // for line mode
-  // if (polygon.previousShapeName === 'newLine') {
-  //   console.log("^^ 111deref polygon",  polygon);
-  //   let newPointsArrayLine = [];
-  //
-  //   newPointsArrayLine.push(...newPointsArray);
-  //   for (let i = newPointsArray.length - 1; i>-1; i--) {
-  //     //console.log("i ", i);
-  //     newPointsArrayLine.push(newPointsArray[i]);
-  //   }
-  //   polygon.set({ points: newPointsArrayLine });
-  //   console.log("^^ newPointsArrayLine", newPointsArrayLine);
-  // }
-
-  console.log("^^ deref 222polygon",  polygon);
-  console.log("^^ deref newPointsArray",  newPointsArray);
-  console.log("^^ deref original points array", originalPointsArray);
 }
 
 // ???
@@ -260,6 +298,7 @@ function realignLabel(polygon) {
 }
 function calculateTotalLineDistance(pointsArr) {
   let totalDistance = 0;
+  console.log("pointsArr", pointsArr);
   for (let i = 0; i < pointsArr.length - 1; i += 1) {
     const distance = Math.hypot(pointsArr[i + 1].x - pointsArr[i].x,
         pointsArr[i + 1].y - pointsArr[i].y);

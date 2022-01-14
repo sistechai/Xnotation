@@ -172,47 +172,54 @@ function generatestartingAddPolygonPoint(pointId, pointCoordinates) {
   return returnObj;
 }
 
-function generateNewPolygon() {
-
-  if (!getTestDrawLineState()) {
-    return {
-      stroke: 'hsla(186, 8%, 50%, 1)',
-      strokeWidth: newPolygonStrokeWidth,
-      fill: 'rgba(237, 237, 237, 0.01)',
-      perPixelTargetFind: true,
-      hasBorders: false,
-      hasControls: false,
-      shapeName: 'polygon',
-      previousShapeName: 'polygon',
-      selectable: false,
-      evented: true,
-      objectCaching: false,
-      numberOfNullPolygonPoints: 0,
-    };
-  }
-
-  /// Line Mode
-  else {
-    console.log("!! ^^ check Line mode in generate Polygon");
-    setTestDrawLineState(true);
-    return {
-      stroke: 'hsla(186, 8%, 50%, 1)',
-      strokeWidth: newPolygonStrokeWidth,
-      fill: 'rgba(237, 237, 237, 0.01)',
-      perPixelTargetFind: true,
-      hasBorders: false,
-      hasControls: false,
-      shapeName: 'newLine',
-      previousShapeName: 'newLine',
-      selectable: false,
-      evented: true,
-      objectCaching: false,
-      numberOfNullPolygonPoints: 0,
-    };
-  }
+// after 'enter' generates Polygon,
+// in addition, reacts on moving line or polygon
+function generateNewPolygon(polygon) {
+  // if (polygon === null) {
+    if (!getTestDrawLineState()) {
+      console.log("generate new polygon", polygon);
+      return {
+        stroke: 'hsla(186, 8%, 50%, 1)',
+        strokeWidth: newPolygonStrokeWidth,
+        fill: 'rgba(237, 237, 237, 0.01)',
+        perPixelTargetFind: true,
+        hasBorders: false,
+        hasControls: false,
+        shapeName: 'polygon',
+        previousShapeName: 'polygon',
+        selectable: false,
+        evented: true,
+        objectCaching: false,
+        numberOfNullPolygonPoints: 0,
+      };
+    }
+    /// Line Mode
+    if (getTestDrawLineState()) {
+      console.log("generate new line", polygon);
+      setTestDrawLineState(true);
+      return {
+        stroke: 'hsla(186, 8%, 50%, 1)',
+        strokeWidth: newPolygonStrokeWidth,
+        fill: 'rgba(237, 237, 237, 0.01)',
+        perPixelTargetFind: true,
+        hasBorders: false,
+        hasControls: false,
+        shapeName: 'polygon',
+        previousShapeName: 'newLine',
+        selectable: false,
+        evented: true,
+        objectCaching: false,
+        numberOfNullPolygonPoints: 0,
+      };
+    }
+  // }
+  // if (polygon.previousShapeName === 'newLine'){
+  //   console.log("polygon.previousShapeName);", polygon.previousShapeName);
+  // }
 }
 
 function generateNewTempPolygon() {
+  console.log("generate temp");
   return {
     stroke: '#333333',
     strokeWidth: tempPolygonStrokeWidth,

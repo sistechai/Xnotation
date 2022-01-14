@@ -8,12 +8,10 @@ import {
 import { setEditShapesButtonToDefault, setCreatePolygonButtonToActive, setCreateNewLineToDefault, setCreateNewLineButtonToActive,} from '../../styling/state.js';
 
 function initiateCreateNewPolygonEvents(canvas) {
-  console.log("!1111111!!!!!getLastDrawingModeState", getLastDrawingModeState());
   canvas.discardActiveObject();
   if (canvas.backgroundImage) {
     purgeCanvasMouseEvents(canvas);
     assignDrawPolygonEvents(canvas);
-
     setEditShapesButtonToDefault();
     setDefaultState(false);
     setAlteringPolygonPointsState(false);
@@ -25,7 +23,6 @@ function initiateCreateNewPolygonEvents(canvas) {
     }
 
     else {
-      console.log("---------------getLastDrawingModeState", getLastDrawingModeState());
       setLastDrawingModeState('line');
       setTestDrawLineState(true);
       //setCreateNewLineButtonToActive();

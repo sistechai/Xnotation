@@ -16,10 +16,6 @@ let initialPoint = null;
 let pointsArray = [];
 let defaultPointHoverMode = true;
 
-let yellowPoint;
-let yellowPointsArray = [];
-let yellowPointsId = 0;
-
 let linePointersArray = [];
 
 /// Draws temporary activeLine ONLY for Add Points event
@@ -158,29 +154,25 @@ function resetAddPointsImpl() {
   }
 }
 
-// only for line mode to add yellow points to existing line
-// yellowPointsArray keeps all added yellow points coordinate and their id, which defined by adding points order
-function addYellowPoint(pointId, pointer) {
-  yellowPoint = new fabric.Circle(polygonProperties.newPoint(pointId, pointer, true));
-  yellowPoint.stroke = 'violet';
-  yellowPoint.fill = 'yellow';
-  canvas.add(yellowPoint);
-  yellowPointsArray.push({yellowPointsId, pointer});
-}
-
 // pointsArray keeps temporary points, which will be added to final shape
 // in which x: pointsArray[i].left, y: pointsArray[i].top
+// points in pointsArray are keeping order
 // newPointsArray is not doubling points for Line object
 function addNewPointsByTheirAddDirection(newPointsArray, firstPointId, lastPointId, polygon) {
   let pointId = 0;
-  if (firstPointId < lastPointId) {
-    pointsArray.forEach((point) => {
-      newPointsArray.push({ x: point.left, y: point.top });
-    });
+  /////////////////////////////////////////////
+  if (polygon.previousShapeName === 'newLine'){
   }
+////////////////////////////////////////////////
   else {
-    for (pointId = pointsArray.length - 1; pointId > -1; pointId -= 1) {
-      newPointsArray.push({ x: pointsArray[pointId].left, y: pointsArray[pointId].top });
+    if (firstPointId < lastPointId) {
+        pointsArray.forEach((point) => {
+        newPointsArray.push({x: point.left, y: point.top});
+      });
+    } else {
+      for (pointId = pointsArray.length - 1; pointId > -1; pointId -= 1) {
+        newPointsArray.push({x: pointsArray[pointId].left, y: pointsArray[pointId].top});
+      }
     }
   }
 }
@@ -189,28 +181,19 @@ function completePolygonImpl(polygon, originalPointsArray, finalPoint) {
   let derefPointsArray = originalPointsArray.slice();
   let lineFinalPointId;
   lineFinalPointId = finalPoint.pointId;
-
   if (polygon.previousShapeName === 'newLine') {
     let arrayMiddle = derefPointsArray.length/2;
     derefPointsArray = originalPointsArray.slice(0, arrayMiddle);
     if (initialPoint.pointId > arrayMiddle-1) {
       initialPoint.pointId =originalPointsArray.length - initialPoint.pointId - 1;
     }
-
     if (finalPoint.pointId > arrayMiddle-1) {
       finalPoint.pointId =originalPointsArray.length - finalPoint.pointId - 1;
     }
   }
-
   let newPointsArray = [];
   let startingIdOfNewArray = Math.min(initialPoint.pointId, finalPoint.pointId);
   const endingIdIdOfNewArray = Math.max(initialPoint.pointId, finalPoint.pointId);
-
-  console.log("^^ deref  initialPoint.pointId",  initialPoint.pointId);
-  console.log("^^ deref  finalPoint.pointId",  finalPoint.pointId);
-  console.log("^^ deref  endingIdIdOfNewArray",  endingIdIdOfNewArray);
-  console.log("^^ deref lineFinalPointId", lineFinalPointId);
-
   const innerArray = [];
   for (let i = startingIdOfNewArray; i < endingIdIdOfNewArray + 1; i += 1) {
     innerArray.push(derefPointsArray[i]);

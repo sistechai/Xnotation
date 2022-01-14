@@ -184,6 +184,9 @@ function changePolygonPointsPropertiesToDefault(canvasObj) {
 
 // After hitting Edit Shape, it moves polygon
 function displayPolygonPointsAfterMove() {
+
+  // !!!!!!!!!!1 Polygon edited
+  console.log("222222 polygon edited, polygon", polygon);
   polygon = displayPolygonPointsAfterMoveImpl(canvas, polygon, polygonPoints);
   setPolygonEditingStatus(true);
 }
@@ -196,6 +199,9 @@ function setSelectedObjects(activeCanvasObj, activePolygonObject) {
 function setEditablePolygonAfterMoving(canvasObj, polygonObj) {
   setSelectedObjects(canvasObj, polygonObj);
   canvasObj.discardActiveObject();
+
+  // !!!!!!!!!!!!!!11 Polygon edited
+  console.log("222 Polygon edited, polygonObj", polygonObj);
   displayPolygonPointsAfterMove();
 }
 

@@ -1,6 +1,7 @@
 import { getMovableObjectsState } from '../../../tools/state.js';
 
 function setAllObjectsToUneditable(canvas) {
+
   canvas.forEachObject((iteratedObj) => {
     if (iteratedObj.shapeName !== 'tempPoint' && iteratedObj.shapeName !== 'firstPoint') {
       if (iteratedObj.shapeName !== 'bndBox') {
@@ -9,11 +10,14 @@ function setAllObjectsToUneditable(canvas) {
       iteratedObj.selectable = false;
       iteratedObj.hoverCursor = 'crosshair';
     }
+
+    if (iteratedObj.previousShapeName === 'newLine'){
+      iteratedObj.selectable = false;
+    }
   });
 }
 
 function setDrawCursorMode(canvas) {
-  console.log("setDrawCursorMode( canvas", canvas);
   canvas.discardActiveObject();
   setAllObjectsToUneditable(canvas);
   canvas.defaultCursor = 'crosshair';
@@ -34,4 +38,4 @@ function resetObjectCursors(canvas) {
   canvas.renderAll();
 }
 
-export { setDrawCursorMode, resetObjectCursors };
+export { setDrawCursorMode, resetObjectCursors, setAllObjectsToUneditable };

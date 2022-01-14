@@ -65,9 +65,12 @@ function setEditablePolygonOnClickFunc(event) {
 }
 
 function setEditablePolygonWhenPolygonMoved(event) {
-  console.log("222222 When Polygon Moved move newPolygonSelected = ", newPolygonSelected);
   if (newPolygonSelected) {
+
+    // !!!!!!!!!!!! Polygon Edited
+    console.log("222222 When Polygon Moved move newPolygonSelected = ", newPolygonSelected);
     setEditablePolygonAfterMoving(canvas, event.target);
+
     selectedShapeId = event.target.id;
   } else {
     displayPolygonPointsAfterMove();
@@ -155,20 +158,31 @@ function polygonMouseDownEvents(event) {
 }
 
 function handleShapeFillAfterMove(event) {
+  console.log("handleShapeFillAfterMove target", event.target)
   const pointer = canvas.getPointer(canvas.e);
   const currentZoomState = getCurrentZoomState();
   const { height, width } = getImageProperties();
   const imageHeight = height * currentZoomState;
   const imageWidth = width * currentZoomState;
-  if (pointer.x < 0 || imageWidth / currentZoomState < pointer.x
-    || pointer.y < 0 || imageHeight / currentZoomState < pointer.y) {
-    if (event.target.shapeName === 'point') {
-      defaultFillSelectedPolygonViaPoint();
-    } else {
-      defaultShapeFill(event.target.id);
+
+  // if (event.target.previousShapeName) {
+  //   if (event.target.previousShapeName === 'newLine') {
+  //     defaultShapeFill(event.target.id);
+  //     console.log("event.target.id ", event.target.id);
+  //   }
+  // }
+
+  //else {
+    if (pointer.x < 0 || imageWidth / currentZoomState < pointer.x
+        || pointer.y < 0 || imageHeight / currentZoomState < pointer.y) {
+      if (event.target.shapeName === 'point') {
+        defaultFillSelectedPolygonViaPoint();
+      } else {
+        defaultShapeFill(event.target.id);
+      }
     }
-  }
-  setShapeMovingState(false);
+    setShapeMovingState(false);
+  //}
 }
 
 function shapeMouseOutEvents(event) {
@@ -203,9 +217,12 @@ function polygonMouseUpEvents(event) {
   }
 
   else if (polygonMoved) {
-    console.log("222 polygonMoved=true, event.target.id)", event.target.id);
     validateAndFixOutOfBoundsPolygonShapePointsAfterMove(event.target);
+
+    // !!!!!!!!!!!!!!! Polygon edited
+    console.log("222 polygonMoved=true, event.target.id)", event.target.id);
     setEditablePolygonWhenPolygonMoved(event);
+
     highlightShapeFill(event.target.id);
     canvas.bringToFront(labelObject);
     setLastPolygonActionWasMoveState(true);

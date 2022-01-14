@@ -248,9 +248,11 @@ function highlightShapeFill(id) {
 }
 
 function defaultShapeFill(id) {
+  console.log("shapes", shapes[id].shapeRef.previousShapeName);
   if (shapes[id]) {
     const defaultColor = shapes[id].color.default;
-    shapes[id].shapeRef.set('fill', defaultColor);
+    //shapes[id].shapeRef.set('fill', defaultColor);
+    console.log("------shapes", shapes[id].shapeRef);
   }
   canvas.renderAll();
 }

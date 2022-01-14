@@ -16,7 +16,20 @@ function setObjets(polygonObj, polygonPointsArray, canvasObj, polygonPropertiesO
 }
 
 function generateNewPolygon() {
-  const newPolygon = new fabric.Polygon([], polygonProperties.newPolygon());
+
+  // Polygon edited
+  const newPolygon = new fabric.Polygon([], polygonProperties.newPolygon(currentPolygon));
+  if (currentPolygon.previousShapeName === 'newLine') {
+    newPolygon.set({
+      previousShapeName: 'newLine'
+    });
+  }
+  else {
+    newPolygon.set({
+      previousShapeName: 'polygon'
+    });
+  }
+
   newPolygon.set({
     id: currentPolygon.id,
     selectable: true,
@@ -52,9 +65,8 @@ function generateNewPoints(movedPoints) {
 }
 
 // Evoked after moving whole Polygon, not only one point
-// !!! Add moving function for Line
+// Works for Line too
 function movePolygonToNewPosition() {
-  console.log("move to new position currentPolygon", currentPolygon);
   const newPosition = currentPolygon._calcDimensions();
   currentPolygon.set({
     left: newPosition.left,
@@ -71,7 +83,6 @@ function movePolygonToNewPosition() {
 }
 
 function generatePolygonAfterMove(polygonObj, polygonPointsArray, canvasObj, polygonPropertiesObj) {
-  console.log("move generate after move ", currentPolygon);
   setObjets(polygonObj, polygonPointsArray, canvasObj, polygonPropertiesObj);
   const newPolygon = generateNewPolygon();
   canvas.add(newPolygon);

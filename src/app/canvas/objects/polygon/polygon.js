@@ -203,14 +203,14 @@ function generatePolygon() {
     //canvas.remove(point);
   });
 
-  let polygon; // the entire polygon, and New line
+  let polygon = null; // the entire polygon, and New line
 
   // For Polygon mode
   if (!getTestDrawLineState()) {
     // ???
     //invisiblePoint = null;
     removeActiveShape();
-    polygon = new fabric.Polygon(points, polygonProperties.newPolygon()); // for now, got it from if cycle above
+    polygon = new fabric.Polygon(points, polygonProperties.newPolygon(polygon)); // for now, got it from if cycle above
     lockMovementIfAssertedByState(polygon);
     canvas.add(polygon);
   }
@@ -233,7 +233,7 @@ function generatePolygon() {
     for (i = lengthArray- 1; i>-1; i--) {
         tempArrayLine.push(pointsNewLine[i]);
     }
-    polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon()); // for now, got it from if cycle above
+    polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon(polygon)); // for now, got it from if cycle above
     canvas.add(polygon);
 
       //tempArrayLine = [];
@@ -506,6 +506,7 @@ function drawPolygon(event) {
 // sets the points of polygon or line as immovable object
 // for setting this property, need to hit check box in settings - 'movable object'
 function lockMovementIfAssertedByState(polygon) {
+  console.log("lockMovementIfAssertedByState");
   if (!getMovableObjectsState()) {
     const immovableObjectProps = {
       lockMovementX: true,
@@ -554,6 +555,7 @@ function repositionCrosshair(pointer) {
 }
 
 function movePoints(event) {
+  console.log("-----------move points");
   if (activeShape) {
     preventOutOfBoundsPointsOnMove(event.target, canvas);
     const xCenterPoint = event.target.getCenterPoint().x;

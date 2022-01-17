@@ -235,7 +235,10 @@ function polygonMouseUpEvents(event) {
     if (finishedAddingNewPoints) {
       finishedAddingNewPoints = false;
     } else {
-      selectShape(event.target.id);
+      console.log("event.target.id", event.target);
+      if (event.target) {
+        selectShape(event.target.id);
+      }
     }
     canvas.bringToFront(event.target);
     setEditablePolygonOnClick(event);

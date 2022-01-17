@@ -24,12 +24,14 @@ function displayPolygonPointsWithStyleImpl(canvas, polygon, polygonPointsProps) 
     pointId += 1;
   });
 
-  if (polygon.previousShapeName === 'newLine'){
-    for (let i=0; i< polygonPoints.length; i++){
-      polygonPoints[i].set({
-        selectable: false,
-      previousShapeName: 'newLine',
-          })
+  if (polygon) {
+    if (polygon.previousShapeName === 'newLine') {
+      for (let i = 0; i < polygonPoints.length; i++) {
+        polygonPoints[i].set({
+          selectable: false,
+          previousShapeName: 'newLine',
+        })
+      }
     }
   }
   return polygonPoints;

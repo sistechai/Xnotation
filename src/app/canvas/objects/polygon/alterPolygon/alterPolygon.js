@@ -194,9 +194,11 @@ function displayPolygonPointsAfterMove() {
 function setSelectedObjects(activeCanvasObj, activePolygonObject) {
   canvas = activeCanvasObj;
   polygon = activePolygonObject;
-  if (polygon.previousShapeName === 'newLine') {
-    polygon.set({selectable: false});
-    console.log("222 setSelectedObjects, polygon", polygon);
+  if (polygon) {
+    if (polygon.previousShapeName === 'newLine') {
+      polygon.set({selectable: false});
+      console.log("222 setSelectedObjects, polygon", polygon);
+    }
   }
 }
 
@@ -245,7 +247,9 @@ function defaultFillSelectedPolygonViaPoint() {
 function setEditablePolygon(canvasObj, polygonObj, removablePoints, creatingPolygon, addingPoints) {
   setSelectedObjects(canvasObj, polygonObj);
   canvasObj.discardActiveObject();
-  polygon.bringToFront();
+  if (polygon) {
+    polygon.bringToFront();
+  }
   // edit this
   if (addingPoints) {
     displayStartingAddPolygonPoints();

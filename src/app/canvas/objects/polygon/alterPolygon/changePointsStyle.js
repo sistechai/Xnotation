@@ -12,19 +12,21 @@ function displayPolygonPointsWithStyleImpl(canvas, polygon, polygonPointsProps) 
 
   let pointId = 0;
   const polygonPoints = [];
-  const totalPointNumber = polygon.points.length;
-  polygon.get('points').forEach((point) => {
-    const pointObj = new fabric.Circle(polygonPointsProps(pointId, point, totalPointNumber));
-    if (polygon.polygonMoved) {
-      pointObj.left += 1;
-      pointObj.top += 1;
-    }
-    canvas.add(pointObj);
-    polygonPoints.push(pointObj);
-    pointId += 1;
-  });
+  //const totalPointNumber;
+  if (polygon){
+    const totalPointNumber = polygon.points.length;
 
-  if (polygon) {
+    polygon.get('points').forEach((point) => {
+      const pointObj = new fabric.Circle(polygonPointsProps(pointId, point, totalPointNumber));
+      if (polygon.polygonMoved) {
+        pointObj.left += 1;
+        pointObj.top += 1;
+      }
+      canvas.add(pointObj);
+      polygonPoints.push(pointObj);
+      pointId += 1;
+    });
+
     if (polygon.previousShapeName === 'newLine') {
       for (let i = 0; i < polygonPoints.length; i++) {
         polygonPoints[i].set({
@@ -34,6 +36,7 @@ function displayPolygonPointsWithStyleImpl(canvas, polygon, polygonPointsProps) 
       }
     }
   }
+
   return polygonPoints;
 }
 

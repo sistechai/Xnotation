@@ -61,7 +61,9 @@ function setEditablePolygonOnClickFunc(event) {
     removePolygonPoints();
   }
   setEditablePolygon(canvas, event.target);
-  selectedShapeId = event.target.id;
+  if (event.target) {
+    selectedShapeId = event.target.id;
+  }
 }
 
 function setEditablePolygonWhenPolygonMoved(event) {

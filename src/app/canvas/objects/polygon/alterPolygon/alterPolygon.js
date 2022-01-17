@@ -86,6 +86,7 @@ function completePolygon(finalPoint) {
   setPolygonEditingStatus(false);
 }
 
+// if to add points
 function getPolygonIfEditing() {
   if (editingPolygon) {
     return polygon;
@@ -111,6 +112,7 @@ function sendPolygonPointsToFront(canvasArg) {
 }
 
 function displayPolygonPoints() {
+  console.log("display polygon", polygon);
   if (!preventNewPolygonInitialisation) {
     polygonPoints = displayPolygonPointsWithStyleImpl(
       canvas, polygon, polygonProperties.existingPolygonPoint,
@@ -175,6 +177,7 @@ function removePolygonPoints() {
   setPolygonEditingStatus(false);
 }
 
+// ???
 // After adding or removing points, if to press box.
 function changePolygonPointsPropertiesToDefault(canvasObj) {
   // naming convention?
@@ -182,11 +185,8 @@ function changePolygonPointsPropertiesToDefault(canvasObj) {
   changeObjectsToPolygonPointsToDefaultImpl(canvas);
 }
 
-// After hitting Edit Shape, it moves polygon
+// After hitting Edit Shape, after moving polygon
 function displayPolygonPointsAfterMove() {
-
-  // !!!!!!!!!!1 Polygon edited
-  console.log("222222 polygon edited, polygon", polygon);
   polygon = displayPolygonPointsAfterMoveImpl(canvas, polygon, polygonPoints);
   setPolygonEditingStatus(true);
 }
@@ -194,6 +194,10 @@ function displayPolygonPointsAfterMove() {
 function setSelectedObjects(activeCanvasObj, activePolygonObject) {
   canvas = activeCanvasObj;
   polygon = activePolygonObject;
+  if (polygon.previousShapeName === 'newLine') {
+    polygon.set({selectable: false});
+    console.log("222 setSelectedObjects, polygon", polygon);
+  }
 }
 
 function setEditablePolygonAfterMoving(canvasObj, polygonObj) {

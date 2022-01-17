@@ -165,14 +165,17 @@ function handleShapeFillAfterMove(event) {
   const imageHeight = height * currentZoomState;
   const imageWidth = width * currentZoomState;
 
+  console.log("event.target ", event.target);
   // if (event.target.previousShapeName) {
   //   if (event.target.previousShapeName === 'newLine') {
-  //     defaultShapeFill(event.target.id);
+  //     //defaultShapeFill(event.target.id);
+  //
+  //     event.target.set({selectable: false});
   //     console.log("event.target.id ", event.target.id);
   //   }
   // }
-
-  //else {
+  //
+  // else {
     if (pointer.x < 0 || imageWidth / currentZoomState < pointer.x
         || pointer.y < 0 || imageHeight / currentZoomState < pointer.y) {
       if (event.target.shapeName === 'point') {

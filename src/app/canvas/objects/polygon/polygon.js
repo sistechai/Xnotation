@@ -446,13 +446,11 @@ function instantiatePolygon(event) {
     }
 
     // Here the place of drawing line for polygon
-    else if (lineMode){
-      addPoint(pointer);
-      console.log("--------- lineMode", lineMode);
-    }
+    // else if (lineMode){
+    //   addPoint(pointer);
+    // }
     else if (polygonMode) {
       addPoint(pointer);
-      console.log("--------- polygonMode", polygonMode);
     }
 
     // ??? fix for double click to draw first point bug
@@ -506,7 +504,6 @@ function drawPolygon(event) {
 // sets the points of polygon or line as immovable object
 // for setting this property, need to hit check box in settings - 'movable object'
 function lockMovementIfAssertedByState(polygon) {
-  console.log("lockMovementIfAssertedByState");
   if (!getMovableObjectsState()) {
     const immovableObjectProps = {
       lockMovementX: true,
@@ -555,7 +552,6 @@ function repositionCrosshair(pointer) {
 }
 
 function movePoints(event) {
-  console.log("-----------move points");
   if (activeShape) {
     preventOutOfBoundsPointsOnMove(event.target, canvas);
     const xCenterPoint = event.target.getCenterPoint().x;

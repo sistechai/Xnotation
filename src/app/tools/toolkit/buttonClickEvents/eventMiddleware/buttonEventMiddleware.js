@@ -7,7 +7,6 @@ import { removeActiveButtonPopover } from '../../../globalStyling/buttons/popove
 import isLeftMouseButtonClick from '../../../utils/buttons/clickEvents.js';
 import isElement from '../../../utils/elementType.js';
 import { setCreateNewLineToDefault, setCreateNewLineToDisabled, setCreateNewLineButtonToActive} from '../../styling/state.js';
-import { testDrawLine} from '../facade.js';
 
 function interruptAllCanvasEventsBeforeFunc(func, event) {
   if (event && !isLeftMouseButtonClick(event)) {

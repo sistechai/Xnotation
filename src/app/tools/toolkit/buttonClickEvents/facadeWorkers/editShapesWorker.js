@@ -19,6 +19,7 @@ import {
 } from '../../styling/state.js';
 import { clearBoundingBoxData } from '../../../../canvas/objects/boundingBox/boundingBox.js';
 
+// evoked only if Add Points was active
 function dismissAddPointsEvents(canvas) {
   if (isAddingPointsToPolygon()) {
     assignAddPointsOnExistingPolygonEvents(canvas);

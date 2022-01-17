@@ -97,6 +97,8 @@ function changeRemovablePointToTemp(pointId) {
 }
 
 function generateExistingPolygonPoint(pointId, pointCoordinates) {
+
+  console.log("pointId", pointId);
   return {
     radius: defaultPointRadius,
     fill: 'blue',
@@ -105,6 +107,7 @@ function generateExistingPolygonPoint(pointId, pointCoordinates) {
     left: pointCoordinates.x,
     top: pointCoordinates.y,
     selectable: true,
+    //selectable: false,
     hasBorders: false,
     hasControls: false,
     originX: 'center',

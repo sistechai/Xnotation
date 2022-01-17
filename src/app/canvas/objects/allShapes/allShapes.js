@@ -192,6 +192,7 @@ function retrieveAllShapeRefs() {
 
 // creates shape and changes its color
 function addShape(shapeObj, shapeColor, id) {
+  console.log("!!!!!!!!!!!!!!!!!!shapeColor", shapeColor);
   shapes[id] = createNewShapeObject(shapeObj, shapeColor);
   incrementShapeType(shapeObj);
 }
@@ -248,10 +249,17 @@ function highlightShapeFill(id) {
 }
 
 function defaultShapeFill(id) {
-  console.log("shapes", shapes[id].shapeRef.previousShapeName);
-  if (shapes[id]) {
+  if (shapes[id].shapeRef.previousShapeName === 'newLine') {
+    console.log("shapes[id].shapeRef.previousShapeName", shapes[id].shapeRef.previousShapeName);
+    console.log("shapes[id].color.default", shapes[id].color.default);
+    shapes[id].shapeRef.set('fill', '');
+    console.log("shapes", shapes);
+
+  }
+ // if (shapes[id]) {
+  else {
     const defaultColor = shapes[id].color.default;
-    //shapes[id].shapeRef.set('fill', defaultColor);
+    shapes[id].shapeRef.set('fill', defaultColor);
     console.log("------shapes", shapes[id].shapeRef);
   }
   canvas.renderAll();

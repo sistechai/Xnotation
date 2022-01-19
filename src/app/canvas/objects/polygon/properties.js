@@ -1,7 +1,6 @@
 import {getTestDrawLineState, setTestDrawLineState} from '../../../tools/state.js';
 
 const polygonProperties = {};
-
 let pointStrokedWidth = 0.5;
 let augmentPolygonPointRadius = 4;
 let defaultPointRadius = 3.5;
@@ -14,34 +13,10 @@ let tempPolygonStrokeWidth = 0.8;
 let newLineStrokeWidth = 1.1;
 let polygonPadding = 0;
 
-function setZoomInProperties(pointRatio, polygonRatio) {
-  defaultPointRadius -= defaultPointRadius * pointRatio;
-  pointStrokedWidth -= pointStrokedWidth * pointRatio;
-  augmentPolygonPointRadius -= augmentPolygonPointRadius * pointRatio;
-  invisiblePointRadius -= invisiblePointRadius * pointRatio;
-  disabledNewPointRadius -= disabledNewPointRadius * pointRatio;
-  disabledAddPointRadius -= disabledAddPointRadius * pointRatio;
-  disabledRemovePointRadius -= disabledRemovePointRadius * pointRatio;
-  newPolygonStrokeWidth -= newPolygonStrokeWidth * polygonRatio;
-  tempPolygonStrokeWidth -= tempPolygonStrokeWidth * polygonRatio;
-  newLineStrokeWidth -= newLineStrokeWidth * polygonRatio;
-  polygonPadding += 0.05;
-}
-
-function setZoomOutProperties(pointRatio, polygonRatio) {
-  pointStrokedWidth *= pointRatio;
-  augmentPolygonPointRadius *= polygonRatio;
-  defaultPointRadius *= pointRatio;
-  invisiblePointRadius *= pointRatio;
-  disabledNewPointRadius *= pointRatio;
-  disabledAddPointRadius *= pointRatio;
-  disabledRemovePointRadius *= pointRatio;
-  newPolygonStrokeWidth *= polygonRatio;
-  tempPolygonStrokeWidth *= polygonRatio;
-  newLineStrokeWidth *= polygonRatio;
-  polygonPadding -= 0.05;
-}
-
+// Executed while drawing polygon's or line's temporary points.
+// The PointId starts from 0 for Polygon.
+// However, after drawing line the queue of pointId continue both for line and polygon.
+// That means after finishing drawing polygon the pointId = 0.
 function generateNewPoint(pointId, pointer, isNewPoint) {
   return {
     radius: defaultPointRadius,
@@ -62,25 +37,163 @@ function generateNewPoint(pointId, pointer, isNewPoint) {
   };
 }
 
+// executed to draw first point for polygon
+// executed to draw each point for line
 function generateInvisiblePoint(pointer) {
+  if (getTestDrawLineState()){
+    return {
+      previousShapeName: 'newLine',
+      radius: invisiblePointRadius,
+      fill: 'green',
+      stroke: '#333333',
+      left: pointer.x,
+      top: pointer.y,
+      selectable: true,
+      hasBorders: false,
+      hasControls: false,
+      originX: 'center',
+      originY: 'center',
+      shapeName: 'invisiblePoint',
+      objectCaching: false,
+      opacity: 0,
+      hoverCursor: 'default',
+    };
+  }
+  else {
+    return {
+      previousShapeName: 'polygon',
+      radius: invisiblePointRadius,
+      fill: 'green',
+      stroke: '#333333',
+      left: pointer.x,
+      top: pointer.y,
+      selectable: true,
+      hasBorders: false,
+      hasControls: false,
+      originX: 'center',
+      originY: 'center',
+      shapeName: 'invisiblePoint',
+      objectCaching: false,
+      opacity: 0,
+      hoverCursor: 'default',
+    };
+  }
+}
+
+// after 'enter' generates Polygon,
+// in addition, reacts on moving line or polygon
+function generateNewPolygon() {
+  if (!getTestDrawLineState()) {
+    return {
+      previousShapeName: 'polygon',
+      stroke: 'hsla(186, 8%, 50%, 1)',
+      strokeWidth: newPolygonStrokeWidth,
+      fill: 'rgba(237, 237, 237, 0.01)',
+      perPixelTargetFind: true,
+      hasBorders: false,
+      hasControls: false,
+      shapeName: 'polygon',
+      selectable: false,
+      evented: true,
+      objectCaching: false,
+      numberOfNullPolygonPoints: 0,
+    };
+  }
+  /// Line Mode
+  if (getTestDrawLineState()) {
+    setTestDrawLineState(true);
+    return {
+      previousShapeName: 'newLine',
+      stroke: 'hsla(186, 8%, 50%, 1)',
+      strokeWidth: newPolygonStrokeWidth,
+      fill: 'rgba(237, 237, 237, 0.01)',
+      perPixelTargetFind: true,
+      hasBorders: false,
+      hasControls: false,
+      shapeName: 'polygon',
+      selectable: false,
+      evented: true,
+      objectCaching: false,
+      numberOfNullPolygonPoints: 0,
+    };
+  }
+}
+
+// executed for generating temporary points while drawing line or polygon
+function generateNewTempPolygon() {
+  if (!getTestDrawLineState()) {
+    return {
+      previousShapeName: 'polygon',
+      stroke: '#333333',
+      strokeWidth: tempPolygonStrokeWidth,
+      fill: '#cccccc',
+      opacity: 0.3,
+      selectable: false,
+      hasBorders: false,
+      hasControls: false,
+      evented: false,
+      objectCaching: false,
+      numberOfNullPolygonPoints: 0,
+      shapeName: 'tempPolygon',
+    };
+  }
+  /// Line Mode
+  if (getTestDrawLineState()) {
+    setTestDrawLineState(true);
+    return {
+      previousShapeName: 'newLine',
+      stroke: '#333333',
+      strokeWidth: tempPolygonStrokeWidth,
+      fill: '#cccccc',
+      opacity: 0.3,
+      selectable: false,
+      hasBorders: false,
+      hasControls: false,
+      evented: false,
+      objectCaching: false,
+      numberOfNullPolygonPoints: 0,
+      shapeName: 'tempPolygon',
+    };
+  }
+}
+
+// Only for polygon's first point
+function generateNewFirstPoint() {
   return {
-    radius: invisiblePointRadius,
-    fill: 'green',
-    stroke: '#333333',
-    left: pointer.x,
-    top: pointer.y,
-    selectable: true,
-    hasBorders: false,
-    hasControls: false,
-    originX: 'center',
-    originY: 'center',
-    shapeName: 'invisiblePoint',
-    objectCaching: false,
-    opacity: 0,
-    hoverCursor: 'default',
+    previousShapeName: 'polygon',
+    fill: 'red',
+    shapeName: 'firstPoint',
+    lockMovementX: true,
+    lockMovementY: true,
   };
 }
 
+function generateDisabledAddPoint() {
+  return {
+    fill: 'white',
+    radius: disabledAddPointRadius,
+  };
+}
+
+function generateDisabledRemovePoint() {
+  return {
+    fill: 'black',
+    radius: disabledRemovePointRadius,
+  };
+}
+
+function generateSelectedStartingAddPoint() {
+  return {
+    shapeName: 'initialAddPoint',
+    radius: defaultPointRadius,
+  };
+}
+
+function getPolygonAlignmentAfterPointMove() {
+  return polygonPadding;
+}
+
+// executed if to hit remove points button while drawing polygon
 function changeRemovablePointToTemp(pointId) {
   return {
     radius: defaultPointRadius,
@@ -96,9 +209,8 @@ function changeRemovablePointToTemp(pointId) {
   };
 }
 
+// executed after hitting Edit button, only for line and polygon
 function generateExistingPolygonPoint(pointId, pointCoordinates) {
-
-  console.log("pointId", pointId);
   return {
     radius: defaultPointRadius,
     fill: 'blue',
@@ -107,7 +219,6 @@ function generateExistingPolygonPoint(pointId, pointCoordinates) {
     left: pointCoordinates.x,
     top: pointCoordinates.y,
     selectable: true,
-    //selectable: false,
     hasBorders: false,
     hasControls: false,
     originX: 'center',
@@ -120,7 +231,9 @@ function generateExistingPolygonPoint(pointId, pointCoordinates) {
   };
 }
 
+// executed after hitting Remove points
 function generateRemovablePolygonPoint(pointId, pointCoordinates, totalPointNumber) {
+
   const returnObj = {
     radius: augmentPolygonPointRadius,
     fill: 'red',
@@ -150,6 +263,7 @@ function generateRemovablePolygonPoint(pointId, pointCoordinates, totalPointNumb
   return returnObj;
 }
 
+// Executed after hitting/tapping Add points button, and after adding the last additional point for polygon
 function generatestartingAddPolygonPoint(pointId, pointCoordinates) {
   const returnObj = {
     radius: augmentPolygonPointRadius,
@@ -175,66 +289,31 @@ function generatestartingAddPolygonPoint(pointId, pointCoordinates) {
   return returnObj;
 }
 
-// after 'enter' generates Polygon,
-// in addition, reacts on moving line or polygon
-function generateNewPolygon(polygon) {
-  // if (polygon === null) {
-    if (!getTestDrawLineState()) {
-      console.log("generate new polygon", polygon);
-      return {
-        stroke: 'hsla(186, 8%, 50%, 1)',
-        strokeWidth: newPolygonStrokeWidth,
-        fill: 'rgba(237, 237, 237, 0.01)',
-        perPixelTargetFind: true,
-        hasBorders: false,
-        hasControls: false,
-        shapeName: 'polygon',
-        previousShapeName: 'polygon',
-        selectable: false,
-        evented: true,
-        objectCaching: false,
-        numberOfNullPolygonPoints: 0,
-      };
-    }
-    /// Line Mode
-    if (getTestDrawLineState()) {
-      console.log("generate new line", polygon);
-      setTestDrawLineState(true);
-      return {
-        stroke: 'hsla(186, 8%, 50%, 1)',
-        strokeWidth: newPolygonStrokeWidth,
-        fill: 'rgba(237, 237, 237, 0.01)',
-        perPixelTargetFind: true,
-        hasBorders: false,
-        hasControls: false,
-        shapeName: 'polygon',
-        previousShapeName: 'newLine',
-        selectable: false,
-        evented: true,
-        objectCaching: false,
-        numberOfNullPolygonPoints: 0,
-      };
-    }
-  // }
-  // if (polygon.previousShapeName === 'newLine'){
-  //   console.log("polygon.previousShapeName);", polygon.previousShapeName);
-  // }
+// executed to define all points of polygons, except the initial point
+function generateAdditionalPoint() {
+  return {
+    fill: 'green',
+    radius: augmentPolygonPointRadius,
+    hoverCursor: 'default',
+  };
 }
 
-function generateNewTempPolygon() {
-  console.log("generate temp");
+// ???
+// have not found when it is executed
+function generateRemovablePoint() {
   return {
-    stroke: '#333333',
-    strokeWidth: tempPolygonStrokeWidth,
-    fill: '#cccccc',
-    opacity: 0.3,
-    selectable: false,
-    hasBorders: false,
-    hasControls: false,
-    evented: false,
-    objectCaching: false,
-    numberOfNullPolygonPoints: 0,
-    shapeName: 'tempPolygon',
+    radius: augmentPolygonPointRadius,
+    fill: 'red',
+    selectable: true,
+  };
+}
+
+// ???
+function generateDefaultPoint() {
+  return {
+    fill: 'blue',
+    radius: defaultPointRadius,
+    hoverCursor: 'move',
   };
 }
 
@@ -255,62 +334,32 @@ function generateNewLine() {
   };
 }
 
-function generateNewFirstPoint() {
-  return {
-    fill: 'red',
-    shapeName: 'firstPoint',
-    lockMovementX: true,
-    lockMovementY: true,
-  };
+function setZoomInProperties(pointRatio, polygonRatio) {
+  defaultPointRadius -= defaultPointRadius * pointRatio;
+  pointStrokedWidth -= pointStrokedWidth * pointRatio;
+  augmentPolygonPointRadius -= augmentPolygonPointRadius * pointRatio;
+  invisiblePointRadius -= invisiblePointRadius * pointRatio;
+  disabledNewPointRadius -= disabledNewPointRadius * pointRatio;
+  disabledAddPointRadius -= disabledAddPointRadius * pointRatio;
+  disabledRemovePointRadius -= disabledRemovePointRadius * pointRatio;
+  newPolygonStrokeWidth -= newPolygonStrokeWidth * polygonRatio;
+  tempPolygonStrokeWidth -= tempPolygonStrokeWidth * polygonRatio;
+  newLineStrokeWidth -= newLineStrokeWidth * polygonRatio;
+  polygonPadding += 0.05;
 }
 
-function generateRemovablePoint() {
-  return {
-    radius: augmentPolygonPointRadius,
-    fill: 'red',
-    selectable: true,
-  };
-}
-
-function generateDefaultPoint() {
-  return {
-    fill: 'blue',
-    radius: defaultPointRadius,
-    hoverCursor: 'move',
-  };
-}
-
-function generateAdditionalPoint() {
-  return {
-    fill: 'green',
-    radius: augmentPolygonPointRadius,
-    hoverCursor: 'default',
-  };
-}
-
-function generateDisabledAddPoint() {
-  return {
-    fill: 'white',
-    radius: disabledAddPointRadius,
-  };
-}
-
-function generateDisabledRemovePoint() {
-  return {
-    fill: 'black',
-    radius: disabledRemovePointRadius,
-  };
-}
-
-function generateSelectedStartingAddPoint() {
-  return {
-    shapeName: 'initialAddPoint',
-    radius: defaultPointRadius,
-  };
-}
-
-function getPolygonAlignmentAfterPointMove() {
-  return polygonPadding;
+function setZoomOutProperties(pointRatio, polygonRatio) {
+  pointStrokedWidth *= pointRatio;
+  augmentPolygonPointRadius *= polygonRatio;
+  defaultPointRadius *= pointRatio;
+  invisiblePointRadius *= pointRatio;
+  disabledNewPointRadius *= pointRatio;
+  disabledAddPointRadius *= pointRatio;
+  disabledRemovePointRadius *= pointRatio;
+  newPolygonStrokeWidth *= polygonRatio;
+  tempPolygonStrokeWidth *= polygonRatio;
+  newLineStrokeWidth *= polygonRatio;
+  polygonPadding -= 0.05;
 }
 
 (function setProperties() {

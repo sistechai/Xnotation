@@ -250,6 +250,7 @@ function generatePolygon() {
       // pointArrayNewLineCopyToClearCanvas = [];
       lockMovementIfAssertedByState(polygon);
       lineMode = false;
+      pointId = 0;
   }
 
   activeShape = null;
@@ -293,6 +294,9 @@ function clearLineData(){
 
 function clearPolygonData() {
 
+  console.log("clear polygon data");
+
+  pointId = 0;
   if (pointArray[0]) { // || pointArrayNewLine[0]) {
     pointArray.forEach((point) => {
       canvas.remove(point);
@@ -317,7 +321,7 @@ function clearPolygonData() {
     //pointArrayNewLine = [];
 
     activeShape = null;
-    pointId = 0;
+
     mouseMoved = false;
     drawingFinished = false;
     ignoredFirstMouseMovement = false;

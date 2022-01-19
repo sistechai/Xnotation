@@ -41,7 +41,9 @@ function displayPolygonPointsWithStyleImpl(canvas, polygon, polygonPointsProps) 
 }
 
 function changePolygonPointsToWaitForAddingFirstPointImpl(canvas, startingPoint) {
+
   canvas.forEachObject((iteratedObj) => {
+    console.log("---------- changePolygonPointsToWaitForAddingFirstPointImpl iteratedObj", iteratedObj);
     if (iteratedObj.shapeName === 'point') {
       iteratedObj.set(polygonProperties.disabledAddPoint());
     } else if (iteratedObj.shapeName === 'polygon' || iteratedObj.shapeName === 'bndBox') {
@@ -73,6 +75,9 @@ function changeDrawingPolygonPointsToRemovableImpl(canvas, polygon) {
 }
 
 function changePolygonPointsToAddImpl(canvas) {
+
+  console.log("---------- changePolygonPointsToAddImpl");
+
   canvas.forEachObject((iteratedObj) => {
     if (iteratedObj.shapeName === 'point') {
       iteratedObj.set(polygonProperties.additionalPoint());

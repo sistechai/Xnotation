@@ -55,6 +55,7 @@ function changePolygonPointsToWaitForAddingFirstPointImpl(canvas, startingPoint)
   canvas.renderAll();
 }
 
+
 function changeDrawingPolygonPointsToRemovableImpl(canvas, polygon) {
   let pointId = 0;
   const polygonPoints = [];

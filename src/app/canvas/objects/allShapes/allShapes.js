@@ -12,73 +12,8 @@ let rectangles = [];
 let imagesInformationArray = [];
 let imageId = null;
 
-function getAllExistingShapes() {
-  console.log("shapes", shapes);
-  return shapes;
-}
-
-// refactor the side effect of removing shape refs
-function retrieveAllShapeRefs() {
-  const shapeRefs = {};
-  Object.keys(shapes).forEach((key) => {
-    shapeRefs[key] = shapes[key];
-    canvas.remove(shapes[key].shapeRef);
-  });
-  shapes = {};
-  return shapeRefs;
-}
-
-// creates shape and changes its color
-function addShape(shapeObj, shapeColor, id) {
-  console.log("!!!!!!!!!!!!!!!!!!shapeColor", shapeColor);
-  shapes[id] = createNewShapeObject(shapeObj, shapeColor);
-  incrementShapeType(shapeObj);
-}
-
-function addShapeForInvisibleImage(shapeObj, shapeColor) {
-  const newShapeObject = createNewShapeObject(shapeObj, shapeColor);
-  incrementShapeType(shapeObj);
-  return newShapeObject;
-}
-
-function addExistingShape(shapeObj, id) {
-  shapes[id] = shapeObj;
-}
-
-function getShapeById(id) {
-  return shapes[id].shapeRef;
-}
-
-function getNumberOfShapes() {
-  return Object.keys(shapes).length;
-}
-
-function removeAllShapeRefs() {
-  shapes = {};
-}
-
-function getShapeColorById(id) {
-  return shapes[id].color;
-}
-
-function changeShapeVisibilityById(id) {
-  shapes[id].shapeRef.visible = !shapes[id].shapeRef.visible;
-  shapes[id].visibility = !shapes[id].visibility;
-  return shapes[id].visibility;
-}
-
-function getShapeVisibilityById(id) {
-  return shapes[id].shapeRef.visible;
-}
-
-function changeShapeColorById(id, color) {
-  shapes[id].color = color;
-  shapes[id].shapeRef.set('fill', color.default);
-  shapes[id].shapeRef.set('stroke', color.stroke);
-  canvas.renderAll();
-}
-
 function highlightShapeFill(id) {
+  console.log("shapes id highlight", shapes[id].previousShapeName);
  if (shapes[id]) {
    const highlightColor = shapes[id].color.highlight;
    shapes[id].shapeRef.set('fill', highlightColor);
@@ -91,8 +26,6 @@ function defaultShapeFill(id) {
     console.log("shapes[id].shapeRef.previousShapeName", shapes[id].shapeRef.previousShapeName);
     console.log("shapes[id].color.default", shapes[id].color.default);
     shapes[id].shapeRef.set('fill', '');
-    console.log("shapes", shapes);
-
   }
  // if (shapes[id]) {
   else {
@@ -124,6 +57,58 @@ function removeShape(id) {
 
 function assignCanvasForShapeFillManipulation(canvasObj) {
   canvas = canvasObj;
+}
+
+function changeShapeColorById(id, color) {
+  shapes[id].color = color;
+  shapes[id].shapeRef.set('fill', color.default);
+  shapes[id].shapeRef.set('stroke', color.stroke);
+  canvas.renderAll();
+}
+
+// executed after switching to new image
+// saves the index of shape
+// updates shapeRefs after removing shape, removing points, adding points
+// refactor the side effect of removing shape refs
+function retrieveAllShapeRefs() {
+  const shapeRefs = {};
+  Object.keys(shapes).forEach((key) => {
+    shapeRefs[key] = shapes[key];
+    // removes the shape
+    canvas.remove(shapes[key].shapeRef);
+  });
+  shapes = {};
+  return shapeRefs;
+}
+
+// ??
+// When this function is executed?
+function getNumberOfShapes() {
+  return Object.keys(shapes).length;
+}
+
+// It is executed, if Edit Shape process is Active
+// Only while moving whole shape
+function getShapeColorById(id) {
+  return shapes[id].color;
+}
+
+// Creates shape and changes its color;
+// Executed only at the first time after hitting "enter";
+function addShape(shapeObj, shapeColor, id) {
+  shapes[id] = createNewShapeObject(shapeObj, shapeColor);
+  incrementShapeType(shapeObj);
+}
+
+// executed:
+// 4 times after uploading;
+// 2 times after tapping/hitting polygon or line button
+// 2 times after adding first red point for polygon
+// 2 times after finishing drawing polygon or line
+// 4 times after hitting rectangle button
+// 2 times after adding each new point for line
+function getAllExistingShapes() {
+  return shapes;
 }
 
 // Executed only for the first time after the shape has been created
@@ -269,6 +254,38 @@ function HSLToHex(hslColor) {
     b = "0" + b;
 
   return "#" + r + g + b;
+}
+
+// executed after switching back to previous image and then shapes appear
+function addExistingShape(shapeObj, id) {
+  shapes[id] = shapeObj;
+}
+
+// executed if to cover the name of shape on Labels Menu
+function getShapeById(id) {
+  return shapes[id].shapeRef;
+}
+
+// after switching images
+function removeAllShapeRefs() {
+  shapes = {};
+}
+
+// ???
+function addShapeForInvisibleImage(shapeObj, shapeColor) {
+  const newShapeObject = createNewShapeObject(shapeObj, shapeColor);
+  incrementShapeType(shapeObj);
+  return newShapeObject;
+}
+
+function changeShapeVisibilityById(id) {
+  shapes[id].shapeRef.visible = !shapes[id].shapeRef.visible;
+  shapes[id].visibility = !shapes[id].visibility;
+  return shapes[id].visibility;
+}
+
+function getShapeVisibilityById(id) {
+  return shapes[id].shapeRef.visible;
 }
 
 export {

@@ -240,6 +240,7 @@ function generatePolygon() {
 
       //activeShape = null;
       polygonMode = false;
+
       lineMode = false;
       drawingFinished = true;
       // prepareLabelShape(polygon, canvas);

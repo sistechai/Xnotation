@@ -13,38 +13,31 @@ let imagesInformationArray = [];
 let imageId = null;
 
 function highlightShapeFill(id) {
-  console.log("shapes id highlight", shapes[id].previousShapeName);
  if (shapes[id]) {
    const highlightColor = shapes[id].color.highlight;
-   shapes[id].shapeRef.set('fill', highlightColor);
-   canvas.renderAll();
+   if (shapes[id].shapeRef.previousShapeName === 'newLine'){
+     shapes[id].shapeRef.set('fill', '');
+   }
+   else {
+     shapes[id].shapeRef.set('fill', highlightColor);
+     canvas.renderAll();
+   }
  }
 }
 
 function defaultShapeFill(id) {
   if (shapes[id].shapeRef.previousShapeName === 'newLine') {
-    console.log("shapes[id].shapeRef.previousShapeName", shapes[id].shapeRef.previousShapeName);
-    console.log("shapes[id].color.default", shapes[id].color.default);
     shapes[id].shapeRef.set('fill', '');
   }
- // if (shapes[id]) {
   else {
     const defaultColor = shapes[id].color.default;
     shapes[id].shapeRef.set('fill', defaultColor);
-    console.log("------shapes", shapes[id].shapeRef);
   }
-  canvas.renderAll();
-}
-
-function removeFillForAllShapes() {
-  Object.keys(shapes).forEach((key) => {
-    const defaultColor = shapes[key].color.default;
-    shapes[key].shapeRef.set('fill', defaultColor);
-  });
   canvas.renderAll();
 }
 
 function changeShapeLabelText(id, newText) {
+  console.log("change shape label text");
   shapes[id].shapeRef.set('shapeLabelText', newText);
 }
 
@@ -269,6 +262,15 @@ function getShapeById(id) {
 // after switching images
 function removeAllShapeRefs() {
   shapes = {};
+}
+
+// ??
+function removeFillForAllShapes() {
+  Object.keys(shapes).forEach((key) => {
+    const defaultColor = shapes[key].color.default;
+    shapes[key].shapeRef.set('fill', defaultColor);
+  });
+  canvas.renderAll();
 }
 
 // ???

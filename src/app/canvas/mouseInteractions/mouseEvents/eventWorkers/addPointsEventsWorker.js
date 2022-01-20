@@ -28,6 +28,46 @@ let mouseMoved = false;
 let lastHoveredPoint = null;
 let ignoredFirstMouseMovement = false;
 
+// from second point
+function addPoints(event) {
+  if (addFirstPointMode) {
+
+    if ((event && !event.target)
+        || (event && event.target && (event.target.shapeName !== 'point' && event.target.shapeName !== 'initialAddPoint'))
+    ) {
+      const pointer = canvas.getPointer(event.e);
+      if (!isRightMouseButtonClicked(pointer)) {
+        addFirstPoint(event);
+        addFirstPointMode = false;
+      }
+    }
+  }
+
+  else if (event && event.target && event.target.shapeName === 'point') {
+    addingPoints = false;
+    completePolygon(event.target);
+    prepareToAddPolygonPoints(activeShape);
+    currentlyHoveredPoint = getPointInArrayClosestToGivenCoordinates(getPolygonPointsArray(),
+        event.target);
+    setSessionDirtyState(true);
+  }
+
+  else if (!event.target
+      || (event.target && (event.target.shapeName !== 'initialAddPoint' && event.target.shapeName !== 'tempPoint'))) {
+    const pointer = canvas.getPointer(event.e);
+    if (!isRightMouseButtonClicked(pointer)) {
+      addPoint(pointer);
+      console.log("22222 &&&&&&&&&&&&&&& else if pointer", pointer);
+    }
+  }
+
+  else if (event.target && event.target.shapeName === 'tempPoint') {
+    console.log("444 &&&&&&&&&&&&&& else if temp", event.target.shapeName);
+    mouseIsDownOnTempPoint = true;
+  }
+}
+
+// can get shapeId from arguments
 function selectShape(shapeId) {
   highlightLabelInTheList(shapeId);
   setRemoveLabelsButtonToDefault();
@@ -68,18 +108,6 @@ function setAddPointsEventsCanvas(canvasObj) {
   }
 }
 
-function prepareToAddPolygonPoints(shape) {
-  removePolygonPoints();
-  removeEditedPolygonId();
-  setEditablePolygon(canvas, shape, false, false, true);
-  selectedPolygonId = shape.id;
-  selectShape(selectedPolygonId);
-  lastMouseEvent = null;
-  mouseMoved = false;
-  lastHoveredPoint = null;
-  ignoredFirstMouseMovement = false;
-}
-
 function moveAddPoints(event) {
   if (addingPoints) {
     moveAddablePoint(event);
@@ -116,34 +144,6 @@ function getPointInArrayClosestToGivenCoordinates(pointArray, { left, top }) {
     }
   }
   return pointArray[0];
-}
-
-function addPoints(event) {
-  if (addFirstPointMode) {
-    if ((event && !event.target)
-      || (event && event.target && (event.target.shapeName !== 'point' && event.target.shapeName !== 'initialAddPoint'))) {
-      const pointer = canvas.getPointer(event.e);
-      if (!isRightMouseButtonClicked(pointer)) {
-        addFirstPoint(event);
-        addFirstPointMode = false;
-      }
-    }
-  } else if (event && event.target && event.target.shapeName === 'point') {
-    addingPoints = false;
-    completePolygon(event.target);
-    prepareToAddPolygonPoints(activeShape);
-    currentlyHoveredPoint = getPointInArrayClosestToGivenCoordinates(getPolygonPointsArray(),
-      event.target);
-    setSessionDirtyState(true);
-  } else if (!event.target
-      || (event.target && (event.target.shapeName !== 'initialAddPoint' && event.target.shapeName !== 'tempPoint'))) {
-    const pointer = canvas.getPointer(event.e);
-    if (!isRightMouseButtonClicked(pointer)) {
-      addPoint(pointer);
-    }
-  } else if (event.target && event.target.shapeName === 'tempPoint') {
-    mouseIsDownOnTempPoint = true;
-  }
 }
 
 function pointMouseDownEvents(event) {
@@ -203,20 +203,6 @@ function addPointViaKeyboard() {
     }
   } else {
     addPoints(lastMouseEvent);
-  }
-}
-
-function pointMouseUpEvents(event) {
-  mouseIsDownOnTempPoint = false;
-  if (event.target && event.target.shapeName === 'polygon' && (newPolygonSelected || selectedNothing)) {
-    activeShape = event.target;
-    prepareToAddPolygonPoints(event.target);
-    selectedNothing = false;
-    newPolygonSelected = false;
-  } else if ((!event.target && getPolygonEditingStatus()) || (event.target && event.target.shapeName === 'bndBox')) {
-    if (!addingPoints) {
-      setPolygonNotEditableOnClick();
-    }
   }
 }
 
@@ -307,6 +293,38 @@ function shapeScrollEvents(event) {
       defaultScroll(event);
     }
   }
+}
+
+// without first point
+function pointMouseUpEvents(event) {
+  mouseIsDownOnTempPoint = false;
+
+  // hitting/tapping of existing points of polygon or line
+  if (event.target && event.target.shapeName === 'polygon' && (newPolygonSelected || selectedNothing)) {
+    activeShape = event.target;
+    prepareToAddPolygonPoints(event.target);
+    selectedNothing = false;
+    newPolygonSelected = false;
+  }
+
+  else if ((!event.target && getPolygonEditingStatus()) || (event.target && event.target.shapeName === 'bndBox') ) {
+    if (!addingPoints) {
+      setPolygonNotEditableOnClick();
+    }
+  }
+}
+
+// executed after hitting/tapping Add Points and hitting/tapping the polygon or line
+function prepareToAddPolygonPoints(shape) {
+  removePolygonPoints();
+  removeEditedPolygonId();
+  setEditablePolygon(canvas, shape, false, false, true);
+  selectedPolygonId = shape.id;
+  selectShape(selectedPolygonId);
+  lastMouseEvent = null;
+  mouseMoved = false;
+  lastHoveredPoint = null;
+  ignoredFirstMouseMovement = false;
 }
 
 export {

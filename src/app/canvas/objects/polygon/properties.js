@@ -183,6 +183,7 @@ function generateDisabledRemovePoint() {
 }
 
 function generateSelectedStartingAddPoint() {
+  console.log("?ff initial Addpoint polygonProperties", polygonProperties);
   return {
     shapeName: 'initialAddPoint',
     radius: defaultPointRadius,

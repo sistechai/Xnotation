@@ -28,14 +28,80 @@ let mouseMoved = false;
 let lastHoveredPoint = null;
 let ignoredFirstMouseMovement = false;
 
-// from second point
+
+function pointMouseDownEvents(event) {
+
+  if (!addingPoints)
+  {
+    if (event.target) {
+      enableActiveObjectsAppearInFront(canvas);
+      if  ( (event.target.shapeName === 'point') )// && (activeShape.previousShapeName === 'polygon') )
+      {
+
+        // checking whether it is final or initial point of line
+        if (activeShape) {
+          let pointsArrayLength = activeShape.points.length;
+          if ( (activeShape.previousShapeName === 'newLine')
+              && (
+                  (event.target.pointId === 0)
+                  || (event.target.pointId === (pointsArrayLength -1) )
+                  || (event.target.pointId === (pointsArrayLength /2) )
+                  || (event.target.pointId === (pointsArrayLength /2 -1) )
+                  )
+              ) {
+            console.log("2222 ?ffff irst  event target", event.target.pointId);
+          }
+        }
+
+        // second event, clicking the point of object
+
+        const pointer = canvas.getPointer(event.e);
+        initializeAddNewPoints(event.target, pointer);
+        addingPoints = true;
+        addFirstPointMode = true;
+      }
+
+      else {
+
+        // first event, click on object
+        if (event.target.shapeName === 'polygon') {
+          if (event.target.previousShapeName === "newLine"){
+            console.log("111 ?fffffirst  click on polygon", event.target.previousShapeName);
+          }
+          newPolygonSelected = (event.target.id !== selectedPolygonId);
+          console.log("111 ?fffffirst  newPolygonSelected", newPolygonSelected);
+          console.log("111 ?fffffirst  selectedPolygonId", selectedPolygonId);
+          console.log("111 ?fffffirst  event",event.target.id);        }
+        preventActiveObjectsAppearInFront(canvas);
+      }
+      selectedNothing = false;
+    }
+
+    else {
+      selectedNothing = true;
+    }
+  }
+
+  // the third event, first point added, and next one, and last point
+  else {
+    console.log("3333 ?ffffff irst else last", event.target);
+    addPoints(event);
+  }
+}
+
+// adding points to existing object
 function addPoints(event) {
+
+  // first point
   if (addFirstPointMode) {
+    console.log("addFirst Point Mode", event);
 
     if ((event && !event.target)
         || (event && event.target && (event.target.shapeName !== 'point' && event.target.shapeName !== 'initialAddPoint'))
     ) {
       const pointer = canvas.getPointer(event.e);
+      console.log("event", event);
+      console.log("event.e", event.e);
       if (!isRightMouseButtonClicked(pointer)) {
         addFirstPoint(event);
         addFirstPointMode = false;
@@ -43,6 +109,7 @@ function addPoints(event) {
     }
   }
 
+  // starting from second point
   else if (event && event.target && event.target.shapeName === 'point') {
     addingPoints = false;
     completePolygon(event.target);
@@ -57,7 +124,6 @@ function addPoints(event) {
     const pointer = canvas.getPointer(event.e);
     if (!isRightMouseButtonClicked(pointer)) {
       addPoint(pointer);
-      console.log("22222 &&&&&&&&&&&&&&& else if pointer", pointer);
     }
   }
 
@@ -144,37 +210,6 @@ function getPointInArrayClosestToGivenCoordinates(pointArray, { left, top }) {
     }
   }
   return pointArray[0];
-}
-
-function pointMouseDownEvents(event) {
-  if (!addingPoints)
-  {
-    if (event.target) {
-      enableActiveObjectsAppearInFront(canvas);
-      if (event.target.shapeName === 'point')
-      {
-        const pointer = canvas.getPointer(event.e);
-        initializeAddNewPoints(event.target, pointer);
-        addingPoints = true;
-        addFirstPointMode = true;
-      }
-      else {
-        if (event.target.shapeName === 'polygon') {
-          newPolygonSelected = (event.target.id !== selectedPolygonId);
-        }
-        preventActiveObjectsAppearInFront(canvas);
-      }
-      selectedNothing = false;
-    }
-
-    else {
-      selectedNothing = true;
-    }
-  }
-
-  else {
-    addPoints(event);
-  }
 }
 
 function addPointViaKeyboard() {

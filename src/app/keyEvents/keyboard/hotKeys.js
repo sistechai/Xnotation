@@ -14,24 +14,16 @@ import {
   getUploadDatasetsModalDisplayedState, getMachineLearningModalDisplayedState,
   getAddingPolygonPointsState, getRemovingPolygonPointsState, getSettingsPopupOpenState,
   getRemoveImageModalDisplayedState, getReadyToDrawShapeState, getWelcomeModalDisplayedState,
-
-  getTestDrawLineState, setTestDrawLineState,
-
 } from '../../tools/state.js';
-import { isAddingPointsToPolygonImpl } from '../../canvas/objects/polygon/alterPolygon/addPoint.js';
 import { removeFillForAllShapes } from '../../canvas/objects/allShapes/allShapes.js';
 import { addPointViaKeyboard as addPointToNewPolygonViaKeyboard, generatePolygonViaKeyboard } from '../../canvas/objects/polygon/polygon.js';
 import { instantiateNewBoundingBox, finishDrawingBoundingBox } from '../../canvas/objects/boundingBox/boundingBox.js';
 import {
   getCreatePolygonButtonState, getCreateBoundingBoxButtonState,
   getEditShapesButtonState, getRemovePointsButtonState, getAddPointsButtonState,
-
   getCreateLineState, setCreateNewLineButtonToActive,
-
 } from '../../tools/toolkit/styling/state.js';
-
 import { testDrawLine } from '../../tools/toolkit/buttonClickEvents/facade.js';
-
 import { closeRemoveImagesModal } from '../../tools/imageList/removeImages/modal/style.js';
 import { removeTempPointViaKeyboard } from '../../canvas/mouseInteractions/mouseEvents/eventWorkers/removePointsOnNewPolygonEventsWorker.js';
 import { removePointViaKeyboard } from '../../canvas/mouseInteractions/mouseEvents/eventWorkers/removePointsEventsWorker.js';
@@ -41,10 +33,47 @@ import { getUserOS } from '../../tools/OS/OSManager.js';
 import { closeWelcomeModal } from '../../tools/welcomeModal/buttons/workers.js';
 import isAnyModalOpen from '../../tools/utils/modals/status.js';
 
+import { getAddPointsLineState } from '../../canvas/mouseInteractions/mouseEvents/eventWorkers/addPointsEventsWorker.js';
+
 let canvas = null;
 let isRKeyUp = true;
 let wKeyHandler = null;
 let wKeyUpHandler = null;
+
+let enterAddPointsLineState = false;
+
+function setEnterAddPointsLineState(state){
+  enterAddPointsLineState = state;
+}
+
+function getEnterAddPointsLineState(){
+  return enterAddPointsLineState;
+}
+
+function enterKeyHandler() {
+
+  if (getAddPointsLineState()) {
+    // TODO: To write a function for finishing line after adding points
+    setEnterAddPointsLineState(true);
+    console.log("enter last state", getEnterAddPointsLineState());
+  }
+
+  // The Second process after presssing Enter
+  if (getLabellerModalDisplayedState()) {
+    labelShape();
+  }
+
+  else if (getRemoveImageModalDisplayedState()) {
+    window.approveRemoveImage();
+  } else if (getWelcomeModalDisplayedState()) {
+    closeWelcomeModal();
+  }
+
+  // The First process after presssing Enter
+  else if (getPolygonDrawingInProgressState() && !getRemovingPolygonPointsState()) {
+    generatePolygonViaKeyboard();
+  }
+}
 
 function rKeyUpHandler() {
   isRKeyUp = true;
@@ -214,25 +243,6 @@ function backspaceKeyHandler() {
   removeKeyHandler();
 }
 
-function enterKeyHandler() {
-
-  // The Second process after presssing Enter
-  if (getLabellerModalDisplayedState()) {
-    labelShape();
-  }
-
-  else if (getRemoveImageModalDisplayedState()) {
-    window.approveRemoveImage();
-  } else if (getWelcomeModalDisplayedState()) {
-    closeWelcomeModal();
-  }
-
-  // The First process after presssing Enter
-  else if (getPolygonDrawingInProgressState() && !getRemovingPolygonPointsState()) {
-    generatePolygonViaKeyboard();
-  }
-}
-
 function escapeKeyHandler() {
   if (getExportDatasetsPopupOpenState()) {
     window.toggleExportDatasetsPopup();
@@ -347,4 +357,4 @@ function registerHotKeys() {
   assignOSSpecificFunctionality();
 }
 
-export { registerHotKeys, assignCanvasForHotKeys };
+export { registerHotKeys, assignCanvasForHotKeys, getEnterAddPointsLineState, setEnterAddPointsLineState };

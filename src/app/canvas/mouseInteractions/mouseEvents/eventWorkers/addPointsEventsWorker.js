@@ -31,64 +31,75 @@ let ignoredFirstMouseMovement = false;
 
 function pointMouseDownEvents(event) {
 
-  if (!addingPoints)
-  {
+  if (!addingPoints) {
+
+    let calamity = 0;
+
     if (event.target) {
       enableActiveObjectsAppearInFront(canvas);
-      if  ( (event.target.shapeName === 'point') )// && (activeShape.previousShapeName === 'polygon') )
+      if ((event.target.shapeName === 'point'))// && (activeShape.previousShapeName === 'polygon') )
       {
-
-        // checking whether it is final or initial point of line
+  // checking whether it is final or initial point of line
         if (activeShape) {
           let pointsArrayLength = activeShape.points.length;
-          if ( (activeShape.previousShapeName === 'newLine')
+          if ((activeShape.previousShapeName === 'newLine')
               && (
                   (event.target.pointId === 0)
-                  || (event.target.pointId === (pointsArrayLength -1) )
-                  || (event.target.pointId === (pointsArrayLength /2) )
-                  || (event.target.pointId === (pointsArrayLength /2 -1) )
-                  )
-              ) {
-            console.log("2222 ?ffff irst  event target", event.target.pointId);
+                  || (event.target.pointId === (pointsArrayLength - 1))
+                  || (event.target.pointId === (pointsArrayLength / 2))
+                  || (event.target.pointId === (pointsArrayLength / 2 - 1))
+              )
+          ) {
+            console.log("it is not calamity! hooray! event.target set NewLine?", event.target);
+            const pointer = canvas.getPointer(event.e);
+            initializeAddNewPoints(event.target, pointer);
+            addingPoints = true;
+            addFirstPointMode = true;
+            console.log("calamity else if polygon? ", calamity++, activeShape);
           }
+
+
+              // for polygon
+          // second event, clicking the point of object
+
+          else if (activeShape.previousShapeName === 'polygon') {
+            console.log("calamity else if polygon? ", calamity++, activeShape);
+            console.log("calamity else if polygon? ", activeShape);
+            const pointer = canvas.getPointer(event.e);
+            initializeAddNewPoints(event.target, pointer);
+            addingPoints = true;
+            addFirstPointMode = true;
+            console.log("calamity else if polygon? ", calamity++, activeShape);
+          }
+        } else {
+          console.log("calamity else if polygon? ", calamity++, activeShape);
+
+          // first event, click on object
+          if (event.target.shapeName === 'polygon') {
+            if (event.target.previousShapeName === "newLine") {
+              console.log("111 ?fffffirst  click on polygon", event.target.previousShapeName);
+            }
+            newPolygonSelected = (event.target.id !== selectedPolygonId);
+            console.log("111 ?fffffirst  newPolygonSelected", newPolygonSelected);
+            console.log("111 ?fffffirst  selectedPolygonId", selectedPolygonId);
+            console.log("111 ?fffffirst  event", event.target.id);
+          }
+          preventActiveObjectsAppearInFront(canvas);
         }
-
-        // second event, clicking the point of object
-
-        const pointer = canvas.getPointer(event.e);
-        initializeAddNewPoints(event.target, pointer);
-        addingPoints = true;
-        addFirstPointMode = true;
+        selectedNothing = false;
+      } else {
+        selectedNothing = true;
       }
-
-      else {
-
-        // first event, click on object
-        if (event.target.shapeName === 'polygon') {
-          if (event.target.previousShapeName === "newLine"){
-            console.log("111 ?fffffirst  click on polygon", event.target.previousShapeName);
-          }
-          newPolygonSelected = (event.target.id !== selectedPolygonId);
-          console.log("111 ?fffffirst  newPolygonSelected", newPolygonSelected);
-          console.log("111 ?fffffirst  selectedPolygonId", selectedPolygonId);
-          console.log("111 ?fffffirst  event",event.target.id);        }
-        preventActiveObjectsAppearInFront(canvas);
-      }
-      selectedNothing = false;
     }
+  }
 
+    // the third event, first point added, and next one, and last point
     else {
-      selectedNothing = true;
+      console.log("3333 ?ffffff irst else last", event.target);
+      addPoints(event);
     }
-  }
 
-  // the third event, first point added, and next one, and last point
-  else {
-    console.log("3333 ?ffffff irst else last", event.target);
-    addPoints(event);
-  }
 }
-
 // adding points to existing object
 function addPoints(event) {
 

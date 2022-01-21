@@ -294,9 +294,6 @@ function clearLineData(){
 }
 
 function clearPolygonData() {
-
-  console.log("clear polygon data");
-
   pointId = 0;
   if (pointArray[0]) { // || pointArrayNewLine[0]) {
     pointArray.forEach((point) => {

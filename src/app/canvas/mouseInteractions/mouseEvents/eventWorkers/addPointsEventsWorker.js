@@ -31,23 +31,74 @@ let lastHoveredPoint = null;
 let ignoredFirstMouseMovement = false;
 let addPointsLineState = false;
 let addPointsLinePointers = [];
+let linePointIdFinal = undefined;
 
-function getActiveShape(){
-  return activeShape;
+// only for the first point, which is located on polygon or line
+function pointMouseDownEvents(event) {
+  if (!addingPoints) {
+    if (event.target) {
+      enableActiveObjectsAppearInFront(canvas);
+      if ((event.target.shapeName === 'point'))
+      {
+        if (activeShape) {
+          let pointsArrayLength = activeShape.points.length;
+          if ((activeShape.previousShapeName === 'newLine')
+              && (
+                  (event.target.pointId === 0)
+                  || (event.target.pointId === (pointsArrayLength - 1))
+                  || (event.target.pointId === (pointsArrayLength / 2))
+                  || (event.target.pointId === (pointsArrayLength / 2 - 1))
+              ) )
+          {
+            setAddPointsLineState(true);
+
+            const pointer = canvas.getPointer(event.e);
+
+            // whether it is the initial point of the original line
+            if ( (event.target.pointId === 0)  || (event.target.pointId === (pointsArrayLength - 1) ) ) {
+              linePointIdFinal = false;
+            }
+            // whether it is the final point of the original line
+            else{
+              linePointIdFinal = true;
+            }
+            initializeAddNewPoints(event.target, pointer);
+            addingPoints = true;
+            addFirstPointMode = true;
+          }
+          else if (activeShape.previousShapeName === 'polygon') {
+            const pointer = canvas.getPointer(event.e);
+            initializeAddNewPoints(event.target, pointer);
+            addingPoints = true;
+            addFirstPointMode = true;
+          }
+        }
+        else {
+          if (event.target.shapeName === 'polygon') {
+            newPolygonSelected = (event.target.id !== selectedPolygonId);
+          }
+          preventActiveObjectsAppearInFront(canvas);
+        }
+        selectedNothing = false;
+      } else {
+        selectedNothing = true;
+      }
+    }
+  }
+  // adds the points starting from outside of polygon or line, and ending by point on polygon or line
+  else {
+    addPoints(event);
+  }
 }
 
-function setActiveShape(currentActiveShape){
-  activeShape = currentActiveShape;
-}
-
-// only for line
+// only for line mode
 // TODO: to check whether the line starts from initial or final point of line
 function addLineLastPoint(){
   addingPoints = false;
   setEnterAddPointsLineState(false);
   setAddPointsLineState(false);
   activeShape = getActiveShape();
-  completePolygonImpl(activeShape, activeShape.points, undefined, addPointsLinePointers);
+  completePolygonImpl(activeShape, activeShape.points, undefined, addPointsLinePointers, linePointIdFinal);
   addPointsLinePointers = [];
 }
 
@@ -108,6 +159,15 @@ function setAddPointsLineState(state){
 
 function getAddPointsLineState(){
   return addPointsLineState;
+}
+
+// for Adding points to the line function
+function getActiveShape(){
+  return activeShape;
+}
+
+function setActiveShape(currentActiveShape){
+  activeShape = currentActiveShape;
 }
 
 // can get shapeId from arguments
@@ -304,57 +364,6 @@ function shapeScrollEvents(event) {
     } else {
       defaultScroll(event);
     }
-  }
-}
-
-function pointMouseDownEvents(event) {
-
-  // only for the first point, which is located on polygon or line
-  if (!addingPoints) {
-    if (event.target) {
-      enableActiveObjectsAppearInFront(canvas);
-      if ((event.target.shapeName === 'point'))
-      {
-        if (activeShape) {
-          let pointsArrayLength = activeShape.points.length;
-          if ((activeShape.previousShapeName === 'newLine')
-              && (
-                  (event.target.pointId === 0)
-                  || (event.target.pointId === (pointsArrayLength - 1))
-                  || (event.target.pointId === (pointsArrayLength / 2))
-                  || (event.target.pointId === (pointsArrayLength / 2 - 1))
-              ) )
-          {
-            setAddPointsLineState(true);
-            console.log('getAddPointsLineState for last enter', getAddPointsLineState());
-            const pointer = canvas.getPointer(event.e);
-            initializeAddNewPoints(event.target, pointer);
-            addingPoints = true;
-            addFirstPointMode = true;
-          }
-          else if (activeShape.previousShapeName === 'polygon') {
-            const pointer = canvas.getPointer(event.e);
-            initializeAddNewPoints(event.target, pointer);
-            addingPoints = true;
-            addFirstPointMode = true;
-          }
-        }
-        else {
-          if (event.target.shapeName === 'polygon') {
-            newPolygonSelected = (event.target.id !== selectedPolygonId);
-          }
-          preventActiveObjectsAppearInFront(canvas);
-        }
-        selectedNothing = false;
-      } else {
-        selectedNothing = true;
-      }
-    }
-  }
-
-  // adds the points starting from outside of polygon or line, and ending by point on polygon or line
-  else {
-    addPoints(event);
   }
 }
 

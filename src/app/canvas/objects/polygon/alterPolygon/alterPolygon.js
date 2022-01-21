@@ -30,6 +30,17 @@ let polygonPoints = [];
 let editingPolygon = false;
 let preventNewPolygonInitialisation = false;
 
+function setSelectedObjects(activeCanvasObj, activePolygonObject) {
+  canvas = activeCanvasObj;
+  polygon = activePolygonObject;
+  if (polygon) {
+    if (polygon.previousShapeName === 'newLine') {
+      //polygon.set({selectable: false});
+      console.log("222 setSelectedObjects, polygon", polygon);
+    }
+  }
+}
+
 function setPolygonEditingStatus(status) {
   editingPolygon = status;
 }
@@ -77,6 +88,7 @@ function addPointsMouseOut(event) {
 function isAddingPointsToPolygon() {
   return isAddingPointsToPolygonImpl();
 }
+
 
 // the final point is the last point to add to polygon
 function completePolygon(finalPoint) {
@@ -189,17 +201,6 @@ function changePolygonPointsPropertiesToDefault(canvasObj) {
 function displayPolygonPointsAfterMove() {
   polygon = displayPolygonPointsAfterMoveImpl(canvas, polygon, polygonPoints);
   setPolygonEditingStatus(true);
-}
-
-function setSelectedObjects(activeCanvasObj, activePolygonObject) {
-  canvas = activeCanvasObj;
-  polygon = activePolygonObject;
-  if (polygon) {
-    if (polygon.previousShapeName === 'newLine') {
-      polygon.set({selectable: false});
-      console.log("222 setSelectedObjects, polygon", polygon);
-    }
-  }
 }
 
 function setEditablePolygonAfterMoving(canvasObj, polygonObj) {

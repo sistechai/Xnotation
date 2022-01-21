@@ -1,4 +1,3 @@
-// import fabric from 'fabric.js';
 import polygonProperties from '../properties.js';
 import labelProperties from '../../label/properties.js';
 import setAddPointsMode from '../../../mouseInteractions/cursorModes/addPointsMode.js';
@@ -15,8 +14,74 @@ let tempPointIndex = 0;
 let initialPoint = null;
 let pointsArray = [];
 let defaultPointHoverMode = true;
-
 let linePointersArray = [];
+
+function completePolygonImpl(polygon, originalPointsArray, finalPoint, addPointsLinePointers) {
+
+  let derefPointsArray = originalPointsArray.slice();
+  let lineFinalPointId;
+  let newPointsArray = [];
+
+  if (polygon.previousShapeName === 'newLine') {
+    let arrayMiddle = derefPointsArray.length/2;
+    derefPointsArray = originalPointsArray.slice(0, arrayMiddle);
+
+      let tempArrayLine = [];
+      newPointsArray = [];
+
+    tempArrayLine = derefPointsArray.slice();
+    tempArrayLine.push(...addPointsLinePointers);
+    newPointsArray.push(...tempArrayLine);
+
+    console.log("ttt addPointsLinePointers", addPointsLinePointers);
+    console.log("tt tempArrayLine", tempArrayLine);
+
+    for (let i = tempArrayLine.length - 1; i > -1; i--) {
+      newPointsArray.push(tempArrayLine[i]);
+    }
+      // tempArrayLine = [];
+      // lineFinalArray = [];
+
+  }
+  // polygon Mode
+else {
+    lineFinalPointId = finalPoint.pointId;
+    let startingIdOfNewArray = Math.min(initialPoint.pointId, finalPoint.pointId);
+    const endingIdIdOfNewArray = Math.max(initialPoint.pointId, finalPoint.pointId);
+    const innerArray = [];
+    for (let i = startingIdOfNewArray; i < endingIdIdOfNewArray + 1; i += 1) {
+      innerArray.push(derefPointsArray[i]);
+    }
+    const innerArrayDistance = calculateTotalLineDistance(innerArray);
+    const outerArray = [];
+    for (let i = endingIdIdOfNewArray; i < derefPointsArray.length; i += 1) {
+      outerArray.push(derefPointsArray[i]);
+    }
+    for (let i = 0; i < startingIdOfNewArray + 1; i += 1) {
+      outerArray.push(derefPointsArray[i]);
+    }
+    const outerArrayDistance = calculateTotalLineDistance(outerArray);
+    if (innerArrayDistance < outerArrayDistance) {
+      startingIdOfNewArray += 1;
+      newPointsArray = derefPointsArray.slice(0, startingIdOfNewArray);
+      addNewPointsByTheirAddDirection(newPointsArray, initialPoint.pointId, finalPoint.pointId, polygon);
+      for (let i = endingIdIdOfNewArray; i < derefPointsArray.length; i += 1) {
+        newPointsArray.push(derefPointsArray[i]);
+      }
+    } else {
+      newPointsArray = derefPointsArray.slice(startingIdOfNewArray, endingIdIdOfNewArray + 1);
+      addNewPointsByTheirAddDirection(newPointsArray, finalPoint.pointId, initialPoint.pointId, polygon);
+    }
+  }
+
+// for both shapes
+  linePointersArray = [];
+  polygon.set({ points: newPointsArray });
+
+    setInitialStageOfAddPointsOnExistingPolygonMode(canvas);
+    clearAllAddPointsDataImpl();
+    realignLabel(polygon);
+}
 
 /// Draws temporary activeLine ONLY for Add Points event
 // Active Line is a temporary line
@@ -56,17 +121,11 @@ function initializeAddNewPointsImpl(shape, pointer, canvasObj) {
     setAddPointsMode(canvas, shape);
     createNewLine(shape.left, shape.top, pointer.x, pointer.y);
     initialPoint = shape;
-    //if ()
-  console.log("%%%%%%%%% initialPoint", initialPoint);
-  console.log("%%%%%%%%% pointer", pointer);
-  //linePointersArray.push(pointer);
     canvas.bringToFront(initialPoint);
     defaultPointHoverMode = false;
 }
 
 function addFirstPointImpl(event) {
-
-  console.log("?first point", event);
   changePolygonPointsToAddImpl(canvas);
   const pointer = canvas.getPointer(event.e);
 
@@ -84,8 +143,6 @@ function addFirstPointImpl(event) {
 
 function addPointImpl(pointer) {
   linePointersArray.push(pointer);
-  console.log("%%%%%%%%%3333333333332 pointer", pointer);
-  console.log("%%%%%%%%%3333333333332 linePointersArray", linePointersArray);
   lineArray.push(activeLine);
   createNewLine(pointer.x, pointer.y, pointer.x, pointer.y);
   const isNewPoint = true;
@@ -179,112 +236,6 @@ function addNewPointsByTheirAddDirection(newPointsArray, firstPointId, lastPoint
   }
 }
 
-function completePolygonImpl(polygon, originalPointsArray, finalPoint) {
-  let derefPointsArray = originalPointsArray.slice();
-
-  let lineFinalPointId;
-  lineFinalPointId = finalPoint.pointId;
-  if (polygon.previousShapeName === 'newLine') {
-    let arrayMiddle = derefPointsArray.length/2;
-    derefPointsArray = originalPointsArray.slice(0, arrayMiddle);
-    if (initialPoint.pointId > arrayMiddle-1) {
-      initialPoint.pointId =originalPointsArray.length - initialPoint.pointId - 1;
-    }
-    if (finalPoint.pointId > arrayMiddle-1) {
-      finalPoint.pointId =originalPointsArray.length - finalPoint.pointId - 1;
-    }
-  }
-  let newPointsArray = [];
-  let startingIdOfNewArray = Math.min(initialPoint.pointId, finalPoint.pointId);
-  const endingIdIdOfNewArray = Math.max(initialPoint.pointId, finalPoint.pointId);
-
-  const innerArray = [];
-  for (let i = startingIdOfNewArray; i < endingIdIdOfNewArray + 1; i += 1) {
-    innerArray.push(derefPointsArray[i]);
-  }
-  const innerArrayDistance = calculateTotalLineDistance(innerArray);
-
-  const outerArray = [];
-  for (let i = endingIdIdOfNewArray; i < derefPointsArray.length; i += 1) {
-    outerArray.push(derefPointsArray[i]);
-  }
-  for (let i = 0; i < startingIdOfNewArray + 1; i += 1) {
-    outerArray.push(derefPointsArray[i]);
-  }
-  const outerArrayDistance = calculateTotalLineDistance(outerArray);
-
-  if (innerArrayDistance < outerArrayDistance) {
-    startingIdOfNewArray += 1;
-    newPointsArray = derefPointsArray.slice(0, startingIdOfNewArray);
-    addNewPointsByTheirAddDirection(newPointsArray, initialPoint.pointId, finalPoint.pointId, polygon);
-
-    for (let i = endingIdIdOfNewArray; i < derefPointsArray.length; i += 1) {
-      newPointsArray.push(derefPointsArray[i]);
-    }
-    console.log("?first 1111 new points array iffff",  newPointsArray);
-  }
-
-  else {
-    newPointsArray = derefPointsArray.slice(startingIdOfNewArray, endingIdIdOfNewArray + 1);
-    addNewPointsByTheirAddDirection(newPointsArray, finalPoint.pointId, initialPoint.pointId, polygon);
-    console.log("?first 1111 new points array elseeeeeeeeeeeeeeee",  newPointsArray);
-  }
-
-  console.log("?first 1111 new points array",  newPointsArray);
-  console.log("?first 1111 deref", derefPointsArray);
-  console.log("?first 1111 derefPointsArray[startingIdOfNewArray] ", derefPointsArray[startingIdOfNewArray]);
-
-
-  if (polygon.previousShapeName === 'newLine') {
-    let lineFinalArray = [];
-    //newPointsArray =[];
-    lineFinalArray.push(newPointsArray[initialPoint.pointId]);
-
-    // for (let i = 0; i < newPointsArray.length; i++) {
-    //   if ((i !== initialPoint.pointId) && (i !== finalPoint.pointId)) {
-    //     lineFinalArray.push(newPointsArray[i]);
-    //   }
-    // }
-    for (let i = 0; i < linePointersArray.length; i++) {
-      //if ((i !== initialPoint.pointId) && (i !== finalPoint.pointId)) {
-        lineFinalArray.push(linePointersArray[i]);
-      //}
-    }
-
-    lineFinalArray.push(newPointsArray[finalPoint.pointId]);
-
-    console.log("?first linePointersArray ", linePointersArray);
-    let tempArrayLine = [];
-
-    tempArrayLine.push(...lineFinalArray);
-
-    for (let i = lineFinalArray.length - 1; i > -1; i--) {
-      tempArrayLine.push(lineFinalArray[i]);
-    }
-    console.log("^^111111111111 tempArrayLine", tempArrayLine);
-    newPointsArray = [];
-    newPointsArray = tempArrayLine.slice();
-    tempArrayLine = [];
-    lineFinalArray = [];
-
-    // ?????
-    // pointsArray =[];
-    // lineArray = [];
-    //clearTempPoints();
-  }
-
-  linePointersArray = [];
-  polygon.set({ points: newPointsArray });
-
-  console.log("?first 77777 new points array",  newPointsArray);
-
-  setInitialStageOfAddPointsOnExistingPolygonMode(canvas);
-  clearAllAddPointsDataImpl();
-  realignLabel(polygon);
-
-
-}
-
 // ???
 function moveAddablePointImpl(event) {
   preventOutOfBoundsPointsOnMove(event.target, canvas);
@@ -307,7 +258,6 @@ function realignLabel(polygon) {
 }
 function calculateTotalLineDistance(pointsArr) {
   let totalDistance = 0;
-  console.log("pointsArr", pointsArr);
   for (let i = 0; i < pointsArr.length - 1; i += 1) {
     const distance = Math.hypot(pointsArr[i + 1].x - pointsArr[i].x,
         pointsArr[i + 1].y - pointsArr[i].y);

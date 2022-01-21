@@ -3,7 +3,7 @@ import {
   removePolygonPoints, getPolygonEditingStatus, setEditablePolygon,
   getPolygonIfEditing, initializeAddNewPoints, addFirstPoint, getPolygonIdIfEditing,
   addPoint, completePolygon, drawLineOnMouseMove, moveAddablePoint, getPolygonPointsArray,
-  addPointsMouseOver, resetAddPointProperties, addPointsMouseOut,
+  addPointsMouseOver, resetAddPointProperties, addPointsMouseOut, resetPolygonSelectableArea,
 } from '../../../objects/polygon/alterPolygon/alterPolygon.js';
 import { enableActiveObjectsAppearInFront, preventActiveObjectsAppearInFront } from '../../../utils/canvasUtils.js';
 import { getCurrentZoomState, getDoubleScrollCanvasState, setSessionDirtyState } from '../../../../tools/state.js';
@@ -11,10 +11,10 @@ import { highlightLabelInTheList, removeHighlightOfListLabel } from '../../../..
 import { setRemoveLabelsButtonToDefault, setRemoveLabelsButtonToDisabled } from '../../../../tools/toolkit/styling/state.js';
 import { getLastMouseMoveEvent } from '../../../../keyEvents/mouse/mouseMove.js';
 
-import {getEnterAddPointsLineState, setEnterAddPointsLineState} from '../../../../keyEvents/keyboard/hotKeys.js';
+import { setEnterAddPointsLineState } from '../../../../keyEvents/keyboard/hotKeys.js';
+import {completePolygonImpl} from "../../../objects/polygon/alterPolygon/addPoint.js";
 
 // Originally designed to be turned off after the points have been successfully added to a polygon
-
 let selectedPolygonId = null;
 let newPolygonSelected = false;
 let canvas = null;
@@ -29,11 +29,29 @@ let lastMouseEvent = null;
 let mouseMoved = false;
 let lastHoveredPoint = null;
 let ignoredFirstMouseMovement = false;
-
 let addPointsLineState = false;
+let addPointsLinePointers = [];
+
+function getActiveShape(){
+  return activeShape;
+}
+
+function setActiveShape(currentActiveShape){
+  activeShape = currentActiveShape;
+}
+
+// only for line
+// TODO: to check whether the line starts from initial or final point of line
+function addLineLastPoint(){
+  addingPoints = false;
+  setEnterAddPointsLineState(false);
+  setAddPointsLineState(false);
+  activeShape = getActiveShape();
+  completePolygonImpl(activeShape, activeShape.points, undefined, addPointsLinePointers);
+  addPointsLinePointers = [];
+}
 
 // adding points to existing object
-// TODO: define the final point for line outside of line
 function addPoints(event) {
   // first point
   if (addFirstPointMode) {
@@ -44,18 +62,21 @@ function addPoints(event) {
       if (!isRightMouseButtonClicked(pointer)) {
         addFirstPoint(event);
         addFirstPointMode = false;
+
+        if (activeShape.previousShapeName === 'newLine'){
+          addPointsLinePointers.push(pointer);
+          console.log("first addPointsLinePointers", addPointsLinePointers);
+        }
+
       }
     }
   }
-
   // the final point for polygon
   else if (event && event.target && event.target.shapeName === 'point' && (activeShape.previousShapeName !== 'newLine') ) {
-    console.log("last?22222 active shape", activeShape);
     addingPoints = false;
     completePolygon(event.target);
     prepareToAddPolygonPoints(activeShape);
-    currentlyHoveredPoint = getPointInArrayClosestToGivenCoordinates(getPolygonPointsArray(),
-        event.target);
+    currentlyHoveredPoint = getPointInArrayClosestToGivenCoordinates(getPolygonPointsArray(), event.target);
     setSessionDirtyState(true);
   }
 
@@ -65,6 +86,13 @@ function addPoints(event) {
     const pointer = canvas.getPointer(event.e);
     if (!isRightMouseButtonClicked(pointer)) {
       addPoint(pointer);
+
+      if (activeShape.previousShapeName === 'newLine'){
+        setActiveShape(activeShape);
+        addPointsLinePointers.push(pointer);
+        console.log("second addPointsLinePointers", addPointsLinePointers);
+      }
+
     }
   }
 
@@ -74,7 +102,6 @@ function addPoints(event) {
 }
 
 // For enter key
-// TODO: to set it false at the and of process
 function setAddPointsLineState(state){
   addPointsLineState = state;
 }
@@ -378,4 +405,5 @@ export {
 
   setAddPointsLineState,
   getAddPointsLineState,
+  addLineLastPoint,
 };

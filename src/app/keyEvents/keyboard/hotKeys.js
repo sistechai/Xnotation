@@ -33,7 +33,7 @@ import { getUserOS } from '../../tools/OS/OSManager.js';
 import { closeWelcomeModal } from '../../tools/welcomeModal/buttons/workers.js';
 import isAnyModalOpen from '../../tools/utils/modals/status.js';
 
-import { getAddPointsLineState } from '../../canvas/mouseInteractions/mouseEvents/eventWorkers/addPointsEventsWorker.js';
+import { getAddPointsLineState, addLineLastPoint } from '../../canvas/mouseInteractions/mouseEvents/eventWorkers/addPointsEventsWorker.js';
 
 let canvas = null;
 let isRKeyUp = true;
@@ -42,20 +42,11 @@ let wKeyUpHandler = null;
 
 let enterAddPointsLineState = false;
 
-function setEnterAddPointsLineState(state){
-  enterAddPointsLineState = state;
-}
-
-function getEnterAddPointsLineState(){
-  return enterAddPointsLineState;
-}
-
 function enterKeyHandler() {
 
   if (getAddPointsLineState()) {
-    // TODO: To write a function for finishing line after adding points
     setEnterAddPointsLineState(true);
-    console.log("enter last state", getEnterAddPointsLineState());
+    addLineLastPoint();
   }
 
   // The Second process after presssing Enter
@@ -92,6 +83,14 @@ function qKeyHandler() {
       canvas.upperCanvasEl.dispatchEvent(new Event('mousemove'));
     }
   }
+}
+
+function setEnterAddPointsLineState(state){
+  enterAddPointsLineState = state;
+}
+
+function getEnterAddPointsLineState(){
+  return enterAddPointsLineState;
 }
 
 // Line handler

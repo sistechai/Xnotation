@@ -2,16 +2,27 @@ import { getDefaultState, getMovableObjectsState, setMovableObjectsState } from 
 import { getAllExistingShapes } from '../../../canvas/objects/allShapes/allShapes.js';
 
 function changeExistingImagesMovability(shapes) {
+  // to set up shapes movable
   if (getMovableObjectsState()) {
     Object.keys(shapes).forEach((key) => {
       const object = shapes[key].shapeRef;
-      if (object.shapeName === 'polygon' || object.shapeName === 'bndBox') {
+      // line immovable, uneditable
+      if (object.previousShapeName === 'newLine') {
+        object.lockMovementX = true;
+        object.lockMovementY = true;
+        if (getDefaultState()) {
+          // hoverCursor appears over a given object as a mouse moves on it
+          object.hoverCursor = 'move';
+        }
+      }
+      if (object.previousShapeName === 'polygon' || object.shapeName === 'bndBox') {
         object.lockMovementX = false;
         object.lockMovementY = false;
         if (getDefaultState()) object.hoverCursor = 'move';
       }
     });
-  } else {
+  }
+  else {
     Object.keys(shapes).forEach((key) => {
       const object = shapes[key].shapeRef;
       if (object.shapeName === 'polygon' || object.shapeName === 'bndBox') {

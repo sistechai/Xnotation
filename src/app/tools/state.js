@@ -51,7 +51,10 @@ function getTestDrawLineState(){
 
 function setCurrentImageId(id) {
   currentImageId = id;
-  if (currentImageId == '0') setCreateNewLineToDefault();
+  if (currentImageId == '0')
+  {
+    setCreateNewLineToDefault();
+  }
 }
 
 function getCurrentImageId() {

@@ -3,7 +3,6 @@ import registerWindowMouseEvents from './keyEvents/mouse/registerEvents.js';
 import { findUserOS } from './tools/OS/OSManager.js';
 import { constructCanvas } from './canvas/canvas.js';
 import initialiseToolkit from './tools/toolkit/init.js';
-// import initialiseWelcomeModal from './tools/welcomeModal/init.js';
 import initialiseLabellerModal from './tools/labellerModal/buttons.js';
 // import { initialiseUploadDatasetsModal } from './tools/uploadDatasetsModal/views/viewManager.js';
 // import { initialiseMachineLearningModal } from './tools/machineLearningModal/views/viewManager.js';

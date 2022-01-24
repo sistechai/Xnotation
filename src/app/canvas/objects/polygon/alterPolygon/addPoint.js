@@ -17,19 +17,14 @@ let defaultPointHoverMode = true;
 let linePointersArray = [];
 
 function completePolygonImpl(polygon, originalPointsArray, finalPoint, addPointsLinePointers, linePointIdFinal) {
-
   let derefPointsArray = [];
   let lineFinalPointId;
   let newPointsArray = [];
-
   derefPointsArray =  originalPointsArray.slice();
-
   // Line mode
   if (polygon.previousShapeName === 'newLine') {
-
     let arrayMiddle = derefPointsArray.length/2;
     let tempArrayLine = [];
-
     // Final point is true
     if (linePointIdFinal) {
       derefPointsArray = originalPointsArray.slice(0, arrayMiddle);
@@ -43,20 +38,15 @@ function completePolygonImpl(polygon, originalPointsArray, finalPoint, addPoints
     // the additional points should be added to the initial point of the original line
     else{
       derefPointsArray = [];
-
       // new points
       for (let i = addPointsLinePointers.length - 1; i > -1; i--) {
         tempArrayLine.push(addPointsLinePointers[i]);
       }
-
-
       for (let i = originalPointsArray.length - 1; i > arrayMiddle-1; i--) {
         derefPointsArray.push(originalPointsArray[i]);
       }
         // original points
         tempArrayLine.push(...derefPointsArray);
-      console.log("deref", derefPointsArray);
-
         newPointsArray.push(...tempArrayLine);
         for (let i = tempArrayLine.length - 1; i > -1; i--) {
           newPointsArray.push(tempArrayLine[i]);

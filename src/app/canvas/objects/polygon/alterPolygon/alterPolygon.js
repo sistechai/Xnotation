@@ -33,12 +33,12 @@ let preventNewPolygonInitialisation = false;
 function setSelectedObjects(activeCanvasObj, activePolygonObject) {
   canvas = activeCanvasObj;
   polygon = activePolygonObject;
-  if (polygon) {
-    if (polygon.previousShapeName === 'newLine') {
-      //polygon.set({selectable: false});
+  // if (polygon) {
+  //   if (polygon.previousShapeName === 'newLine') {
+  //     polygon.set({selectable: true});
       console.log("222 setSelectedObjects, polygon", polygon);
-    }
-  }
+  //   }
+  // }
 }
 
 function setPolygonEditingStatus(status) {

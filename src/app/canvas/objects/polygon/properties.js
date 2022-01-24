@@ -40,6 +40,7 @@ function generateNewPoint(pointId, pointer, isNewPoint) {
 // executed to draw first point for polygon
 // executed to draw each point for line
 function generateInvisiblePoint(pointer) {
+  console.log("?????", getTestDrawLineState());
   if (getTestDrawLineState()){
     return {
       previousShapeName: 'newLine',
@@ -57,9 +58,12 @@ function generateInvisiblePoint(pointer) {
       objectCaching: false,
       opacity: 0,
       hoverCursor: 'default',
+      lockMovementX: true,
+      lockMovementY: true,
     };
   }
   else {
+    setTestDrawLineState(false);
     return {
       previousShapeName: 'polygon',
       radius: invisiblePointRadius,
@@ -83,7 +87,9 @@ function generateInvisiblePoint(pointer) {
 // after 'enter' generates Polygon,
 // in addition, reacts on moving line or polygon
 function generateNewPolygon() {
+  console.log("gen getTestDrawLineState()", getTestDrawLineState());
   if (!getTestDrawLineState()) {
+    setTestDrawLineState(false);
     return {
       previousShapeName: 'polygon',
       stroke: 'hsla(186, 8%, 50%, 1)',
@@ -101,7 +107,7 @@ function generateNewPolygon() {
   }
   /// Line Mode
   if (getTestDrawLineState()) {
-    setTestDrawLineState(true);
+    setTestDrawLineState(false);
     return {
       previousShapeName: 'newLine',
       stroke: 'hsla(186, 8%, 50%, 1)',
@@ -115,12 +121,15 @@ function generateNewPolygon() {
       evented: true,
       objectCaching: false,
       numberOfNullPolygonPoints: 0,
+      lockMovementX: true,
+      lockMovementY: true,
     };
   }
 }
 
 // executed for generating temporary points while drawing line or polygon
 function generateNewTempPolygon() {
+  console.log("gen temp getTestDrawLineState()", getTestDrawLineState());
   if (!getTestDrawLineState()) {
     return {
       previousShapeName: 'polygon',
@@ -139,7 +148,7 @@ function generateNewTempPolygon() {
   }
   /// Line Mode
   if (getTestDrawLineState()) {
-    setTestDrawLineState(true);
+    //setTestDrawLineState(false);
     return {
       previousShapeName: 'newLine',
       stroke: '#333333',
@@ -153,6 +162,8 @@ function generateNewTempPolygon() {
       objectCaching: false,
       numberOfNullPolygonPoints: 0,
       shapeName: 'tempPolygon',
+      lockMovementX: true,
+      lockMovementY: true,
     };
   }
 }

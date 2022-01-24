@@ -18,7 +18,7 @@ import {
 } from './changePointsStyle.js';
 import {
   getEditingLabelId, getLastPolygonActionWasMoveState,
-  getNewShapeSelectedViaLabelListState, setNewShapeSelectedViaLabelListState
+  getNewShapeSelectedViaLabelListState, setNewShapeSelectedViaLabelListState, setTestDrawLineState, getTestDrawLineState,
 } from '../../../../tools/state.js';
 import { highlightShapeFill, defaultShapeFill } from '../../allShapes/allShapes.js';
 
@@ -124,6 +124,8 @@ function sendPolygonPointsToFront(canvasArg) {
 }
 
 function displayPolygonPoints() {
+  console.log("getTestDrawLineState", getTestDrawLineState());
+  setTestDrawLineState(false);
   console.log("display polygon", polygon);
   if (!preventNewPolygonInitialisation) {
     polygonPoints = displayPolygonPointsWithStyleImpl(

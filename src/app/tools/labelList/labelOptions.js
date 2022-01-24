@@ -18,46 +18,46 @@ const defaultShapeColors = [
   'hsl(82, 100%, 33%',
   'hsl(294, 100%, 37%',
 ];
-
-const defaultLabelOptions = [
-  {
-    text: 'class1',
-    default: true,
-    color: {
-      default: 'hsl(82, 93%, 45%, 0.01)', highlight: 'hsl(82, 93%, 45%, 0.3)', stroke: 'hsl(82, 93%, 45%)', label: 'hsl(82, 93%, 45%, 0.25)',
-    },
-  },
-  // default: 'hsl(186, 75%, 51%, 0.01)', highlight: 'hsl(186, 75%, 51%, 0.3)',
-  // stroke: 'hsl(186, 75%, 51%)', label: 'hsl(186, 75%, 51%, 0.25)',
-  {
-    text: 'class2',
-    default: true,
-    color: {
-      default: 'hsl(45, 77%, 53%, 0.01)', highlight: 'hsl(45, 77%, 53%, 0.3)', stroke: 'hsl(45, 77%, 53%)', label: 'hsl(45, 77%, 53%, 0.28)',
-    },
-  },
-  {
-    text: 'class3',
-    default: true,
-    color: {
-      default: 'hsl(338 ,100%, 68%, 0.01)', highlight: 'hsl(338, 100%, 68%, 0.3)', stroke: 'hsl(338, 100%, 68%)', label: 'hsl(338, 100%, 68%, 0.28)',
-    },
-  },
-  {
-    text: 'class4',
-    default: true,
-    color: {
-      default: 'hsl(198, 98%, 61%, 0.01)', highlight: 'hsl(198, 98%, 61% ,0.3)', stroke: 'hsl(198, 98%, 61%)', label: 'hsl(198, 98%, 61%, 0.25)',
-    },
-  },
-  {
-    text: 'class5',
-    default: true,
-    color: {
-      default: 'hsl(21, 70%, 40%, 0.01)', highlight: 'hsl(21, 70%, 40% ,0.3)', stroke: 'hsl(21, 70%, 40%)', label: 'hsl(21, 70%, 40%, 0.25)',
-    },
-  },
-];
+const defaultLabelOptions = [];
+// const defaultLabelOptions = [
+//   {
+//     text: 'class1',
+//     default: true,
+//     color: {
+//       default: 'hsl(82, 93%, 45%, 0.01)', highlight: 'hsl(82, 93%, 45%, 0.3)', stroke: 'hsl(82, 93%, 45%)', label: 'hsl(82, 93%, 45%, 0.25)',
+//     },
+//   },
+//   // default: 'hsl(186, 75%, 51%, 0.01)', highlight: 'hsl(186, 75%, 51%, 0.3)',
+//   // stroke: 'hsl(186, 75%, 51%)', label: 'hsl(186, 75%, 51%, 0.25)',
+//   {
+//     text: 'class2',
+//     default: true,
+//     color: {
+//       default: 'hsl(45, 77%, 53%, 0.01)', highlight: 'hsl(45, 77%, 53%, 0.3)', stroke: 'hsl(45, 77%, 53%)', label: 'hsl(45, 77%, 53%, 0.28)',
+//     },
+//   },
+//   {
+//     text: 'class3',
+//     default: true,
+//     color: {
+//       default: 'hsl(338 ,100%, 68%, 0.01)', highlight: 'hsl(338, 100%, 68%, 0.3)', stroke: 'hsl(338, 100%, 68%)', label: 'hsl(338, 100%, 68%, 0.28)',
+//     },
+//   },
+//   {
+//     text: 'class4',
+//     default: true,
+//     color: {
+//       default: 'hsl(198, 98%, 61%, 0.01)', highlight: 'hsl(198, 98%, 61% ,0.3)', stroke: 'hsl(198, 98%, 61%)', label: 'hsl(198, 98%, 61%, 0.25)',
+//     },
+//   },
+//   {
+//     text: 'class5',
+//     default: true,
+//     color: {
+//       default: 'hsl(21, 70%, 40%, 0.01)', highlight: 'hsl(21, 70%, 40% ,0.3)', stroke: 'hsl(21, 70%, 40%)', label: 'hsl(21, 70%, 40%, 0.25)',
+//     },
+//   },
+// ];
 
 const labelOptions = defaultLabelOptions;
 

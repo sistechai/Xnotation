@@ -53,24 +53,32 @@ function changePolygonPointsToWaitForAddingFirstPointImpl(canvas, startingPoint)
   canvas.renderAll();
 }
 
-
+// handles invocation of removing points process during drawing new polygon
 function changeDrawingPolygonPointsToRemovableImpl(canvas, polygon) {
   let pointId = 0;
   const polygonPoints = [];
-  canvas.forEachObject((iteratedObj) => {
-    if (iteratedObj.shapeName === 'tempPoint' || iteratedObj.shapeName === 'firstPoint') {
+
+  if (polygon.previousShapeName === 'polygon') {
+    canvas.forEachObject((iteratedObj) => {
+      if (iteratedObj.shapeName === 'tempPoint' || iteratedObj.shapeName === 'firstPoint') {
       iteratedObj.set(polygonProperties.removablePolygonPoint(pointId));
       polygonPoints.push(iteratedObj);
       pointId += 1;
-    }
-  });
-  if (polygonPoints.length < 4) {
-    polygonPoints.forEach((point) => {
-      point.set(polygonProperties.disabledRemovePoint());
+      }
     });
+    if (polygonPoints.length < 4) {
+      polygonPoints.forEach((point) => {
+        point.set(polygonProperties.disabledRemovePoint());
+      });
+    }
+    polygon.sendBackwards();
+    return polygonPoints;
   }
-  polygon.sendBackwards();
-  return polygonPoints;
+
+  // for the line
+  else {
+    return;
+  }
 }
 
 function changePolygonPointsToAddImpl(canvas) {
@@ -97,22 +105,52 @@ function changeObjectsToPolygonPointsToDefaultImpl(canvas) {
 function changeObjectsToPolygonPointsRemovaleImpl(canvas) {
   const isDrawing = !(getDefaultState() || getAddingPolygonPointsState());
   const polygonPoints = [];
+  let invocationOfLineArray = [];
+
   if (canvas) {
+
     canvas.forEachObject((iteratedObj) => {
       prepareObjectsForEditablePolygonPoints(iteratedObj, isDrawing);
       if (iteratedObj.shapeName === 'point') {
         iteratedObj.set(polygonProperties.removablePoint());
         polygonPoints[iteratedObj.pointId] = iteratedObj;
       }
+
+
+      if (iteratedObj.previousShapeName === 'newLine') {
+        console.log("iteratedObj-------------------", iteratedObj);
+        invocationOfLineArray[iteratedObj.pointId] =iteratedObj;
+      }
+
     });
+
   }
-  if (polygonPoints.length < 4) {
-    polygonPoints.forEach((point) => {
+
+  if (invocationOfLineArray.length < 5) {
+    invocationOfLineArray.forEach((point) => {
       point.set(polygonProperties.disabledRemovePoint());
     });
+    canvas.renderAll();
+    return invocationOfLineArray;
   }
-  canvas.renderAll();
-  return polygonPoints;
+
+  //if (polygon.previousShapeName === 'polygon') {
+    if (polygonPoints.length < 4) {
+      polygonPoints.forEach((point) => {
+        point.set(polygonProperties.disabledRemovePoint());
+      });
+      canvas.renderAll();
+      return polygonPoints;
+    }
+  //}
+  // else {
+  //   if (polygonPoints.length < 3) {
+  //     polygonPoints.forEach((point) => {
+  //       point.set(polygonProperties.disabledRemovePoint());
+  //     });
+  //   }
+  // }
+
 }
 
 export {

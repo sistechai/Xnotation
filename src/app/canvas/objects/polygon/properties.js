@@ -13,180 +13,9 @@ let tempPolygonStrokeWidth = 0.8;
 let newLineStrokeWidth = 1.1;
 let polygonPadding = 0;
 
-// Executed while drawing polygon's or line's temporary points.
-// The PointId starts from 0 for Polygon.
-// However, after drawing line the queue of pointId continue both for line and polygon.
-// That means after finishing drawing polygon the pointId = 0.
-function generateNewPoint(pointId, pointer, isNewPoint) {
-  return {
-    radius: defaultPointRadius,
-    fill: '#ffffff',
-    stroke: '#333333',
-    strokeWidth: pointStrokedWidth,
-    left: pointer.x,
-    top: pointer.y,
-    selectable: true,
-    hasBorders: false,
-    hasControls: false,
-    originX: 'center',
-    originY: 'center',
-    shapeName: 'tempPoint',
-    pointId,
-    objectCaching: false,
-    hoverCursor: isNewPoint ? 'default' : 'move',
-  };
-}
-
-// executed to draw first point for polygon
-// executed to draw each point for line
-function generateInvisiblePoint(pointer) {
-  console.log("?????", getTestDrawLineState());
-  if (getTestDrawLineState()){
-    return {
-      previousShapeName: 'newLine',
-      radius: invisiblePointRadius,
-      fill: 'green',
-      stroke: '#333333',
-      left: pointer.x,
-      top: pointer.y,
-      selectable: true,
-      hasBorders: false,
-      hasControls: false,
-      originX: 'center',
-      originY: 'center',
-      shapeName: 'invisiblePoint',
-      objectCaching: false,
-      opacity: 0,
-      hoverCursor: 'default',
-      lockMovementX: true,
-      lockMovementY: true,
-    };
-  }
-  else {
-    setTestDrawLineState(false);
-    return {
-      previousShapeName: 'polygon',
-      radius: invisiblePointRadius,
-      fill: 'green',
-      stroke: '#333333',
-      left: pointer.x,
-      top: pointer.y,
-      selectable: true,
-      hasBorders: false,
-      hasControls: false,
-      originX: 'center',
-      originY: 'center',
-      shapeName: 'invisiblePoint',
-      objectCaching: false,
-      opacity: 0,
-      hoverCursor: 'default',
-    };
-  }
-}
-
-// after 'enter' generates Polygon,
-// in addition, reacts on moving line or polygon
-function generateNewPolygon() {
-  console.log("gen getTestDrawLineState()", getTestDrawLineState());
-  if (!getTestDrawLineState()) {
-    setTestDrawLineState(false);
-    return {
-      previousShapeName: 'polygon',
-      stroke: 'hsla(186, 8%, 50%, 1)',
-      strokeWidth: newPolygonStrokeWidth,
-      fill: 'rgba(237, 237, 237, 0.01)',
-      perPixelTargetFind: true,
-      hasBorders: false,
-      hasControls: false,
-      shapeName: 'polygon',
-      selectable: false,
-      evented: true,
-      objectCaching: false,
-      numberOfNullPolygonPoints: 0,
-    };
-  }
-  /// Line Mode
-  if (getTestDrawLineState()) {
-    setTestDrawLineState(false);
-    return {
-      previousShapeName: 'newLine',
-      stroke: 'hsla(186, 8%, 50%, 1)',
-      strokeWidth: newPolygonStrokeWidth,
-      fill: 'rgba(237, 237, 237, 0.01)',
-      perPixelTargetFind: true,
-      hasBorders: false,
-      hasControls: false,
-      shapeName: 'polygon',
-      selectable: false,
-      evented: true,
-      objectCaching: false,
-      numberOfNullPolygonPoints: 0,
-      lockMovementX: true,
-      lockMovementY: true,
-    };
-  }
-}
-
-// executed for generating temporary points while drawing line or polygon
-function generateNewTempPolygon() {
-  console.log("gen temp getTestDrawLineState()", getTestDrawLineState());
-  if (!getTestDrawLineState()) {
-    return {
-      previousShapeName: 'polygon',
-      stroke: '#333333',
-      strokeWidth: tempPolygonStrokeWidth,
-      fill: '#cccccc',
-      opacity: 0.3,
-      selectable: false,
-      hasBorders: false,
-      hasControls: false,
-      evented: false,
-      objectCaching: false,
-      numberOfNullPolygonPoints: 0,
-      shapeName: 'tempPolygon',
-    };
-  }
-  /// Line Mode
-  if (getTestDrawLineState()) {
-    //setTestDrawLineState(false);
-    return {
-      previousShapeName: 'newLine',
-      stroke: '#333333',
-      strokeWidth: tempPolygonStrokeWidth,
-      fill: '#cccccc',
-      opacity: 0.3,
-      selectable: false,
-      hasBorders: false,
-      hasControls: false,
-      evented: false,
-      objectCaching: false,
-      numberOfNullPolygonPoints: 0,
-      shapeName: 'tempPolygon',
-      lockMovementX: true,
-      lockMovementY: true,
-    };
-  }
-}
-
-// Only for polygon's first point
-function generateNewFirstPoint() {
-  return {
-    previousShapeName: 'polygon',
-    fill: 'red',
-    shapeName: 'firstPoint',
-    lockMovementX: true,
-    lockMovementY: true,
-  };
-}
-
-function generateDisabledAddPoint() {
-  return {
-    fill: 'white',
-    radius: disabledAddPointRadius,
-  };
-}
-
+// polygonProperties.disabledRemovePoint
 function generateDisabledRemovePoint() {
+  console.log("black!");
   return {
     fill: 'black',
     radius: disabledRemovePointRadius,
@@ -342,6 +171,178 @@ function generateNewLine() {
     evented: false,
     objectCaching: false,
     shapeName: 'addPointsLine',
+  };
+}
+
+// Executed while drawing polygon's or line's temporary points.
+// The PointId starts from 0 for Polygon.
+// However, after drawing line the queue of pointId continue both for line and polygon.
+// That means after finishing drawing polygon the pointId = 0.
+function generateNewPoint(pointId, pointer, isNewPoint) {
+  return {
+    radius: defaultPointRadius,
+    fill: '#ffffff',
+    stroke: '#333333',
+    strokeWidth: pointStrokedWidth,
+    left: pointer.x,
+    top: pointer.y,
+    selectable: true,
+    hasBorders: false,
+    hasControls: false,
+    originX: 'center',
+    originY: 'center',
+    shapeName: 'tempPoint',
+    pointId,
+    objectCaching: false,
+    hoverCursor: isNewPoint ? 'default' : 'move',
+  };
+}
+
+// executed to draw first point for polygon
+// executed to draw each point for line
+function generateInvisiblePoint(pointer) {
+  if (getTestDrawLineState()){
+    return {
+      previousShapeName: 'newLine',
+      radius: invisiblePointRadius,
+      fill: 'green',
+      stroke: '#333333',
+      left: pointer.x,
+      top: pointer.y,
+      selectable: true,
+      hasBorders: false,
+      hasControls: false,
+      originX: 'center',
+      originY: 'center',
+      shapeName: 'invisiblePoint',
+      objectCaching: false,
+      opacity: 0,
+      hoverCursor: 'default',
+      lockMovementX: true,
+      lockMovementY: true,
+    };
+  }
+  else {
+    setTestDrawLineState(false);
+    return {
+      previousShapeName: 'polygon',
+      radius: invisiblePointRadius,
+      fill: 'green',
+      stroke: '#333333',
+      left: pointer.x,
+      top: pointer.y,
+      selectable: true,
+      hasBorders: false,
+      hasControls: false,
+      originX: 'center',
+      originY: 'center',
+      shapeName: 'invisiblePoint',
+      objectCaching: false,
+      opacity: 0,
+      hoverCursor: 'default',
+    };
+  }
+}
+
+// after 'enter' generates Polygon,
+// in addition, reacts on moving line or polygon
+function generateNewPolygon() {
+  if (!getTestDrawLineState()) {
+    setTestDrawLineState(false);
+    return {
+      previousShapeName: 'polygon',
+      stroke: 'hsla(186, 8%, 50%, 1)',
+      strokeWidth: newPolygonStrokeWidth,
+      fill: 'rgba(237, 237, 237, 0.01)',
+      perPixelTargetFind: true,
+      hasBorders: false,
+      hasControls: false,
+      shapeName: 'polygon',
+      selectable: false,
+      evented: true,
+      objectCaching: false,
+      numberOfNullPolygonPoints: 0,
+    };
+  }
+  /// Line Mode
+  if (getTestDrawLineState()) {
+    setTestDrawLineState(false);
+    return {
+      previousShapeName: 'newLine',
+      stroke: 'hsla(186, 8%, 50%, 1)',
+      strokeWidth: newPolygonStrokeWidth,
+      fill: 'rgba(237, 237, 237, 0.01)',
+      perPixelTargetFind: true,
+      hasBorders: false,
+      hasControls: false,
+      shapeName: 'polygon',
+      selectable: false,
+      evented: true,
+      objectCaching: false,
+      numberOfNullPolygonPoints: 0,
+      lockMovementX: true,
+      lockMovementY: true,
+    };
+  }
+}
+
+// executed for generating temporary points while drawing line or polygon
+function generateNewTempPolygon() {
+  if (!getTestDrawLineState()) {
+    return {
+      previousShapeName: 'polygon',
+      stroke: '#333333',
+      strokeWidth: tempPolygonStrokeWidth,
+      fill: '#cccccc',
+      opacity: 0.3,
+      selectable: false,
+      hasBorders: false,
+      hasControls: false,
+      evented: false,
+      objectCaching: false,
+      numberOfNullPolygonPoints: 0,
+      shapeName: 'tempPolygon',
+    };
+  }
+  /// Line Mode
+  if (getTestDrawLineState()) {
+    //setTestDrawLineState(false);
+    return {
+      previousShapeName: 'newLine',
+      stroke: '#333333',
+      strokeWidth: tempPolygonStrokeWidth,
+      fill: '#cccccc',
+      opacity: 0.3,
+      selectable: false,
+      hasBorders: false,
+      hasControls: false,
+      evented: false,
+      objectCaching: false,
+      numberOfNullPolygonPoints: 0,
+      shapeName: 'tempPolygon',
+      lockMovementX: true,
+      lockMovementY: true,
+    };
+  }
+}
+
+// Only for polygon's first point
+function generateNewFirstPoint() {
+  return {
+    previousShapeName: 'polygon',
+    fill: 'red',
+    shapeName: 'firstPoint',
+    lockMovementX: true,
+    lockMovementY: true,
+  };
+}
+
+// handles invocation of on initial point for adding points
+// each points becomes white
+function generateDisabledAddPoint() {
+  return {
+    fill: 'white',
+    radius: disabledAddPointRadius,
   };
 }
 

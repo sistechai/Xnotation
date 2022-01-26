@@ -208,9 +208,6 @@ function displayPolygonPointsAfterMove() {
 function setEditablePolygonAfterMoving(canvasObj, polygonObj) {
   setSelectedObjects(canvasObj, polygonObj);
   canvasObj.discardActiveObject();
-
-  // !!!!!!!!!!!!!!11 Polygon edited
-  console.log("222 Polygon edited, polygonObj", polygonObj);
   displayPolygonPointsAfterMove();
 }
 

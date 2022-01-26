@@ -1,16 +1,16 @@
 import { getTestDrawLineState, setTestDrawLineState } from '../../../tools/state.js';
 
 const polygonProperties = {};
-let pointStrokedWidth = 0.5;
-let augmentPolygonPointRadius = 4;
+let pointStrokedWidth = 0.6;
+let augmentPolygonPointRadius = 4.1;
 let defaultPointRadius = 3.5;
 let invisiblePointRadius = 3.9;
 let disabledNewPointRadius = 3.7;
 let disabledAddPointRadius = 3;
 let disabledRemovePointRadius = 3.7;
-let newPolygonStrokeWidth = 1.75;
-let tempPolygonStrokeWidth = 0.8;
-let newLineStrokeWidth = 1.1;
+let newPolygonStrokeWidth = 4;
+let tempPolygonStrokeWidth = 2;
+let newLineStrokeWidth = 2;
 let polygonPadding = 0;
 
 // polygonProperties.disabledRemovePoint
@@ -340,10 +340,10 @@ function generateNewTempPolygon() {
     //setTestDrawLineState(false);
     return {
       previousShapeName: 'newLine',
-      stroke: '#333333',
+      stroke: '#F50A3D',
       strokeWidth: tempPolygonStrokeWidth,
       fill: '#cccccc',
-      opacity: 0.3,
+      //opacity: 0,
       selectable: false,
       hasBorders: false,
       hasControls: false,

@@ -33,12 +33,20 @@ let preventNewPolygonInitialisation = false;
 function setSelectedObjects(activeCanvasObj, activePolygonObject) {
   canvas = activeCanvasObj;
   polygon = activePolygonObject;
-  // if (polygon) {
-  //   if (polygon.previousShapeName === 'newLine') {
-  //     polygon.set({selectable: true});
-      console.log("222 setSelectedObjects, polygon", polygon);
-  //   }
-  // }
+}
+
+function displayRemovablePolygonPoints() {
+  if (polygon.previousShapeName === 'polygon') {
+    polygonPoints = displayPolygonPointsWithStyleImpl(
+        canvas, polygon, polygonProperties.removablePolygonPoint,
+    );
+  }
+  // line Mode
+  else {
+    polygonPoints = displayPolygonPointsWithStyleImpl(
+        canvas, polygon, polygonProperties.removableLinePoint,
+    );
+  }
 }
 
 function setPolygonEditingStatus(status) {
@@ -124,9 +132,7 @@ function sendPolygonPointsToFront(canvasArg) {
 }
 
 function displayPolygonPoints() {
-  console.log("getTestDrawLineState", getTestDrawLineState());
   setTestDrawLineState(false);
-  console.log("display polygon", polygon);
   if (!preventNewPolygonInitialisation) {
     polygonPoints = displayPolygonPointsWithStyleImpl(
       canvas, polygon, polygonProperties.existingPolygonPoint,
@@ -136,12 +142,6 @@ function displayPolygonPoints() {
     preventNewPolygonInitialisation = false;
     sendPolygonPointsToFront();
   }
-}
-
-function displayRemovablePolygonPoints() {
-  polygonPoints = displayPolygonPointsWithStyleImpl(
-    canvas, polygon, polygonProperties.removablePolygonPoint,
-  );
 }
 
 function displayStartingAddPolygonPoints() {

@@ -105,52 +105,49 @@ function changeObjectsToPolygonPointsToDefaultImpl(canvas) {
 function changeObjectsToPolygonPointsRemovaleImpl(canvas) {
   const isDrawing = !(getDefaultState() || getAddingPolygonPointsState());
   const polygonPoints = [];
-  let invocationOfLineArray = [];
-
+  let linePoints = false;
   if (canvas) {
-
     canvas.forEachObject((iteratedObj) => {
+
       prepareObjectsForEditablePolygonPoints(iteratedObj, isDrawing);
-      if (iteratedObj.shapeName === 'point') {
-        iteratedObj.set(polygonProperties.removablePoint());
-        polygonPoints[iteratedObj.pointId] = iteratedObj;
+      if ( (iteratedObj.shapeName === 'point') ){
+
+        if (iteratedObj.previousShapeName !== 'newLine')
+        {
+          console.log("if iteratedObj polygon red ", iteratedObj);
+          iteratedObj.set(polygonProperties.removablePoint());
+          polygonPoints[iteratedObj.pointId] = iteratedObj;
+        }
+
+        // Line mode
+        else {
+          console.log("if iteratedObj is LINE red", iteratedObj);
+          iteratedObj.set(polygonProperties.removablePoint());
+          polygonPoints[iteratedObj.pointId] = iteratedObj;
+          linePoints = true;
+        }
       }
-
-
-      if (iteratedObj.previousShapeName === 'newLine') {
-        console.log("iteratedObj-------------------", iteratedObj);
-        invocationOfLineArray[iteratedObj.pointId] =iteratedObj;
-      }
-
     });
-
   }
 
-  if (invocationOfLineArray.length < 5) {
-    invocationOfLineArray.forEach((point) => {
-      point.set(polygonProperties.disabledRemovePoint());
-    });
-    canvas.renderAll();
-    return invocationOfLineArray;
-  }
-
-  //if (polygon.previousShapeName === 'polygon') {
-    if (polygonPoints.length < 4) {
+  // Polygon mode
+  if ( (polygonPoints.length < 4) && (!linePoints) ){
+      console.log("if polygon points <4 black", polygonPoints);
       polygonPoints.forEach((point) => {
         point.set(polygonProperties.disabledRemovePoint());
       });
-      canvas.renderAll();
-      return polygonPoints;
-    }
-  //}
-  // else {
-  //   if (polygonPoints.length < 3) {
-  //     polygonPoints.forEach((point) => {
-  //       point.set(polygonProperties.disabledRemovePoint());
-  //     });
-  //   }
-  // }
+  }
 
+  // line mode
+  if ( (polygonPoints.length < 5) && (linePoints) ){
+    console.log("if line points <5 black", polygonPoints);
+    polygonPoints.forEach((point) => {
+      point.set(polygonProperties.disabledRemovePoint());
+    });
+  }
+
+  canvas.renderAll();
+  return polygonPoints;
 }
 
 export {

@@ -36,6 +36,7 @@ function removePolygonPointImpl(canvas, polygon, polygonPoints, pointId, existin
   const realignLabel = ifExistingPolygonIsLowestPoint(existingPolygon, polygon, pointId);
   if (polygon.previousShapeName === 'polygon') {
     if (polygon.points.length - polygon.numberOfNullPolygonPoints > 3) {
+      // the final point is removed already
       if (Object.keys(polygon.points[pointId]).length === 0) {
         /* when the last polygons are removed, the ones before it are moved
         // to the last position - thus causing the possibility of getting nulls
@@ -54,20 +55,16 @@ function removePolygonPointImpl(canvas, polygon, polygonPoints, pointId, existin
         to be the last element in order to enable the polygon to stay */
         for (let i = pointId - 1; i > -1; i -= 1) {
           if (Object.keys(polygon.points[i]).length !== 0) {
-
             polygon.points[pointId] = polygon.points[i];
             polygon.points[i] = {};
-            console.log("final222 polygon.points  ", polygon.points);
             break;
           }
-
         }
       }
       // if pointID is not final point, even it is the fourth point to remove
       //
       else {
         polygon.points[pointId] = {};
-        console.log(" ---if pointID is not final point, else pointId", pointId);
       }
       canvas.remove(polygonPoints[pointId]);
       polygonPoints[pointId] = null;
@@ -82,8 +79,9 @@ function removePolygonPointImpl(canvas, polygon, polygonPoints, pointId, existin
 // Line Mode
   if (polygon.previousShapeName === 'newLine'){
     let extraPointRemoveFromLine = polygon.points.length - 1 - pointId;
-    let middleArray = polygon.points.length/2;
     if (polygon.points.length - polygon.numberOfNullPolygonPoints > 4) {
+      // we do not use this condition, because, if it is final point, the initial points becomes null;
+      // therefore pointID = pointID -1, and it is not empty
       if (Object.keys(polygon.points[pointId]).length === 0) {
         for (let i = pointId - 1; i > -1; i -= 1) {
           if (Object.keys(polygon.points[i]).length !== 0) {
@@ -92,13 +90,10 @@ function removePolygonPointImpl(canvas, polygon, polygonPoints, pointId, existin
             break;
           }
         }
-        console.log("point id", pointId);
       }
-      else if ( ((polygon.points.length - 1) === pointId) || ( (polygon.points.length - 1) === extraPointRemoveFromLine) ){
-        console.log("1111point id", pointId);
-        console.log("1111extraPointRemoveFromLine", extraPointRemoveFromLine);
+      // if it is final point of the line
+      else if ((polygon.points.length - 1) === pointId){
         for (let i = pointId - 1; i > -1; i -= 1) {
-          console.log("111 i ", i);
           if (Object.keys(polygon.points[i]).length !== 0) {
             polygon.points[pointId] = polygon.points[i];
             polygon.points[i] = {};
@@ -107,20 +102,16 @@ function removePolygonPointImpl(canvas, polygon, polygonPoints, pointId, existin
           }
         }
       }
-
-      else if ( (pointId !== 0) || (pointId !== polygon.points.length) )//|| (pointId !== ) )
+      // if it is not the last point
+      else //if ( (pointId !== 0) || (pointId !== polygon.points.length-1) )//|| (pointId !== ) )
       {
         polygon.points[pointId] = {};
         polygon.points[extraPointRemoveFromLine] = {};
-        console.log(" ---if pointID is not final point, else pointId", pointId);
-        console.log("---point extra", extraPointRemoveFromLine);
-        console.log("---polygon.points", polygon.points);
       }
-
       canvas.remove(polygonPoints[pointId]);
       canvas.remove(polygonPoints[extraPointRemoveFromLine]);
-
       polygonPoints[pointId] = null;
+      polygonPoints[extraPointRemoveFromLine] = null;
       polygon.numberOfNullPolygonPoints += 2;
       if (polygon.points.length - polygon.numberOfNullPolygonPoints === 4) {
         polygonPoints.forEach((point) => {
@@ -131,7 +122,6 @@ function removePolygonPointImpl(canvas, polygon, polygonPoints, pointId, existin
       }
     }
   }
-  ///////////
 
   if (realignLabel) {
     realignLabelToLowestPointLocation(polygon);

@@ -48,17 +48,11 @@ function removePolygonPointImpl(canvas, polygon, polygonPoints, pointId, existin
           }
         }
       }
-
       // the final point is equal to point id
       else if ((polygon.points.length - 1) === pointId) {
         /* when last element - remove and find the next not null below it to
         to be the last element in order to enable the polygon to stay */
         for (let i = pointId - 1; i > -1; i -= 1) {
-          console.log("final pointId", pointId);
-          console.log("final i ", i);
-          console.log("final polygon.points  ", polygon.points);
-
-
           if (Object.keys(polygon.points[i]).length !== 0) {
 
             polygon.points[pointId] = polygon.points[i];
@@ -88,6 +82,7 @@ function removePolygonPointImpl(canvas, polygon, polygonPoints, pointId, existin
 // Line Mode
   if (polygon.previousShapeName === 'newLine'){
     let extraPointRemoveFromLine = polygon.points.length - 1 - pointId;
+    let middleArray = polygon.points.length/2;
     if (polygon.points.length - polygon.numberOfNullPolygonPoints > 4) {
       if (Object.keys(polygon.points[pointId]).length === 0) {
         for (let i = pointId - 1; i > -1; i -= 1) {
@@ -123,6 +118,7 @@ function removePolygonPointImpl(canvas, polygon, polygonPoints, pointId, existin
       }
 
       canvas.remove(polygonPoints[pointId]);
+      canvas.remove(polygonPoints[extraPointRemoveFromLine]);
 
       polygonPoints[pointId] = null;
       polygon.numberOfNullPolygonPoints += 2;

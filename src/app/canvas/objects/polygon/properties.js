@@ -15,7 +15,6 @@ let polygonPadding = 0;
 
 // polygonProperties.disabledRemovePoint
 function generateDisabledRemovePoint() {
-  console.log("black!");
   return {
     fill: 'black',
     radius: disabledRemovePointRadius,

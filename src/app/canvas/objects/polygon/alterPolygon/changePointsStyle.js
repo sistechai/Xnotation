@@ -1,4 +1,3 @@
-// import fabric from 'fabric.js';
 import polygonProperties from '../properties.js';
 import {
   prepareObjectsForEditablePolygonPoints, setObjectPropertiesToDefault,
@@ -7,15 +6,11 @@ import { getDefaultState, getAddingPolygonPointsState } from '../../../../tools/
 import { setCreateNewLineToDefault } from '../../../../tools/toolkit/styling/state.js';
 
 function displayPolygonPointsWithStyleImpl(canvas, polygon, polygonPointsProps) {
-
   setCreateNewLineToDefault();
-
   let pointId = 0;
   const polygonPoints = [];
-  //const totalPointNumber;
   if (polygon){
     const totalPointNumber = polygon.points.length;
-
     polygon.get('points').forEach((point) => {
       const pointObj = new fabric.Circle(polygonPointsProps(pointId, point, totalPointNumber));
       if (polygon.polygonMoved) {
@@ -61,9 +56,9 @@ function changeDrawingPolygonPointsToRemovableImpl(canvas, polygon) {
   if (polygon.previousShapeName === 'polygon') {
     canvas.forEachObject((iteratedObj) => {
       if (iteratedObj.shapeName === 'tempPoint' || iteratedObj.shapeName === 'firstPoint') {
-      iteratedObj.set(polygonProperties.removablePolygonPoint(pointId));
-      polygonPoints.push(iteratedObj);
-      pointId += 1;
+        iteratedObj.set(polygonProperties.removablePolygonPoint(pointId));
+        polygonPoints.push(iteratedObj);
+        pointId += 1;
       }
     });
     if (polygonPoints.length < 4) {
@@ -114,7 +109,6 @@ function changeObjectsToPolygonPointsRemovaleImpl(canvas) {
 
         if (iteratedObj.previousShapeName !== 'newLine')
         {
-          console.log("if iteratedObj polygon red ", iteratedObj);
           iteratedObj.set(polygonProperties.removablePoint());
           polygonPoints[iteratedObj.pointId] = iteratedObj;
         }
@@ -132,10 +126,10 @@ function changeObjectsToPolygonPointsRemovaleImpl(canvas) {
 
   // Polygon mode
   if ( (polygonPoints.length < 4) && (!linePoints) ){
-      console.log("if polygon points <4 black", polygonPoints);
-      polygonPoints.forEach((point) => {
-        point.set(polygonProperties.disabledRemovePoint());
-      });
+    console.log("if polygon points <4 black", polygonPoints);
+    polygonPoints.forEach((point) => {
+      point.set(polygonProperties.disabledRemovePoint());
+    });
   }
 
   // line mode

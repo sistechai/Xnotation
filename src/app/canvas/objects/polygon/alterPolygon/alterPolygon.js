@@ -30,22 +30,40 @@ let polygonPoints = [];
 let editingPolygon = false;
 let preventNewPolygonInitialisation = false;
 
+function setEditablePolygon(canvasObj, polygonObj, removablePoints, creatingPolygon, addingPoints) {
+  setSelectedObjects(canvasObj, polygonObj);
+  canvasObj.discardActiveObject();
+  if (polygon) {
+    polygon.bringToFront();
+  }
+  // edit this
+  if (addingPoints) {
+    displayStartingAddPolygonPoints();
+  } else if (!removablePoints) {
+    displayPolygonPoints();
+  }
+
+  // on created polygon
+  else if (!creatingPolygon) {
+    displayRemovablePolygonPoints();
+  }
+  // during drawing polygon or line
+  else {
+    changeDrawingPolygonPointsToRemovable();
+  }
+  setPolygonEditingStatus(true);
+}
+
 function setSelectedObjects(activeCanvasObj, activePolygonObject) {
   canvas = activeCanvasObj;
   polygon = activePolygonObject;
-}
-
-function displayRemovablePolygonPoints() {
-  if (polygon.previousShapeName === 'polygon') {
-    polygonPoints = displayPolygonPointsWithStyleImpl(
-        canvas, polygon, polygonProperties.removablePolygonPoint,
-    );
-  }
-  // line Mode
-  else {
-    polygonPoints = displayPolygonPointsWithStyleImpl(
-        canvas, polygon, polygonProperties.removableLinePoint,
-    );
+  if (polygon.previousShapeName === 'newLine'){
+   polygon.set({
+     lockMovementX: true,
+     lockMovementY: true,
+     selectable: false,
+   });
+    console.log("if polygon selected by Ethereal mouse click", polygon);
   }
 }
 
@@ -134,9 +152,18 @@ function sendPolygonPointsToFront(canvasArg) {
 function displayPolygonPoints() {
   setTestDrawLineState(false);
   if (!preventNewPolygonInitialisation) {
-    polygonPoints = displayPolygonPointsWithStyleImpl(
-      canvas, polygon, polygonProperties.existingPolygonPoint,
-    );
+
+    if (polygon.previousShapeName === 'polygon') {
+      polygonPoints = displayPolygonPointsWithStyleImpl(
+          canvas, polygon, polygonProperties.existingPolygonPoint,
+      );
+    }
+    // line Mode
+    else {
+      polygonPoints = displayPolygonPointsWithStyleImpl(
+          canvas, polygon, polygonProperties.existingLinePoint,
+      );
+    }
   }
   else {
     preventNewPolygonInitialisation = false;
@@ -145,9 +172,16 @@ function displayPolygonPoints() {
 }
 
 function displayStartingAddPolygonPoints() {
-  polygonPoints = displayPolygonPointsWithStyleImpl(
-    canvas, polygon, polygonProperties.startingAddPolygonPoint,
-  );
+  if (polygon.previousShapeName === 'polygon') {
+    polygonPoints = displayPolygonPointsWithStyleImpl(
+        canvas, polygon, polygonProperties.startingAddPolygonPoint,
+        );
+  }
+  else {
+    polygonPoints = displayPolygonPointsWithStyleImpl(
+        canvas, polygon, polygonProperties.startingAddLinePoint,
+    );
+  }
 }
 
 function changeDrawingPolygonPointsToRemovable() {
@@ -164,6 +198,7 @@ function cleanPolygonPointsArray() {
 }
 
 function getPolygonPointsArray() {
+  console.log("get polygon points", polygonPoints);
   return polygonPoints;
 }
 
@@ -244,23 +279,19 @@ function defaultFillSelectedPolygonViaPoint() {
   defaultShapeFill(polygon.id);
 }
 
-function setEditablePolygon(canvasObj, polygonObj, removablePoints, creatingPolygon, addingPoints) {
-  setSelectedObjects(canvasObj, polygonObj);
-  canvasObj.discardActiveObject();
-  if (polygon) {
-    polygon.bringToFront();
+function displayRemovablePolygonPoints() {
+  console.log("display? polygon", polygon);
+  if (polygon.previousShapeName === 'polygon') {
+    polygonPoints = displayPolygonPointsWithStyleImpl(
+        canvas, polygon, polygonProperties.removablePolygonPoint,
+    );
   }
-  // edit this
-  if (addingPoints) {
-    displayStartingAddPolygonPoints();
-  } else if (!removablePoints) {
-    displayPolygonPoints();
-  } else if (!creatingPolygon) {
-    displayRemovablePolygonPoints();
-  } else {
-    changeDrawingPolygonPointsToRemovable();
+  // line Mode
+  else {
+    polygonPoints = displayPolygonPointsWithStyleImpl(
+        canvas, polygon, polygonProperties.removableLinePoint,
+    );
   }
-  setPolygonEditingStatus(true);
 }
 
 export {

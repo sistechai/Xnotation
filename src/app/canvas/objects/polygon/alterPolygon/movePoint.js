@@ -4,9 +4,6 @@ import { generatePolygonAfterMove } from './resetCoordinatesAfterMove.js';
 import labelProperies from '../../label/properties.js';
 
 function displayPolygonPointsAfterMoveImpl(canvasObj, polygonObj, polygonPoints) {
-
-  // !!!!!!!!!!!!!!11 Polygon edited
-  console.log("222 polygon edited, polygonObj", polygonObj);
   return generatePolygonAfterMove(polygonObj, polygonPoints, canvasObj, polygonProperties);
 }
 

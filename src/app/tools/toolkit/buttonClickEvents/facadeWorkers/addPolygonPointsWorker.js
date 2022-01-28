@@ -19,12 +19,6 @@ import {
   setAddPointsButtonToActive, setAddPointsButtonToDefault,
   setEditShapesButtonToActive, setEditShapesButtonToDefault,
   setCreateBoundingBoxButtonToActive, setCreatePolygonButtonToActive,
-
-  setCreateNewLineToDisabled,
-  setCreateNewLineToDefault,
-  setCreateNewLineToGrey,
-  setCreateNewLineButtonToActive,
-
 } from '../../styling/state.js';
 
 // Originally designed to be turned off after the points have been successfully added to a polygon

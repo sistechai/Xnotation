@@ -390,6 +390,7 @@ function pointMouseUpEvents(event) {
   else if ((!event.target && getPolygonEditingStatus()) || (event.target && event.target.shapeName === 'bndBox') ) {
     if (!addingPoints) {
       setPolygonNotEditableOnClick();
+      console.log("set not editable");
     }
   }
 }

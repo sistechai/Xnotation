@@ -21,6 +21,18 @@ function generateDisabledRemovePoint() {
   };
 }
 
+// polygonProperties.disabledRemoveLinePoint
+function generateDisabledRemoveLinePoint() {
+  return {
+    previousShapeName: 'newLine',
+    fill: 'black',
+    radius: disabledRemovePointRadius,
+    lockMovementX: true,
+    lockMovementY: true,
+    selectable: false,
+  };
+}
+
 // polygonProperties.removablePoint = generateRemovablePoint;
 // have not found when it is executed
 function generateRemovablePoint() {
@@ -31,6 +43,7 @@ function generateRemovablePoint() {
   };
 }
 
+// Line
 // polygonProperties.removableLinePoint = generateRemovableLinePoint;
 function generateRemovableLinePoint(pointId, pointCoordinates, totalPointNumber) {
   const returnObj = {
@@ -63,6 +76,7 @@ function generateRemovableLinePoint(pointId, pointCoordinates, totalPointNumber)
   return returnObj;
 }
 
+// Polygon
 // polygonProperties.removablePolygonPoint = generateRemovablePolygonPoint;
 // executed after hitting Remove points
 function generateRemovablePolygonPoint(pointId, pointCoordinates, totalPointNumber) {
@@ -77,6 +91,7 @@ function generateRemovablePolygonPoint(pointId, pointCoordinates, totalPointNumb
     originX: 'center',
     originY: 'center',
     shapeName: 'point',
+    previousShapeName: 'polygon',
     objectCaching: false,
     pointId,
     perPixelTargetFind: true,
@@ -122,7 +137,62 @@ function changeRemovablePointToTemp(pointId) {
   };
 }
 
+// polygonProperties.defaultPoint = generateDefaultPoint;
+// if to click Edit Shape after points being red or green
+function generateDefaultPoint() {
+  console.log("blue 2");
+  return {
+    fill: 'blue',
+    radius: defaultPointRadius,
+    hoverCursor: 'move',
+  };
+}
+
+// polygonProperties.defaultLinePoint = generateDefaultLinePoint;
+function generateDefaultLinePoint() {
+  console.log("blue ethereal Line");
+  return {
+    lockMovementX: true,
+    lockMovementY: true,
+    selectable: false,
+    fill: 'blue',
+    radius: defaultPointRadius,
+    hoverCursor: 'move',
+  };
+}
+
+// Line
+// polygonProperties.existingPolygonPoint = generateExistingPolygonPoint;
 // executed after hitting Edit button, only for line and polygon
+// after selecting shape by mouse click
+function generateExistingLinePoint(pointId, pointCoordinates) {
+  return {
+    lockMovementX: true,
+    lockMovementY: true,
+    radius: defaultPointRadius,
+    fill: 'blue',
+    stroke: '#333333',
+    strokeWidth: pointStrokedWidth,
+    left: pointCoordinates.x,
+    top: pointCoordinates.y,
+    selectable: true,
+    hasBorders: false,
+    hasControls: false,
+    originX: 'center',
+    originY: 'center',
+    shapeName: 'point',
+    previousShapeName: 'newLine',
+    objectCaching: false,
+    pointId,
+    perPixelTargetFind: true,
+    hoverCursor: 'move',
+  };
+}
+
+// Polygon
+// polygonProperties.existingPolygonPoint = generateExistingPolygonPoint;
+// executed after hitting Edit button, only for line and polygon
+// after selecting shape by mouse click
 function generateExistingPolygonPoint(pointId, pointCoordinates) {
   return {
     radius: defaultPointRadius,
@@ -137,6 +207,7 @@ function generateExistingPolygonPoint(pointId, pointCoordinates) {
     originX: 'center',
     originY: 'center',
     shapeName: 'point',
+    previousShapeName: 'polygon',
     objectCaching: false,
     pointId,
     perPixelTargetFind: true,
@@ -144,6 +215,37 @@ function generateExistingPolygonPoint(pointId, pointCoordinates) {
   };
 }
 
+// line
+// polygonProperties.startingAddLinePoint = generatestartingAddLinePoint;
+// Executed after hitting/tapping Add points button, and after adding the last additional point for polygon
+function generatestartingAddLinePoint(pointId, pointCoordinates) {
+  const returnObj = {
+    radius: augmentPolygonPointRadius,
+    fill: 'green',
+    stroke: '#333333',
+    strokeWidth: pointStrokedWidth,
+    selectable: true,
+    hasBorders: false,
+    hasControls: false,
+    originX: 'center',
+    originY: 'center',
+    shapeName: 'point',
+    previousShapeName: 'newLine',
+    objectCaching: false,
+    pointId,
+    perPixelTargetFind: true,
+    lockMovementX: true,
+    lockMovementY: true,
+  };
+  if (pointCoordinates) {
+    returnObj.left = pointCoordinates.x;
+    returnObj.top = pointCoordinates.y;
+  }
+  return returnObj;
+}
+
+// polygon
+// polygonProperties.startingAddPolygonPoint = generatestartingAddPolygonPoint;
 // Executed after hitting/tapping Add points button, and after adding the last additional point for polygon
 function generatestartingAddPolygonPoint(pointId, pointCoordinates) {
   const returnObj = {
@@ -157,6 +259,7 @@ function generatestartingAddPolygonPoint(pointId, pointCoordinates) {
     originX: 'center',
     originY: 'center',
     shapeName: 'point',
+    previousShapeName: 'polygon',
     objectCaching: false,
     pointId,
     perPixelTargetFind: true,
@@ -176,15 +279,6 @@ function generateAdditionalPoint() {
     fill: 'green',
     radius: augmentPolygonPointRadius,
     hoverCursor: 'default',
-  };
-}
-
-// ???
-function generateDefaultPoint() {
-  return {
-    fill: 'blue',
-    radius: defaultPointRadius,
-    hoverCursor: 'move',
   };
 }
 
@@ -410,21 +504,29 @@ function setZoomOutProperties(pointRatio, polygonRatio) {
   polygonProperties.newTempPolygon = generateNewTempPolygon;
   polygonProperties.newLine = generateNewLine;
   polygonProperties.firstPoint = generateNewFirstPoint;
-  polygonProperties.defaultPoint = generateDefaultPoint;
   polygonProperties.additionalPoint = generateAdditionalPoint;
   polygonProperties.disabledAddPoint = generateDisabledAddPoint;
   polygonProperties.selectedStartingAddPoint = generateSelectedStartingAddPoint;
   polygonProperties.newPoint = generateNewPoint;
   polygonProperties.invisiblePoint = generateInvisiblePoint;
   polygonProperties.changeRemovablePointToTemp = changeRemovablePointToTemp;
+
   polygonProperties.existingPolygonPoint = generateExistingPolygonPoint;
+  polygonProperties.existingLinePoint = generateExistingLinePoint;
+  polygonProperties.defaultPoint = generateDefaultPoint;
+  polygonProperties.defaultLinePoint = generateDefaultLinePoint;
 
   polygonProperties.removablePolygonPoint = generateRemovablePolygonPoint;
   polygonProperties.removableLinePoint = generateRemovableLinePoint;
+
   polygonProperties.disabledRemovePoint = generateDisabledRemovePoint;
+  polygonProperties.disabledRemoveLinePoint = generateDisabledRemoveLinePoint;
+
   polygonProperties.removablePoint = generateRemovablePoint;
 
   polygonProperties.startingAddPolygonPoint = generatestartingAddPolygonPoint;
+  polygonProperties.startingAddLinePoint = generatestartingAddLinePoint;
+
   polygonProperties.setZoomInProperties = setZoomInProperties;
   polygonProperties.setZoomOutProperties = setZoomOutProperties;
   polygonProperties.getPolygonAlignmentAfterPointMove = getPolygonAlignmentAfterPointMove;

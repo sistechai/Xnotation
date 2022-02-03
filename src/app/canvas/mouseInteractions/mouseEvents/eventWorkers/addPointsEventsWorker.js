@@ -35,6 +35,7 @@ let linePointIdFinal = undefined;
 
 // only for the first point, which is located on polygon or line
 function pointMouseDownEvents(event) {
+  console.log("point mouse down event", event);
   if (!addingPoints) {
     if (event.target) {
       enableActiveObjectsAppearInFront(canvas);
@@ -254,6 +255,7 @@ function getPointInArrayClosestToGivenCoordinates(pointArray, { left, top }) {
       }
     }
   }
+  console.log("pointArray", pointArray[0]);
   return pointArray[0];
 }
 

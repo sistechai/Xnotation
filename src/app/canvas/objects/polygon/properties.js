@@ -154,7 +154,7 @@ function generateDefaultLinePoint() {
   return {
     lockMovementX: true,
     lockMovementY: true,
-    selectable: false,
+    //selectable: false,
     fill: 'blue',
     radius: defaultPointRadius,
     hoverCursor: 'move',
@@ -369,88 +369,6 @@ function generateInvisiblePoint(pointer) {
   }
 }
 
-// after 'enter' generates Polygon,
-// in addition, reacts on moving line or polygon
-function generateNewPolygon() {
-  if (!getTestDrawLineState()) {
-    setTestDrawLineState(false);
-    return {
-      previousShapeName: 'polygon',
-      stroke: 'hsla(186, 8%, 50%, 1)',
-      strokeWidth: newPolygonStrokeWidth,
-      fill: 'rgba(237, 237, 237, 0.01)',
-      perPixelTargetFind: true,
-      hasBorders: false,
-      hasControls: false,
-      shapeName: 'polygon',
-      selectable: false,
-      evented: true,
-      objectCaching: false,
-      numberOfNullPolygonPoints: 0,
-    };
-  }
-  /// Line Mode
-  if (getTestDrawLineState()) {
-    setTestDrawLineState(false);
-    return {
-      previousShapeName: 'newLine',
-      stroke: 'hsla(186, 8%, 50%, 1)',
-      strokeWidth: newPolygonStrokeWidth,
-      fill: 'rgba(237, 237, 237, 0.01)',
-      perPixelTargetFind: true,
-      hasBorders: false,
-      hasControls: false,
-      shapeName: 'polygon',
-      selectable: false,
-      evented: true,
-      objectCaching: false,
-      numberOfNullPolygonPoints: 0,
-      lockMovementX: true,
-      lockMovementY: true,
-    };
-  }
-}
-
-// executed for generating temporary points while drawing line or polygon
-function generateNewTempPolygon() {
-  if (!getTestDrawLineState()) {
-    return {
-      previousShapeName: 'polygon',
-      stroke: '#333333',
-      strokeWidth: tempPolygonStrokeWidth,
-      fill: '#cccccc',
-      opacity: 0.3,
-      selectable: false,
-      hasBorders: false,
-      hasControls: false,
-      evented: false,
-      objectCaching: false,
-      numberOfNullPolygonPoints: 0,
-      shapeName: 'tempPolygon',
-    };
-  }
-  /// Line Mode
-  if (getTestDrawLineState()) {
-    //setTestDrawLineState(false);
-    return {
-      previousShapeName: 'newLine',
-      stroke: '#F50A3D',
-      strokeWidth: tempPolygonStrokeWidth,
-      fill: '#cccccc',
-      //opacity: 0,
-      selectable: false,
-      hasBorders: false,
-      hasControls: false,
-      evented: false,
-      objectCaching: false,
-      numberOfNullPolygonPoints: 0,
-      shapeName: 'tempPolygon',
-      lockMovementX: true,
-      lockMovementY: true,
-    };
-  }
-}
-
 // Only for polygon's first point
 function generateNewFirstPoint() {
   return {
@@ -499,8 +417,95 @@ function setZoomOutProperties(pointRatio, polygonRatio) {
   polygonPadding -= 0.05;
 }
 
+// after 'enter' generates Polygon,
+// in addition, reacts on moving line or polygon
+function generateNewPolygon() {
+  if (!getTestDrawLineState()) {
+    setTestDrawLineState(false);
+    return {
+      previousShapeName: 'polygon',
+      stroke: 'hsla(186, 8%, 50%, 1)',
+      strokeWidth: newPolygonStrokeWidth,
+      fill: 'rgba(237, 237, 237, 0.01)',
+      //fill: '#cccccc',
+      //opacity: 0.3,
+      perPixelTargetFind: true,
+      hasBorders: false,
+      hasControls: false,
+      shapeName: 'polygon',
+      selectable: false,
+      evented: true,
+      objectCaching: false,
+      numberOfNullPolygonPoints: 0,
+    };
+  }
+  /// Line Mode
+  if (getTestDrawLineState()) {
+    setTestDrawLineState(false);
+    return {
+      previousShapeName: 'newLine',
+      stroke: 'hsla(186, 8%, 50%, 1)',
+      strokeWidth: newPolygonStrokeWidth,
+      fill: 'rgba(237, 237, 237, 0.01)',
+      perPixelTargetFind: true,
+      hasBorders: false,
+      hasControls: false,
+      shapeName: 'polygon',
+      //selectable: false,
+      evented: true,
+      objectCaching: false,
+      numberOfNullPolygonPoints: 0,
+      lockMovementX: true,
+      lockMovementY: true,
+    };
+  }
+}
+
+// executed for generating temporary points while drawing line or polygon
+function generateNewTempPolygon() {
+  if (!getTestDrawLineState()) {
+    return {
+      previousShapeName: 'polygon',
+      stroke: '#333333',
+      strokeWidth: tempPolygonStrokeWidth,
+      fill: '#cccccc',
+      opacity: 0.3,
+      //selectable: false,
+      hasBorders: false,
+      hasControls: false,
+      evented: false,
+      objectCaching: false,
+      numberOfNullPolygonPoints: 0,
+      shapeName: 'tempPolygon',
+    };
+  }
+  /// Line Mode
+  if (getTestDrawLineState()) {
+    //setTestDrawLineState(false);
+    return {
+      previousShapeName: 'newLine',
+      stroke: '#F50A3D',
+      strokeWidth: tempPolygonStrokeWidth,
+      //fill: '#cccccc',
+      //opacity: 0,
+      //selectable: false,
+      hasBorders: false,
+      hasControls: false,
+      evented: false,
+      objectCaching: false,
+      numberOfNullPolygonPoints: 0,
+      shapeName: 'tempPolygon',
+      lockMovementX: true,
+      lockMovementY: true,
+    };
+  }
+}
+
 (function setProperties() {
+
+  // TODO: set up permanent background for polygon and rectangle as well instead of tedious and tiresome current one!
   polygonProperties.newPolygon = generateNewPolygon;
+
   polygonProperties.newTempPolygon = generateNewTempPolygon;
   polygonProperties.newLine = generateNewLine;
   polygonProperties.firstPoint = generateNewFirstPoint;

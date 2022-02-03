@@ -6,7 +6,7 @@ import { getRemovingPolygonPointsState, getPolygonDrawingInProgressState, setTes
 import { removeActiveButtonPopover } from '../../../globalStyling/buttons/popovers.js';
 import isLeftMouseButtonClick from '../../../utils/buttons/clickEvents.js';
 import isElement from '../../../utils/elementType.js';
-import { setCreateNewLineToDefault, setCreateNewLineToDisabled, setCreateNewLineButtonToActive} from '../../styling/state.js';
+import { setCreateNewLineButtonToActive, setRemovePointsButtonToDefault} from '../../styling/state.js';
 
 function interruptAllCanvasEventsBeforeFunc(func, event) {
   if (event && !isLeftMouseButtonClick(event)) {

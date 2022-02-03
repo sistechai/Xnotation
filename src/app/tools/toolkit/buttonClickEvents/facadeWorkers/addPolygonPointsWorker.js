@@ -53,6 +53,7 @@ function discardAddPointsEvents(canvas) {
 }
 
 function initiateAddPolygonPointsEvents(canvas) {
+  console.log("initiate Add polygon", canvas);
   canvas.discardActiveObject();
   if (!getAddingPolygonPointsState()) {
     purgeCanvasMouseEvents(canvas);

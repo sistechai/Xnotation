@@ -30,6 +30,56 @@ let polygonPoints = [];
 let editingPolygon = false;
 let preventNewPolygonInitialisation = false;
 
+function displayPolygonPoints() {
+  setTestDrawLineState(false);
+  if (!preventNewPolygonInitialisation) {
+
+    if (polygon.previousShapeName === 'polygon') {
+      polygonPoints = displayPolygonPointsWithStyleImpl(
+          canvas, polygon, polygonProperties.existingPolygonPoint,
+      );
+    }
+    // line Mode
+    else {
+      polygonPoints = displayPolygonPointsWithStyleImpl(
+          canvas, polygon, polygonProperties.existingLinePoint,
+      );
+    }
+  }
+  else {
+    preventNewPolygonInitialisation = false;
+    sendPolygonPointsToFront();
+  }
+}
+
+function displayStartingAddPolygonPoints() {
+  if (polygon.previousShapeName === 'polygon') {
+    polygonPoints = displayPolygonPointsWithStyleImpl(
+        canvas, polygon, polygonProperties.startingAddPolygonPoint,
+    );
+  }
+  else {
+    polygonPoints = displayPolygonPointsWithStyleImpl(
+        canvas, polygon, polygonProperties.startingAddLinePoint,
+    );
+  }
+}
+
+function displayRemovablePolygonPoints() {
+  console.log("display removable polygon", polygon);
+  if (polygon.previousShapeName === 'polygon') {
+    polygonPoints = displayPolygonPointsWithStyleImpl(
+        canvas, polygon, polygonProperties.removablePolygonPoint,
+    );
+  }
+  // line Mode
+  else {
+    polygonPoints = displayPolygonPointsWithStyleImpl(
+        canvas, polygon, polygonProperties.removableLinePoint,
+    );
+  }
+}
+
 function setEditablePolygon(canvasObj, polygonObj, removablePoints, creatingPolygon, addingPoints) {
   setSelectedObjects(canvasObj, polygonObj);
   canvasObj.discardActiveObject();
@@ -149,41 +199,6 @@ function sendPolygonPointsToFront(canvasArg) {
   setPolygonEditingStatus(true);
 }
 
-function displayPolygonPoints() {
-  setTestDrawLineState(false);
-  if (!preventNewPolygonInitialisation) {
-
-    if (polygon.previousShapeName === 'polygon') {
-      polygonPoints = displayPolygonPointsWithStyleImpl(
-          canvas, polygon, polygonProperties.existingPolygonPoint,
-      );
-    }
-    // line Mode
-    else {
-      polygonPoints = displayPolygonPointsWithStyleImpl(
-          canvas, polygon, polygonProperties.existingLinePoint,
-      );
-    }
-  }
-  else {
-    preventNewPolygonInitialisation = false;
-    sendPolygonPointsToFront();
-  }
-}
-
-function displayStartingAddPolygonPoints() {
-  if (polygon.previousShapeName === 'polygon') {
-    polygonPoints = displayPolygonPointsWithStyleImpl(
-        canvas, polygon, polygonProperties.startingAddPolygonPoint,
-        );
-  }
-  else {
-    polygonPoints = displayPolygonPointsWithStyleImpl(
-        canvas, polygon, polygonProperties.startingAddLinePoint,
-    );
-  }
-}
-
 function changeDrawingPolygonPointsToRemovable() {
   polygonPoints = changeDrawingPolygonPointsToRemovableImpl(canvas, polygon);
 }
@@ -277,21 +292,6 @@ function highlightSelectedPolygonViaPoint() {
 
 function defaultFillSelectedPolygonViaPoint() {
   defaultShapeFill(polygon.id);
-}
-
-function displayRemovablePolygonPoints() {
-  console.log("display? polygon", polygon);
-  if (polygon.previousShapeName === 'polygon') {
-    polygonPoints = displayPolygonPointsWithStyleImpl(
-        canvas, polygon, polygonProperties.removablePolygonPoint,
-    );
-  }
-  // line Mode
-  else {
-    polygonPoints = displayPolygonPointsWithStyleImpl(
-        canvas, polygon, polygonProperties.removableLinePoint,
-    );
-  }
 }
 
 export {

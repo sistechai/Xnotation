@@ -5,6 +5,11 @@ import {
 import { getDefaultState, getAddingPolygonPointsState } from '../../../../tools/state.js';
 import { setCreateNewLineToDefault } from '../../../../tools/toolkit/styling/state.js';
 
+// when the line or polygon is clicked for
+// editing;
+// removing;
+// adding
+// TODO: It stalls on new area of line, only new part of line doesn't react on mouse down!
 function displayPolygonPointsWithStyleImpl(canvas, polygon, polygonPointsProps) {
   setCreateNewLineToDefault();
   let pointId = 0;
@@ -25,13 +30,14 @@ function displayPolygonPointsWithStyleImpl(canvas, polygon, polygonPointsProps) 
     if (polygon.previousShapeName === 'newLine') {
       for (let i = 0; i < polygonPoints.length; i++) {
         polygonPoints[i].set({
-          selectable: false,
+          //selectable: false,
+          lockMovementX: true,
+          lockMovementY: true,
           previousShapeName: 'newLine',
         })
       }
     }
   }
-
   return polygonPoints;
 }
 

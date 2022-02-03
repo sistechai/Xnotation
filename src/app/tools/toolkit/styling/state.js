@@ -3,14 +3,11 @@ import {
 } from './styling.js';
 import { getPolygonDrawingInProgressState, getTestDrawLineState, } from '../../state.js';
 import { getAllExistingShapes } from '../../../canvas/objects/allShapes/allShapes.js';
-import { testDrawLine } from '../buttonClickEvents/facade.js';
 
 const state = { ACTIVE: 'active', DEFAULT: 'default', DISABLED: 'disabled' };
 
 let removePointsState = state.DEFAULT;
-
 let createLineState = state.DEFAULT;
-
 let addPointsState = state.DEFAULT;
 let createBoundingBoxState = state.DEFAULT;
 let createPolygonState = state.DEFAULT;
@@ -20,9 +17,7 @@ let removePolygonPointsButtonElement = null;
 let addPolygonPointsButtonElement = null;
 let removeLabelsButtonElement = null;
 let editShapesButtonElement = null;
-
 let createLineButtonElement = null;
-
 let zoomInButtonElement = null;
 let zoomOutButtonElement = null;
 let createBoundingBoxButtonElement = null;

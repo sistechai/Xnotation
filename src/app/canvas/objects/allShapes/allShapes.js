@@ -1,8 +1,8 @@
 import { incrementShapeType, decrementShapeType } from '../../../tools/globalStatistics/globalStatistics.js';
-import { getTestDrawLineState, getCurrentImageId } from '../../../tools/state.js';
+import { getCurrentImageId } from '../../../tools/state.js';
+
 let shapes = {};
 let canvas = null;
-
 let polygons = [];
 let lines = [];
 let rectangles = [];
@@ -12,6 +12,99 @@ let rectangles = [];
 let imagesInformationArray = [];
 let imageId = null;
 
+function highlightShapeFill(id) {
+ if (shapes[id]) {
+   const highlightColor = shapes[id].color.highlight;
+   if (shapes[id].shapeRef.previousShapeName === 'newLine'){
+     shapes[id].shapeRef.set('fill', '');
+   }
+   else {
+     shapes[id].shapeRef.set('fill', highlightColor);
+     canvas.renderAll();
+   }
+ }
+}
+
+function defaultShapeFill(id) {
+  if (shapes[id].shapeRef.previousShapeName === 'newLine') {
+    shapes[id].shapeRef.set('fill', '');
+  }
+  else {
+    const defaultColor = shapes[id].color.default;
+    shapes[id].shapeRef.set('fill', defaultColor);
+  }
+  canvas.renderAll();
+}
+
+function changeShapeLabelText(id, newText) {
+  console.log("change shape label text");
+  shapes[id].shapeRef.set('shapeLabelText', newText);
+}
+
+function removeShape(id) {
+  decrementShapeType(shapes[id].shapeRef);
+  // removes from the canvas the polygon
+  canvas.remove(shapes[id].shapeRef);
+  delete shapes[id];
+}
+
+function assignCanvasForShapeFillManipulation(canvasObj) {
+  canvas = canvasObj;
+}
+
+function changeShapeColorById(id, color) {
+  shapes[id].color = color;
+  shapes[id].shapeRef.set('fill', color.default);
+  shapes[id].shapeRef.set('stroke', color.stroke);
+  canvas.renderAll();
+}
+
+// executed after switching to new image
+// saves the index of shape
+// updates shapeRefs after removing shape, removing points, adding points
+// refactor the side effect of removing shape refs
+function retrieveAllShapeRefs() {
+  const shapeRefs = {};
+  Object.keys(shapes).forEach((key) => {
+    shapeRefs[key] = shapes[key];
+    // removes the shape
+    canvas.remove(shapes[key].shapeRef);
+  });
+  shapes = {};
+  return shapeRefs;
+}
+
+// ??
+// When this function is executed?
+function getNumberOfShapes() {
+  return Object.keys(shapes).length;
+}
+
+// It is executed, if Edit Shape process is Active
+// Only while moving whole shape
+function getShapeColorById(id) {
+  return shapes[id].color;
+}
+
+// Creates shape and changes its color;
+// Executed only at the first time after hitting "enter";
+function addShape(shapeObj, shapeColor, id) {
+  shapes[id] = createNewShapeObject(shapeObj, shapeColor);
+  incrementShapeType(shapeObj);
+}
+
+// executed:
+// 4 times after uploading;
+// 2 times after tapping/hitting polygon or line button
+// 2 times after adding first red point for polygon
+// 2 times after finishing drawing polygon or line
+// 4 times after hitting rectangle button
+// 2 times after adding each new point for line
+function getAllExistingShapes() {
+  return shapes;
+}
+
+// Executed only for the first time after the shape has been created
 function createNewShapeObject(shapeObj, shapeColor) {
   const newShapeObject = { shapeRef: shapeObj, color: shapeColor, visibility: true };
   newShapeObject.shapeRef.set('fill', shapeColor.default);
@@ -24,66 +117,51 @@ function getStatementsForCurrentImageToJSON(images) {
   let colorHex;
   let currentShapes = getAllExistingShapes();
   let key;
+  let points = [];
 
   polygons = [];
   lines = [];
   rectangles = [];
 
-  let points = [];
-
   for (key in currentShapes) {
+
     if (currentShapes[key].shapeRef.previousShapeName === 'polygon') {
       colorHex = HSLToHex(currentShapes[key].color.stroke);
-
       for (let i=0; i< currentShapes[key].shapeRef.points.length; i++) {
         points.push(currentShapes[key].shapeRef.points[i].x, currentShapes[key].shapeRef.points[i].y);
       }
-
       polygons.push({
         "color": colorHex,
         'points': points
       });
-
       points = [];
-
     }
+
     if (currentShapes[key].shapeRef.previousShapeName === 'newLine') {
       colorHex = HSLToHex(currentShapes[key].color.stroke);
-
       for (let i=0; i< currentShapes[key].shapeRef.points.length; i++) {
-        points.push(currentShapes[key].shapeRef.points[i].x, currentShapes[key].shapeRef.points[i].y);
+        if ( (currentShapes[key].shapeRef.points[i].x) && (currentShapes[key].shapeRef.points[i].y) ) {
+          points.push(currentShapes[key].shapeRef.points[i].x, currentShapes[key].shapeRef.points[i].y);
+        }
       }
-
       lines.push({
         'points': points,
-        //"points": currentShapes[key].shapeRef.points,
         "color": colorHex,
       });
-
       points = [];
-
     }
+
     if (currentShapes[key].shapeRef.shapeName === 'bndBox'){
       colorHex = HSLToHex(currentShapes[key].color.stroke);
-
-      console.log("points.push(currentShapes[key].shapeRef.points", currentShapes[key].shapeRef);
-
-      //for (let i=0; i< currentShapes[key].shapeRef.points.length; i++) {
       points.push(currentShapes[key].shapeRef.aCoords.br.x, currentShapes[key].shapeRef.aCoords.br.y);
       points.push(currentShapes[key].shapeRef.aCoords.tr.x, currentShapes[key].shapeRef.aCoords.tr.y);
       points.push(currentShapes[key].shapeRef.aCoords.tl.x, currentShapes[key].shapeRef.aCoords.tl.y);
       points.push(currentShapes[key].shapeRef.aCoords.bl.x, currentShapes[key].shapeRef.aCoords.bl.y);
-      //}
-
-
       rectangles.push({
-        //"points": currentShapes[key].shapeRef.aCoords,
         "color": colorHex,
         'points': points
       });
-
       points = [];
-
     }
   }
   imageId = getCurrentImageId();
@@ -116,10 +194,6 @@ function getStatementsForCurrentImageToJSON(images) {
       'file_name': images[imageId].name,
     }
   }
-
-  //copiedAnnotation = {};
-  annotation = {};
-  console.log("objectJSON", objectJSON);
   return objectJSON;
 }
 
@@ -175,51 +249,35 @@ function HSLToHex(hslColor) {
   return "#" + r + g + b;
 }
 
-function getAllExistingShapes() {
-  return shapes;
-}
-
-// refactor the side effect of removing shape refs
-function retrieveAllShapeRefs() {
-  const shapeRefs = {};
-  Object.keys(shapes).forEach((key) => {
-    shapeRefs[key] = shapes[key];
-    canvas.remove(shapes[key].shapeRef);
-  });
-  shapes = {};
-  return shapeRefs;
-}
-
-// creates shape and changes its color
-function addShape(shapeObj, shapeColor, id) {
-  shapes[id] = createNewShapeObject(shapeObj, shapeColor);
-  incrementShapeType(shapeObj);
-}
-
-function addShapeForInvisibleImage(shapeObj, shapeColor) {
-  const newShapeObject = createNewShapeObject(shapeObj, shapeColor);
-  incrementShapeType(shapeObj);
-  return newShapeObject;
-}
-
+// executed after switching back to previous image and then shapes appear
 function addExistingShape(shapeObj, id) {
   shapes[id] = shapeObj;
 }
 
+// executed if to cover the name of shape on Labels Menu
 function getShapeById(id) {
   return shapes[id].shapeRef;
 }
 
-function getNumberOfShapes() {
-  return Object.keys(shapes).length;
-}
-
+// after switching images
 function removeAllShapeRefs() {
   shapes = {};
 }
 
-function getShapeColorById(id) {
-  return shapes[id].color;
+// ??
+function removeFillForAllShapes() {
+  Object.keys(shapes).forEach((key) => {
+    const defaultColor = shapes[key].color.default;
+    shapes[key].shapeRef.set('fill', defaultColor);
+  });
+  canvas.renderAll();
+}
+
+// ???
+function addShapeForInvisibleImage(shapeObj, shapeColor) {
+  const newShapeObject = createNewShapeObject(shapeObj, shapeColor);
+  incrementShapeType(shapeObj);
+  return newShapeObject;
 }
 
 function changeShapeVisibilityById(id) {
@@ -230,52 +288,6 @@ function changeShapeVisibilityById(id) {
 
 function getShapeVisibilityById(id) {
   return shapes[id].shapeRef.visible;
-}
-
-function changeShapeColorById(id, color) {
-  shapes[id].color = color;
-  shapes[id].shapeRef.set('fill', color.default);
-  shapes[id].shapeRef.set('stroke', color.stroke);
-  canvas.renderAll();
-}
-
-function highlightShapeFill(id) {
- if (shapes[id]) {
-   const highlightColor = shapes[id].color.highlight;
-   shapes[id].shapeRef.set('fill', highlightColor);
-   canvas.renderAll();
- }
-}
-
-function defaultShapeFill(id) {
-  if (shapes[id]) {
-    const defaultColor = shapes[id].color.default;
-    shapes[id].shapeRef.set('fill', defaultColor);
-  }
-  canvas.renderAll();
-}
-
-function removeFillForAllShapes() {
-  Object.keys(shapes).forEach((key) => {
-    const defaultColor = shapes[key].color.default;
-    shapes[key].shapeRef.set('fill', defaultColor);
-  });
-  canvas.renderAll();
-}
-
-function changeShapeLabelText(id, newText) {
-  shapes[id].shapeRef.set('shapeLabelText', newText);
-}
-
-function removeShape(id) {
-  decrementShapeType(shapes[id].shapeRef);
-  // removes from the canvas the polygon
-  canvas.remove(shapes[id].shapeRef);
-  delete shapes[id];
-}
-
-function assignCanvasForShapeFillManipulation(canvasObj) {
-  canvas = canvasObj;
 }
 
 export {

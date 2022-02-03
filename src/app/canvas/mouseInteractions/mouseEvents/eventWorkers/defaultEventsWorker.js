@@ -12,6 +12,7 @@ import {
   getShapeMovingState, setShapeMovingState, setSessionDirtyState,
   setRemovingPointsAfterCancelDrawState, setLastPolygonActionWasMoveState,
   getBoundingBoxScalingState, setBoundingBoxScalingState, getDoubleScrollCanvasState,
+    setTestDrawLineState, getTestDrawLineState,
 } from '../../../../tools/state.js';
 import { highlightLabelInTheList, removeHighlightOfListLabel } from '../../../../tools/labelList/labelListHighlightUtils.js';
 import { highlightShapeFill, defaultShapeFill } from '../../../objects/allShapes/allShapes.js';
@@ -61,11 +62,12 @@ function setEditablePolygonOnClickFunc(event) {
     removePolygonPoints();
   }
   setEditablePolygon(canvas, event.target);
-  selectedShapeId = event.target.id;
+  if (event.target) {
+    selectedShapeId = event.target.id;
+  }
 }
 
 function setEditablePolygonWhenPolygonMoved(event) {
-  console.log("222222 When Polygon Moved move newPolygonSelected = ", newPolygonSelected);
   if (newPolygonSelected) {
     setEditablePolygonAfterMoving(canvas, event.target);
     selectedShapeId = event.target.id;
@@ -132,6 +134,7 @@ function polygonMouseDownEvents(event) {
       preventActiveObjectsAppearInFront(canvas);
     } else {
       if (event.target.shapeName === 'polygon' && event.target.id !== selectedShapeId) {
+        setTestDrawLineState(false);
         if (lastShapeSelectedIsBoundingBox) {
           deselectShape();
           lastShapeSelectedIsBoundingBox = false;
@@ -160,15 +163,16 @@ function handleShapeFillAfterMove(event) {
   const { height, width } = getImageProperties();
   const imageHeight = height * currentZoomState;
   const imageWidth = width * currentZoomState;
-  if (pointer.x < 0 || imageWidth / currentZoomState < pointer.x
-    || pointer.y < 0 || imageHeight / currentZoomState < pointer.y) {
-    if (event.target.shapeName === 'point') {
-      defaultFillSelectedPolygonViaPoint();
-    } else {
-      defaultShapeFill(event.target.id);
+
+    if (pointer.x < 0 || imageWidth / currentZoomState < pointer.x
+        || pointer.y < 0 || imageHeight / currentZoomState < pointer.y) {
+      if (event.target.shapeName === 'point') {
+        defaultFillSelectedPolygonViaPoint();
+      } else {
+        defaultShapeFill(event.target.id);
+      }
     }
-  }
-  setShapeMovingState(false);
+    setShapeMovingState(false);
 }
 
 function shapeMouseOutEvents(event) {
@@ -186,7 +190,7 @@ function shapeMouseOutEvents(event) {
 // look at this
 // reacts if to press on shape: polygon, bndbox, tempPoint - points of Line, point - points of polygon
 function polygonMouseUpEvents(event) {
-
+  setTestDrawLineState(false);
   mouseIsDown = false;
   if (event.target && event.target.shapeName === 'bndBox') {
     if (boundingBoxMoved) { boundingBoxMoved = false; }
@@ -203,9 +207,10 @@ function polygonMouseUpEvents(event) {
   }
 
   else if (polygonMoved) {
-    console.log("222 polygonMoved=true, event.target.id)", event.target.id);
     validateAndFixOutOfBoundsPolygonShapePointsAfterMove(event.target);
+
     setEditablePolygonWhenPolygonMoved(event);
+
     highlightShapeFill(event.target.id);
     canvas.bringToFront(labelObject);
     setLastPolygonActionWasMoveState(true);
@@ -215,7 +220,9 @@ function polygonMouseUpEvents(event) {
     if (finishedAddingNewPoints) {
       finishedAddingNewPoints = false;
     } else {
-      selectShape(event.target.id);
+      if (event.target) {
+        selectShape(event.target.id);
+      }
     }
     canvas.bringToFront(event.target);
     setEditablePolygonOnClick(event);

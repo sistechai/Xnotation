@@ -10,13 +10,11 @@ import toggleSettingsPopup from './facadeWorkers/toggleSettingsPopUpWorker.js';
 import initiateEditShapesEvent from './facadeWorkers/editShapesWorker.js';
 import displayUploadDatasetsModal from './facadeWorkers/displayUploadDatasetsModalWorker.js';
 import { setTestDrawLineState } from '../../state.js';
-import { setCreateNewLineButtonToActive, getCreateLineState, setCreateNewLineToDefault, } from '../styling/state.js';
 let canvas = null;
 
 // Image upload
 function resetCanvasEventsToDefault() {
   initiateResetCanvasEventsToDefaultEvent(canvas);
-  //setCreateNewLineToDefault();
 }
 
 // New Line

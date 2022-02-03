@@ -1,6 +1,6 @@
 const labelProperties = {};
 
-let fontSize = 10;
+let fontSize = 20;
 let polygonLabelTop = 0;
 let polygonOffsetLeft = 10;
 let polygonOffsetTop = 12;

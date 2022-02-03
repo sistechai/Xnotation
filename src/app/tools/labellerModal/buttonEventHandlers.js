@@ -41,7 +41,6 @@ function initialiseLabellerModalLocalVariables() {
 }
 
 function resetDrawingMode() {
-  console.log("reset!!!!!!!!!");
   if (!getContinuousDrawingState()) {
     resetCanvasEventsToDefault();
     if (getCrosshairUsedOnCanvasState()) {
@@ -56,7 +55,6 @@ function resetDrawingMode() {
   }
   else if (getLastDrawingModeState() === 'line') {
     setTestDrawLineState(true);
-    //resetDrawPolygonMode();
     testDrawLine();
   }
 }

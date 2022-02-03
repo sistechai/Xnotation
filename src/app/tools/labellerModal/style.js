@@ -115,7 +115,9 @@ function deleteAndAddLastRowToRefreshDiv() {
   }
   window.setTimeout(() => {
     const label = labelOptions[labelOptions.length - 1];
-    addLabelToList(label.text, label.color.label);
+    if (label) {
+      addLabelToList(label.text, label.color.label);
+    }
     if (labelOptions.length === 7) {
       optionsElement.deleteRow(6);
     }

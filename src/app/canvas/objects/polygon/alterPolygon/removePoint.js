@@ -31,47 +31,102 @@ function ifExistingPolygonIsLowestPoint(existingPolygon, polygon, pointId) {
   return false;
 }
 
+// handles invocation of removing points, when the shape has more than 3 points
 function removePolygonPointImpl(canvas, polygon, polygonPoints, pointId, existingPolygon) {
   const realignLabel = ifExistingPolygonIsLowestPoint(existingPolygon, polygon, pointId);
-  if (polygon.points.length - polygon.numberOfNullPolygonPoints > 3) {
-    if (Object.keys(polygon.points[pointId]).length === 0) {
-      /* when the last polygons are removed, the ones before it are moved
-      // to the last position - thus causing the possibility of getting nulls
-       TIP - when point is null - it was already moved to the last element */
-      for (let i = pointId - 1; i > -1; i -= 1) {
-        if (Object.keys(polygon.points[i]).length !== 0) {
-          polygon.points[polygon.points.length - 1] = polygon.points[i];
-          polygon.points[i] = {};
-          break;
+  if (polygon.previousShapeName === 'polygon') {
+    if (polygon.points.length - polygon.numberOfNullPolygonPoints > 3) {
+      // the final point is removed already
+      if (Object.keys(polygon.points[pointId]).length === 0) {
+        /* when the last polygons are removed, the ones before it are moved
+        // to the last position - thus causing the possibility of getting nulls
+         TIP - when point is null - it was already moved to the last element */
+        for (let i = pointId - 1; i > -1; i -= 1) {
+          if (Object.keys(polygon.points[i]).length !== 0) {
+            polygon.points[polygon.points.length - 1] = polygon.points[i];
+            polygon.points[i] = {};
+            break;
+          }
         }
       }
-    } else if ((polygon.points.length - 1) === pointId) {
-      /* when last element - remove and find the next not null below it to
-      to be the last element in order to enable the polygon to stay */
-      for (let i = pointId - 1; i > -1; i -= 1) {
-        if (Object.keys(polygon.points[i]).length !== 0) {
-          polygon.points[pointId] = polygon.points[i];
-          polygon.points[i] = {};
-          break;
+      // the final point is equal to point id
+      else if ((polygon.points.length - 1) === pointId) {
+        /* when last element - remove and find the next not null below it to
+        to be the last element in order to enable the polygon to stay */
+        for (let i = pointId - 1; i > -1; i -= 1) {
+          if (Object.keys(polygon.points[i]).length !== 0) {
+            polygon.points[pointId] = polygon.points[i];
+            polygon.points[i] = {};
+            break;
+          }
         }
       }
-    } else {
-      polygon.points[pointId] = {};
+      // if pointID is not final point, even it is the fourth point to remove
+      //
+      else {
+        polygon.points[pointId] = {};
+      }
+      canvas.remove(polygonPoints[pointId]);
+      polygonPoints[pointId] = null;
+      polygon.numberOfNullPolygonPoints += 1;
+      if (polygon.points.length - polygon.numberOfNullPolygonPoints === 3) {
+          polygonPoints.forEach((point) => {
+            if (point) point.set(polygonProperties.disabledRemovePoint());
+          });
+      }
     }
-    canvas.remove(polygonPoints[pointId]);
-    polygonPoints[pointId] = null;
-
-    polygon.numberOfNullPolygonPoints += 1;
-    if (polygon.points.length - polygon.numberOfNullPolygonPoints === 3) {
-      polygonPoints.forEach((point) => {
-        if (point) point.set(polygonProperties.disabledRemovePoint());
-      });
-    }
-    if (realignLabel) {
-      realignLabelToLowestPointLocation(polygon);
-    }
-    canvas.renderAll();
   }
+// Line Mode
+  if (polygon.previousShapeName === 'newLine'){
+    let extraPointRemoveFromLine = polygon.points.length - 1 - pointId;
+    if (polygon.points.length - polygon.numberOfNullPolygonPoints > 4) {
+      // we do not use this condition, because, if it is final point, the initial points becomes null;
+      // therefore pointID = pointID -1, and it is not empty
+      if (Object.keys(polygon.points[pointId]).length === 0) {
+        for (let i = pointId - 1; i > -1; i -= 1) {
+          if (Object.keys(polygon.points[i]).length !== 0) {
+            polygon.points[polygon.points.length - 1] = polygon.points[i];
+            polygon.points[i] = {};
+            break;
+          }
+        }
+      }
+      // if it is final point of the line
+      else if ((polygon.points.length - 1) === pointId){
+        for (let i = pointId - 1; i > -1; i -= 1) {
+          if (Object.keys(polygon.points[i]).length !== 0) {
+            polygon.points[pointId] = polygon.points[i];
+            polygon.points[i] = {};
+            polygon.points[extraPointRemoveFromLine] = {};
+            break;
+          }
+        }
+      }
+      // if it is not the last point
+      else //if ( (pointId !== 0) || (pointId !== polygon.points.length-1) )//|| (pointId !== ) )
+      {
+        polygon.points[pointId] = {};
+        polygon.points[extraPointRemoveFromLine] = {};
+      }
+      canvas.remove(polygonPoints[pointId]);
+      canvas.remove(polygonPoints[extraPointRemoveFromLine]);
+      polygonPoints[pointId] = null;
+      polygonPoints[extraPointRemoveFromLine] = null;
+      polygon.numberOfNullPolygonPoints += 2;
+      if (polygon.points.length - polygon.numberOfNullPolygonPoints === 4) {
+        polygonPoints.forEach((point) => {
+          if (point) {
+            point.set(polygonProperties.disabledRemovePoint());
+          }
+        });
+      }
+    }
+  }
+
+  if (realignLabel) {
+    realignLabelToLowestPointLocation(polygon);
+  }
+  canvas.renderAll();
 }
 
 function refreshPolygonPointIds(noNullPointsRef) {

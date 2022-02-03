@@ -203,14 +203,14 @@ function generatePolygon() {
     //canvas.remove(point);
   });
 
-  let polygon; // the entire polygon, and New line
+  let polygon = null; // the entire polygon, and New line
 
   // For Polygon mode
   if (!getTestDrawLineState()) {
     // ???
     //invisiblePoint = null;
     removeActiveShape();
-    polygon = new fabric.Polygon(points, polygonProperties.newPolygon()); // for now, got it from if cycle above
+    polygon = new fabric.Polygon(points, polygonProperties.newPolygon(polygon)); // for now, got it from if cycle above
     lockMovementIfAssertedByState(polygon);
     canvas.add(polygon);
   }
@@ -233,13 +233,14 @@ function generatePolygon() {
     for (i = lengthArray- 1; i>-1; i--) {
         tempArrayLine.push(pointsNewLine[i]);
     }
-    polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon()); // for now, got it from if cycle above
+    polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon(polygon)); // for now, got it from if cycle above
     canvas.add(polygon);
 
       //tempArrayLine = [];
 
       //activeShape = null;
       polygonMode = false;
+
       lineMode = false;
       drawingFinished = true;
       // prepareLabelShape(polygon, canvas);
@@ -250,6 +251,7 @@ function generatePolygon() {
       // pointArrayNewLineCopyToClearCanvas = [];
       lockMovementIfAssertedByState(polygon);
       lineMode = false;
+      pointId = 0;
   }
 
   activeShape = null;
@@ -292,7 +294,7 @@ function clearLineData(){
 }
 
 function clearPolygonData() {
-
+  pointId = 0;
   if (pointArray[0]) { // || pointArrayNewLine[0]) {
     pointArray.forEach((point) => {
       canvas.remove(point);
@@ -317,7 +319,7 @@ function clearPolygonData() {
     //pointArrayNewLine = [];
 
     activeShape = null;
-    pointId = 0;
+
     mouseMoved = false;
     drawingFinished = false;
     ignoredFirstMouseMovement = false;
@@ -446,13 +448,11 @@ function instantiatePolygon(event) {
     }
 
     // Here the place of drawing line for polygon
-    else if (lineMode){
-      addPoint(pointer);
-      console.log("--------- lineMode", lineMode);
-    }
+    // else if (lineMode){
+    //   addPoint(pointer);
+    // }
     else if (polygonMode) {
       addPoint(pointer);
-      console.log("--------- polygonMode", polygonMode);
     }
 
     // ??? fix for double click to draw first point bug

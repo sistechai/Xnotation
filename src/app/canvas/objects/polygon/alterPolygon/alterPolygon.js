@@ -18,7 +18,7 @@ import {
 } from './changePointsStyle.js';
 import {
   getEditingLabelId, getLastPolygonActionWasMoveState,
-  getNewShapeSelectedViaLabelListState, setNewShapeSelectedViaLabelListState
+  getNewShapeSelectedViaLabelListState, setNewShapeSelectedViaLabelListState, setTestDrawLineState, getTestDrawLineState,
 } from '../../../../tools/state.js';
 import { highlightShapeFill, defaultShapeFill } from '../../allShapes/allShapes.js';
 
@@ -29,6 +29,93 @@ let polygon = null;
 let polygonPoints = [];
 let editingPolygon = false;
 let preventNewPolygonInitialisation = false;
+
+function displayPolygonPoints() {
+  setTestDrawLineState(false);
+  if (!preventNewPolygonInitialisation) {
+
+    if (polygon.previousShapeName === 'polygon') {
+      polygonPoints = displayPolygonPointsWithStyleImpl(
+          canvas, polygon, polygonProperties.existingPolygonPoint,
+      );
+    }
+    // line Mode
+    else {
+      polygonPoints = displayPolygonPointsWithStyleImpl(
+          canvas, polygon, polygonProperties.existingLinePoint,
+      );
+    }
+  }
+  else {
+    preventNewPolygonInitialisation = false;
+    sendPolygonPointsToFront();
+  }
+}
+
+function displayStartingAddPolygonPoints() {
+  if (polygon.previousShapeName === 'polygon') {
+    polygonPoints = displayPolygonPointsWithStyleImpl(
+        canvas, polygon, polygonProperties.startingAddPolygonPoint,
+    );
+  }
+  else {
+    polygonPoints = displayPolygonPointsWithStyleImpl(
+        canvas, polygon, polygonProperties.startingAddLinePoint,
+    );
+  }
+}
+
+function displayRemovablePolygonPoints() {
+  console.log("display removable polygon", polygon);
+  if (polygon.previousShapeName === 'polygon') {
+    polygonPoints = displayPolygonPointsWithStyleImpl(
+        canvas, polygon, polygonProperties.removablePolygonPoint,
+    );
+  }
+  // line Mode
+  else {
+    polygonPoints = displayPolygonPointsWithStyleImpl(
+        canvas, polygon, polygonProperties.removableLinePoint,
+    );
+  }
+}
+
+function setEditablePolygon(canvasObj, polygonObj, removablePoints, creatingPolygon, addingPoints) {
+  setSelectedObjects(canvasObj, polygonObj);
+  canvasObj.discardActiveObject();
+  if (polygon) {
+    polygon.bringToFront();
+  }
+  // edit this
+  if (addingPoints) {
+    displayStartingAddPolygonPoints();
+  } else if (!removablePoints) {
+    displayPolygonPoints();
+  }
+
+  // on created polygon
+  else if (!creatingPolygon) {
+    displayRemovablePolygonPoints();
+  }
+  // during drawing polygon or line
+  else {
+    changeDrawingPolygonPointsToRemovable();
+  }
+  setPolygonEditingStatus(true);
+}
+
+function setSelectedObjects(activeCanvasObj, activePolygonObject) {
+  canvas = activeCanvasObj;
+  polygon = activePolygonObject;
+  if (polygon.previousShapeName === 'newLine'){
+   polygon.set({
+     lockMovementX: true,
+     lockMovementY: true,
+     selectable: false,
+   });
+    console.log("if polygon selected by Ethereal mouse click", polygon);
+  }
+}
 
 function setPolygonEditingStatus(status) {
   editingPolygon = status;
@@ -78,6 +165,7 @@ function isAddingPointsToPolygon() {
   return isAddingPointsToPolygonImpl();
 }
 
+
 // the final point is the last point to add to polygon
 function completePolygon(finalPoint) {
   completePolygonImpl(polygon, polygon.points, finalPoint);
@@ -86,6 +174,7 @@ function completePolygon(finalPoint) {
   setPolygonEditingStatus(false);
 }
 
+// if to add points
 function getPolygonIfEditing() {
   if (editingPolygon) {
     return polygon;
@@ -110,30 +199,6 @@ function sendPolygonPointsToFront(canvasArg) {
   setPolygonEditingStatus(true);
 }
 
-function displayPolygonPoints() {
-  if (!preventNewPolygonInitialisation) {
-    polygonPoints = displayPolygonPointsWithStyleImpl(
-      canvas, polygon, polygonProperties.existingPolygonPoint,
-    );
-  }
-  else {
-    preventNewPolygonInitialisation = false;
-    sendPolygonPointsToFront();
-  }
-}
-
-function displayRemovablePolygonPoints() {
-  polygonPoints = displayPolygonPointsWithStyleImpl(
-    canvas, polygon, polygonProperties.removablePolygonPoint,
-  );
-}
-
-function displayStartingAddPolygonPoints() {
-  polygonPoints = displayPolygonPointsWithStyleImpl(
-    canvas, polygon, polygonProperties.startingAddPolygonPoint,
-  );
-}
-
 function changeDrawingPolygonPointsToRemovable() {
   polygonPoints = changeDrawingPolygonPointsToRemovableImpl(canvas, polygon);
 }
@@ -148,6 +213,7 @@ function cleanPolygonPointsArray() {
 }
 
 function getPolygonPointsArray() {
+  console.log("get polygon points", polygonPoints);
   return polygonPoints;
 }
 
@@ -175,6 +241,7 @@ function removePolygonPoints() {
   setPolygonEditingStatus(false);
 }
 
+// ???
 // After adding or removing points, if to press box.
 function changePolygonPointsPropertiesToDefault(canvasObj) {
   // naming convention?
@@ -182,15 +249,10 @@ function changePolygonPointsPropertiesToDefault(canvasObj) {
   changeObjectsToPolygonPointsToDefaultImpl(canvas);
 }
 
-// After hitting Edit Shape, it moves polygon
+// After hitting Edit Shape, after moving polygon
 function displayPolygonPointsAfterMove() {
   polygon = displayPolygonPointsAfterMoveImpl(canvas, polygon, polygonPoints);
   setPolygonEditingStatus(true);
-}
-
-function setSelectedObjects(activeCanvasObj, activePolygonObject) {
-  canvas = activeCanvasObj;
-  polygon = activePolygonObject;
 }
 
 function setEditablePolygonAfterMoving(canvasObj, polygonObj) {
@@ -230,23 +292,6 @@ function highlightSelectedPolygonViaPoint() {
 
 function defaultFillSelectedPolygonViaPoint() {
   defaultShapeFill(polygon.id);
-}
-
-function setEditablePolygon(canvasObj, polygonObj, removablePoints, creatingPolygon, addingPoints) {
-  setSelectedObjects(canvasObj, polygonObj);
-  canvasObj.discardActiveObject();
-  polygon.bringToFront();
-  // edit this
-  if (addingPoints) {
-    displayStartingAddPolygonPoints();
-  } else if (!removablePoints) {
-    displayPolygonPoints();
-  } else if (!creatingPolygon) {
-    displayRemovablePolygonPoints();
-  } else {
-    changeDrawingPolygonPointsToRemovable();
-  }
-  setPolygonEditingStatus(true);
 }
 
 export {

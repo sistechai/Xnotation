@@ -176,6 +176,8 @@ function handleShapeFillAfterMove(event) {
 }
 
 function shapeMouseOutEvents(event) {
+  highlightShapeFill(event.target.id);
+  console.log("out )");
   if (!getBoundingBoxScalingState() && !getShapeMovingState()) {
     if (event.target.shapeName === 'point') {
       defaultFillSelectedPolygonViaPoint();
@@ -185,6 +187,8 @@ function shapeMouseOutEvents(event) {
   } else {
     removeBoundingBoxFillWhenScaling = true;
   }
+  highlightShapeFill(event.target.id);
+  console.log("out 3");
 }
 
 // look at this
@@ -298,14 +302,19 @@ function boundingBoxScalingEvents(event) {
 
 function shapeMouseOverEvents(event) {
   if (event.target && event.target.shapeName !== 'label') {
+    highlightShapeFill(event.target.id);
+    console.log("shape over");
     if (event.target.MLPallette) {
+      console.log("1111shape over");
       setMLGeneratedPalletteToOriginal(event.target);
     }
     if (event.target.shapeName === 'point') {
+      console.log("2222shape over");
       highlightSelectedPolygonViaPoint();
     }
 
     else {
+      console.log("3333shape over");
       highlightShapeFill(event.target.id);
     }
   }

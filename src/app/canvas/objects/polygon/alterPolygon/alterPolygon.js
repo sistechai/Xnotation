@@ -199,21 +199,18 @@ function sendPolygonPointsToFront(canvasArg) {
   setPolygonEditingStatus(true);
 }
 
+///////////
 function changeDrawingPolygonPointsToRemovable() {
   polygonPoints = changeDrawingPolygonPointsToRemovableImpl(canvas, polygon);
 }
-
 // change existing objects for removable points
 function changeExistingPolygonPointsToRemovable(canvasObj) {
   polygonPoints = changeObjectsToPolygonPointsRemovaleImpl(canvasObj);
 }
-
 function cleanPolygonPointsArray() {
   polygonPoints = getCleanPolygonPointsArrayImpl(polygon, polygonPoints);
 }
-
 function getPolygonPointsArray() {
-  console.log("get polygon points", polygonPoints);
   return polygonPoints;
 }
 
@@ -240,9 +237,9 @@ function removePolygonPoints() {
   setNewShapeSelectedViaLabelListState(false);
   setPolygonEditingStatus(false);
 }
+////////
 
-// ???
-// After adding or removing points, if to press box.
+// After adding or removing points, if to press "Build up New box".
 function changePolygonPointsPropertiesToDefault(canvasObj) {
   // naming convention?
   canvas = !canvasObj ? canvas : canvasObj;
@@ -251,6 +248,8 @@ function changePolygonPointsPropertiesToDefault(canvasObj) {
 
 // After hitting Edit Shape, after moving polygon
 function displayPolygonPointsAfterMove() {
+  console.log("----- build up polygon points", polygonPoints);
+  console.log("----- build up polygon", polygon);
   polygon = displayPolygonPointsAfterMoveImpl(canvas, polygon, polygonPoints);
   setPolygonEditingStatus(true);
 }

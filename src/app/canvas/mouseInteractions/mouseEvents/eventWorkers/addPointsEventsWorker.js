@@ -13,6 +13,7 @@ import { getLastMouseMoveEvent } from '../../../../keyEvents/mouse/mouseMove.js'
 
 import { setEnterAddPointsLineState } from '../../../../keyEvents/keyboard/hotKeys.js';
 import {completePolygonImpl} from "../../../objects/polygon/alterPolygon/addPoint.js";
+import {resetPolygonSelectableAreaImpl} from "../../../objects/polygon/alterPolygon/movePoint.js";
 
 // Originally designed to be turned off after the points have been successfully added to a polygon
 let selectedPolygonId = null;
@@ -35,7 +36,6 @@ let linePointIdFinal = undefined;
 
 // only for the first point, which is located on polygon or line
 function pointMouseDownEvents(event) {
-  console.log("point mouse down event", event);
   if (!addingPoints) {
     if (event.target) {
       enableActiveObjectsAppearInFront(canvas);
@@ -79,7 +79,9 @@ function pointMouseDownEvents(event) {
           preventActiveObjectsAppearInFront(canvas);
         }
         selectedNothing = false;
-      } else {
+      }
+
+      else {
         selectedNothing = true;
       }
     }
@@ -87,6 +89,10 @@ function pointMouseDownEvents(event) {
   // adds the points starting from outside of polygon or line, and ending by point on polygon or line
   else {
     addPoints(event);
+    if (activeShape.previousShapeName === 'newLine') {
+      resetPolygonSelectableAreaImpl(canvas, activeShape);
+      console.log("activeShape ", activeShape);
+    }
   }
 }
 

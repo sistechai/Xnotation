@@ -6965,6 +6965,7 @@ fabric.ElementsParser = function(elements, callback, options, reviver, parsingOp
      * }, canvas.renderAll.bind(canvas));
      */
     setOverlayColor: function(overlayColor, callback) {
+      console.log("overlayColor", overlayColor);
       return this.__setBgOverlayColor('overlayColor', overlayColor, callback);
     },
 
@@ -17751,6 +17752,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
    * @param {Function} [callback] Callback to invoke when an fabric.Path instance is created
    */
   fabric.Polygon.fromObject = function(object, callback) {
+    console.log("callback", callback);
     return fabric.Object._fromObject('Polygon', object, callback, 'points');
   };
 

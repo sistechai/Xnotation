@@ -8,6 +8,7 @@ function displayPolygonPointsAfterMoveImpl(canvasObj, polygonObj, polygonPoints)
 }
 
 function resetPolygonSelectableAreaImpl(canvas, polygon) {
+  console.log("reset area Polygon", polygon);
   const newPosition = polygon._calcDimensions();
   const newPolygonProperties = {
     height: newPosition.height,

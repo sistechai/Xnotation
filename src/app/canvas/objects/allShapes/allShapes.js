@@ -26,11 +26,11 @@ function highlightShapeFill(id) {
 }
 
 function defaultShapeFill(id) {
+  const defaultColor = shapes[id].color.default;
   if (shapes[id].shapeRef.previousShapeName === 'newLine') {
-    shapes[id].shapeRef.set('fill', '');
+    shapes[id].shapeRef.set('fill', defaultColor); //'');
   }
   else {
-    const defaultColor = shapes[id].color.default;
     shapes[id].shapeRef.set('fill', defaultColor);
   }
   canvas.renderAll();
@@ -87,10 +87,15 @@ function getShapeColorById(id) {
 }
 
 // Creates shape and changes its color;
-// Executed only at the first time after hitting "enter";
+// Executed only at the first time after hitting "enter" +
+// after choosing an option for labeml name.
 function addShape(shapeObj, shapeColor, id) {
+  console.log("addshape color", shapeColor);
   shapes[id] = createNewShapeObject(shapeObj, shapeColor);
   incrementShapeType(shapeObj);
+
+  highlightShapeFill(id);
+  console.log("changed? id", id);
 }
 
 // executed:
@@ -112,8 +117,10 @@ function createNewShapeObject(shapeObj, shapeColor) {
   return newShapeObject;
 }
 
-// saves each image information
+// saves each image information after choosing option to upload new image or
+// after choosing Upload JSON object option
 function getStatementsForCurrentImageToJSON(images) {
+  console.log("get statement");
   let colorHex;
   let currentShapes = getAllExistingShapes();
   let key;
@@ -256,6 +263,7 @@ function addExistingShape(shapeObj, id) {
 
 // executed if to cover the name of shape on Labels Menu
 function getShapeById(id) {
+  highlightShapeFill(id);
   return shapes[id].shapeRef;
 }
 
@@ -281,8 +289,10 @@ function addShapeForInvisibleImage(shapeObj, shapeColor) {
 }
 
 function changeShapeVisibilityById(id) {
-  shapes[id].shapeRef.visible = !shapes[id].shapeRef.visible;
-  shapes[id].visibility = !shapes[id].visibility;
+  console.log("visibility");
+  highlightShapeFill(id);
+  //shapes[id].shapeRef.visible = !shapes[id].shapeRef.visible;
+  //shapes[id].visibility = !shapes[id].visibility;
   return shapes[id].visibility;
 }
 

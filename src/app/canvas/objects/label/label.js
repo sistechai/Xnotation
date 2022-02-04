@@ -18,6 +18,7 @@ function removeLabel(id) {
 }
 
 function setPolygonLabelOffsetProps(polygon, point) {
+  console.log("build up offset", polygon.labelOffsetLeft);
   polygon.labelOffsetLeft = polygon.left
     - (point.x - labelProperies.pointOffsetProperties().left);
   polygon.labelOffsetTop = polygon.top

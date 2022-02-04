@@ -95,7 +95,6 @@ function findPopupElement() {
 }
 
 function initialiseLabelList() {
-  console.log("initialise Label list");
   findLabelListElement();
   findPopupElement();
   setDropdownElementWidthVariables();

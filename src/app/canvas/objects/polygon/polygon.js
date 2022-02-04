@@ -18,6 +18,8 @@ import {
 } from '../../../tools/toolkit/styling/state.js';
 import { getLastMouseMoveEvent } from '../../../keyEvents/mouse/mouseMove.js';
 
+import { defaultShapeFill } from '../allShapes/allShapes.js';
+
 let canvas = null;
 let pointArray = [];
 
@@ -183,9 +185,32 @@ function addPoint(pointer) {
   }
 }
 
+// To delete points on new canvas
+// Only after uploading new image
+function clearLineData(){
+  if (pointArrayNewLine[0]) {
+    pointArrayNewLine.forEach((point) => {
+      canvas.remove(point);
+    });
+  }
+}
+
+// at the beginning, after choosing Line or Polygon option
+function resetNewPolygonData() {
+  if (canvas) resetObjectCursors(canvas);
+  clearPolygonData();
+}
+
+function changeInitialPointColour(colour) {
+  if (pointArray.length > 2) {
+    pointArray[0].stroke = colour;
+  }
+}
+
 // draws Polygon with green borders
 // Activates by 'enter' event
 function generatePolygon() {
+
   const points = [];
   pointArray.forEach((point) => {
     points.push({
@@ -204,11 +229,14 @@ function generatePolygon() {
   });
 
   let polygon = null; // the entire polygon, and New line
+  let id;
 
   // For Polygon mode
   if (!getTestDrawLineState()) {
     // ???
     //invisiblePoint = null;
+
+    // if to comment further line, the active shape remains on the scene, but it implies that it doesn't move with main polygon
     removeActiveShape();
     polygon = new fabric.Polygon(points, polygonProperties.newPolygon(polygon)); // for now, got it from if cycle above
     lockMovementIfAssertedByState(polygon);
@@ -217,41 +245,20 @@ function generatePolygon() {
 
   // For Line Mode
   else {
-    // ???
-    // invisiblePoint = null;
-
-    //Removes the last Active Line
-    // TODO: to remove all temporary lines
+    // essential to remove Active shape - it is an Active line, otherwise the red line with mouse pointer remains
     removeActiveShape();
-
     const lengthArray = pointsNewLine.length;
     let i;
     let tempArrayLine = [];
-
-      tempArrayLine.push(...pointsNewLine);
-
+    tempArrayLine.push(...pointsNewLine);
     for (i = lengthArray- 1; i>-1; i--) {
         tempArrayLine.push(pointsNewLine[i]);
     }
-    polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon(polygon)); // for now, got it from if cycle above
+    polygon = new fabric.Polygon(tempArrayLine, polygonProperties.newPolygon(polygon));
     canvas.add(polygon);
-
-      //tempArrayLine = [];
-
-      //activeShape = null;
-      polygonMode = false;
-
-      lineMode = false;
-      drawingFinished = true;
-      // prepareLabelShape(polygon, canvas);
-      // showLabellerModal();
-      // setPolygonDrawingInProgressState(false);
-      // setSessionDirtyState(true);
-      // pointArrayNewLine = [];
-      // pointArrayNewLineCopyToClearCanvas = [];
-      lockMovementIfAssertedByState(polygon);
-      lineMode = false;
-      pointId = 0;
+    lockMovementIfAssertedByState(polygon);
+    pointId = 0;
+    resetDrawLineMode();
   }
 
   activeShape = null;
@@ -262,15 +269,26 @@ function generatePolygon() {
   showLabellerModal();
   setPolygonDrawingInProgressState(false);
   setSessionDirtyState(true);
-
   pointArrayNewLine = [];
   pointArrayNewLineCopyToClearCanvas = [];
-  //setTestDrawLineState(false);
+}
+
+// Being invoked only in Line Mode.
+// Only after button 'enter' being hit for Polygon.
+// But before choosing an option for label name
+function resetDrawLineMode() {
+  lineMode = true;
+  setTestDrawLineState(true);
+  setCreateNewLineButtonToActive();
+  polygonMode = true;
+  setReadyToDrawShapeState(true);
+  drawingFinished = false;
+  clearPolygonData();
+  setDrawCursorMode(canvas);
 }
 
 // Being invoked only in Polygon Mode.
 // Only after button 'enter' being hit for Polygon.
-// I will evoke this function after 'enter' for Line Mode
 function resetDrawPolygonMode() {
     polygonMode = true;
     setCreatePolygonButtonToActive();
@@ -280,46 +298,18 @@ function resetDrawPolygonMode() {
     setDrawCursorMode(canvas);
 }
 
-// To delete points on new canvas
-// Only after uploading new image
-function clearLineData(){
-
-  if (pointArrayNewLine[0]) {
-    pointArrayNewLine.forEach((point) => {
-      canvas.remove(point);
-    });
-  }
-  //pointArrayNewLine = [];
-  //pointArrayNewLineCopyToClearCanvas = [];
-}
-
+// at the end and the beginning of drawing polygon, line
+// at the beginning for rectangle
 function clearPolygonData() {
   pointId = 0;
-  if (pointArray[0]) { // || pointArrayNewLine[0]) {
+  if (pointArray[0]) {
     pointArray.forEach((point) => {
       canvas.remove(point);
     });
-
-    //canvas.remove(invisiblePoint);
-    //if (invisiblePoint) {//(!getTestDrawLineState()){
-
-
-    //let lengthPointArrayNewLine = pointArrayNewLine.length - 1;
-    //const position = { x: pointArrayNewLine[lengthPointArrayNewLine].left, y: pointArrayNewLine[lengthPointArrayNewLine].top };
-    //invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(position));
-    //canvas.add(invisiblePoint);
-    //canvas.renderAll();
-
-    //}
-
     invisiblePoint = null;
     removeActiveShape();
-
     pointArray = [];
-    //pointArrayNewLine = [];
-
     activeShape = null;
-
     mouseMoved = false;
     drawingFinished = false;
     ignoredFirstMouseMovement = false;
@@ -330,6 +320,7 @@ function clearPolygonData() {
   }
 }
 
+// ???
 function getTempPolygon() {
   if (activeShape) {
     const points = activeShape.get('points');
@@ -338,27 +329,18 @@ function getTempPolygon() {
   }
   return null;
 }
-
+// ???
 function getCurrentlyHoveredDrawPoint() {
   return currentlyHoveredPoint;
 }
-
+// ???
 function isPolygonDrawingFinished() {
   return drawingFinished;
 }
 
-function resetNewPolygonData() {
-  if (canvas) resetObjectCursors(canvas);
-  clearPolygonData();
-}
-
-function changeInitialPointColour(colour) {
-  if (pointArray.length > 2) {
-    pointArray[0].stroke = colour;
-  }
-}
-
+// mouse over the shape
 function polygonMouseOverEvents(event) {
+  console.log("over - if to choose a load of different options and move over the polygon");
   if (event.target && event.target.selectable && event.target.shapeName === 'invisiblePoint') {
     changeInitialPointColour('red');
   }

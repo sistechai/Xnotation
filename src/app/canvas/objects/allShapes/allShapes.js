@@ -12,6 +12,16 @@ let rectangles = [];
 let imagesInformationArray = [];
 let imageId = null;
 
+// executed if to cover the name of shape on Labels Menu
+function getShapeById(id) {
+  highlightShapeFill(id);
+  return shapes[id].shapeRef;
+}
+
+function getShapeVisibilityById(id) {
+  return shapes[id].shapeRef.visible;
+}
+
 function highlightShapeFill(id) {
  if (shapes[id]) {
    const highlightColor = shapes[id].color.highlight;
@@ -33,12 +43,14 @@ function defaultShapeFill(id) {
   else {
     shapes[id].shapeRef.set('fill', defaultColor);
   }
+  highlightShapeFill(id);
   canvas.renderAll();
 }
 
 function changeShapeLabelText(id, newText) {
-  console.log("change shape label text");
   shapes[id].shapeRef.set('shapeLabelText', newText);
+  highlightShapeFill(id);
+  console.log("text changed");
 }
 
 function removeShape(id) {
@@ -90,12 +102,10 @@ function getShapeColorById(id) {
 // Executed only at the first time after hitting "enter" +
 // after choosing an option for labeml name.
 function addShape(shapeObj, shapeColor, id) {
-  console.log("addshape color", shapeColor);
   shapes[id] = createNewShapeObject(shapeObj, shapeColor);
   incrementShapeType(shapeObj);
 
   highlightShapeFill(id);
-  console.log("changed? id", id);
 }
 
 // executed:
@@ -117,10 +127,10 @@ function createNewShapeObject(shapeObj, shapeColor) {
   return newShapeObject;
 }
 
+///
 // saves each image information after choosing option to upload new image or
 // after choosing Upload JSON object option
 function getStatementsForCurrentImageToJSON(images) {
-  console.log("get statement");
   let colorHex;
   let currentShapes = getAllExistingShapes();
   let key;
@@ -261,12 +271,6 @@ function addExistingShape(shapeObj, id) {
   shapes[id] = shapeObj;
 }
 
-// executed if to cover the name of shape on Labels Menu
-function getShapeById(id) {
-  highlightShapeFill(id);
-  return shapes[id].shapeRef;
-}
-
 // after switching images
 function removeAllShapeRefs() {
   shapes = {};
@@ -289,15 +293,9 @@ function addShapeForInvisibleImage(shapeObj, shapeColor) {
 }
 
 function changeShapeVisibilityById(id) {
-  console.log("visibility");
-  highlightShapeFill(id);
-  //shapes[id].shapeRef.visible = !shapes[id].shapeRef.visible;
-  //shapes[id].visibility = !shapes[id].visibility;
+  shapes[id].shapeRef.visible = !shapes[id].shapeRef.visible;
+  shapes[id].visibility = !shapes[id].visibility;
   return shapes[id].visibility;
-}
-
-function getShapeVisibilityById(id) {
-  return shapes[id].shapeRef.visible;
 }
 
 export {

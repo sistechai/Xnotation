@@ -50,7 +50,6 @@ function defaultShapeFill(id) {
 function changeShapeLabelText(id, newText) {
   shapes[id].shapeRef.set('shapeLabelText', newText);
   highlightShapeFill(id);
-  console.log("text changed");
 }
 
 function removeShape(id) {

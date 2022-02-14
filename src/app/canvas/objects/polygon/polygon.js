@@ -18,8 +18,6 @@ import {
 } from '../../../tools/toolkit/styling/state.js';
 import { getLastMouseMoveEvent } from '../../../keyEvents/mouse/mouseMove.js';
 
-import { defaultShapeFill } from '../allShapes/allShapes.js';
-
 let canvas = null;
 let pointArray = [];
 
@@ -340,7 +338,6 @@ function isPolygonDrawingFinished() {
 
 // mouse over the shape
 function polygonMouseOverEvents(event) {
-  console.log("over - if to choose a load of different options and move over the polygon");
   if (event.target && event.target.selectable && event.target.shapeName === 'invisiblePoint') {
     changeInitialPointColour('red');
   }

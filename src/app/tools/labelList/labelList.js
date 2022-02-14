@@ -295,8 +295,6 @@ function addLabelToDropdown(labelText, dropdownLabelsElem, id, color) {
 
 function highlightSelectedLabelOptionOnEditInit() {
   window.labelTextKeyDown({ key: 'stub' });
-  highlightShapeFill(activeLabelId);
-  console.log("highlightSelectedLabelOptionOnEditInit");
 }
 
 function positionDropDownCorrectlyOnScreen() {
@@ -326,7 +324,6 @@ function deleteAndAddLastRowToRefreshDropdownDiv(dropdownLabelsElement) {
     }
     highlightSelectedLabelOptionOnEditInit();
   }, 0);
-  console.log("delete And add last row");
 }
 
 function isDropdownVerticalScrollPresent() {
@@ -506,7 +503,6 @@ function deselectShape() {
   if (activeShape && activeShape.shapeName === 'bndBox') {
     programaticallyDeselectBoundingBox();
   }
-  console.log("deselect shape");
 }
 
 function selectShapeBeforeLabelEdit(id) {
@@ -578,14 +574,12 @@ function addNewLabelToLabelOptions(text) {
     }
   }
   highlightShapeFill(activeLabelId);
-  console.log("* add new label");
 }
 
 function stopEditing() {
   activeShape = null;
   switchToDefaultIcon(activeEditLabelButton);
   resetLabelElement();
-  console.log("stop editing");
 }
 
 function highlightDropdownLabelOption(labelOptionsIndex, divIndex) {
@@ -660,17 +654,13 @@ function isEditingLabelInLabelList() {
 }
 
 function finishEditingLabelList(event) {
-  console.log("the start finishEditingLabelList");
   if (isEditingLabel) {
     if (event.target.matches('.labelDropdownOption')) {
       const currentlySelectedShapeName = activeShape ? activeShape.shapeName : null;
       const newText = event.target.innerHTML;
       activeLabelTextElement.innerHTML = newText;
       updateAssociatedLabelObjectsText(newText);
-
       highlightShapeFill(activeLabelId);
-      console.log("finishEditingLabelList");
-
       removeLabelDropDownContent();
       stopEditing();
       moveSelectedLabelToFrontOfLabelOptions(event.target.id.substring(11, 12), newText);
@@ -695,7 +685,6 @@ function finishEditingLabelList(event) {
       deselectShape();
     }
   }
-  console.log("the end finishEditingLabelList");
 }
 
 function cancelEditingViaKeyboard() {

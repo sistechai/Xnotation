@@ -15,6 +15,7 @@ function displayPolygonPointsWithStyleImpl(canvas, polygon, polygonPointsProps) 
   let pointId = 0;
   const polygonPoints = [];
   if (polygon){
+    console.log("polygon", polygon);
     const totalPointNumber = polygon.points.length;
     polygon.get('points').forEach((point) => {
       const pointObj = new fabric.Circle(polygonPointsProps(pointId, point, totalPointNumber));
@@ -97,6 +98,7 @@ function changeObjectsToPolygonPointsToDefaultImpl(canvas) {
     canvas.forEachObject((iteratedObj) => {
       setObjectPropertiesToDefault(iteratedObj);
       if (iteratedObj.shapeName === 'point') {
+        console.log("iteratedObj.shapeName", iteratedObj.shapeName);
         iteratedObj.set(polygonProperties.defaultPoint());
       }
     });
@@ -121,7 +123,6 @@ function changeObjectsToPolygonPointsRemovaleImpl(canvas) {
 
         // Line mode
         else {
-          console.log("if iteratedObj is LINE red", iteratedObj);
           iteratedObj.set(polygonProperties.removablePoint());
           polygonPoints[iteratedObj.pointId] = iteratedObj;
           linePoints = true;
@@ -132,7 +133,6 @@ function changeObjectsToPolygonPointsRemovaleImpl(canvas) {
 
   // Polygon mode
   if ( (polygonPoints.length < 4) && (!linePoints) ){
-    console.log("if polygon points <4 black", polygonPoints);
     polygonPoints.forEach((point) => {
       point.set(polygonProperties.disabledRemovePoint());
     });
@@ -140,7 +140,6 @@ function changeObjectsToPolygonPointsRemovaleImpl(canvas) {
 
   // line mode
   if ( (polygonPoints.length < 5) && (linePoints) ){
-    console.log("if line points <5 black", polygonPoints);
     polygonPoints.forEach((point) => {
       point.set(polygonProperties.disabledRemovePoint());
     });

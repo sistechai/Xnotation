@@ -33,7 +33,6 @@ let preventNewPolygonInitialisation = false;
 function displayPolygonPoints() {
   setTestDrawLineState(false);
   if (!preventNewPolygonInitialisation) {
-
     if (polygon.previousShapeName === 'polygon') {
       polygonPoints = displayPolygonPointsWithStyleImpl(
           canvas, polygon, polygonProperties.existingPolygonPoint,
@@ -66,7 +65,6 @@ function displayStartingAddPolygonPoints() {
 }
 
 function displayRemovablePolygonPoints() {
-  console.log("display removable polygon", polygon);
   if (polygon.previousShapeName === 'polygon') {
     polygonPoints = displayPolygonPointsWithStyleImpl(
         canvas, polygon, polygonProperties.removablePolygonPoint,
@@ -113,7 +111,6 @@ function setSelectedObjects(activeCanvasObj, activePolygonObject) {
      lockMovementY: true,
      selectable: false,
    });
-    console.log("if polygon selected by Ethereal mouse click", polygon);
   }
 }
 
@@ -154,6 +151,7 @@ function clearAllAddPointsData() {
 }
 
 function resetAddPoints() {
+  console.log("reset add points");
   resetAddPointsImpl();
 }
 
@@ -248,7 +246,6 @@ function changePolygonPointsPropertiesToDefault(canvasObj) {
 
 // After hitting Edit Shape, after moving polygon
 function displayPolygonPointsAfterMove() {
-  console.log("----- build up polygon points", polygonPoints);
   console.log("----- build up polygon", polygon);
   polygon = displayPolygonPointsAfterMoveImpl(canvas, polygon, polygonPoints);
   setPolygonEditingStatus(true);

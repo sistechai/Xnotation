@@ -47,6 +47,8 @@ function discardAddPointsEvents(canvas) {
 
 function initiateAddPolygonPointsEvents(canvas) {
   canvas.discardActiveObject();
+
+  // after initialization of Add points event
   if (!getAddingPolygonPointsState()) {
     purgeCanvasMouseEvents(canvas);
     assignAddPointsOnExistingPolygonEvents(canvas);
@@ -56,12 +58,15 @@ function initiateAddPolygonPointsEvents(canvas) {
     setDefaultState(false);
     setAddingPolygonPointsState(true);
   }
+  // if to hit button AddPoints while adding points process
   else if (isAddingPointsToPolygon()) {
     purgeCanvasMouseEvents(canvas);
     assignAddPointsOnExistingPolygonEvents(canvas);
     resetAddPoints();
     setInitialStageOfAddPointsOnExistingPolygonMode(canvas);
-  } else {
+  }
+  // to set up another Mode - different from Add points
+  else {
     resetAddPoints();
     setAddPointsButtonToDefault();
     setAddingPolygonPointsState(false);

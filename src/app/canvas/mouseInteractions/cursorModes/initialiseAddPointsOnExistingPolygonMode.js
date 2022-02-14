@@ -10,6 +10,7 @@ function changeOjectPropertiesForChoosingInitialPoint(canvas, isDrawing) {
         iteratedObj.perPixelTargetFind = true;
       }
     }
+
     if (iteratedObj.shapeName === 'bndBox') {
       iteratedObj.selectable = false;
     } else {

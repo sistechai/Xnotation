@@ -44,6 +44,7 @@ let enterAddPointsLineState = false;
 
 function enterKeyHandler() {
 
+  console.log("getAddPointsLineState()", getAddPointsLineState());
   if (getAddPointsLineState()) {
     setEnterAddPointsLineState(true);
     addLineLastPoint();

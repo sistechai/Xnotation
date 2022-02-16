@@ -15,7 +15,6 @@ function displayPolygonPointsWithStyleImpl(canvas, polygon, polygonPointsProps) 
   let pointId = 0;
   const polygonPoints = [];
   if (polygon){
-    console.log("polygon", polygon);
     const totalPointNumber = polygon.points.length;
     polygon.get('points').forEach((point) => {
       const pointObj = new fabric.Circle(polygonPointsProps(pointId, point, totalPointNumber));

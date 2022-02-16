@@ -151,7 +151,6 @@ function clearAllAddPointsData() {
 }
 
 function resetAddPoints() {
-  console.log("reset add points");
   resetAddPointsImpl();
 }
 
@@ -235,9 +234,9 @@ function removePolygonPoints() {
   setNewShapeSelectedViaLabelListState(false);
   setPolygonEditingStatus(false);
 }
-////////
 
 // After adding or removing points, if to press "Build up New box".
+// After pressing "Edit Shapes", if previous state was Add Points or Remove Points
 function changePolygonPointsPropertiesToDefault(canvasObj) {
   // naming convention?
   canvas = !canvasObj ? canvas : canvasObj;
@@ -246,7 +245,6 @@ function changePolygonPointsPropertiesToDefault(canvasObj) {
 
 // After hitting Edit Shape, after moving polygon
 function displayPolygonPointsAfterMove() {
-  console.log("----- build up polygon", polygon);
   polygon = displayPolygonPointsAfterMoveImpl(canvas, polygon, polygonPoints);
   setPolygonEditingStatus(true);
 }

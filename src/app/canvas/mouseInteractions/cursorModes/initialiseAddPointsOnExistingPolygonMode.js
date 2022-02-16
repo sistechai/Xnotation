@@ -7,6 +7,7 @@ function changeOjectPropertiesForChoosingInitialPoint(canvas, isDrawing) {
   canvas.forEachObject((iteratedObj) => {
     if (isDrawing) {
       if (iteratedObj.shapeName !== 'bndBox') {
+
         iteratedObj.perPixelTargetFind = true;
       }
     }

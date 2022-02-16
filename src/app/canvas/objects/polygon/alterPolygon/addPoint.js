@@ -6,6 +6,7 @@ import { getLabelById } from '../../label/label.js';
 import { preventOutOfBoundsPointsOnMove } from '../../sharedUtils/moveBlockers.js';
 import setInitialStageOfAddPointsOnExistingPolygonMode from '../../../mouseInteractions/cursorModes/initialiseAddPointsOnExistingPolygonMode.js';
 import {getTestDrawLineState } from '../../../../tools/state.js';
+import {resetPolygonSelectableAreaImpl} from "./movePoint.js";
 
 let canvas = null;
 let activeLine = null;
@@ -39,6 +40,7 @@ function completePolygonImpl(polygon, originalPointsArray, finalPoint, addPoints
     else{
       derefPointsArray = [];
       // new points
+      console.log("addPointsLinePointers", addPointsLinePointers);
       for (let i = addPointsLinePointers.length - 1; i > -1; i--) {
         tempArrayLine.push(addPointsLinePointers[i]);
       }
@@ -52,6 +54,8 @@ function completePolygonImpl(polygon, originalPointsArray, finalPoint, addPoints
           newPointsArray.push(tempArrayLine[i]);
         }
       }
+    // TODO: to set properties for the points?
+    console.log("line new points array", newPointsArray);
     }
 // polygon Mode
 else {
@@ -82,6 +86,7 @@ else {
       newPointsArray = derefPointsArray.slice(startingIdOfNewArray, endingIdIdOfNewArray + 1);
       addNewPointsByTheirAddDirection(newPointsArray, finalPoint.pointId, initialPoint.pointId, polygon);
     }
+
   }
 
 // for both shapes
@@ -91,6 +96,12 @@ else {
     setInitialStageOfAddPointsOnExistingPolygonMode(canvas);
     clearAllAddPointsDataImpl();
     realignLabel(polygon);
+
+    if (polygon.previousShapeName === 'newLine'){
+      resetPolygonSelectableAreaImpl(canvas, polygon);
+      console.log("polygon  new points array", newPointsArray);
+    }
+
 }
 
 /// Draws temporary activeLine ONLY for Add Points event

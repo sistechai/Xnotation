@@ -14,6 +14,8 @@ function removeExecutedFunctionOnMouseOut() {
   mouseOutCallback = null;
 }
 
+// addressing all mouse moves on the canvas
+// executed once, after entering on canvas
 function mouseOverCanvas() {
   isMouseOnCanvasStatus = true;
   if (mouseOverCallback) {

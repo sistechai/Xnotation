@@ -95,7 +95,6 @@ function findPopupElement() {
 }
 
 function initialiseLabelList() {
-  console.log("initialise Label list");
   findLabelListElement();
   findPopupElement();
   setDropdownElementWidthVariables();
@@ -283,6 +282,7 @@ function removeLabelFromListOnShapeDelete(id) {
 function updateAssociatedLabelObjectsText(text) {
   changeLabelText(activeLabelId, text);
   changeShapeLabelText(activeLabelId, text);
+  highlightShapeFill(activeLabelId);
 }
 
 function addLabelToDropdown(labelText, dropdownLabelsElem, id, color) {
@@ -573,6 +573,7 @@ function addNewLabelToLabelOptions(text) {
       resetLabellerModalOptions();
     }
   }
+  highlightShapeFill(activeLabelId);
 }
 
 function stopEditing() {
@@ -659,6 +660,7 @@ function finishEditingLabelList(event) {
       const newText = event.target.innerHTML;
       activeLabelTextElement.innerHTML = newText;
       updateAssociatedLabelObjectsText(newText);
+      highlightShapeFill(activeLabelId);
       removeLabelDropDownContent();
       stopEditing();
       moveSelectedLabelToFrontOfLabelOptions(event.target.id.substring(11, 12), newText);

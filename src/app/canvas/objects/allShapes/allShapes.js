@@ -12,6 +12,16 @@ let rectangles = [];
 let imagesInformationArray = [];
 let imageId = null;
 
+// executed if to cover the name of shape on Labels Menu
+function getShapeById(id) {
+  highlightShapeFill(id);
+  return shapes[id].shapeRef;
+}
+
+function getShapeVisibilityById(id) {
+  return shapes[id].shapeRef.visible;
+}
+
 function highlightShapeFill(id) {
  if (shapes[id]) {
    const highlightColor = shapes[id].color.highlight;
@@ -26,19 +36,20 @@ function highlightShapeFill(id) {
 }
 
 function defaultShapeFill(id) {
+  const defaultColor = shapes[id].color.default;
   if (shapes[id].shapeRef.previousShapeName === 'newLine') {
-    shapes[id].shapeRef.set('fill', '');
+    shapes[id].shapeRef.set('fill', defaultColor); //'');
   }
   else {
-    const defaultColor = shapes[id].color.default;
     shapes[id].shapeRef.set('fill', defaultColor);
   }
+  highlightShapeFill(id);
   canvas.renderAll();
 }
 
 function changeShapeLabelText(id, newText) {
-  console.log("change shape label text");
   shapes[id].shapeRef.set('shapeLabelText', newText);
+  highlightShapeFill(id);
 }
 
 function removeShape(id) {
@@ -87,10 +98,13 @@ function getShapeColorById(id) {
 }
 
 // Creates shape and changes its color;
-// Executed only at the first time after hitting "enter";
+// Executed only at the first time after hitting "enter" +
+// after choosing an option for labeml name.
 function addShape(shapeObj, shapeColor, id) {
   shapes[id] = createNewShapeObject(shapeObj, shapeColor);
   incrementShapeType(shapeObj);
+
+  highlightShapeFill(id);
 }
 
 // executed:
@@ -112,7 +126,9 @@ function createNewShapeObject(shapeObj, shapeColor) {
   return newShapeObject;
 }
 
-// saves each image information
+///
+// saves each image information after choosing option to upload new image or
+// after choosing Upload JSON object option
 function getStatementsForCurrentImageToJSON(images) {
   let colorHex;
   let currentShapes = getAllExistingShapes();
@@ -254,11 +270,6 @@ function addExistingShape(shapeObj, id) {
   shapes[id] = shapeObj;
 }
 
-// executed if to cover the name of shape on Labels Menu
-function getShapeById(id) {
-  return shapes[id].shapeRef;
-}
-
 // after switching images
 function removeAllShapeRefs() {
   shapes = {};
@@ -284,10 +295,6 @@ function changeShapeVisibilityById(id) {
   shapes[id].shapeRef.visible = !shapes[id].shapeRef.visible;
   shapes[id].visibility = !shapes[id].visibility;
   return shapes[id].visibility;
-}
-
-function getShapeVisibilityById(id) {
-  return shapes[id].shapeRef.visible;
 }
 
 export {

@@ -5,8 +5,6 @@ import {
 
 function assignAddPointsOnExistingPolygonEvents(canvas) {
   setAddPointsEventsCanvas(canvas);
-  console.log("canvas? why the line stalled after adding points? ", canvas);
-
   canvas.on('mouse:down', (e) => {
     pointMouseDownEvents(e);
   });

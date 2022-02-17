@@ -1,4 +1,3 @@
-// import fabric from 'fabric.js';
 import { setPolygonLabelOffsetProps } from '../../label/label.js';
 import { removeShape, addShape, getShapeColorById } from '../../allShapes/allShapes.js';
 
@@ -8,16 +7,17 @@ let canvas = null;
 let polygonProperties = null;
 let movePolygonPointOffsetReduction = 0;
 
+///////////
 function setObjets(polygonObj, polygonPointsArray, canvasObj, polygonPropertiesObj) {
   currentPolygon = polygonObj;
   polygonPoints = polygonPointsArray;
   canvas = canvasObj;
   polygonProperties = polygonPropertiesObj;
 }
-
+// for building up the polygon only after moving
 function generateNewPolygon() {
-
   // Polygon edited
+  // fabric does ot build up offset of polygon
   const newPolygon = new fabric.Polygon([], polygonProperties.newPolygon(currentPolygon));
   if (currentPolygon.previousShapeName === 'newLine') {
     newPolygon.set({
@@ -29,7 +29,6 @@ function generateNewPolygon() {
       previousShapeName: 'polygon'
     });
   }
-
   newPolygon.set({
     id: currentPolygon.id,
     selectable: true,
@@ -38,7 +37,7 @@ function generateNewPolygon() {
   });
   return newPolygon;
 }
-
+// building up only while moving polygon
 function calculateMovedPointsCoordinates() {
   const matrix = currentPolygon.calcTransformMatrix();
   const movedPoints = currentPolygon.get('points')
@@ -49,7 +48,6 @@ function calculateMovedPointsCoordinates() {
     .map(p => fabric.util.transformPoint(p, matrix));
   return movedPoints;
 }
-
 function generateNewPoints(movedPoints) {
   let pointId = 0;
   const movedPointsCoordinates = [];
@@ -63,9 +61,9 @@ function generateNewPoints(movedPoints) {
   });
   return movedPointsCoordinates;
 }
-
 // Evoked after moving whole Polygon, not only one point
 // Works for Line too
+// Builds up new coordinates of polygon
 function movePolygonToNewPosition() {
   const newPosition = currentPolygon._calcDimensions();
   currentPolygon.set({
@@ -81,6 +79,7 @@ function movePolygonToNewPosition() {
   currentPolygon.setCoords();
   canvas.renderAll();
 }
+/////
 
 function generatePolygonAfterMove(polygonObj, polygonPointsArray, canvasObj, polygonPropertiesObj) {
   setObjets(polygonObj, polygonPointsArray, canvasObj, polygonPropertiesObj);

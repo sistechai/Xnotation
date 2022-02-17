@@ -13,6 +13,7 @@ import { getLastMouseMoveEvent } from '../../../../keyEvents/mouse/mouseMove.js'
 
 import { setEnterAddPointsLineState } from '../../../../keyEvents/keyboard/hotKeys.js';
 import {completePolygonImpl} from "../../../objects/polygon/alterPolygon/addPoint.js";
+import {resetPolygonSelectableAreaImpl} from "../../../objects/polygon/alterPolygon/movePoint.js";
 
 // Originally designed to be turned off after the points have been successfully added to a polygon
 let selectedPolygonId = null;
@@ -34,8 +35,15 @@ let addPointsLinePointers = [];
 let linePointIdFinal = undefined;
 
 // only for the first point, which is located on polygon or line
+// reacts for each mouse down
+// returns target: null if to click outside the polygon area or new part of line
+// that means that before evoking this function event doesn't return target
 function pointMouseDownEvents(event) {
-  console.log("point mouse down event", event);
+
+  // TODO: prelimanary examination showed, that line shown as tarfet: null;
+  /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+  // console.log("****** the issue with event", event);
+
   if (!addingPoints) {
     if (event.target) {
       enableActiveObjectsAppearInFront(canvas);
@@ -79,7 +87,9 @@ function pointMouseDownEvents(event) {
           preventActiveObjectsAppearInFront(canvas);
         }
         selectedNothing = false;
-      } else {
+      }
+
+      else {
         selectedNothing = true;
       }
     }
@@ -87,32 +97,39 @@ function pointMouseDownEvents(event) {
   // adds the points starting from outside of polygon or line, and ending by point on polygon or line
   else {
     addPoints(event);
+    if (activeShape.previousShapeName === 'newLine') {
+      console.log("! bizarre line");
+      resetPolygonSelectableAreaImpl(canvas, activeShape);
+    }
   }
 }
 
 // only for line mode
 function addLineLastPoint(){
   addingPoints = false;
-  setEnterAddPointsLineState(false);
-  setAddPointsLineState(false);
-  activeShape = getActiveShape();
-  completePolygonImpl(activeShape, activeShape.points, undefined, addPointsLinePointers, linePointIdFinal);
-
   let finalPoint = addPointsLinePointers.slice(addPointsLinePointers.length - 1);
-
-  let finalPointLeftTop = {left: finalPoint[0].x, top: finalPoint[0].y};
-  console.log("event.target", finalPoint);
-  console.log("finalPointLeftTop", finalPointLeftTop);
+  let finalPointLeftTop = {
+    left: finalPoint[0].x,
+    top: finalPoint[0].y
+  };
+  console.log("line odd  finalPointLeftTop", finalPointLeftTop);
+  let eventTarget =  getPointInArrayClosestToGivenCoordinates(getPolygonPointsArray(), finalPointLeftTop);
+  // completePolygon(eventTarget);
+  console.log("line odd event.target finalPoint 0", eventTarget);
+  // setEnterAddPointsLineState(false);
+  // setAddPointsLineState(false);
+  // activeShape = getActiveShape();
+  // let finalPoint = addPointsLinePointers.slice(addPointsLinePointers.length - 1);
+  // let finalPointLeftTop = {left: finalPoint[0].x, top: finalPoint[0].y};
+  completePolygonImpl(activeShape, activeShape.points, eventTarget, addPointsLinePointers, linePointIdFinal);
   prepareToAddPolygonPoints(activeShape);
   currentlyHoveredPoint = getPointInArrayClosestToGivenCoordinates(getPolygonPointsArray(), finalPointLeftTop);
-  console.log("event.target", finalPoint);
   setSessionDirtyState(true);
-
   addPointsLinePointers = [];
-
 }
 
 // adding points to existing object
+// line or polygon
 function addPoints(event) {
   // first point
   if (addFirstPointMode) {
@@ -123,20 +140,20 @@ function addPoints(event) {
       if (!isRightMouseButtonClicked(pointer)) {
         addFirstPoint(event);
         addFirstPointMode = false;
-
         if (activeShape.previousShapeName === 'newLine'){
           addPointsLinePointers.push(pointer);
         }
       }
     }
   }
-  // the final point for polygon
+  // TODO: to check whether it is necessary for line
+  // the final point ONLY for polygon
   else if (event && event.target && event.target.shapeName === 'point' && (activeShape.previousShapeName !== 'newLine') ) {
+    console.log("polygon - event.target", event.target);
     addingPoints = false;
     completePolygon(event.target);
     prepareToAddPolygonPoints(activeShape);
     currentlyHoveredPoint = getPointInArrayClosestToGivenCoordinates(getPolygonPointsArray(), event.target);
-    console.log("event.target", event.target);
     setSessionDirtyState(true);
   }
 
@@ -246,16 +263,18 @@ function setPolygonNotEditableOnClick() {
 }
 
 function getPointInArrayClosestToGivenCoordinates(pointArray, { left, top }) {
-  console.log("pointArray, { left, top }", pointArray, { left, top });
+  console.log("getPointInArrayClosestToGivenCoordinates, { left, top }", pointArray, { left, top });
+
   for (let i = 0; i < pointArray.length; i += 1) {
     const point = pointArray[i];
     if (left === point.left) {
       if (top === point.top) {
+        setAddPointsLineState(false);
+        console.log("get point creepy point", point);
         return point;
       }
     }
   }
-  console.log("pointArray", pointArray[0]);
   return pointArray[0];
 }
 
@@ -392,7 +411,6 @@ function pointMouseUpEvents(event) {
   else if ((!event.target && getPolygonEditingStatus()) || (event.target && event.target.shapeName === 'bndBox') ) {
     if (!addingPoints) {
       setPolygonNotEditableOnClick();
-      console.log("set not editable");
     }
   }
 }

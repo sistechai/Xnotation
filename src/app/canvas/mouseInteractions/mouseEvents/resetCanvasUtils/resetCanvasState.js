@@ -36,7 +36,6 @@ function interruptCanvasEventsWithoutRemovingExistingPoints() {
     if (getAddingPolygonPointsState()) {
       clearAllAddPointsData();
     }
-    console.log("@ getAddingPolygonPointsState");
     changePolygonPointsPropertiesToDefault();
     setPolygonEditingButtonsToDefault();
     setAlteringPolygonPointsState(false);
@@ -52,6 +51,7 @@ function interruptAllCanvasEvents() {
   interruptCanvasEventsWithoutRemovingExistingPoints();
 }
 
+// after hitting add points button
 function interruptCanvasToStartAddPoints() {
   if (!getAddingPolygonPointsState()) {
     interruptCanvasEventsWithoutRemovingExistingPoints();

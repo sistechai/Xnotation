@@ -48,9 +48,7 @@ function func1IfDrawRemovePointsElseInterruptAllWthFunc2(func1, func2, event) {
   } else if (func2) {
     if (func2() === 'line'){
       setCreateNewLineButtonToActive();
-      console.log("func2", func2);
       setTestDrawLineState(true);
-      //testDrawLine();
     }
     else {
       setTestDrawLineState(false);

@@ -162,7 +162,6 @@ function isAddingPointsToPolygon() {
   return isAddingPointsToPolygonImpl();
 }
 
-
 // the final point is the last point to add to polygon
 function completePolygon(finalPoint) {
   completePolygonImpl(polygon, polygon.points, finalPoint);

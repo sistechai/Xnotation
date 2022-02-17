@@ -32,19 +32,15 @@ import closeAllPopups from '../../tools/utils/popups/closeAllPopups.js';
 import { getUserOS } from '../../tools/OS/OSManager.js';
 import { closeWelcomeModal } from '../../tools/welcomeModal/buttons/workers.js';
 import isAnyModalOpen from '../../tools/utils/modals/status.js';
-
 import { getAddPointsLineState, addLineLastPoint } from '../../canvas/mouseInteractions/mouseEvents/eventWorkers/addPointsEventsWorker.js';
 
 let canvas = null;
 let isRKeyUp = true;
 let wKeyHandler = null;
 let wKeyUpHandler = null;
-
 let enterAddPointsLineState = false;
 
 function enterKeyHandler() {
-
-  console.log("getAddPointsLineState()", getAddPointsLineState());
   if (getAddPointsLineState()) {
     setEnterAddPointsLineState(true);
     addLineLastPoint();
@@ -54,7 +50,6 @@ function enterKeyHandler() {
   if (getLabellerModalDisplayedState()) {
     labelShape();
   }
-
   else if (getRemoveImageModalDisplayedState()) {
     window.approveRemoveImage();
   } else if (getWelcomeModalDisplayedState()) {

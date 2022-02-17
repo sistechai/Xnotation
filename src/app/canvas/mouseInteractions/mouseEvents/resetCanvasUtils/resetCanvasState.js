@@ -40,7 +40,6 @@ function interruptCanvasEventsWithoutRemovingExistingPoints() {
     setPolygonEditingButtonsToDefault();
     setAlteringPolygonPointsState(false);
   }
-
   setRemoveLabelsButtonToDisabled();
   setPolygonEditingButtonsToDefault();
 }

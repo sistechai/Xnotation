@@ -9,9 +9,6 @@ function setDrawingMode(mode, canvas) {
   } else if (mode === 'boundingBox') {
     assignDrawBoundingBoxEvents(canvas);
   }
-  else if (mode === 'line') {
-    console.log("mode line???============", mode);
-  }
 }
 
 export { setDrawingMode as default };

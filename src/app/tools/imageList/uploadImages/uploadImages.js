@@ -5,6 +5,7 @@ import { onImageLoad } from './drawImageOnCanvas.js';
 // potential to undo and validate in the drag and drop logic,
 // depending on what is being used for upload datasets
 function isFormatValid(file) {
+  //console.log("file", file);
   return file.type.includes('image/');
 }
 
@@ -38,10 +39,12 @@ function onSingleFileLoad(imageMetaData, e) {
 }
 
 function uploadSingleImage(uploadData) {
+  //console.log("uploadData", uploadData);
   if (isFormatValid(uploadData.files[0])) {
     const reader = new FileReader();
     reader.onload = onSingleFileLoad.bind(this, uploadData.files[0]);
     reader.readAsDataURL(uploadData.files[0]);
+    //console.log("reader", reader);
   }
 }
 

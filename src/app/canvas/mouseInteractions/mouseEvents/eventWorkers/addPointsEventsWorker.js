@@ -3,15 +3,13 @@ import {
   removePolygonPoints, getPolygonEditingStatus, setEditablePolygon,
   getPolygonIfEditing, initializeAddNewPoints, addFirstPoint, getPolygonIdIfEditing,
   addPoint, completePolygon, drawLineOnMouseMove, moveAddablePoint, getPolygonPointsArray,
-  addPointsMouseOver, resetAddPointProperties, addPointsMouseOut, resetPolygonSelectableArea,
+  addPointsMouseOver, resetAddPointProperties, addPointsMouseOut,
 } from '../../../objects/polygon/alterPolygon/alterPolygon.js';
 import { enableActiveObjectsAppearInFront, preventActiveObjectsAppearInFront } from '../../../utils/canvasUtils.js';
 import { getCurrentZoomState, getDoubleScrollCanvasState, setSessionDirtyState } from '../../../../tools/state.js';
 import { highlightLabelInTheList, removeHighlightOfListLabel } from '../../../../tools/labelList/labelListHighlightUtils.js';
 import { setRemoveLabelsButtonToDefault, setRemoveLabelsButtonToDisabled } from '../../../../tools/toolkit/styling/state.js';
 import { getLastMouseMoveEvent } from '../../../../keyEvents/mouse/mouseMove.js';
-
-import { setEnterAddPointsLineState } from '../../../../keyEvents/keyboard/hotKeys.js';
 import {completePolygonImpl} from "../../../objects/polygon/alterPolygon/addPoint.js";
 import {resetPolygonSelectableAreaImpl} from "../../../objects/polygon/alterPolygon/movePoint.js";
 
@@ -39,11 +37,6 @@ let linePointIdFinal = undefined;
 // returns target: null if to click outside the polygon area or new part of line
 // that means that before evoking this function event doesn't return target
 function pointMouseDownEvents(event) {
-
-  // TODO: prelimanary examination showed, that line shown as tarfet: null;
-  /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-  // console.log("****** the issue with event", event);
-
   if (!addingPoints) {
     if (event.target) {
       enableActiveObjectsAppearInFront(canvas);
@@ -98,7 +91,6 @@ function pointMouseDownEvents(event) {
   else {
     addPoints(event);
     if (activeShape.previousShapeName === 'newLine') {
-      console.log("! bizarre line");
       resetPolygonSelectableAreaImpl(canvas, activeShape);
     }
   }
@@ -112,15 +104,7 @@ function addLineLastPoint(){
     left: finalPoint[0].x,
     top: finalPoint[0].y
   };
-  console.log("line odd  finalPointLeftTop", finalPointLeftTop);
   let eventTarget =  getPointInArrayClosestToGivenCoordinates(getPolygonPointsArray(), finalPointLeftTop);
-  // completePolygon(eventTarget);
-  console.log("line odd event.target finalPoint 0", eventTarget);
-  // setEnterAddPointsLineState(false);
-  // setAddPointsLineState(false);
-  // activeShape = getActiveShape();
-  // let finalPoint = addPointsLinePointers.slice(addPointsLinePointers.length - 1);
-  // let finalPointLeftTop = {left: finalPoint[0].x, top: finalPoint[0].y};
   completePolygonImpl(activeShape, activeShape.points, eventTarget, addPointsLinePointers, linePointIdFinal);
   prepareToAddPolygonPoints(activeShape);
   currentlyHoveredPoint = getPointInArrayClosestToGivenCoordinates(getPolygonPointsArray(), finalPointLeftTop);
@@ -146,10 +130,7 @@ function addPoints(event) {
       }
     }
   }
-  // TODO: to check whether it is necessary for line
-  // the final point ONLY for polygon
   else if (event && event.target && event.target.shapeName === 'point' && (activeShape.previousShapeName !== 'newLine') ) {
-    console.log("polygon - event.target", event.target);
     addingPoints = false;
     completePolygon(event.target);
     prepareToAddPolygonPoints(activeShape);
@@ -168,7 +149,6 @@ function addPoints(event) {
         setActiveShape(activeShape);
         addPointsLinePointers.push(pointer);
       }
-
     }
   }
 
@@ -184,11 +164,6 @@ function setAddPointsLineState(state){
 
 function getAddPointsLineState(){
   return addPointsLineState;
-}
-
-// for Adding points to the line function
-function getActiveShape(){
-  return activeShape;
 }
 
 function setActiveShape(currentActiveShape){
@@ -263,15 +238,12 @@ function setPolygonNotEditableOnClick() {
 }
 
 function getPointInArrayClosestToGivenCoordinates(pointArray, { left, top }) {
-  console.log("getPointInArrayClosestToGivenCoordinates, { left, top }", pointArray, { left, top });
-
   for (let i = 0; i < pointArray.length; i += 1) {
     const point = pointArray[i];
     if (left === point.left) {
       if (top === point.top) {
         setAddPointsLineState(false);
-        console.log("get point creepy point", point);
-        return point;
+          return point;
       }
     }
   }
@@ -327,6 +299,7 @@ function getSelectedPolygonIdForAddPoints() {
 }
 
 function getScrollWidth() {
+  console.log("??? Get scroll width.");
   // create a div with the scroll
   const div = document.createElement('div');
   div.style.overflowY = 'scroll';
@@ -341,6 +314,7 @@ function getScrollWidth() {
 }
 
 function topOverflowScroll(event, zoomOverflowElement) {
+  console.log("??? Top Over Flow Scroll.");
   const currentScrollTopOffset = zoomOverflowElement.scrollTop / getCurrentZoomState();
   const newPositionTop = canvas.getPointer(event.e).y - currentScrollTopOffset;
   if (mouseIsDownOnTempPoint && event.target && event.target.shapeName === 'tempPoint') {
@@ -351,6 +325,7 @@ function topOverflowScroll(event, zoomOverflowElement) {
 }
 
 function bottomOverflowScroll(event, zoomOverflowElement, stubHeight, scrollWidth) {
+  console.log("??? Bottom Over flow Scroll.");
   const canvasHeight = stubHeight + scrollWidth;
   const canvasBottom = zoomOverflowElement.scrollTop + zoomOverflowElement.offsetHeight;
   const result = canvasHeight - canvasBottom;

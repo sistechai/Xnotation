@@ -112,6 +112,7 @@ function setNewCanvasProperties() {
 // }
 
 function draw() {
+  console.log("draw");
   setNewCanvasProperties();
   if (canvasProperties.maximumCanvasHeight < currentImage.height) {
     let newImageDimensions = resizeWhenImageExceedsMaxHeight();
@@ -148,6 +149,7 @@ function drawImageFromList(selectedImage) {
 }
 
 function onImageLoad(arg) {
+  console.log("newFileStatus", newFileStatus);
   newFileStatus.uploaded = true;
   currentImage = this ? this : arg;
   draw();

@@ -40,7 +40,6 @@ function completePolygonImpl(polygon, originalPointsArray, finalPoint, addPoints
     else{
       derefPointsArray = [];
       // new points
-      console.log("addPointsLinePointers", addPointsLinePointers);
       for (let i = addPointsLinePointers.length - 1; i > -1; i--) {
         tempArrayLine.push(addPointsLinePointers[i]);
       }
@@ -54,12 +53,9 @@ function completePolygonImpl(polygon, originalPointsArray, finalPoint, addPoints
           newPointsArray.push(tempArrayLine[i]);
         }
       }
-    // TODO: to set properties for the points?
-    console.log("line new points array", newPointsArray);
     }
 // polygon Mode
 else {
-    lineFinalPointId = finalPoint.pointId;
     let startingIdOfNewArray = Math.min(initialPoint.pointId, finalPoint.pointId);
     const endingIdIdOfNewArray = Math.max(initialPoint.pointId, finalPoint.pointId);
     const innerArray = [];
@@ -86,7 +82,6 @@ else {
       newPointsArray = derefPointsArray.slice(startingIdOfNewArray, endingIdIdOfNewArray + 1);
       addNewPointsByTheirAddDirection(newPointsArray, finalPoint.pointId, initialPoint.pointId, polygon);
     }
-
   }
 
 // for both shapes
@@ -99,9 +94,7 @@ else {
 
     if (polygon.previousShapeName === 'newLine'){
       resetPolygonSelectableAreaImpl(canvas, polygon);
-      console.log("polygon  new points array", newPointsArray);
     }
-
 }
 
 /// Draws temporary activeLine ONLY for Add Points event
@@ -135,6 +128,7 @@ function createNewLine(...coordinates) {
     canvas.renderAll();
   }
 }
+
 // pointer is initial point
 function initializeAddNewPointsImpl(shape, pointer, canvasObj) {
     shape.stroke = '#333333';
@@ -149,7 +143,6 @@ function initializeAddNewPointsImpl(shape, pointer, canvasObj) {
 function addFirstPointImpl(event) {
   changePolygonPointsToAddImpl(canvas);
   const pointer = canvas.getPointer(event.e);
-
   linePointersArray.push(pointer);
   lineArray.push(activeLine);
   createNewLine(pointer.x, pointer.y, pointer.x, pointer.y);
@@ -266,7 +259,6 @@ function moveAddablePointImpl(event) {
   }
 }
 
-//
 function realignLabel(polygon) {
   const labelShape = getLabelById(polygon.id);
   labelShape.left = polygon.points[0].x - labelProperties.pointOffsetProperties().left;

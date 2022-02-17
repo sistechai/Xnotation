@@ -10,7 +10,6 @@ import { setAddPointsButtonToDefault, setEditShapesButtonToActive } from '../../
 let canvas = null;
 
 function discardAddPointsEvents(id) {
-  console.log("canvas", canvas)
   setDefaultCursorModeAfterAlteringPolygonPoints(canvas);
   assignDefaultEvents(canvas, id);
   setEditShapesButtonToActive();
@@ -18,7 +17,6 @@ function discardAddPointsEvents(id) {
 }
 
 function resetCanvasToDefaultAfterAddPoints(id) {
-  console.log("canvas after", canvas)
   resetAddPoints();
   setAddPointsButtonToDefault();
   setAddingPolygonPointsState(false);

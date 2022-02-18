@@ -112,7 +112,7 @@ function setNewCanvasProperties() {
 // }
 
 function draw() {
-  console.log("draw");
+  // console.log("draw");
   setNewCanvasProperties();
   if (canvasProperties.maximumCanvasHeight < currentImage.height) {
     let newImageDimensions = resizeWhenImageExceedsMaxHeight();

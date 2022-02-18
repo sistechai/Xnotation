@@ -118,13 +118,19 @@ function mouseLeaveCoreButton(event) {
 function addPopoverFunctionalityToButton(buttonElementId, popoverElementId) {
   const buttonElement = document.getElementById(buttonElementId);
   const popoverElement = document.getElementById(popoverElementId);
-  buttonElement.addEventListener('mouseenter', (event) => {
-    mouseEnterCoreButton(event, popoverElement.id);
-  });
-  buttonElement.addEventListener('mouseleave', (event) => {
-    mouseLeaveCoreButton(event);
-  });
-  buttonPopovers[popoverElement.id] = popoverElement;
+  if (buttonElement) {
+    buttonElement.addEventListener('mouseenter', (event) => {
+      if (popoverElement) {
+        mouseEnterCoreButton(event, popoverElement.id);
+      }
+    });
+    buttonElement.addEventListener('mouseleave', (event) => {
+      mouseLeaveCoreButton(event);
+    });
+    if (popoverElement) {
+      buttonPopovers[popoverElement.id] = popoverElement;
+    }
+  }
 }
 
 // firefox bug fix for displaying popovers after uploading an image
@@ -132,7 +138,6 @@ function removeUploadImagesButtonPopoverBugFix() {
   const uploadDatasetsButton = document.getElementById('upload-images-button');
   uploadDatasetsButton.addEventListener('mouseup', () => {
     hasUploadImagesButtonBeenClicked = true;
-    console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwhasUploadImagesButtonBeenClicked", hasUploadImagesButtonBeenClicked);
   });
 }
 

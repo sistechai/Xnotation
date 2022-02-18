@@ -5,10 +5,29 @@ import { onImageLoad } from './drawImageOnCanvas.js';
 // potential to undo and validate in the drag and drop logic,
 // depending on what is being used for upload datasets
 function isFormatValid(file) {
-  //console.log("file", file);
   return file.type.includes('image/');
 }
 
+function uploadSingleImage(uploadData) {
+  console.log("uploadData", uploadData);
+  if (isFormatValid(uploadData.files[0])) {
+    const reader = new FileReader();
+    reader.onload = onSingleFileLoad.bind(this, uploadData.files[0]);
+    reader.readAsDataURL(uploadData.files[0]);
+    //console.log("reader", reader);
+  }
+}
+
+// uploads single image
+function onSingleFileLoad(imageMetaData, e) {
+  const image = new Image();
+  image.src = e.target.result;
+  console.log("e.target.result",e.target.result);
+  image.onload = onImageLoad;
+  addSingleImageToList(imageMetaData, image);
+}
+
+// uploads several images, but executed once
 function onMultiFileLoad(imageMetadata, isfirstImage, e) {
   const image = new Image();
   image.src = e.target.result;
@@ -16,7 +35,6 @@ function onMultiFileLoad(imageMetadata, isfirstImage, e) {
     image.onload = onImageLoad;
   }
   addImageFromMultiUploadToList(imageMetadata, image, isfirstImage);
-  //removeNoImagesFoundOnMLModalStyle();
 }
 
 function uploadMultipleImages(uploadData) {
@@ -27,24 +45,6 @@ function uploadMultipleImages(uploadData) {
       reader.onload = onMultiFileLoad.bind(this, uploadData.files[i], isfirstImage);
       reader.readAsDataURL(uploadData.files[i]);
     }
-  }
-}
-
-function onSingleFileLoad(imageMetaData, e) {
-  const image = new Image();
-  image.src = e.target.result;
-  image.onload = onImageLoad;
-  addSingleImageToList(imageMetaData, image);
-  //removeNoImagesFoundOnMLModalStyle();
-}
-
-function uploadSingleImage(uploadData) {
-  //console.log("uploadData", uploadData);
-  if (isFormatValid(uploadData.files[0])) {
-    const reader = new FileReader();
-    reader.onload = onSingleFileLoad.bind(this, uploadData.files[0]);
-    reader.readAsDataURL(uploadData.files[0]);
-    //console.log("reader", reader);
   }
 }
 

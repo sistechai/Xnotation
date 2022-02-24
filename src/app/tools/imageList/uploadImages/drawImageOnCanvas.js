@@ -11,8 +11,9 @@ let currentImage = null;
 let canvasOuterMargin = true;
 
 // only for uploading process
+// currentImage is a base64 encoded image
 function onImageLoad(arg) {
-  console.log("newFileStatus", arg);
+
   newFileStatus.uploaded = true;
   currentImage = this ? this : arg;
   draw();
@@ -78,6 +79,7 @@ function drawImageFromList(selectedImage) {
 function drawResizedImage(newImageDimensions) {
   canvas.setWidth(Math.ceil(newImageDimensions.width));
   canvas.setHeight(Math.ceil(newImageDimensions.height));
+  //console.log("currentImage.src", currentImage.src);
   fabric.Image.fromURL(currentImage.src, (img) => {
     newFileStatus.scaleX = canvas.width / img.width;
     newFileStatus.scaleY = canvas.height / img.height;

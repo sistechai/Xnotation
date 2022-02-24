@@ -12,13 +12,17 @@ let uploadDatasetsTable2Element = null;
 let currentlyDisplayedOverlayElement = null;
 
 function dropHandler(event) {
-  if (currentlyDisplayedOverlayElement) {
-    if (currentlyDisplayedOverlayElement === imageListDragAndDropOverlayElement) {
-      uploadImages(event.dataTransfer);
-    } else if (currentlyDisplayedOverlayElement === uploadDatasetsDragAndDropOverlayElement) {
-      uploadDatasetFilesHandler(event.dataTransfer);
-    }
-  }
+  // console.log("event", event.dataTransfer);
+  return;
+ //  if (currentlyDisplayedOverlayElement) {
+ //    if (currentlyDisplayedOverlayElement === imageListDragAndDropOverlayElement) {
+ //      uploadImages(event.dataTransfer);
+ //      console.log("if event", event.dataTransfer);
+ //    } else if (currentlyDisplayedOverlayElement === uploadDatasetsDragAndDropOverlayElement) {
+ //      uploadDatasetFilesHandler(event.dataTransfer);
+ //      console.log("else");
+ //    }
+ //  }
 }
 
 function displayDragAndDropOverlays() {

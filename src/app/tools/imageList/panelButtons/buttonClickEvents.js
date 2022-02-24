@@ -13,6 +13,10 @@ function triggeUploadImagesButton() {
 }
 
 function uploadImageFiles(uploadData) {
+  // uploadData = `<input type="image" id="0"
+  //      src="/img_211108_155617562676.jpeg">`;
+  //console.log("this", this.uploadImageFiles);
+
   discardActiveObject();
   uploadImages(uploadData);
 }

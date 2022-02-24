@@ -4,14 +4,19 @@ import { removeActiveButtonPopover } from '../../globalStyling/buttons/popovers.
 import { canSwitchImage } from '../imageList.js';
 import isLeftMouseButtonClick from '../../utils/buttons/clickEvents.js';
 
-function interruptAllCanvasEventsBeforeFuncWInputs(placeHolder, funcObj, input) {
+function interruptAllCanvasEventsBeforeFuncWInputs( placeHolder, funcObj, input) {
+
+console.log("3 input", input);
+
   removeActiveButtonPopover();
   interruptAllCanvasEvents();
   funcObj.resetCanvasEventsToDefault();
   funcObj.uploadImageFiles(input);
+
 }
 
 function replaceExistingCanvas(func, func2, direction, event) {
+
   if (event && !isLeftMouseButtonClick(event)) return;
   removeActiveButtonPopover();
   if (canSwitchImage(direction)) {

@@ -60,17 +60,20 @@ function moveCanvasCrosshairDefault(event, canvas) {
 
 function moveCanvasCrosshairOnZoom(event, canvas) {
   if (!event.pointer.x) return;
-  const pointer = canvas.getPointer(event.e);
-  canvasCrosshairLineX.set({
-    x1: pointer.x + verticalDelta,
-    x2: pointer.x + verticalDelta,
-  });
-  canvasCrosshairLineY.set({
-    y1: pointer.y - horizontalDelta - 1.2,
-    y2: pointer.y - horizontalDelta - 1.2,
-  });
-  setCanvasCrosshairCoordinates();
-  canvas.renderAll();
+  if (event) {
+    const pointer = canvas.getPointer(event.e);
+
+    canvasCrosshairLineX.set({
+      x1: pointer.x + verticalDelta,
+      x2: pointer.x + verticalDelta,
+    });
+    canvasCrosshairLineY.set({
+      y1: pointer.y - horizontalDelta - 1.2,
+      y2: pointer.y - horizontalDelta - 1.2,
+    });
+    setCanvasCrosshairCoordinates();
+    canvas.renderAll();
+  }
 }
 
 function moveOutsideCrosshairDefault(event) {

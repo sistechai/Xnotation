@@ -54,13 +54,6 @@ function triggerAnimation(imageThumbnailElement) {
   });
 }
 
-function GetFileObjectFromURL(filePathOrUrl, convertBlob) {
-  GetFileBlobUsingURL(filePathOrUrl, function (blob) {
-    convertBlob(blobToFile(blob, 'testFile.jpg'));
-    //return blob;
-  });
-}
-
 function GetFileBlobUsingURL(url, convertBlob) {
 
   let xhr = new XMLHttpRequest();
@@ -75,21 +68,18 @@ function GetFileBlobUsingURL(url, convertBlob) {
 function blobToFile(blob, name) {
   blob.lastModifiedDate = new Date();
   blob.name = name;
-  // console.log("blob", blob);
   return blob;
 }
 
-
+function GetFileObjectFromURL(filePathOrUrl, convertBlob) {
+  GetFileBlobUsingURL(filePathOrUrl, function (blob) {
+    convertBlob(blobToFile(blob, 'testFile.jpg'));
+  });
+}
 
 // imageData is a base64 encoded image is necessary for adding image to image list
 // TODO: to find place where image was converted into base64
 function addNewImage(imageName, imageData) {
-
-  let FileURL="./img_211108_155608812395.jpeg"
-  GetFileObjectFromURL(FileURL, function (fileObject) {
-    console.log("test", fileObject);
-  });
-
 
   const thumbnailElementRef = addNewItemToImageList(imageData);
   const imageObject = {
@@ -143,6 +133,9 @@ function addNewItemToImageList(imageData) {
   const imageThumbnailElement = initialiseImageElement();
   imageThumbnailElement.id = newImageId;
   imageThumbnailElement.classList.add('image-list-thumbnail-image');
+
+  // console.log("imageData.src", imageData.src);
+
   imageThumbnailElement.src = imageData.src;
   imageThumbnailElement.setAttribute('draggable', false);
   imageThumbnailElement.setAttribute('ondragstart', 'return false'); // for firefox

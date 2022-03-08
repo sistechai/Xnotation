@@ -14,23 +14,13 @@ function isFormatValid(file) {
 // from index.html
 // onerror?
 function uploadImages(uploadData) {
-  console.log("uploadData.files", uploadData.files);
-  console.log("uploadData", uploadData);
-
-  // let FileURL="./img_211108_155608812395.jpeg"
-  // let fileObject;
-  // GetFileObjectFromURL(FileURL, function (fileObject) {
-  //   console.log("test", fileObject);
-  // });
-  // console.log("test2", fileObject);
-
-  if (uploadData.files && uploadData.files.length > 0) {
+ if (uploadData.files && uploadData.files.length > 0) {
     if (uploadData.files.length === 1) {
       uploadSingleImage(uploadData);
     } else {
       uploadMultipleImages(uploadData);
     }
-  }
+ }
 }
 
 //

@@ -38,7 +38,7 @@ function highlightShapeFill(id) {
 function defaultShapeFill(id) {
   const defaultColor = shapes[id].color.default;
   if (shapes[id].shapeRef.previousShapeName === 'newLine') {
-    shapes[id].shapeRef.set('fill', defaultColor); //'');
+    shapes[id].shapeRef.set('fill', defaultColor);
   }
   else {
     shapes[id].shapeRef.set('fill', defaultColor);
@@ -85,7 +85,6 @@ function retrieveAllShapeRefs() {
   return shapeRefs;
 }
 
-// ??
 // When this function is executed?
 function getNumberOfShapes() {
   return Object.keys(shapes).length;
@@ -126,7 +125,6 @@ function createNewShapeObject(shapeObj, shapeColor) {
   return newShapeObject;
 }
 
-///
 // saves each image information after choosing option to upload new image or
 // after choosing Upload JSON object option
 function getStatementsForCurrentImageToJSON(images) {

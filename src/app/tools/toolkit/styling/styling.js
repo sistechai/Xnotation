@@ -20,16 +20,20 @@ function setButtonToDefault(button) {
 
 function setButtonToGreyDefault(button) {
   if (isElement(button) && button.classList[INDEX_OF_BUTTON_STATE_CLASS] === 'toolkit-button-default') return;
-  button.classList.replace(button.classList[1], 'toolkit-button-default');
-  button.childNodes[INDEX_OF_BUTTON_STATE_CLASS].style.filter = 'invert(42%) sepia(0%) saturate(1409%) hue-rotate(134deg) brightness(100%) contrast(77%)';
-  button.style.backgroundColor = '';
+  if (button) {
+    button.classList.replace(button.classList[1], 'toolkit-button-default');
+    button.childNodes[INDEX_OF_BUTTON_STATE_CLASS].style.filter = 'invert(42%) sepia(0%) saturate(1409%) hue-rotate(134deg) brightness(100%) contrast(77%)';
+    button.style.backgroundColor = '';
+  }
 }
 
 function setButtonToDisabled(button) {
   if (isElement(button) && button.classList[INDEX_OF_BUTTON_STATE_CLASS] === 'toolkit-button-disabled') return;
-  button.classList.replace(button.classList[1], 'toolkit-button-disabled');
-  button.childNodes[INDEX_OF_BUTTON_STATE_CLASS].style.filter = 'invert(77%) sepia(0%) saturate(716%) hue-rotate(155deg) brightness(92%) contrast(83%)';
-  button.style.backgroundColor = '';
+  if (button) {
+    button.classList.replace(button.classList[1], 'toolkit-button-disabled');
+    button.childNodes[INDEX_OF_BUTTON_STATE_CLASS].style.filter = 'invert(77%) sepia(0%) saturate(716%) hue-rotate(155deg) brightness(92%) contrast(83%)';
+    button.style.backgroundColor = '';
+  }
 }
 
 export {

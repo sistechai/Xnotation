@@ -140,7 +140,6 @@ function changeRemovablePointToTemp(pointId) {
 // polygonProperties.defaultPoint = generateDefaultPoint;
 // if to click Edit Shape after points being red or green
 function generateDefaultPoint() {
-  console.log("blue 2");
   return {
     fill: 'blue',
     radius: defaultPointRadius,
@@ -150,11 +149,9 @@ function generateDefaultPoint() {
 
 // polygonProperties.defaultLinePoint = generateDefaultLinePoint;
 function generateDefaultLinePoint() {
-  console.log("blue ethereal Line");
   return {
     lockMovementX: true,
     lockMovementY: true,
-    //selectable: false,
     fill: 'blue',
     radius: defaultPointRadius,
     hoverCursor: 'move',
@@ -427,8 +424,6 @@ function generateNewPolygon() {
       stroke: 'hsla(186, 8%, 50%, 1)',
       strokeWidth: newPolygonStrokeWidth,
       fill: 'rgba(237, 237, 237, 0.01)',
-      //fill: '#cccccc',
-      //opacity: 0.3,
       perPixelTargetFind: true,
       hasBorders: false,
       hasControls: false,
@@ -502,10 +497,7 @@ function generateNewTempPolygon() {
 }
 
 (function setProperties() {
-
-  // TODO: set up permanent background for polygon and rectangle as well instead of tedious and tiresome current one!
   polygonProperties.newPolygon = generateNewPolygon;
-
   polygonProperties.newTempPolygon = generateNewTempPolygon;
   polygonProperties.newLine = generateNewLine;
   polygonProperties.firstPoint = generateNewFirstPoint;
@@ -515,23 +507,17 @@ function generateNewTempPolygon() {
   polygonProperties.newPoint = generateNewPoint;
   polygonProperties.invisiblePoint = generateInvisiblePoint;
   polygonProperties.changeRemovablePointToTemp = changeRemovablePointToTemp;
-
   polygonProperties.existingPolygonPoint = generateExistingPolygonPoint;
   polygonProperties.existingLinePoint = generateExistingLinePoint;
   polygonProperties.defaultPoint = generateDefaultPoint;
   polygonProperties.defaultLinePoint = generateDefaultLinePoint;
-
   polygonProperties.removablePolygonPoint = generateRemovablePolygonPoint;
   polygonProperties.removableLinePoint = generateRemovableLinePoint;
-
   polygonProperties.disabledRemovePoint = generateDisabledRemovePoint;
   polygonProperties.disabledRemoveLinePoint = generateDisabledRemoveLinePoint;
-
   polygonProperties.removablePoint = generateRemovablePoint;
-
   polygonProperties.startingAddPolygonPoint = generatestartingAddPolygonPoint;
   polygonProperties.startingAddLinePoint = generatestartingAddLinePoint;
-
   polygonProperties.setZoomInProperties = setZoomInProperties;
   polygonProperties.setZoomOutProperties = setZoomOutProperties;
   polygonProperties.getPolygonAlignmentAfterPointMove = getPolygonAlignmentAfterPointMove;

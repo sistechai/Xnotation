@@ -10,9 +10,76 @@ let canvas = null;
 let currentImage = null;
 let canvasOuterMargin = true;
 
+// only for uploading process
+// currentImage is a base64 encoded image
+function onImageLoad(arg) {
+
+  newFileStatus.uploaded = true;
+  currentImage = this ? this : arg;
+  draw();
+  canvas.setZoom(1);
+}
+// ------------
+
+// These functions instantly evoked for each uploading and switching on new image
+function draw() {
+  setNewCanvasProperties();
+  if (canvasProperties.maximumCanvasHeight < currentImage.height) {
+    let newImageDimensions = resizeWhenImageExceedsMaxHeight();
+    if (canvasProperties.maximumCanvasWidth < newImageDimensions.width) {
+      newImageDimensions = resizeWhenImageExceedsMaxWidth(newImageDimensions);
+    }
+    drawImageOnCanvas(newImageDimensions);
+  } else if (canvasProperties.maximumCanvasWidth < currentImage.width) {
+    const newImageDimensions = resizeWhenImageExceedsMaxWidth(currentImage);
+    drawImageOnCanvas(newImageDimensions);
+  } else {
+    drawImageOnCanvas();
+  }
+  setCanvasWrapperMaximumDimensions();
+  initialFileStatus.width = newFileStatus.width;
+  initialFileStatus.height = newFileStatus.height;
+}
+
+function setNewCanvasProperties() {
+  const sideToolsTotalWidth = getLeftSideBarWidth() + getRightSideBarWidth();
+  const innerHeight = window.innerHeight - Math.ceil(35 + (29 / getScreenSizeDelta()));
+  const innerWidth = window.innerWidth - sideToolsTotalWidth;
+  canvasProperties.maximumCanvasHeight = canvasOuterMargin
+      ? innerHeight - (window.innerHeight * 0.0382263)
+      : innerHeight;
+  if (IS_FIREFOX) {
+    canvasProperties.maximumCanvasWidth = canvasOuterMargin
+        ? innerWidth - 0.5 - (window.innerWidth * 0.020237453)
+        : innerWidth - 0.5;
+  } else {
+    canvasProperties.maximumCanvasWidth = canvasOuterMargin
+        ? innerWidth - (window.innerWidth * 0.020237453)
+        : innerWidth;
+  }
+}
+
+function setCanvasWrapperMaximumDimensions() {
+  const canvasWrapper = document.getElementById('canvas-wrapper');
+  canvasWrapper.style.maxWidth = `${canvasProperties.maximumCanvasWidth}px`;
+  canvasWrapper.style.maxHeight = `${canvasProperties.maximumCanvasHeight}px`;
+}
+
+function enableCanvasOuterMargin() {
+  canvasOuterMargin = true;
+  setNewCanvasProperties();
+}
+
+// investigate quality
+function drawImageFromList(selectedImage) {
+  currentImage = selectedImage;
+  draw();
+}
+
 function drawResizedImage(newImageDimensions) {
   canvas.setWidth(Math.ceil(newImageDimensions.width));
   canvas.setHeight(Math.ceil(newImageDimensions.height));
+  //console.log("currentImage.src", currentImage.src);
   fabric.Image.fromURL(currentImage.src, (img) => {
     newFileStatus.scaleX = canvas.width / img.width;
     newFileStatus.scaleY = canvas.height / img.height;
@@ -26,19 +93,11 @@ function drawResizedImage(newImageDimensions) {
   newFileStatus.width = newImageDimensions.width;
   newFileStatus.height = newImageDimensions.height;
 }
+// ----------
 
-function drawOriginalImage() {
-  canvas.setWidth(Math.ceil(currentImage.width));
-  canvas.setHeight(Math.ceil(currentImage.height));
-  fabric.Image.fromURL(currentImage.src, (img) => {
-    newFileStatus.originalWidth = img.width;
-    newFileStatus.originalHeight = img.height;
-    canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {});
-  });
-  newFileStatus.scaleX = 1;
-  newFileStatus.scaleY = 1;
-  newFileStatus.width = currentImage.width;
-  newFileStatus.height = currentImage.height;
+// before uploading image
+function assignCanvasForDrawingImage(canvasObj) {
+  canvas = canvasObj;
 }
 
 function drawImageOnCanvas(newImageDimensions) {
@@ -47,6 +106,11 @@ function drawImageOnCanvas(newImageDimensions) {
   } else {
     drawOriginalImage();
   }
+}
+
+// instant access to resizing process
+function getCurrentImage() {
+  return currentImage;
 }
 
 function resizeWhenImageExceedsMaxHeight() {
@@ -70,115 +134,6 @@ function resizeWhenImageExceedsMaxWidth(imageDimensions) {
   return newImageDimensions;
 }
 
-function setCanvasWrapperMaximumDimensions() {
-  const canvasWrapper = document.getElementById('canvas-wrapper');
-  canvasWrapper.style.maxWidth = `${canvasProperties.maximumCanvasWidth}px`;
-  canvasWrapper.style.maxHeight = `${canvasProperties.maximumCanvasHeight}px`;
-}
-
-function setNewCanvasProperties() {
-  const sideToolsTotalWidth = getLeftSideBarWidth() + getRightSideBarWidth();
-  const innerHeight = window.innerHeight - Math.ceil(35 + (29 / getScreenSizeDelta()));
-  const innerWidth = window.innerWidth - sideToolsTotalWidth;
-  canvasProperties.maximumCanvasHeight = canvasOuterMargin
-    ? innerHeight - (window.innerHeight * 0.0382263)
-    : innerHeight;
-  if (IS_FIREFOX) {
-    canvasProperties.maximumCanvasWidth = canvasOuterMargin
-      ? innerWidth - 0.5 - (window.innerWidth * 0.020237453)
-      : innerWidth - 0.5;
-  } else {
-    canvasProperties.maximumCanvasWidth = canvasOuterMargin
-      ? innerWidth - (window.innerWidth * 0.020237453)
-      : innerWidth;
-  }
-}
-
-// For 45px margin instead
-// const sideToolsTotalWidth = getLeftSideBarWidth() + getRightSideBarWidth();
-// const innerHeight = window.innerHeight - 64;
-// const innerWidth = window.innerWidth - sideToolsTotalWidth;
-// canvasProperties.maximumCanvasHeight = canvasOuterMargin
-//   ? innerHeight - (window.innerHeight * 0.04587156)
-//   : innerHeight;
-// if (IS_FIREFOX) {
-//   canvasProperties.maximumCanvasWidth = canvasOuterMargin
-//     ? innerWidth - 0.5 - (window.innerWidth * 0.024284943)
-//     : innerWidth - 0.5;
-// } else {
-//   canvasProperties.maximumCanvasWidth = canvasOuterMargin
-//     ? innerWidth - (window.innerWidth * 0.024284943)
-//     : innerWidth;
-// }
-
-function draw() {
-  setNewCanvasProperties();
-  if (canvasProperties.maximumCanvasHeight < currentImage.height) {
-    let newImageDimensions = resizeWhenImageExceedsMaxHeight();
-    if (canvasProperties.maximumCanvasWidth < newImageDimensions.width) {
-      newImageDimensions = resizeWhenImageExceedsMaxWidth(newImageDimensions);
-    }
-    drawImageOnCanvas(newImageDimensions);
-  } else if (canvasProperties.maximumCanvasWidth < currentImage.width) {
-    const newImageDimensions = resizeWhenImageExceedsMaxWidth(currentImage);
-    drawImageOnCanvas(newImageDimensions);
-  } else {
-    drawImageOnCanvas();
-  }
-  setCanvasWrapperMaximumDimensions();
-  initialFileStatus.width = newFileStatus.width;
-  initialFileStatus.height = newFileStatus.height;
-}
-
-function removeCanvasOuterMargin() {
-  canvasOuterMargin = false;
-  setNewCanvasProperties();
-}
-
-function enableCanvasOuterMargin() {
-  canvasOuterMargin = true;
-  setNewCanvasProperties();
-}
-
-// investigate quality
-
-function drawImageFromList(selectedImage) {
-  currentImage = selectedImage;
-  draw();
-}
-
-function onImageLoad(arg) {
-  newFileStatus.uploaded = true;
-  currentImage = this ? this : arg;
-  draw();
-  canvas.setZoom(1);
-}
-
-function assignCanvasForDrawingImage(canvasObj) {
-  canvas = canvasObj;
-}
-
-function getCanvasProperties() {
-  return canvasProperties;
-}
-
-function getImageProperties() {
-  return newFileStatus;
-}
-
-function calculateCurrentImageHeightRatio() {
-  return newFileStatus.height / newFileStatus.originalHeight;
-}
-
-function calculateNewFileSizeRatio() {
-  const newFileSizeRatio = {};
-  newFileSizeRatio.width = newFileStatus.width / initialFileStatus.width;
-  newFileSizeRatio.height = newFileStatus.height / initialFileStatus.height;
-  initialFileStatus.width = newFileStatus.width;
-  initialFileStatus.height = newFileStatus.height;
-  return newFileSizeRatio;
-}
-
 function resizeCanvasAndImage() {
   setNewCanvasProperties();
   if (currentImage) {
@@ -198,12 +153,72 @@ function resizeCanvasAndImage() {
   return calculateNewFileSizeRatio();
 }
 
-function setCurrentImage(image) {
-  currentImage = image;
+// ???
+// instantly evoked by some type of images
+function drawOriginalImage() {
+  canvas.setWidth(Math.ceil(currentImage.width));
+  canvas.setHeight(Math.ceil(currentImage.height));
+  fabric.Image.fromURL(currentImage.src, (img) => {
+    newFileStatus.originalWidth = img.width;
+    newFileStatus.originalHeight = img.height;
+    canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {});
+  });
+  newFileStatus.scaleX = 1;
+  newFileStatus.scaleY = 1;
+  newFileStatus.width = currentImage.width;
+  newFileStatus.height = currentImage.height;
 }
 
-function getCurrentImage() {
-  return currentImage;
+// For 45px margin instead
+// const sideToolsTotalWidth = getLeftSideBarWidth() + getRightSideBarWidth();
+// const innerHeight = window.innerHeight - 64;
+// const innerWidth = window.innerWidth - sideToolsTotalWidth;
+// canvasProperties.maximumCanvasHeight = canvasOuterMargin
+//   ? innerHeight - (window.innerHeight * 0.04587156)
+//   : innerHeight;
+// if (IS_FIREFOX) {
+//   canvasProperties.maximumCanvasWidth = canvasOuterMargin
+//     ? innerWidth - 0.5 - (window.innerWidth * 0.024284943)
+//     : innerWidth - 0.5;
+// } else {
+//   canvasProperties.maximumCanvasWidth = canvasOuterMargin
+//     ? innerWidth - (window.innerWidth * 0.024284943)
+//     : innerWidth;
+// }
+
+// ???
+function removeCanvasOuterMargin() {
+  canvasOuterMargin = false;
+  setNewCanvasProperties();
+}
+
+function getCanvasProperties() {
+  return canvasProperties;
+}
+
+function calculateNewFileSizeRatio() {
+  const newFileSizeRatio = {};
+  newFileSizeRatio.width = newFileStatus.width / initialFileStatus.width;
+  newFileSizeRatio.height = newFileStatus.height / initialFileStatus.height;
+  initialFileStatus.width = newFileStatus.width;
+  initialFileStatus.height = newFileStatus.height;
+  return newFileSizeRatio;
+}
+/// ------
+
+// instantly evoked after uploading the second image and reacts on each image switch
+function getImageProperties() {
+  return newFileStatus;
+}
+
+function calculateCurrentImageHeightRatio() {
+  return newFileStatus.height / newFileStatus.originalHeight;
+}
+// ------------
+
+// ??
+function setCurrentImage(image) {
+  currentImage = image;
 }
 
 function resizeCanvas() {

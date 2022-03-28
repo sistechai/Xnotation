@@ -29,7 +29,6 @@ function purgeCanvasMouseEvents(canvas) {
 }
 
 // consider using this to reassign events
-
 /*
 canvas.on('object:moving', moveHandler);
 canvas.on('object:modified', modifiedHandler);

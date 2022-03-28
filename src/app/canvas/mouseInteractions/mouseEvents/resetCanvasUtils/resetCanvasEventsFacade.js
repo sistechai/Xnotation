@@ -12,6 +12,7 @@ function setResetCanvasEventsToDefaultFunc(func, canvasObj) {
 }
 
 function resetCanvasEventsToDefault() {
+  console.log("??? resetCanvasEventsToDefault canvas", canvas);
   removeEditedPolygonId();
   resetCanvasEventsFunc(canvas);
 }

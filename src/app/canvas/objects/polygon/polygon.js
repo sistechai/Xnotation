@@ -163,8 +163,6 @@ function addPoint(pointer) {
   if (getTestDrawLineState()){
     invisiblePoint = new fabric.Circle(polygonProperties.invisiblePoint(pointer));
     canvas.add(invisiblePoint);
-
-    // TODO: set Adding and removing processes available (default) for Line too
     setAddPointsButtonToDefault();
     setRemovePointsButtonToDefault();
     setRemoveLabelsButtonToDefault();
@@ -227,13 +225,8 @@ function generatePolygon() {
   });
 
   let polygon = null; // the entire polygon, and New line
-  let id;
-
   // For Polygon mode
   if (!getTestDrawLineState()) {
-    // ???
-    //invisiblePoint = null;
-
     // if to comment further line, the active shape remains on the scene, but it implies that it doesn't move with main polygon
     removeActiveShape();
     polygon = new fabric.Polygon(points, polygonProperties.newPolygon(polygon)); // for now, got it from if cycle above
@@ -427,19 +420,13 @@ function instantiatePolygon(event) {
     }
 
     // Here the place of drawing line for polygon
-    // else if (lineMode){
-    //   addPoint(pointer);
-    // }
     else if (polygonMode) {
       addPoint(pointer);
     }
-
-    // ??? fix for double click to draw first point bug
     lastMouseEvent = event;
   }
 }
 
-// ----
 function isRightMouseButtonClicked(pointer) {
   if (activeShape && (canvas.getPointer(lastMouseEvent.e).x !== pointer.x)) {
     return true;
@@ -770,6 +757,5 @@ export {
   placeholderToAddMouseDownEvents,
   createNewPolygonFromCoordinates,
   prepareCanvasForNewPolygonsFromExternalSources,
-
   clearLineData,
 };

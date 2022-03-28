@@ -12,7 +12,6 @@ let mouseMoved = false;
 
 // initiated, if during drawing polygon to press Remove points
 function setRemovablePointsEventsCanvas(canvasObj, polygonObj) {
-  console.log("??? setRemovablePointsEventsCanvas");
   canvas = canvasObj;
   ignoredFirstMouseMovement = false;
   currentlyHoveredPoint = null;
@@ -25,7 +24,6 @@ function setRemovablePointsEventsCanvas(canvasObj, polygonObj) {
 }
 
 function pointMouseDownEvents(event) {
-  console.log("??? Mouse down");
   if (event.target && event.target.shapeName === 'point') {
     removePolygonPoint(event.target.pointId);
     currentlyHoveredPoint = null;
@@ -63,7 +61,6 @@ function pointMouseUpEvents() {
 }
 
 function pointMouseOutEvents(event) {
-  console.log("???? point out remove");
   if (event.target && event.target.shapeName === 'point') {
     event.target.stroke = 'black';
     canvas.renderAll();
@@ -75,7 +72,6 @@ function pointMouseOutEvents(event) {
 }
 
 function pointMouseMoveEvents() {
-  console.log("???? point mouse move");
   if (ignoredFirstMouseMovement) {
     mouseMoved = true;
   } else {
@@ -84,12 +80,10 @@ function pointMouseMoveEvents() {
 }
 
 function getRemovingPointsState() {
-  console.log("???? get Removing points state, removing points", removingPoints);
   return removingPoints;
 }
 
 function setRemovingPointsStateToFalse() {
-  console.log("???? set Removing points state to false, removing points", removingPoints);
   removingPoints = false;
 }
 

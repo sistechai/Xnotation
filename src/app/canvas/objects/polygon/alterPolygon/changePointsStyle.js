@@ -9,7 +9,6 @@ import { setCreateNewLineToDefault } from '../../../../tools/toolkit/styling/sta
 // editing;
 // removing;
 // adding
-// TODO: It stalls on new area of line, only new part of line doesn't react on mouse down!
 function displayPolygonPointsWithStyleImpl(canvas, polygon, polygonPointsProps) {
   setCreateNewLineToDefault();
   let pointId = 0;
@@ -97,7 +96,6 @@ function changeObjectsToPolygonPointsToDefaultImpl(canvas) {
     canvas.forEachObject((iteratedObj) => {
       setObjectPropertiesToDefault(iteratedObj);
       if (iteratedObj.shapeName === 'point') {
-        console.log("iteratedObj.shapeName", iteratedObj.shapeName);
         iteratedObj.set(polygonProperties.defaultPoint());
       }
     });

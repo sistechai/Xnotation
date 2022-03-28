@@ -162,7 +162,7 @@ function addPopoverFunctionalityToButtons() {
   addPopoverFunctionalityToButton('remove-images-button', 'remove-images-button-popover');
   addPopoverFunctionalityToButton('previous-image-button', 'previous-image-button-popover');
   addPopoverFunctionalityToButton('next-image-button', 'next-image-button-popover');
-  addPopoverFunctionalityToButton('title-github-mark-container', 'github-mark-button-popover');
+  //addPopoverFunctionalityToButton('title-github-mark-container', 'github-mark-button-popover');
 }
 
 function initialiseCoreButtonPopovers() {

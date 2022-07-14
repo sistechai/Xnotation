@@ -396,7 +396,8 @@ function exportJSON(){
 function writeJSON(objectJSON){
   const stringJSON = JSON.stringify(objectJSON);
   let stringJSONparsed = JSON.parse(stringJSON);
-  console.log("stringJSONparsed", stringJSONparsed);
+  console.log("---stringJSONparsed", stringJSONparsed);
+
   return stringJSONparsed;
 }
 

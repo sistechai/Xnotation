@@ -1,5 +1,6 @@
 import { incrementShapeType, decrementShapeType } from '../../../tools/globalStatistics/globalStatistics.js';
 import { getCurrentImageId } from '../../../tools/state.js';
+import {getImageProperties} from '../../../tools/imageList/uploadImages/drawImageOnCanvas.js';
 
 let shapes = {};
 let canvas = null;
@@ -133,6 +134,12 @@ function getStatementsForCurrentImageToJSON(images) {
   let key;
   let points = [];
 
+  let points_scaled = [];
+  const currentlySelectedImageProperties = getImageProperties();
+  const imageDimensions = {};
+  imageDimensions.scaleX = currentlySelectedImageProperties.scaleX;
+  imageDimensions.scaleY = currentlySelectedImageProperties.scaleY;
+
   polygons = [];
   lines = [];
   rectangles = [];
@@ -144,11 +151,19 @@ function getStatementsForCurrentImageToJSON(images) {
       for (let i=0; i< currentShapes[key].shapeRef.points.length; i++) {
         points.push(currentShapes[key].shapeRef.points[i].x, currentShapes[key].shapeRef.points[i].y);
       }
+
+      for (let i=0; i<Math.floor(points.length/2); i++){
+         let j = i*2;
+         points_scaled[j] = points[j]/imageDimensions.scaleX;
+         points_scaled[j+1] = points[j+1]/imageDimensions.scaleY;
+      }
+
       polygons.push({
         "color": colorHex,
-        'points': points
+        'points': points_scaled
       });
       points = [];
+      points_scaled = [];
     }
 
     if (currentShapes[key].shapeRef.previousShapeName === 'newLine') {
@@ -158,24 +173,41 @@ function getStatementsForCurrentImageToJSON(images) {
           points.push(currentShapes[key].shapeRef.points[i].x, currentShapes[key].shapeRef.points[i].y);
         }
       }
+
+      points_scaled = points.slice(0, Math.floor(points.length/2));
+
+      for (let i=0; i<Math.floor(points_scaled.length/2); i++){
+          let j = i*2;
+          points_scaled[j] = points_scaled[j]/imageDimensions.scaleX;
+          points_scaled[j+1] = points_scaled[j+1]/imageDimensions.scaleY;
+      }
+
       lines.push({
-        'points': points,
+        'points': points_scaled,
         "color": colorHex,
       });
       points = [];
+      points_scaled = [];
     }
 
     if (currentShapes[key].shapeRef.shapeName === 'bndBox'){
       colorHex = HSLToHex(currentShapes[key].color.stroke);
-      points.push(currentShapes[key].shapeRef.aCoords.br.x, currentShapes[key].shapeRef.aCoords.br.y);
-      points.push(currentShapes[key].shapeRef.aCoords.tr.x, currentShapes[key].shapeRef.aCoords.tr.y);
+
       points.push(currentShapes[key].shapeRef.aCoords.tl.x, currentShapes[key].shapeRef.aCoords.tl.y);
-      points.push(currentShapes[key].shapeRef.aCoords.bl.x, currentShapes[key].shapeRef.aCoords.bl.y);
+      points.push(currentShapes[key].shapeRef.aCoords.br.x, currentShapes[key].shapeRef.aCoords.br.y);
+
+      for (let i=0; i<Math.floor(points.length/2); i++){
+           let j = i*2;
+           points_scaled[j] = points[j]/imageDimensions.scaleX;
+           points_scaled[j+1] = points[j+1]/imageDimensions.scaleY;
+      }
+
       rectangles.push({
         "color": colorHex,
-        'points': points
+        'points': points_scaled
       });
       points = [];
+      points_scaled = [];
     }
   }
   imageId = getCurrentImageId();

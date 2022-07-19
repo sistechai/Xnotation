@@ -154,8 +154,8 @@ function getStatementsForCurrentImageToJSON(images) {
 
       for (let i=0; i<Math.floor(points.length/2); i++){
          let j = i*2;
-         points_scaled[j] = points[j]/imageDimensions.scaleX;
-         points_scaled[j+1] = points[j+1]/imageDimensions.scaleY;
+         points_scaled[j] = Math.trunc(points[j]/imageDimensions.scaleX);
+         points_scaled[j+1] = Math.trunc(points[j+1]/imageDimensions.scaleY);
       }
 
       polygons.push({
@@ -178,8 +178,8 @@ function getStatementsForCurrentImageToJSON(images) {
 
       for (let i=0; i<Math.floor(points_scaled.length/2); i++){
           let j = i*2;
-          points_scaled[j] = points_scaled[j]/imageDimensions.scaleX;
-          points_scaled[j+1] = points_scaled[j+1]/imageDimensions.scaleY;
+          points_scaled[j] = Math.trunc(points_scaled[j]/imageDimensions.scaleX);
+          points_scaled[j+1] = Math.trunc(points_scaled[j+1]/imageDimensions.scaleY);
       }
 
       lines.push({
@@ -198,8 +198,8 @@ function getStatementsForCurrentImageToJSON(images) {
 
       for (let i=0; i<Math.floor(points.length/2); i++){
            let j = i*2;
-           points_scaled[j] = points[j]/imageDimensions.scaleX;
-           points_scaled[j+1] = points[j+1]/imageDimensions.scaleY;
+           points_scaled[j] = Math.trunc(points[j]/imageDimensions.scaleX);
+           points_scaled[j+1] = Math.trunc(points[j+1]/imageDimensions.scaleY);
       }
 
       rectangles.push({

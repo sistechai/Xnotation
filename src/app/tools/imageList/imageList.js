@@ -395,10 +395,26 @@ function exportJSON(){
 
 function writeJSON(objectJSON){
   const stringJSON = JSON.stringify(objectJSON);
-  let stringJSONparsed = JSON.parse(stringJSON);
-  console.log("---stringJSONparsed", stringJSONparsed);
+  const stringJSONparsed = JSON.parse(stringJSON);
+
+// Start file download.
+  download("annotation.json", stringJSON);
+  console.log("stringJSONparsed", stringJSONparsed);
 
   return stringJSONparsed;
+}
+
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
 }
 
 // evoked before uploading new image or swithching the images

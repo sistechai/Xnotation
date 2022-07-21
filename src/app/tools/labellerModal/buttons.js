@@ -1,7 +1,11 @@
 import { initialiseLabellerModalOptionsList } from './style.js';
 import {
-  labelShape, selectLabelOption, initialiseLabellerModalLocalVariables,
-  inputKeyDown, pasteLabelText, cancelLabellingProcess,
+  labelShape, 
+  selectLabelOption, 
+  initialiseLabellerModalLocalVariables,
+  inputKeyDown, 
+  pasteLabelText, 
+  cancelLabellingProcess,
 } from './buttonEventHandlers.js';
 
 function initialiseLabellerModal() {

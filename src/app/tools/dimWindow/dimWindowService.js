@@ -1,5 +1,9 @@
 import { onMouseMoveEvent } from '../../keyEvents/mouse/mouseMove.js';
-import { QUICK_DIM_SECONDS, THIN_DIM, QUICK_LIGHTUP_MILLISECONDS } from './consts.js';
+import { 
+  QUICK_DIM_SECONDS, 
+  THIN_DIM, 
+  QUICK_LIGHTUP_MILLISECONDS 
+} from './consts.js';
 import { getCrosshairUsedOnCanvasState } from '../state.js';
 
 let windowDimElement = null;

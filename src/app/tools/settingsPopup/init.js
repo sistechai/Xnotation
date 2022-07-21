@@ -1,5 +1,8 @@
 import { initialiseSettingsPopupStyling } from './style.js';
-import { assignCanvasForSettingsPopupOptionsClickEvents, assignSettingsPopupButtonEventHandlers } from './buttonEvents.js';
+import { 
+  assignCanvasForSettingsPopupOptionsClickEvents, 
+  assignSettingsPopupButtonEventHandlers 
+} from './buttonEvents.js';
 import { initialiseBoundingBoxCrosshairDropdownStyling } from './options/boundingBoxCrosshairDropdown/style.js';
 import assignBoundingBoxCrosshairDropdownButtonEventHandlers from './options/boundingBoxCrosshairDropdown/buttonEvents.js';
 import { assignCanvasForCrosshairToggle } from './options/boundingBoxCrosshairDropdown/toggleCrosshairWorker.js';

@@ -1,4 +1,8 @@
-import { getSettingsPopupOpenState, getExportDatasetsPopupOpenState } from '../../state.js';
+import { 
+  getSettingsPopupOpenState, 
+  getExportDatasetsPopupOpenState 
+} from '../../state.js';
+
 import IS_FIREFOX from '../../utils/browserType.js';
 
 const buttonPopovers = {};

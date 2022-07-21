@@ -399,7 +399,10 @@ function writeJSON(objectJSON){
 
 // Start file download.
   download("annotation.json", stringJSON);
-  console.log("stringJSONparsed", stringJSONparsed);
+  
+  if (wondow.DEBUG) {
+    console.log("stringJSONparsed", stringJSONparsed);
+  }
 
   return stringJSONparsed;
 }

@@ -1,5 +1,9 @@
 import { switchImage } from '../imageList.js';
-import { doNothingIfNotLeftMouseButtonPress, removeButtonPopoverIfActive } from '../../utils/buttons/clickMiddleware.js';
+import { 
+  doNothingIfNotLeftMouseButtonPress, 
+  removeButtonPopoverIfActive 
+} from '../../utils/buttons/clickMiddleware.js';
+
 import uploadImages from '../uploadImages/uploadImages.js';
 import { resetCanvasEventsToDefault } from '../../toolkit/buttonClickEvents/facade.js';
 import {
@@ -13,21 +17,18 @@ function triggeUploadImagesButton() {
 }
 
 function uploadImageFiles(uploadData) {
-  // uploadData = `<input type="image" id="0"
-  //      src="/img_211108_155617562676.jpeg">`;
-  //console.log("this", this.uploadImageFiles);
-
   discardActiveObject();
   uploadImages(uploadData);
 }
 
 function initialiseImageListButtonClickEvents() {
-  window.switchImage = replaceExistingCanvas.bind(this, switchImage,
-    resetCanvasEventsToDefault);
+
+  window.switchImage = replaceExistingCanvas.bind(this, switchImage, resetCanvasEventsToDefault);
+  
+  // uploadImages button
   window.triggerImageUpload = removeButtonPopoverIfActive.bind(this, triggeUploadImagesButton);
-  window.uploadImages = interruptAllCanvasEventsBeforeFuncWInputs.bind(this, this,
-    { uploadImageFiles, resetCanvasEventsToDefault });
+  window.uploadImages = interruptAllCanvasEventsBeforeFuncWInputs.bind(this, this, { uploadImageFiles, resetCanvasEventsToDefault });
   window.removeImage = doNothingIfNotLeftMouseButtonPress.bind(this, triggerRemoveImage);
 }
 
-export { initialiseImageListButtonClickEvents as default };
+export { initialiseImageListButtonClickEvents, uploadImageFiles };

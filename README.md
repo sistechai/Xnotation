@@ -7,11 +7,11 @@ MyVision is a free online image annotation tool used for generating computer vis
 ## Features
 
 Draw bounding boxes and polygons to label your objects:
-<img width="1000" src="./readme/gifs/2020-07-06 23-41-06.gif" alt="Logo">
+<img src="./readme/gifs/2020-07-06 23-41-06.gif" alt="Logo">
 
 Polygon manipulation is enriched with additional features to edit, remove and add new points:
 
-<img width="1000" src="./readme/gifs/ezgif.com-gif-maker 3.gif" alt="Logo">
+<img src="./readme/gifs/ezgif.com-gif-maker 3.gif" alt="Logo">
 <!--
 Supported dataset formats:
 --><!--

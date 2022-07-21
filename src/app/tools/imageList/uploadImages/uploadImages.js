@@ -14,13 +14,13 @@ function isFormatValid(file) {
 // from index.html
 // onerror?
 function uploadImages(uploadData) {
- if (uploadData.files && uploadData.files.length > 0) {
+  if (uploadData.files && uploadData.files.length > 0) {
     if (uploadData.files.length === 1) {
       uploadSingleImage(uploadData);
     } else {
       uploadMultipleImages(uploadData);
     }
- }
+  }
 }
 
 //

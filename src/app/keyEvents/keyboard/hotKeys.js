@@ -1,28 +1,55 @@
-import { labelShape, arrowKeyEvents as labellerModalArrowKeyEvents } from '../../tools/labellerModal/buttonEventHandlers.js';
+import { 
+  labelShape, 
+  arrowKeyEvents as labellerModalArrowKeyEvents 
+} from '../../tools/labellerModal/buttonEventHandlers.js';
+
 import {
-  isEditingLabelInLabelList, cancelEditingViaKeyboard as cancelEditingLabelList,
+  isEditingLabelInLabelList, 
+  cancelEditingViaKeyboard as cancelEditingLabelList,
   arrowKeyEventsForLabelOtionsList as labelOptionsListArrowKeyEvents,
   arrowKeyEventsForLabelList as labelListArrowKeyEvents,
 } from '../../tools/labelList/labelList.js';
+
 import { getCurrentlyHighlightedElement } from '../../tools/labelList/labelListHighlightUtils.js';
 import { closeModalViaKeyboard as closeUploadDatasetsModal } from '../../tools/uploadDatasetsModal/views/viewManager.js';
 import { closeModalViaKeyboard as closeMachineLearningModal } from '../../tools/machineLearningModal/views/viewManager.js';
+
 import {
-  getShapeMovingState, getDefaultState, getLastDrawingModeState,
-  getExportDatasetsPopupOpenState, getLabellerModalDisplayedState,
-  getPolygonDrawingInProgressState, getBoundingBoxDrawingInProgressState,
-  getUploadDatasetsModalDisplayedState, getMachineLearningModalDisplayedState,
-  getAddingPolygonPointsState, getRemovingPolygonPointsState, getSettingsPopupOpenState,
-  getRemoveImageModalDisplayedState, getReadyToDrawShapeState, getWelcomeModalDisplayedState,
+  getShapeMovingState, 
+  getDefaultState, 
+  getLastDrawingModeState,
+  getExportDatasetsPopupOpenState, 
+  getLabellerModalDisplayedState,
+  getPolygonDrawingInProgressState, 
+  getBoundingBoxDrawingInProgressState,
+  getUploadDatasetsModalDisplayedState, 
+  getMachineLearningModalDisplayedState,
+  getAddingPolygonPointsState, 
+  getRemovingPolygonPointsState, 
+  getSettingsPopupOpenState,
+  getRemoveImageModalDisplayedState, 
+  getReadyToDrawShapeState, 
+  getWelcomeModalDisplayedState,
 } from '../../tools/state.js';
+
 import { removeFillForAllShapes } from '../../canvas/objects/allShapes/allShapes.js';
-import { addPointViaKeyboard as addPointToNewPolygonViaKeyboard, generatePolygonViaKeyboard } from '../../canvas/objects/polygon/polygon.js';
+import { 
+  addPointViaKeyboard as addPointToNewPolygonViaKeyboard, 
+  generatePolygonViaKeyboard 
+} from '../../canvas/objects/polygon/polygon.js';
+
 import { instantiateNewBoundingBox, finishDrawingBoundingBox } from '../../canvas/objects/boundingBox/boundingBox.js';
+
 import {
-  getCreatePolygonButtonState, getCreateBoundingBoxButtonState,
-  getEditShapesButtonState, getRemovePointsButtonState, getAddPointsButtonState,
-  getCreateLineState, setCreateNewLineButtonToActive,
+  getCreatePolygonButtonState, 
+  getCreateBoundingBoxButtonState,
+  getEditShapesButtonState, 
+  getRemovePointsButtonState, 
+  getAddPointsButtonState,
+  getCreateLineState, 
+  setCreateNewLineButtonToActive,
 } from '../../tools/toolkit/styling/state.js';
+
 import { testDrawLine } from '../../tools/toolkit/buttonClickEvents/facade.js';
 import { closeRemoveImagesModal } from '../../tools/imageList/removeImages/modal/style.js';
 import { removeTempPointViaKeyboard } from '../../canvas/mouseInteractions/mouseEvents/eventWorkers/removePointsOnNewPolygonEventsWorker.js';
@@ -32,7 +59,10 @@ import closeAllPopups from '../../tools/utils/popups/closeAllPopups.js';
 import { getUserOS } from '../../tools/OS/OSManager.js';
 import { closeWelcomeModal } from '../../tools/welcomeModal/buttons/workers.js';
 import isAnyModalOpen from '../../tools/utils/modals/status.js';
-import { getAddPointsLineState, addLineLastPoint } from '../../canvas/mouseInteractions/mouseEvents/eventWorkers/addPointsEventsWorker.js';
+import { 
+  getAddPointsLineState, 
+  addLineLastPoint 
+} from '../../canvas/mouseInteractions/mouseEvents/eventWorkers/addPointsEventsWorker.js';
 
 let canvas = null;
 let isRKeyUp = true;

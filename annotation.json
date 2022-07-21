@@ -1,0 +1,116 @@
+{
+    "0": {
+        "annotation": {
+            "rectangles": [],
+            "polygons": [
+                {
+                    "color": "#17fd99",
+                    "points": [
+                        838,
+                        705,
+                        1114,
+                        721,
+                        1171,
+                        544,
+                        1628,
+                        590,
+                        1612,
+                        762,
+                        1734,
+                        788,
+                        1704,
+                        898,
+                        820,
+                        824
+                    ]
+                }
+            ],
+            "lines": []
+        },
+        "file_name": "DJI_0898.JPG"
+    },
+    "1": {
+        "annotation": {
+            "rectangles": [],
+            "polygons": [
+                {
+                    "color": "#6ba800",
+                    "points": [
+                        179,
+                        457,
+                        781,
+                        494,
+                        879,
+                        540,
+                        2372,
+                        609,
+                        2386,
+                        1249,
+                        1065,
+                        1150,
+                        765,
+                        1132,
+                        351,
+                        1091,
+                        18,
+                        1031,
+                        9,
+                        737
+                    ]
+                }
+            ],
+            "lines": []
+        },
+        "file_name": "DJI_0899.JPG"
+    },
+    "2": {
+        "annotation": {
+            "rectangles": [],
+            "polygons": [],
+            "lines": []
+        },
+        "file_name": "DJI_0900.JPG"
+    },
+    "3": {
+        "annotation": {
+            "rectangles": [],
+            "polygons": [
+                {
+                    "color": "#a8056f",
+                    "points": [
+                        534,
+                        560,
+                        2377,
+                        686,
+                        2370,
+                        1326,
+                        638,
+                        1182,
+                        704,
+                        870,
+                        454,
+                        828
+                    ]
+                }
+            ],
+            "lines": []
+        },
+        "file_name": "DJI_0902.JPG"
+    },
+    "4": {
+        "annotation": {
+            "rectangles": [],
+            "polygons": [],
+            "lines": []
+        },
+        "file_name": "DJI_0901.JPG"
+    },
+    "5": {
+        "annotation": {
+            "rectangles": [],
+            "polygons": [],
+            "lines": []
+        },
+        "file_name": "DJI_0903.JPG"
+    }
+}

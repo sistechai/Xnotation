@@ -21,7 +21,7 @@ window.localImageFiles = [
 function initialiseImageListFunctionality() {
   initialiseImageList();
   initialiseImageListButtonClickEvents();
-  // uploadLocalImagesByPath();
+  uploadLocalImagesByPath();
 }
 
 

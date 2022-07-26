@@ -8,12 +8,12 @@ import {
 
 // Local files 
 window.localImageFiles = [
-  "/storage/images/DJI_0898.JPG",
-  "/storage/images/DJI_0899.JPG",
-  "/storage/images/DJI_0900.JPG",
-  "/storage/images/DJI_0901.JPG",
-  "/storage/images/DJI_0902.JPG",
-  "/storage/images/DJI_0903.JPG"
+  "https://shekhrozx.github.io/Xnotation/src/storage/images/DJI_0898.JPG",
+  "https://shekhrozx.github.io/Xnotation/src/storage/images/DJI_0899.JPG",
+  "https://shekhrozx.github.io/Xnotation/src/storage/images/DJI_0900.JPG",
+  "https://shekhrozx.github.io/Xnotation/src/storage/images/DJI_0901.JPG",
+  "https://shekhrozx.github.io/Xnotation/src/storage/images/DJI_0902.JPG",
+  "https://shekhrozx.github.io/Xnotation/src/storage/images/DJI_0903.JPG"
 ];
 
 

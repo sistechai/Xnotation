@@ -1,19 +1,37 @@
-import { createLabelShape, removeTargetShape, isLabelling } from './labellingProcess.js';
-import {resetCanvasEventsToDefault, testDrawLine} from '../toolkit/buttonClickEvents/facade.js';
+import { 
+  createLabelShape, 
+  removeTargetShape, 
+  isLabelling 
+} from './labellingProcess.js';
+
 import {
-  getLastDrawingModeState, setHasDrawnShapeState,
-  getContinuousDrawingState, getCrosshairUsedOnCanvasState, setTestDrawLineState,
+  resetCanvasEventsToDefault, 
+  testDrawLine
+} from '../toolkit/buttonClickEvents/facade.js';
+
+import {
+  getLastDrawingModeState, 
+  setHasDrawnShapeState,
+  getContinuousDrawingState, 
+  getCrosshairUsedOnCanvasState, 
+  setTestDrawLineState,
 } from '../state.js';
+
 import { resetDrawPolygonMode } from '../../canvas/objects/polygon/polygon.js';
 import { resetDrawBoundingBoxMode } from '../../canvas/objects/boundingBox/boundingBox.js';
 import { getLabelOptions } from '../labelList/labelOptions.js';
 import { displayTickSVGOverImageThumbnail } from '../imageList/imageList.js';
-import { preprocessPastedText, preprocessLabelText } from '../utils/textProcessingUtils.js';
+import { 
+  preprocessPastedText, 
+  preprocessLabelText 
+} from '../utils/textProcessingUtils.js';
 import { getKeyDownEventTimeout } from '../globalStyling/timeouts.js';
 import scrollIntoViewIfNeeded from '../utils/tableUtils.js';
 import {
-  hideLabellerModal, changeStyleWhenInputEmpty,
-  changeStyleWhenInputInvalid, changeStyleToAllowSubmit,
+  hideLabellerModal, 
+  changeStyleWhenInputEmpty,
+  changeStyleWhenInputInvalid, 
+  changeStyleToAllowSubmit,
 } from './style.js';
 import { removeOutsideCrosshairEventListeners } from '../../canvas/mouseInteractions/cursorModes/drawWithCrosshairMode.js';
 

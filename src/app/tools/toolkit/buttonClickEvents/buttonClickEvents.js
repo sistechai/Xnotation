@@ -1,4 +1,8 @@
-import { removeButtonPopoverIfActive, doNothingIfNotLeftMouseButtonPressWthArg } from '../../utils/buttons/clickMiddleware.js';
+import { 
+  removeButtonPopoverIfActive, 
+  doNothingIfNotLeftMouseButtonPressWthArg 
+} from '../../utils/buttons/clickMiddleware.js';
+
 import {
   removePolygonPointBtnClick,
   createNewPolygonBtnClick,

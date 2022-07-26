@@ -1,26 +1,50 @@
 import {
-  resizeCanvasAndImage, removeCanvasOuterMargin,
-  getCanvasProperties, getImageProperties, enableCanvasOuterMargin,
+  resizeCanvasAndImage, 
+  removeCanvasOuterMargin,
+  getCanvasProperties, 
+  getImageProperties, 
+  enableCanvasOuterMargin,
 } from '../../../imageList/uploadImages/drawImageOnCanvas.js';
-import { changeMovePolygonPathOffset } from '../../../../canvas/objects/polygon/alterPolygon/resetCoordinatesAfterMove.js';
-import polygonProperties from '../../../../canvas/objects/polygon/properties.js';
 import labelProperties from '../../../../canvas/objects/label/properties.js';
-import { resizeAllObjectsDimensionsByDoubleScale } from '../../../../canvas/objects/objectsProperties/changeProperties.js';
+import polygonProperties from '../../../../canvas/objects/polygon/properties.js';
 import boundingBoxProps from '../../../../canvas/objects/boundingBox/properties.js';
+import { changeMovePolygonPathOffset } from '../../../../canvas/objects/polygon/alterPolygon/resetCoordinatesAfterMove.js';
+import { resizeAllObjectsDimensionsByDoubleScale } from '../../../../canvas/objects/objectsProperties/changeProperties.js';
+
 import {
-  setDoubleScrollCanvasState, getCurrentZoomState,
-  getCrosshairUsedOnCanvasState, setCurrentZoomState,
+  setDoubleScrollCanvasState, 
+  getCurrentZoomState,
+  getCrosshairUsedOnCanvasState, 
+  setCurrentZoomState,
 } from '../../../state.js';
+
 import { scrolledViaScrollbar } from '../../../../canvas/objects/polygon/polygon.js';
-import { changeElementPropertiesChromium, setDOMElementsChromium, initialiseVariablesChromium } from '../../../zoom/chromium.js';
-import { changeElementPropertiesFirefox, setDOMElementsFirefox, initialiseVariablesFirefox } from '../../../zoom/firefox.js';
+
+import { 
+  changeElementPropertiesChromium, 
+  setDOMElementsChromium, 
+  initialiseVariablesChromium 
+} from '../../../zoom/chromium.js';
+
+import { 
+  changeElementPropertiesFirefox, 
+  setDOMElementsFirefox, 
+  initialiseVariablesFirefox 
+} from '../../../zoom/firefox.js';
+
 import IS_FIREFOX from '../../../utils/browserType.js';
 import { getCurrentCanvasContainerElement } from '../../../../canvas/utils/canvasUtils.js';
 import {
-  setZoomInButtonToDefault, setZoomInButtonToDisabled,
-  setZoomOutButtonToDefault, setZoomOutButtonToDisabled,
+  setZoomInButtonToDefault, 
+  setZoomInButtonToDisabled,
+  setZoomOutButtonToDefault, 
+  setZoomOutButtonToDisabled,
 } from '../../styling/state.js';
-import { setCrosshairAfterZoom, resetCanvasCrosshairStrokeWidth } from '../../../../canvas/mouseInteractions/cursorModes/drawWithCrosshairMode.js';
+
+import { 
+  setCrosshairAfterZoom, 
+  resetCanvasCrosshairStrokeWidth 
+} from '../../../../canvas/mouseInteractions/cursorModes/drawWithCrosshairMode.js';
 import crosshairProps from '../../../../canvas/objects/crosshair/properties.js';
 
 let currentZoom = null;

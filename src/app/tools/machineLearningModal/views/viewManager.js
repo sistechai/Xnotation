@@ -1,15 +1,42 @@
-import { assignInitiateMachineLearningViewLocalVariables, prepareInstantiateMachineLearningView, hideInitiateMachineLearningViewAssets } from './initiateMachineLearning/style.js';
-import { assignGeneratedLabelsViewLocalVariables, hideGeneratedLabelsViewAssets } from './generatedLabels/style.js';
+import { 
+  assignInitiateMachineLearningViewLocalVariables, 
+  prepareInstantiateMachineLearningView, 
+  hideInitiateMachineLearningViewAssets 
+} from './initiateMachineLearning/style.js';
+
+import { 
+  assignGeneratedLabelsViewLocalVariables, 
+  hideGeneratedLabelsViewAssets 
+} from './generatedLabels/style.js';
+
 import { displayGeneratedLabelsView } from './generatedLabels/changeLabels.js';
-import { assignNoObjectsFoundViewLocalVariables, displayNoObjectsFoundView, hideNoObjectsFoundViewAssets } from './noObjectsFound/style.js';
+import { 
+  assignNoObjectsFoundViewLocalVariables, 
+  displayNoObjectsFoundView, 
+  hideNoObjectsFoundViewAssets 
+} from './noObjectsFound/style.js';
+
 import registerInitiateMachineLearningViewButtonEventHandlers from './initiateMachineLearning/buttonEvents.js';
 import { getProgressStatus, cancelMachineLearning } from './initiateMachineLearning/machineLearning.js';
 import registerGeneratedLabelsViewButtonEventHandlers from './generatedLabels/buttonEvents.js';
 import registerNoObjectsFoundViewButtonEventHandlers from './noObjectsFound/buttonEvents.js';
 import { dimWindow, lightUpWindow } from '../../dimWindow/dimWindowService.js';
-import { SLOW_LIGHTUP_MILLISECONDS, SLOW_DIM_SECONDS, THICK_DIM } from '../../dimWindow/consts.js';
-import { getContinuousDrawingState, getLastDrawingModeState, setMachineLearningModalDisplayedState } from '../../state.js';
-import { removeTempShapes, removeImageThumbnails, resetCursor } from '../../../canvas/utils/drawShapesViaCoordinates/drawShapesViaCoordinates.js';
+
+import { 
+  SLOW_LIGHTUP_MILLISECONDS, 
+  SLOW_DIM_SECONDS, THICK_DIM 
+} from '../../dimWindow/consts.js';
+
+import { 
+  getContinuousDrawingState, 
+  getLastDrawingModeState, 
+  setMachineLearningModalDisplayedState 
+} from '../../state.js';
+import { 
+  removeTempShapes, 
+  removeImageThumbnails, 
+  resetCursor 
+} from '../../../canvas/utils/drawShapesViaCoordinates/drawShapesViaCoordinates.js';
 
 let currentViewNumber = 1;
 let machineLearningData = {};

@@ -76,6 +76,9 @@ function getCaretPositionOnDiv(editableDiv, paste) {
 }
 
 export {
-  emptyContentEditableFirefoxBugFix, getCaretPositionOnDiv,
-  setCaretPositionOnDiv, isVerticalScrollPresent, getDefaultFont,
+  emptyContentEditableFirefoxBugFix, 
+  getCaretPositionOnDiv,
+  setCaretPositionOnDiv, 
+  isVerticalScrollPresent, 
+  getDefaultFont,
 };

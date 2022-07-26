@@ -3,8 +3,10 @@ import { resizeAllObjectsDimensionsByDoubleScale } from '../../canvas/objects/ob
 import labelProperies from '../../canvas/objects/label/properties.js';
 import { zoomCanvas } from '../toolkit/buttonClickEvents/facadeWorkers/zoomWorker.js';
 import {
-  getSettingsPopupOpenState, getExportDatasetsPopupOpenState,
-  getCurrentZoomState, getBoundingBoxCrosshairDropdownOpenState,
+  getSettingsPopupOpenState, 
+  getExportDatasetsPopupOpenState,
+  getCurrentZoomState, 
+  getBoundingBoxCrosshairDropdownOpenState,
 } from '../state.js';
 import { validateFullLabellerModalVisibile } from '../labellerModal/style.js';
 import { setStickySettingsPopupProperties } from '../settingsPopup/style.js';

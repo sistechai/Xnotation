@@ -1,6 +1,10 @@
 import { resetObjectCursors as resetObjectCursorsForDefaultDraw } from '../../canvas/mouseInteractions/cursorModes/drawMode.js';
 import { setAllObjectsToUneditable as resetObjectCursorsForCrosshairDraw } from '../../canvas/mouseInteractions/cursorModes/drawWithCrosshairMode.js';
-import { getLabellerModalInputText, hideLabellerModal, resetLabellerModalOptions } from './style.js';
+import { 
+  getLabellerModalInputText, 
+  hideLabellerModal, 
+  resetLabellerModalOptions 
+} from './style.js';
 import { generateLabelShapeGroup } from '../../canvas/objects/allShapes/labelAndShapeBuilder.js';
 import waitingForLabelCursorMode from '../../canvas/mouseInteractions/cursorModes/waitingForLabelSubmissionMode.js';
 import { getCrosshairUsedOnCanvasState } from '../state.js';

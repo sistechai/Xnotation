@@ -1,29 +1,47 @@
 import purgeCanvasMouseEvents from '../../../../canvas/mouseInteractions/mouseEvents/resetCanvasUtils/purgeAllMouseHandlers.js';
 import {
-  getCancelledReadyToDrawState, setRemovingPolygonPointsState,
-  getRemovingPolygonPointsState, setRemovingPointsAfterCancelDrawState,
-  getReadyToDrawShapeState, setCancelledReadyToDrawState, setDefaultState,
-  getContinuousDrawingState, getAddingPolygonPointsState, setReadyToDrawShapeState,
-  getLastDrawingModeState, setAddingPolygonPointsState, getPolygonDrawingInProgressState,
+  getCancelledReadyToDrawState, 
+  setRemovingPolygonPointsState,
+  getRemovingPolygonPointsState, 
+  setRemovingPointsAfterCancelDrawState,
+  getReadyToDrawShapeState, 
+  setCancelledReadyToDrawState, 
+  setDefaultState,
+  getContinuousDrawingState, 
+  getAddingPolygonPointsState, 
+  setReadyToDrawShapeState,
+  getLastDrawingModeState, 
+  setAddingPolygonPointsState, 
+  getPolygonDrawingInProgressState,
 } from '../../../state.js';
+
 import {
-  setEditShapesButtonToActive, setEditShapesButtonToDefault,
-  setRemovePointsButtonToActive, setRemovePointsButtonToDefault,
-  setCreateBoundingBoxButtonToActive, setCreatePolygonButtonToActive,
+  setEditShapesButtonToActive, 
+  setEditShapesButtonToDefault,
+  setRemovePointsButtonToActive, 
+  setRemovePointsButtonToDefault,
+  setCreateBoundingBoxButtonToActive, 
+  setCreatePolygonButtonToActive,
 } from '../../styling/state.js';
+
 import { removeInvisiblePoint } from '../../../../canvas/objects/polygon/polygon.js';
-import setRemovePointsOnExistingPolygonMode from '../../../../canvas/mouseInteractions/cursorModes/removePointsOnExistingPolygonMode.js';
-import setRemovePointsOnDrawNewPolygonMode from '../../../../canvas/mouseInteractions/cursorModes/removePointsOnDrawNewPolygonMode.js';
-import assignRemovePointsOnExistingPolygonEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/removePointsEventHandlers.js';
-import { removeEditedPolygonId } from '../../../../canvas/mouseInteractions/mouseEvents/eventWorkers/defaultEventsWorker.js';
-import assignRemovePointsOnDrawPolygonEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/removePointsOnDrawPolygonEventHandlers.js';
-import assignDrawBoundingBoxEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/drawBndBoxEventHandlers.js';
-import assignDrawPolygonEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/drawPolygonEventHandlers.js';
 import assignDefaultEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/defaultEventHandlers.js';
+import { removeEditedPolygonId } from '../../../../canvas/mouseInteractions/mouseEvents/eventWorkers/defaultEventsWorker.js';
 import { setDefaultCursorModeAfterAlteringPolygonPoints } from '../../../../canvas/mouseInteractions/cursorModes/defaultMode.js';
+import assignDrawPolygonEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/drawPolygonEventHandlers.js';
+import assignDrawBoundingBoxEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/drawBndBoxEventHandlers.js';
+import setRemovePointsOnDrawNewPolygonMode from '../../../../canvas/mouseInteractions/cursorModes/removePointsOnDrawNewPolygonMode.js';
+import setRemovePointsOnExistingPolygonMode from '../../../../canvas/mouseInteractions/cursorModes/removePointsOnExistingPolygonMode.js';
+import assignRemovePointsOnExistingPolygonEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/removePointsEventHandlers.js';
+import assignRemovePointsOnDrawPolygonEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/removePointsOnDrawPolygonEventHandlers.js';
+
 import {
-  resetAddPoints, cleanPolygonPointsArray, removePolygonPoints, getPolygonIdIfEditing,
+  resetAddPoints, 
+  cleanPolygonPointsArray, 
+  removePolygonPoints, 
+  getPolygonIdIfEditing,
 } from '../../../../canvas/objects/polygon/alterPolygon/alterPolygon.js';
+
 import { removeHighlightOfListLabel } from '../../../labelList/labelListHighlightUtils.js';
 
 function setRemovePointsCursorMode(canvas) {

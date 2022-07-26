@@ -1,11 +1,21 @@
 import purgeCanvasMouseEvents from '../../../../canvas/mouseInteractions/mouseEvents/resetCanvasUtils/purgeAllMouseHandlers.js';
 import assignDrawPolygonEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/drawPolygonEventHandlers.js';
 import {
-  setDefaultState, setAlteringPolygonPointsState,
-  setLastDrawingModeState, getLastDrawingModeState, setHasDrawnShapeState,
-  getTestDrawLineState, setTestDrawLineState,
+  setDefaultState, 
+  setAlteringPolygonPointsState,
+  setLastDrawingModeState, 
+  getLastDrawingModeState, 
+  setHasDrawnShapeState,
+  getTestDrawLineState, 
+  setTestDrawLineState,
 } from '../../../state.js';
-import { setEditShapesButtonToDefault, setCreatePolygonButtonToActive, setCreateNewLineToDefault, setCreateNewLineButtonToActive,} from '../../styling/state.js';
+
+import { 
+  setEditShapesButtonToDefault, 
+  setCreatePolygonButtonToActive, 
+  setCreateNewLineToDefault, 
+  setCreateNewLineButtonToActive
+} from '../../styling/state.js';
 
 function initiateCreateNewPolygonEvents(canvas) {
   canvas.discardActiveObject();

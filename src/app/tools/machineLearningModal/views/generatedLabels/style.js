@@ -1,8 +1,11 @@
 import { getScrollbarWidth } from '../../../globalStyling/style.js';
 import scrollIntoViewIfNeeded from '../../../utils/tableUtils.js';
 import {
-  getCaretPositionOnDiv, emptyContentEditableFirefoxBugFix,
-  isVerticalScrollPresent, getDefaultFont, setCaretPositionOnDiv,
+  getCaretPositionOnDiv, 
+  emptyContentEditableFirefoxBugFix,
+  isVerticalScrollPresent, 
+  getDefaultFont, 
+  setCaretPositionOnDiv,
 } from '../../../utils/elementCaretUtils.js';
 import { preprocessPastedText, preprocessLabelText } from '../../../utils/textProcessingUtils.js';
 import { getScreenSizeDelta } from '../../../globalStyling/screenSizeDelta.js';

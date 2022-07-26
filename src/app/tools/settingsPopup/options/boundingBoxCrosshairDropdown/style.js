@@ -1,11 +1,18 @@
 import { getScreenSizeDelta } from '../../../globalStyling/screenSizeDelta.js';
-import { getBoundingBoxCrosshairDropdownOpenState, setBoundingBoxCrosshairDropdownOpenState } from '../../../state.js';
+import { 
+  getBoundingBoxCrosshairDropdownOpenState, 
+  setBoundingBoxCrosshairDropdownOpenState 
+} from '../../../state.js';
 import { setStickyPopupProperties } from '../../../utils/popups/stickyPopup.js';
 
 let boundingBoxCrosshairDropdownTriggerElement = null;
 let boundingBoxCrosshairDropdownElement = null;
 let settingsPopUpElement = null;
-const stickyProperties = { isPopupSticky: false, stickCoordinates: 0, bottomPxOverride: '-1px' };
+const stickyProperties = { 
+  isPopupSticky: false, 
+  stickCoordinates: 0, 
+  bottomPxOverride: '-1px' 
+};
 
 function setPopoverPosition() {
   boundingBoxCrosshairDropdownElement.style.right = `-${(settingsPopUpElement.getBoundingClientRect().width + 2) / 2 + (11.5 * getScreenSizeDelta())}px`;

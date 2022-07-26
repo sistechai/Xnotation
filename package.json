@@ -4,7 +4,7 @@
   "description": "Online image annotation tool",
   "main": "index.js",
   "scripts": {
-    "start": "python3 -m http.server 3000",
+    "start": "python3 -m http.server --directory src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Shekhrozx/Xnotation/issues"
   },
-  "homepage": "https://github.com/Shekhrozx/Xnotation#readme"
+  "homepage": "https://github.com/Shekhrozx/Xnotation#readme",
+  "dependencies": {
+    "gulp": "^4.0.2"
+  }
 }

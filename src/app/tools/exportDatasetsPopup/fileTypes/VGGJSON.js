@@ -2,7 +2,10 @@ import { getImageProperties } from '../../imageList/uploadImages/drawImageOnCanv
 import { getAllImageData } from '../../imageList/imageList.js';
 import { getAllExistingShapes } from '../../../canvas/objects/allShapes/allShapes.js';
 import { getCurrentImageId } from '../../state.js';
-import { adjustIncorrectBoundingBoxCoordinates, adjustIncorrectPolygonPointCoordinates } from '../sharedUtils/adjustShapeCoordinates.js';
+import { 
+  adjustIncorrectBoundingBoxCoordinates, 
+  adjustIncorrectPolygonPointCoordinates 
+} from '../sharedUtils/adjustShapeCoordinates.js';
 
 function getJSONPolygonPointsCoordinates(polygon, imageDimensions) {
   const coordinatesObj = {

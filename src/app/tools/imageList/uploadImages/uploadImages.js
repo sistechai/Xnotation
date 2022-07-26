@@ -1,4 +1,8 @@
-import { addSingleImageToList, addImageFromMultiUploadToList, GetFileObjectFromURL } from '../imageList.js';
+import { 
+  addSingleImageToList, 
+  addImageFromMultiUploadToList, 
+  GetFileObjectFromURL 
+} from '../imageList.js';
 import { onImageLoad } from './drawImageOnCanvas.js';
 
 // import { removeNoImagesFoundOnMLModalStyle } from '../../machineLearningModal/views/initiateMachineLearning/style.js';

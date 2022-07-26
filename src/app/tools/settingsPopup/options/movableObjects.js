@@ -1,4 +1,10 @@
-import { setTestDrawLineState, getDefaultState, getMovableObjectsState, setMovableObjectsState } from '../../state.js';
+import { 
+  setTestDrawLineState, 
+  getDefaultState, 
+  getMovableObjectsState, 
+  setMovableObjectsState 
+} from '../../state.js';
+
 import { getAllExistingShapes } from '../../../canvas/objects/allShapes/allShapes.js';
 
 function changeExistingImagesMovability(shapes) {

@@ -1,3 +1,4 @@
 temp/
 .idea/
 test/
+node_modules/

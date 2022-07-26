@@ -1,15 +1,27 @@
 import purgeCanvasMouseEvents from '../../../../canvas/mouseInteractions/mouseEvents/resetCanvasUtils/purgeAllMouseHandlers.js';
-import { setDefaultCursorModeAfterAlteringPolygonPoints, setDefaultCursorMode } from '../../../../canvas/mouseInteractions/cursorModes/defaultMode.js';
+import { 
+  setDefaultCursorModeAfterAlteringPolygonPoints, 
+  setDefaultCursorMode 
+} from '../../../../canvas/mouseInteractions/cursorModes/defaultMode.js';
 import assignDefaultEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/defaultEventHandlers.js';
 import {
-  setPolygonEditingButtonsToDefault, setEditShapesButtonToActive,
-  setCreateBoundingBoxButtonToDefault, setCreatePolygonButtonToDefault,
+  setPolygonEditingButtonsToDefault, 
+  setEditShapesButtonToActive,
+  setCreateBoundingBoxButtonToDefault, 
+  setCreatePolygonButtonToDefault,
 } from '../../styling/state.js';
 import {
-  getCrosshairUsedOnCanvasState, setAlteringPolygonPointsState,
-  getDefaultState, getAddingPolygonPointsState, getLastDrawingModeState,
-  setDefaultState, getAlteringPolygonPointsState, getContinuousDrawingState, setLastDrawingModeState,
+  getCrosshairUsedOnCanvasState, 
+  setAlteringPolygonPointsState,
+  getDefaultState, 
+  getAddingPolygonPointsState, 
+  getLastDrawingModeState,
+  setDefaultState, 
+  getAlteringPolygonPointsState, 
+  getContinuousDrawingState, 
+  setLastDrawingModeState,
 } from '../../../state.js';
+
 import assignDrawBoundingBoxEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/drawBndBoxEventHandlers.js';
 import assignDrawPolygonEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/drawPolygonEventHandlers.js';
 import { getCurrentImage } from '../../../imageList/uploadImages/drawImageOnCanvas.js';

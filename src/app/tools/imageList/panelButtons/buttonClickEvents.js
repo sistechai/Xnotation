@@ -7,7 +7,8 @@ import {
 import uploadImages from '../uploadImages/uploadImages.js';
 import { resetCanvasEventsToDefault } from '../../toolkit/buttonClickEvents/facade.js';
 import {
-  interruptAllCanvasEventsBeforeFuncWInputs, replaceExistingCanvas,
+  interruptAllCanvasEventsBeforeFuncWInputs, 
+  replaceExistingCanvas,
 } from './buttonMiddleWare.js';
 import { discardActiveObject } from './discardActiveObject.js';
 import { triggerRemoveImage } from '../removeImages/removeImages.js';

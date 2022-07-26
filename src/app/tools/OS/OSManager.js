@@ -1,3 +1,10 @@
+/**
+ * @author Bryan & Julianna
+ * @version 0.1
+ * @description This is online Image annotation tool.
+ * 
+ */
+
 let userOS = null;
 const availableOSs = ['Win', 'Linux', 'Mac'];
 const DEFAULT_OS = 'Win';

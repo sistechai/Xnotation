@@ -37,5 +37,8 @@ function setButtonToDisabled(button) {
 }
 
 export {
-  setButtonToDefault, setButtonToDisabled, setButtonToActive, setButtonToGreyDefault,
+  setButtonToDefault, 
+  setButtonToDisabled, 
+  setButtonToActive, 
+  setButtonToGreyDefault,
 };

@@ -1,10 +1,21 @@
 import {
-  setButtonToActive, setButtonToDefault, setButtonToDisabled, setButtonToGreyDefault,
+  setButtonToActive, 
+  setButtonToDefault, 
+  setButtonToDisabled, 
+  setButtonToGreyDefault,
 } from './styling.js';
-import { getPolygonDrawingInProgressState, getTestDrawLineState, } from '../../state.js';
+import { 
+  getPolygonDrawingInProgressState, 
+  getTestDrawLineState, 
+} from '../../state.js';
+
 import { getAllExistingShapes } from '../../../canvas/objects/allShapes/allShapes.js';
 
-const state = { ACTIVE: 'active', DEFAULT: 'default', DISABLED: 'disabled' };
+const state = { 
+  ACTIVE: 'active', 
+  DEFAULT: 'default', 
+  DISABLED: 'disabled' 
+};
 
 let removePointsState = state.DEFAULT;
 let createLineState = state.DEFAULT;

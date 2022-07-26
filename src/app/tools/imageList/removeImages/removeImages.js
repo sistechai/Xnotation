@@ -9,12 +9,18 @@ import { resetZoom } from '../../toolkit/buttonClickEvents/facadeWorkers/zoomWor
 import { getDoNotShowRemoveImageModalAgainState } from './modal/state.js';
 import { drawWatermarkOnCanvasAreaBackground } from '../../../canvas/utils/watermark.js';
 import {
-  setPolygonEditingButtonsToDisabled, setZoomInButtonToDisabled,
-  setCreatePolygonButtonToDisabled, setEditShapesButtonToDisabled,
-  setCreateBoundingBoxButtonToDisabled, setRemoveImagesButtonsDisabled,
+  setPolygonEditingButtonsToDisabled, 
+  setZoomInButtonToDisabled,
+  setCreatePolygonButtonToDisabled, 
+  setEditShapesButtonToDisabled,
+  setCreateBoundingBoxButtonToDisabled, 
+  setRemoveImagesButtonsDisabled,
 } from '../../toolkit/styling/state.js';
 import {
-  getCurrentImageId, getContinuousDrawingState, getLastDrawingModeState, setDefaultState,
+  getCurrentImageId, 
+  getContinuousDrawingState, 
+  getLastDrawingModeState, 
+  setDefaultState,
 } from '../../state.js';
 import { displayRemoveImagesModal } from './modal/style.js';
 

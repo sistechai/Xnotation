@@ -1,10 +1,17 @@
 import {
-  startMachineLearning, getProgressStatus,
-  cancelMachineLearning, isFractionOfImagesAnalysedByML,
+  startMachineLearning, 
+  getProgressStatus,
+  cancelMachineLearning, 
+  isFractionOfImagesAnalysedByML,
 } from './machineLearning.js';
+
 import {
-  prepareInstantiateMachineLearningView, hideInitiateMachineLearningViewAssets,
-  removeStartButton, removeCancelButton, displayMLCoverageSelectionButtons, removeRetryButton,
+  prepareInstantiateMachineLearningView, 
+  hideInitiateMachineLearningViewAssets,
+  removeStartButton, 
+  removeCancelButton, 
+  displayMLCoverageSelectionButtons, 
+  removeRetryButton,
   removeMLCoverageSelectionButtons,
 } from './style.js';
 

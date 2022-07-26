@@ -1,6 +1,9 @@
 import { getNumberOfShapeTypes } from '../globalStatistics/globalStatistics.js';
 import { setExportDatasetsPopupOpenState } from '../state.js';
-import { setStickyPopupProperties, setPopupPosition } from '../utils/popups/stickyPopup.js';
+import { 
+  setStickyPopupProperties, 
+  setPopupPosition 
+} from '../utils/popups/stickyPopup.js';
 
 let isCheckboxSelected = false;
 let isExportButtonActive = false;
@@ -176,7 +179,11 @@ function initialiseExportDatasetsPopupStyling() {
 }
 
 export {
-  removeExportPopupInformationPopover, displayExportDatasetsPopup,
-  initialiseExportDatasetsPopupStyling, displayExportPopupInformationPopover,
-  setStickyExportDatasetsPopupProperties, selectFormat, hideExportDatasetsPopup,
+  removeExportPopupInformationPopover, 
+  displayExportDatasetsPopup,
+  initialiseExportDatasetsPopupStyling, 
+  displayExportPopupInformationPopover,
+  setStickyExportDatasetsPopupProperties, 
+  selectFormat, 
+  hideExportDatasetsPopup,
 };

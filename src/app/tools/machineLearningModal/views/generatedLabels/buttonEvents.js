@@ -1,13 +1,21 @@
 import {
-  emptyDivFirefoxBugFix, changeRowToEdit, MLLabelTextPaste,
-  updateGeneratedLabelsElementWidth, hideGeneratedLabelsViewAssets,
-  displayGreyedDefaultEditLabelButton, scrollHorizontallyToAppropriateWidth,
-  displayHighlightedDefaultEditLabelButton, displayRedEditButtonIfActiveTextEmpty,
+  emptyDivFirefoxBugFix, 
+  changeRowToEdit, 
+  MLLabelTextPaste,
+  updateGeneratedLabelsElementWidth, 
+  hideGeneratedLabelsViewAssets,
+  displayGreyedDefaultEditLabelButton, 
+  scrollHorizontallyToAppropriateWidth,
+  displayHighlightedDefaultEditLabelButton, 
+  displayRedEditButtonIfActiveTextEmpty,
 } from './style.js';
 import {
-  getGeneratedMachineLearningData, setActiveLabelProperties,
-  stopEditingMLGeneratedLabelName, submitNewLabelNames,
+  getGeneratedMachineLearningData, 
+  setActiveLabelProperties,
+  stopEditingMLGeneratedLabelName, 
+  submitNewLabelNames,
 } from './changeLabels.js';
+
 import { drawShapesViaCoordinates } from '../../../../canvas/utils/drawShapesViaCoordinates/drawShapesViaCoordinates.js';
 
 function MLLabelTextKeyDown(event) {

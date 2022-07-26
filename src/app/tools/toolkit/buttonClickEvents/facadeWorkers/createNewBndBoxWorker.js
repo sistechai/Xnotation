@@ -1,13 +1,19 @@
 import purgeCanvasMouseEvents from '../../../../canvas/mouseInteractions/mouseEvents/resetCanvasUtils/purgeAllMouseHandlers.js';
 import assignDrawBoundingBoxEvents from '../../../../canvas/mouseInteractions/mouseEvents/eventHandlers/drawBndBoxEventHandlers.js';
 import {
-  setPolygonEditingButtonsToDefault, setEditShapesButtonToDefault,
+  setPolygonEditingButtonsToDefault, 
+  setEditShapesButtonToDefault,
   setCreateBoundingBoxButtonToActive,
 } from '../../styling/state.js';
+
 import {
-  setAlteringPolygonPointsState, setLastDrawingModeState, setDefaultState,
-  setHasDrawnShapeState, getCrosshairUsedOnCanvasState,
+  setAlteringPolygonPointsState, 
+  setLastDrawingModeState, 
+  setDefaultState,
+  setHasDrawnShapeState, 
+  getCrosshairUsedOnCanvasState,
 } from '../../../state.js';
+
 import { moveCrosshair } from '../../../../canvas/mouseInteractions/cursorModes/drawWithCrosshairMode.js';
 import { executeFunctionOnceOnMouseOver } from '../../../../keyEvents/mouse/mouseOverOut.js';
 

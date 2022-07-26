@@ -1,7 +1,9 @@
 import { setChangingMLGeneratedLabelNamesState } from '../../../state.js';
 import {
-  changeEditedLabelText, displayViewElements,
-  canChangeRowToStopEdit, stopEditingActiveTextElement,
+  changeEditedLabelText, 
+  displayViewElements,
+  canChangeRowToStopEdit, 
+  stopEditingActiveTextElement,
 } from './style.js';
 
 let activeLabelInitialText = '';

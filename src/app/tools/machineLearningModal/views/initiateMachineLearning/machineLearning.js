@@ -1,9 +1,19 @@
 import { getAllImageData } from '../../../imageList/imageList.js';
-import { drawTempShapesToShowCaseMLResults, updateImageThumbnails } from '../../../../canvas/utils/drawShapesViaCoordinates/drawShapesViaCoordinates.js';
+import { 
+  drawTempShapesToShowCaseMLResults, 
+  updateImageThumbnails 
+} from '../../../../canvas/utils/drawShapesViaCoordinates/drawShapesViaCoordinates.js';
+
 import { getCurrentImageId } from '../../../state.js';
 import {
-  displayErrorMessage, changeToMLCompleteStyle, removeCancelButton, changeToNoImagesFoundStyle,
-  displayNextButton, displayRetryButton, changeToLoadingStyle, removeLoadingContent,
+  displayErrorMessage, 
+  changeToMLCompleteStyle, 
+  removeCancelButton, 
+  changeToNoImagesFoundStyle,
+  displayNextButton, 
+  displayRetryButton, 
+  changeToLoadingStyle, 
+  removeLoadingContent,
 } from './style.js';
 
 let tfModel = null;

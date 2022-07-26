@@ -1,3 +1,10 @@
+/**
+ * @author Bryan & Julianna
+ * @version 0.1
+ * @description This is online Image annotation tool.
+ * 
+ */
+
 import downloadFonts from './fonts.js';
 import IS_FIREFOX from '../utils/browserType.js';
 import { setScreenSizeDelta } from './screenSizeDelta.js';

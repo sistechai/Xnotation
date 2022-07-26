@@ -1,5 +1,14 @@
-import { drawImageFromList, getImageProperties, calculateCurrentImageHeightRatio } from './uploadImages/drawImageOnCanvas.js';
-import { updateCrosshairDimensionsAndHideAsync, moveCanvasCrosshairViaLastCanvasPositionAsync } from '../../canvas/mouseInteractions/cursorModes/drawWithCrosshairMode.js';
+import { 
+  drawImageFromList, 
+  getImageProperties, 
+  calculateCurrentImageHeightRatio 
+} from './uploadImages/drawImageOnCanvas.js';
+
+import { 
+  updateCrosshairDimensionsAndHideAsync, 
+  moveCanvasCrosshairViaLastCanvasPositionAsync 
+} from '../../canvas/mouseInteractions/cursorModes/drawWithCrosshairMode.js';
+
 import { removeAllShapeRefs, retrieveAllShapeRefs } from '../../canvas/objects/allShapes/allShapes.js';
 import { retrieveAllLabelRefs, removeAllLabelRefs } from '../../canvas/objects/label/label.js';
 import { repopulateLabelAndShapeObjects } from '../../canvas/objects/allShapes/labelAndShapeBuilder.js';
@@ -16,11 +25,26 @@ import scrollIntoViewIfNeeded from '../utils/tableUtils.js';
 import { setDefaultCursorMode } from '../../canvas/mouseInteractions/cursorModes/defaultMode.js';
 import { changeExistingImagesMovability } from '../settingsPopup/options/movableObjects.js';
 import { removeWatermarkFromCanvasAreaBackground } from '../../canvas/utils/watermark.js';
-import { setZoomInButtonToDefault, setCreatePolygonButtonToActive, setRemoveImagesButtonDefault,
-  setCreateBoundingBoxButtonToDefault, setCreatePolygonButtonToDefault, setEditShapesButtonToActive,
-  setCreateBoundingBoxButtonToActive, setPolygonEditingButtonsToDefault } from '../toolkit/styling/state.js';
-import { getDefaultState, setCurrentImageId, getContinuousDrawingState,
-  getCrosshairUsedOnCanvasState, getLastDrawingModeState } from '../state.js';
+
+import { 
+  setZoomInButtonToDefault, 
+  setCreatePolygonButtonToActive, 
+  setRemoveImagesButtonDefault,
+  setCreateBoundingBoxButtonToDefault, 
+  setCreatePolygonButtonToDefault, 
+  setEditShapesButtonToActive,
+  setCreateBoundingBoxButtonToActive, 
+  setPolygonEditingButtonsToDefault 
+} from '../toolkit/styling/state.js';
+
+import { 
+  getDefaultState, 
+  setCurrentImageId, 
+  getContinuousDrawingState,
+  getCrosshairUsedOnCanvasState, 
+  getLastDrawingModeState 
+} from '../state.js';
+
 import { getStatementsForCurrentImageToJSON } from '../../canvas/objects/allShapes/allShapes.js';
 
 let currentlyActiveElement = null;
@@ -442,13 +466,24 @@ function captureCurrentImageData() {
 }
 
 export {
+  exportJSON, 
+  switchImage, 
+  canSwitchImage,
+  getAllImageData, 
+  initialiseImageList,
+  addSingleImageToList, 
+  getLastImageIdByName,
+  GetFileObjectFromURL,
+  updateCurrentImageIds, 
   assignCanvasToImageList,
-  setDefaultImageThumbnailHighlightToML, switchImage, canSwitchImage,
-  changeImageThumbnailBorderColorToRed, resetImageThumbnailBorderColor,
-  displayTickSVGOverImageThumbnail, getAllImageData, initialiseImageList,
-  addSingleImageToList, setSelectedMLThumbnailColourOverlayBackToDefault,
-  addImageFromMultiUploadToList, updateCurrentImageIds, getLastImageIdByName,
-  setDefaultImageThumbnailHighlightToMLSelected, removeTickSVGOverImageThumbnail,
-  removeMLThumbnailHighlight, removeSelectedMLThumbnailHighlight,
-  exportJSON, GetFileObjectFromURL,
+  removeMLThumbnailHighlight, 
+  addImageFromMultiUploadToList, 
+  resetImageThumbnailBorderColor,
+  removeTickSVGOverImageThumbnail,
+  displayTickSVGOverImageThumbnail, 
+  removeSelectedMLThumbnailHighlight,
+  changeImageThumbnailBorderColorToRed, 
+  setDefaultImageThumbnailHighlightToML, 
+  setDefaultImageThumbnailHighlightToMLSelected, 
+  setSelectedMLThumbnailColourOverlayBackToDefault  
 };

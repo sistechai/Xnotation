@@ -1,6 +1,10 @@
 import { getLabelOptions } from '../labelList/labelOptions.js';
 import { dimWindow, lightUpWindow } from '../dimWindow/dimWindowService.js';
-import { QUICK_LIGHTUP_MILLISECONDS, QUICK_DIM_SECONDS, THIN_DIM } from '../dimWindow/consts.js';
+import { 
+  QUICK_LIGHTUP_MILLISECONDS, 
+  QUICK_DIM_SECONDS, 
+  THIN_DIM 
+} from '../dimWindow/consts.js';
 import { setLabellerModalDisplayedState } from '../state.js';
 import { getScrollbarWidth, windowHasScrollbar } from '../globalStyling/style.js';
 import IS_FIREFOX from '../utils/browserType.js';

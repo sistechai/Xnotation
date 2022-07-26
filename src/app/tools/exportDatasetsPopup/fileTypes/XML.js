@@ -3,7 +3,10 @@ import { getImageProperties } from '../../imageList/uploadImages/drawImageOnCanv
 import { getAllImageData } from '../../imageList/imageList.js';
 import { getAllExistingShapes } from '../../../canvas/objects/allShapes/allShapes.js';
 import { getCurrentImageId } from '../../state.js';
-import { adjustIncorrectBoundingBoxCoordinates, roundNumberToDecimalPlaces } from '../sharedUtils/adjustShapeCoordinates.js';
+import { 
+  adjustIncorrectBoundingBoxCoordinates, 
+  roundNumberToDecimalPlaces 
+} from '../sharedUtils/adjustShapeCoordinates.js';
 
 /*
 If there is an error on generating zips - try to use a file receiver

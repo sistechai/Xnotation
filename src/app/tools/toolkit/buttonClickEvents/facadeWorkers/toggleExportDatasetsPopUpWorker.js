@@ -1,4 +1,8 @@
-import { displayExportDatasetsPopup, hideExportDatasetsPopup } from '../../../exportDatasetsPopup/style.js';
+import { 
+  displayExportDatasetsPopup, 
+  hideExportDatasetsPopup 
+} from '../../../exportDatasetsPopup/style.js';
+
 import { getExportDatasetsPopupOpenState } from '../../../state.js';
 
 function toggleExportDatasetsPopup() {

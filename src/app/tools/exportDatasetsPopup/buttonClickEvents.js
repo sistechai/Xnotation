@@ -1,5 +1,13 @@
-import { selectDatasetExportFormat, exportDatasets, closeexportDatasetsPopup } from './buttonEventHandlers.js';
-import { displayExportPopupInformationPopover, removeExportPopupInformationPopover } from './style.js';
+import { 
+  selectDatasetExportFormat, 
+  exportDatasets, 
+  closeexportDatasetsPopup 
+} from './buttonEventHandlers.js';
+
+import { 
+  displayExportPopupInformationPopover, 
+  removeExportPopupInformationPopover 
+} from './style.js';
 
 function assignExportDatasetsPopupButtonEventHandlers() {
   window.selectExportDatasetsFormat = selectDatasetExportFormat;

@@ -27,6 +27,7 @@ class Xnotation {
         this.container.appendChild(crossLineY);
     }
     //#endregion
+    
     //#region Header panel
     initHeaderPanel() {
         const headerPanel = window.document.createElement("div");
@@ -47,6 +48,7 @@ class Xnotation {
         this.container.appendChild(headerPanel);
     }
     //#endregion
+    
     //#region Main panel
     initMainPanel() {
         const mainPanel = window.document.createElement("div");
@@ -58,6 +60,7 @@ class Xnotation {
         this.container.appendChild(mainPanel);
     }
     //#endregion
+    
     //#region Zoom Overflow Container
     initZoomOverflowContainer() {
         const zoomOverflowWrapperParent = window.document.createElement("div");
@@ -127,7 +130,64 @@ class Xnotation {
     }
     //#endregion
 
-    
+    //#region Labeller modal 
+    initLabellerModalContainer() {
+        const labellerModalParent = window.document.createElement("div");
+        labellerModalParent.hidden = true;
+        // Todo: add labellerModalParent mouse events
+        //labellerModalParent.onmousemove = trackMouseMoveEvents;
+        
+        const labellerModalTitle = window.document.createElement("div");
+        labellerModalTitle.id = "labeller-modal-title";
+        labellerModalTitle.className = "small-title";
+        labellerModalTitle.innerHTML = "Label Name:";
+
+        const labellerModalInput = window.document.createElement("input");
+        labellerModalInput.id = "labeller-modal-input";
+        labellerModalInput.type = "text";
+        labellerModalInput.autocomplete = "off";
+        labellerModalInput.name = "labelName";
+        labellerModalInput.spellcheck = false;
+        labellerModalInput.value = "new label";
+        // Todo: add labellerModalInput mouse events
+        // labellerModalInput.onpaste = labellerModalInputPaste;
+        // labellerModalInput.onkeydown = labellerModalInputKeyDown(event, this);
+
+        const labellerModalOptions = window.document.createElement("table");
+        labellerModalOptions.id = "labeller-modal-options";
+
+        const labellerChromePopupRight = window.document.createElement("div");
+        labellerChromePopupRight.id = "chromium-fake-popup-table-right-border-fix";
+        labellerChromePopupRight.className = "chromium-right-border-fix";
+        labellerChromePopupRight.style.display = "none";
+
+        const labellerChromePopupBottom = window.document.createElement("div");
+        labellerChromePopupBottom.id = "chromium-fake-popup-table-bottom-border-fix";
+        labellerChromePopupBottom.className = "chromium-bottom-border-fix";
+        labellerChromePopupBottom.style.display = "none";
+
+        const labellerModalButtons = window.document.createElement("div");
+        labellerModalButtons.id = "labeller-modal-buttons";
+        labellerModalButtons.className = "buttons popup-label-buttons";
+
+        const labellerModalSubmitBtn = window.document.createElement("div");
+        labellerModalSubmitBtn.id = "labeller-modal-submit-button";
+        labellerModalSubmitBtn.className = "popup-label-button popup-proceed-button";
+        labellerModalSubmitBtn.innerHTML = "Submit";
+        // Todo: add labellerModalSubmitBtn mouse events
+        // labellerModalSubmitBtn.onclick = labelShape;
+
+        const labellerModalCancelBtn = window.document.createElement("div");
+        labellerModalCancelBtn.id = "labeller-modal-cancel-button";
+        labellerModalCancelBtn.className = "popup-label-button popup-cancel-button";
+        labellerModalCancelBtn.innerHTML = "Cancel";
+
+        labellerModalButtons.appendChild(labellerModalSubmitBtn);
+        labellerModalButtons.appendChild(labellerModalCancelBtn);
+
+        
+    }
+    //#endregion
 
 
 }

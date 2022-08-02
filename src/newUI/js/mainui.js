@@ -53,6 +53,7 @@ class Xnotation {
         mainPanel.id = "base";
         
         mainPanel.appendChild(this.initZoomOverflowContainer());
+        mainPanel.appendChild(this.initCanvasWrapperContainer());
         
         this.container.appendChild(mainPanel);
     }
@@ -87,5 +88,46 @@ class Xnotation {
     }
     //#endregion
 
-    //#region Z
+    //#region Canvas Wrapper Container
+    initCanvasWrapperContainer() {
+        const canvasWrapperParent = window.document.createElement("div");
+        canvasWrapperParent.id = "canvas-wrapper-parent";
+        canvasWrapperParent.onmouseover = "return false";
+        // Todo: add canvasWrapperParent mouse events
+        // canvasWrapperParent.onmousemove = trackMouseMoveEvents;
+
+        const canvasWrapper = window.document.createElement("div");
+        canvasWrapper.id = "canvas-wrapper";
+        // Todo: add canvasWrapper mouse events
+        // canvasWrapper.onmouseover = mouseOverCanvas;
+        // canvasWrapper.onmouseout = mouseOutCanvas;
+
+        const canvasAbsoluteContainer2 = window.document.createElement("div");
+        canvasAbsoluteContainer2.id = "canvas-absolute-container-2";
+        canvasAbsoluteContainer2.className = "canvas-absolute-container";
+
+        const canvasD = window.document.createElement("canvas");
+        canvasD.id = "d";
+        canvasAbsoluteContainer2.appendChild(canvasD);
+
+        const canvasAbsoluteContainer1 = window.document.createElement("div");
+        canvasAbsoluteContainer1.id = "canvas-absolute-container-1";
+        canvasAbsoluteContainer1.className = "canvas-absolute-container";
+
+        const canvasC = window.document.createElement("canvas");
+        canvasC.id = "c";
+        canvasAbsoluteContainer1.appendChild(canvasC);
+
+        canvasWrapper.appendChild(canvasAbsoluteContainer2);
+        canvasWrapper.appendChild(canvasAbsoluteContainer1);
+
+        canvasWrapperParent.appendChild(canvasWrapper);
+
+        return canvasWrapperParent;
+    }
+    //#endregion
+
+    
+
+
 }

@@ -52,9 +52,17 @@ class Xnotation {
         const mainPanel = window.document.createElement("div");
         mainPanel.id = "base";
         
+        mainPanel.appendChild(this.initZoomOverflowContainer());
+        
+        this.container.appendChild(mainPanel);
+    }
+    //#endregion
+    //#region Zoom Overflow Container
+    initZoomOverflowContainer() {
         const zoomOverflowWrapperParent = window.document.createElement("div");
         zoomOverflowWrapperParent.id = "zoom-overflow-wrapper-parent";
-        zoomOverflowWrapperParent.onmousemove = trackMouseMoveEvents;
+        // Todo: add zoom Wrapper mouse events
+        // zoomOverflowWrapperParent.onmousemove = trackMouseMoveEvents;
 
         const zoomOverflowWrapperInnerContainer = window.document.createElement("div");
         zoomOverflowWrapperInnerContainer.id = "zoom-overflow-wrapper-inner-container";
@@ -64,11 +72,20 @@ class Xnotation {
 
         const zoomOverflow = window.document.createElement("div");
         zoomOverflow.id = "zoom-overflow";
-        zoomOverflow.onscroll = zoom
-        
-        this.container.appendChild(mainPanel);
+        // Todo: add zoom Overflow mouse events
+        // zoomOverflow.onscroll = zoomOverflowScroll(zoomOverflow);
+
+        const stub = window.document.createElement("div");
+        stub.id = "stub";
+        stub.innerHTML = ".";
+
+        zoomOverflow.appendChild(stub);
+        zoomOverflowWrapper.appendChild(zoomOverflow);
+        zoomOverflowWrapperInnerContainer.appendChild(zoomOverflowWrapper);
+        zoomOverflowWrapperParent.appendChild(zoomOverflowWrapperInnerContainer);
+        return zoomOverflowWrapperParent;
     }
     //#endregion
 
-
+    //#region Z
 }

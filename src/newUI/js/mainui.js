@@ -56,6 +56,7 @@ class Xnotation {
         
         mainPanel.appendChild(this.initZoomOverflowContainer());
         mainPanel.appendChild(this.initCanvasWrapperContainer());
+        mainPanel.appendChild(this.initLabellerModalContainer());
         
         this.container.appendChild(mainPanel);
     }
@@ -184,10 +185,21 @@ class Xnotation {
 
         labellerModalButtons.appendChild(labellerModalSubmitBtn);
         labellerModalButtons.appendChild(labellerModalCancelBtn);
-
         
+        labellerModalParent.appendChild(labellerModalTitle);
+        labellerModalParent.appendChild(labellerModalInput);
+        labellerModalParent.appendChild(labellerModalOptions);
+        labellerModalParent.appendChild(labellerChromePopupRight);
+        labellerModalParent.appendChild(labellerChromePopupBottom);
+        labellerModalParent.appendChild(labellerModalButtons);
+
+        return labellerModalParent;
     }
     //#endregion
 
-
+    //#region Remove Image popup menu
+    initRemoveImagePopupMenu() {
+        
+    }
+    //#endregion
 }

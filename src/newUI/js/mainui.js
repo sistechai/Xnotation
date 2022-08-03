@@ -58,6 +58,8 @@ class Xnotation {
         mainPanel.appendChild(this.initCanvasWrapperContainer());
         mainPanel.appendChild(this.initLabellerModalContainer());
         mainPanel.appendChild(this.initRemoveImagePopupMenu());
+        mainPanel.appendChild(this.initSettingsPopupMenu());
+        mainPanel.appendChild(this.initLeftMenuBar());
         
         this.container.appendChild(mainPanel);
     }
@@ -383,6 +385,7 @@ class Xnotation {
                         crosshairDropdownTable.id = "bounding-box-crosshair-dropdown-table";
                         crosshairDropdownTable.className = "settings-popup-item";
 
+                            // #region row1
                             const crosshairDropdownTableRow1 = window.document.createElement("tr");
 
                                 const crosshairDropdownTableRow1Col1 = window.document.createElement("td");
@@ -407,13 +410,324 @@ class Xnotation {
                                 crosshairDropdownTableRow1Col1.appendChild(crosshairCheckbox);
 
                             crosshairDropdownTableRow1.appendChild(crosshairDropdownTableRow1Col1);
-                            
+                            // #endregion
 
+                            // #region row2
+                            const crosshairDropdownTableRow2 = window.document.createElement("tr");
 
+                                const crosshairDropdownTableRow2Col1 = window.document.createElement("td");
+                                crosshairDropdownTableRow2Col1.className = "settings-popup-item settings-table-row-data";
 
+                                    const crosshairDropdownItem2 = window.document.createElement("div");
+                                    crosshairDropdownItem2.className = "settings-popup-item checkbox-text";
+                                    crosshairDropdownItem2.innerHTML = "Color";
+
+                                    const crosshairColorPicker = window.document.createElement("input");
+                                    crosshairColorPicker.id = "settings-popup-bounding-box-crosshair-color-picker";
+                                    crosshairColorPicker.className = "settings-popup-item bounding-box-crosshair-dropdown-icon checkbox settings-checkbox";
+                                    crosshairColorPicker.type = "color";
+                                    crosshairColorPicker.value = "#ffffff";
+                                    // Todo: add crosshairColorPicker mouse events
+                                    // crosshairColorPicker.oninput = crosshairColorChange(this);
+                                
+                                crosshairDropdownTableRow2Col1.appendChild(crosshairDropdownItem2);
+                                crosshairDropdownTableRow2Col1.appendChild(crosshairColorPicker);
+
+                            crosshairDropdownTableRow2.appendChild(crosshairDropdownTableRow2Col1);
+                            // #endregion
+
+                        crosshairDropdownTable.appendChild(crosshairDropdownTableRow1);
+                        crosshairDropdownTable.appendChild(crosshairDropdownTableRow2);
+                    
+                    crosshairDropdown.appendChild(crosshairDropdownTable);
+                
+                settingsTableRow4Col1.appendChild(settingsPopupItem4);
+                settingsTableRow4Col1.appendChild(dropdownTrigger);
+                settingsTableRow4Col1.appendChild(crosshairDropdown);
+
+            settingsTableRow4.appendChild(settingsTableRow4Col1);
+            // #endregion
+
+        settingsTable.appendChild(settingsTableRow1);
+        settingsTable.appendChild(settingsTableRow2);
+        settingsTable.appendChild(settingsTableRow3);
+        settingsTable.appendChild(settingsTableRow4);
+
+        settingPopup.appendChild(settingsTable);
+
+        return settingPopup;
     }
     // #endregion
 
+    // #region Left menu bar
+    initLeftMenuBar() {
+        const leftSideBar = window.document.createElement("div");
+        leftSideBar.id = "left-side-bar";
 
+            const leftSideBarTopBorder = window.document.createElement("div");
+            leftSideBarTopBorder.id = "left-side-bar-top-border";
+            leftSideBar.appendChild(leftSideBarTopBorder);
+
+            // ---------------------------------------------------------------------------------------------------------------------
+            const editShapesBtn = window.document.createElement("button");
+            editShapesBtn.id = "edit-shapes-button";
+            editShapesBtn.className = "toolkit-button toolkit-button-default toolkit-button-table-cell";
+            // Todo: add editShapesBtn mouse events
+            // editShapesBtn.onmouseup = editShapes(this, event);
+            
+                const editShapesBtnIcon = window.document.createElement("img");
+                editShapesBtnIcon.id = "edit-shapes-icon";
+                editShapesBtnIcon.className = "toolkit-button-icon";
+                editShapesBtnIcon.src = "../assets/svg/interface.svg";
+                editShapesBtnIcon.alt = "visibility";
+                editShapesBtnIcon.draggable = false;
+
+            editShapesBtn.appendChild(editShapesBtnIcon);
+
+            const editShapesBtnHover = window.document.createElement("div");
+            editShapesBtnHover.id = "default-button-popover";
+            editShapesBtnHover.className = "core-button-hover-popover";
+            editShapesBtnHover.innerHTML = "Edit shapes (E)";
+
+            leftSideBar.appendChild(editShapesBtn);
+            leftSideBar.appendChild(editShapesBtnHover);
+
+            // ---------------------------------------------------------------------------------------------------------------------
+            const createLineBtn = window.document.createElement("button");
+            createLineBtn.id = "create-line-button";
+            createLineBtn.className = "toolkit-button toolkit-button-default toolkit-button-table-cell";
+            // Todo: add createLineBtn mouse events
+            // createLineBtn.onmouseup = createNewLine(event);
+
+                const newLineBtnIcon = window.document.createElement("img");
+                newLineBtnIcon.id = "new-line-icon";
+                newLineBtnIcon.className = "toolkit-button-icon";
+                newLineBtnIcon.src = "../assets/svg/line.svg";
+                newLineBtnIcon.alt = "visibility";
+                newLineBtnIcon.draggable = false;
+
+            createLineBtn.appendChild(newLineBtnIcon);
+
+            const newLineBtnHover = window.document.createElement("div");
+            newLineBtnHover.id = "line-button-popover";
+            newLineBtnHover.className = "core-button-hover-popover";
+            newLineBtnHover.innerHTML = "New Line (L)";
+
+            leftSideBar.appendChild(createLineBtn);
+            leftSideBar.appendChild(newLineBtnHover);
+
+            // ---------------------------------------------------------------------------------------------------------------------
+            const boudingBoxBtn = window.document.createElement("button");
+            boudingBoxBtn.id = "create-bounding-box-button";
+            boudingBoxBtn.className = "toolkit-button toolkit-button-default toolkit-button-table-cell";
+            // Todo: add boudingBoxBtn mouse events
+            // boudingBoxBtn.onmouseup = createNewBndBox(event);
+
+                const bndBoxBtnIcon = window.document.createElement("img");
+                bndBoxBtnIcon.id = "new-bounding-box-icon";
+                bndBoxBtnIcon.className = "toolkit-button-icon";
+                bndBoxBtnIcon.src = "../assets/svg/method-draw-image (13).svg";
+                bndBoxBtnIcon.alt = "visibility";
+                bndBoxBtnIcon.draggable = false;
+
+            boudingBoxBtn.appendChild(bndBoxBtnIcon);
+
+            const bndBoxBtnHover = window.document.createElement("div");
+            bndBoxBtnHover.id = "bounding-box-button-popover";
+            bndBoxBtnHover.className = "core-button-hover-popover";
+            bndBoxBtnHover.innerHTML = "New Bounding box (W)";
+
+            leftSideBar.appendChild(boudingBoxBtn);
+            leftSideBar.appendChild(bndBoxBtnHover);
+
+            // ---------------------------------------------------------------------------------------------------------------------
+            const createPolygonBtn = window.document.createElement("button");
+            createPolygonBtn.id = "create-polygon-button";
+            createPolygonBtn.className = "toolkit-button toolkit-button-default toolkit-button-table-cell";
+            createPolygonBtn.type = "button";
+            // Todo: add createPolygonBtn mouse events
+            // createPolygonBtn.onmouseup = createNewPolygon(event);
+
+                const newPolygonBtnIcon = window.document.createElement("img");
+                newPolygonBtnIcon.id = "new-polygon-icon";
+                newPolygonBtnIcon.className = "toolkit-button-icon";
+                newPolygonBtnIcon.src = "../assets/svg/method-draw-image (60).svg";
+                newPolygonBtnIcon.alt = "visibility";
+                newPolygonBtnIcon.draggable = false;
+
+            createPolygonBtn.appendChild(newPolygonBtnIcon);
+
+            const newPolygonBtnHover = window.document.createElement("div");
+            newPolygonBtnHover.id = "polygon-button-popover";
+            newPolygonBtnHover.className = "core-button-hover-popover";
+            newPolygonBtnHover.innerHTML = "New Polygon (Q)";
+
+            leftSideBar.appendChild(createPolygonBtn);
+            leftSideBar.appendChild(newPolygonBtnHover);
+
+            // ---------------------------------------------------------------------------------------------------------------------
+            const addPointsBtn = window.document.createElement("button");
+            addPointsBtn.id = "add-points-button";
+            addPointsBtn.className = "toolkit-button toolkit-button-default toolkit-button-table-cell";
+            // Todo: add addPointBtn mouse events
+            // addPointBtn.onmouseup = addPoints(event);
+
+                const addPointsBtnIcon = window.document.createElement("img");
+                addPointsBtnIcon.id = "add-points-icon";
+                addPointsBtnIcon.className = "toolkit-button-icon";
+                addPointsBtnIcon.src = "../assets/svg/method-draw-image (70).svg";
+                addPointsBtnIcon.alt = "visibility";
+                addPointsBtnIcon.draggable = false;
+
+            addPointsBtn.appendChild(addPointsBtnIcon);
+
+            const addPointsBtnHover = window.document.createElement("div");
+            addPointsBtnHover.id = "add-points-button-popover";
+            addPointsBtnHover.className = "core-button-hover-popover small-core-button-hover-popover-v-position";
+            addPointsBtnHover.innerHTML = "Add points to Polygon (A)";
+
+            leftSideBar.appendChild(addPointsBtn);
+            leftSideBar.appendChild(addPointsBtnHover);
+
+            // ---------------------------------------------------------------------------------------------------------------------
+            const removePointsBtn = window.document.createElement("button");
+            removePointsBtn.id = "remove-points-button";
+            removePointsBtn.className = "toolkit-button toolkit-button-default toolkit-button-table-cell";
+            // Todo: add removePointsBtn mouse events
+            // removePointsBtn.onmouseup = removePoint(this, event);
+
+                const removePointsBtnIcon = window.document.createElement("img");
+                removePointsBtnIcon.id = "remove-points-icon";
+                removePointsBtnIcon.className = "toolkit-button-icon";
+                removePointsBtnIcon.src = "../assets/svg/method-draw-image (69).svg";
+                removePointsBtnIcon.alt = "visibility";
+                removePointsBtnIcon.draggable = false;
+
+            removePointsBtn.appendChild(removePointsBtnIcon);
+
+            const removePointsBtnHover = window.document.createElement("div");
+            removePointsBtnHover.id = "remove-points-button-popover";
+            removePointsBtnHover.className = "core-button-hover-popover small-core-button-hover-popover-v-position";
+            removePointsBtnHover.innerHTML = "Remove Polygon Points (R)";
+
+            leftSideBar.appendChild(removePointsBtn);
+            leftSideBar.appendChild(removePointsBtnHover);
+
+            // ---------------------------------------------------------------------------------------------------------------------
+            const sideBarSeprator = window.document.createElement("div");
+            sideBarSeprator.id = "left-side-bar-separator";
+            leftSideBar.appendChild(sideBarSeprator);
+
+            // ---------------------------------------------------------------------------------------------------------------------
+            const zoomInBtn = window.document.createElement("button");
+            zoomInBtn.id = "zoom-in-button";
+            zoomInBtn.className = "toolkit-button toolkit-button-default toolkit-button-table-cell";
+            // Todo: add zoomInBtn mouse events
+            // zoomInBtn.onmouseup = zoom('in', event);
+
+                const zoomInBtnIcon = window.document.createElement("img");
+                zoomInBtnIcon.id = "zoom-in-icon";
+                zoomInBtnIcon.className = "toolkit-button-icon";
+                zoomInBtnIcon.src = "../assets/svg/multimedia (1).svg";
+                zoomInBtnIcon.alt = "visibility";
+                zoomInBtnIcon.draggable = false;
+
+            zoomInBtn.appendChild(zoomInBtnIcon);
+
+            const zoomInBtnHover = window.document.createElement("div");
+            zoomInBtnHover.id = "zoom-in-button-popover";
+            zoomInBtnHover.className = "core-button-hover-popover";
+            zoomInBtnHover.innerHTML = "Zoom In";
+
+            leftSideBar.appendChild(zoomInBtn);
+            leftSideBar.appendChild(zoomInBtnHover);
+
+            // ---------------------------------------------------------------------------------------------------------------------
+            const zoomOutBtn = window.document.createElement("button");
+            zoomOutBtn.id = "zoom-out-button";
+            zoomOutBtn.className = "toolkit-button toolkit-button-default toolkit-button-table-cell";
+            // Todo: add zoomOutBtn mouse events
+            // zoomOutBtn.onmouseup = zoom('out', event);
+
+                const zoomOutBtnIcon = window.document.createElement("img");
+                zoomOutBtnIcon.id = "zoom-out-icon";
+                zoomOutBtnIcon.className = "toolkit-button-icon";
+                zoomOutBtnIcon.src = "../assets/svg/magnifying-glass.svg";
+                zoomOutBtnIcon.alt = "visibility";
+                zoomOutBtnIcon.draggable = false;
+
+            zoomOutBtn.appendChild(zoomOutBtnIcon);
+
+            const zoomOutBtnHover = window.document.createElement("div");
+            zoomOutBtnHover.id = "zoom-out-button-popover";
+            zoomOutBtnHover.className = "core-button-hover-popover";
+            zoomOutBtnHover.innerHTML = "Zoom Out";
+
+            leftSideBar.appendChild(zoomOutBtn);
+            leftSideBar.appendChild(zoomOutBtnHover);
+
+            // ---------------------------------------------------------------------------------------------------------------------
+            const settingsBtn = window.document.createElement("button");
+            settingsBtn.id = "settings-button";
+            settingsBtn.className = "settings-popup-item toolkit-button toolkit-button-default toolkit-button-table-cell";
+            // Todo: add settingsBtn mouse events
+            // settingsBtn.onmouseup = toggleSettingsPopup(event);
+
+                const settingsBtnIcon = window.document.createElement("img");
+                settingsBtnIcon.id = "settings-icon";
+                settingsBtnIcon.className = "settings-popup-item toolkit-button-icon";
+                settingsBtnIcon.src = "../assets/svg/cogwheels.svg";
+                settingsBtnIcon.alt = "visibility";
+                settingsBtnIcon.draggable = false;
+
+            settingsBtn.appendChild(settingsBtnIcon);
+
+            const settingsBtnHover = window.document.createElement("div");
+            settingsBtnHover.id = "upload-datasets-button-popover";
+            settingsBtnHover.className = "core-button-hover-popover";
+            settingsBtnHover.innerHTML = "Upload Datasets";
+
+            leftSideBar.appendChild(settingsBtn);
+            leftSideBar.appendChild(settingsBtnHover);
+
+            // ---------------------------------------------------------------------------------------------------------------------
+            const exportDatasetsBtn = window.document.createElement("button");
+            exportDatasetsBtn.id = "export-datasets-button";
+            exportDatasetsBtn.className = "export-datasets-popup-item toolkit-button toolkit-button-default toolkit-button-table-cell";
+            // Todo: add exportDatasetsBtn mouse events
+            // exportDatasetsBtn.onmouseup = toggleExportDatasetsPopup(event);
+            // exportdatasetsBtn.onmouseenter = cancelPulseAnimation(this);
+
+                const exportDatasetsBtnIcon = window.document.createElement("img");
+                exportDatasetsBtnIcon.id = "export-datasets-icon";
+                exportDatasetsBtnIcon.className = "export-datasets-popup-item toolkit-button-icon";
+                exportDatasetsBtnIcon.src = "../assets/svg/method-draw-image - 2020-05-03T194003.376.svg";
+                exportDatasetsBtnIcon.alt = "visibility";
+                exportDatasetsBtnIcon.draggable = false;
+
+            exportDatasetsBtn.appendChild(exportDatasetsBtnIcon);
+
+            const exportDatasetsBtnHover = window.document.createElement("div");
+            exportDatasetsBtnHover.id = "settings-button-popover";
+            exportDatasetsBtnHover.className = "core-button-hover-popover";
+            exportDatasetsBtnHover.innerHTML = "Settings";
+
+            leftSideBar.appendChild(exportDatasetsBtn);
+            leftSideBar.appendChild(exportDatasetsBtnHover);
+
+            // ---------------------------------------------------------------------------------------------------------------------
+
+        return leftSideBar;
+    }
+    // #endregion
+
+    // #region Right Side Bar
+    initRightSideBar() {
+        const rightSideBar = window.document.createElement("div");
+        rightSideBar.id = "right-side-bar";
+
+            const r
+    }
+    // #endregion
 
 }

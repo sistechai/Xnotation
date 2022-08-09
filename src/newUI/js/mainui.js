@@ -60,6 +60,7 @@ class Xnotation {
         mainPanel.appendChild(this.initRemoveImagePopupMenu());
         mainPanel.appendChild(this.initSettingsPopupMenu());
         mainPanel.appendChild(this.initLeftMenuBar());
+        mainPanel.appendChild(this.initRightSideBar());
         
         this.container.appendChild(mainPanel);
     }
@@ -726,8 +727,185 @@ class Xnotation {
         const rightSideBar = window.document.createElement("div");
         rightSideBar.id = "right-side-bar";
 
-            const r
+            const rightSideBarComponents = window.document.createElement("div");
+            rightSideBarComponents.id = "right-side-bar-components";
+
+                // ---------------------------------------------------------------------------------------------------------------------
+                const labelListComponent = window.document.createElement("div");
+                labelListComponent.id = "label-list-component";
+                labelListComponent.className = "right-side-bar-component";
+
+                    const labelListTitleParent = window.document.createElement("div");
+                    labelListTitleParent.id = "label-list-title-parent";
+                    labelListTitleParent.className = "right-side-bar-component-title";
+
+                        const titleText = window.document.createElement("div");
+                        titleText.className = "right-side-bar-title-text";
+                        titleText.innerHTML = "Labels:";
+
+                        const removeLabelBtnContainer = window.document.createElement("div");
+                        removeLabelBtnContainer.id = "remove-labels-button-container";
+                        removeLabelBtnContainer.className = "remove-objects-button-container";
+
+                            const removeLabelsBtn = window.document.createElement("button");
+                            removeLabelsBtn.id = "remove-labels-button";
+                            removeLabelsBtn.className = "toolkit-button toolkit-button-default remove-objects-button";
+
+                                const removeLabelsBtnIcon = window.document.createElement("img");
+                                removeLabelsBtnIcon.className = "remove-objects-button-icon";
+                                removeLabelsBtnIcon.src = "../assets/svg/rubbish-can.svg";
+                                removeLabelsBtnIcon.alt = "visibility";
+                                removeLabelsBtnIcon.draggable = false;
+                                // Todo: add removeLabelsBtn mouse events
+                                // removeLabelsBtn.onmouseup = removeLabels(this, event);
+
+                            removeLabelsBtn.appendChild(removeLabelsBtnIcon);
+
+                        removeLabelBtnContainer.appendChild(removeLabelsBtn);
+
+                        const removeLabelsBtnPopover = window.document.createElement("div");
+                        removeLabelsBtnPopover.id = "remove-labels-button-popover";
+                        removeLabelsBtnPopover.className = "core-button-hover-popover label-list-button-hover-popover-v-poisition";
+                        removeLabelsBtnPopover.innerHTML = "Remove Label";
+                    
+                    labelListTitleParent.appendChild(titleText);
+                    labelListTitleParent.appendChild(removeLabelBtnContainer);
+                    labelListTitleParent.appendChild(removeLabelsBtnPopover);
+
+                    const labelListOverflowParent = window.document.createElement("div");
+                    labelListOverflowParent.id = "label-list-overflow-parent";
+                    // Todo: add labelListOverflowParent mouse events
+                    // labelListOverflowParent.onmouseup = labelListScroll();
+
+                        const labelListTable = window.document.createElement("table");
+                        labelListTable.id = "label-list";
+
+                    labelListOverflowParent.appendChild(labelListTable);
+
+                labelListComponent.appendChild(labelListTitleParent);
+                labelListComponent.appendChild(labelListOverflowParent);
+                // ---------------------------------------------------------------------------------------------------------------------
+
+                const imgListComponent = window.document.createElement("div");
+                imgListComponent.id = "image-list-component";
+                imgListComponent.className = "right-side-bar-component";
+
+                    const imgListTitleParent = window.document.createElement("div");
+                    imgListTitleParent.id = "image-list-title-parent";
+                    imgListTitleParent.className = "right-side-bar-component-title";
+
+
+                        const imgtitleText = window.document.createElement("div");
+                        imgtitleText.className = "right-side-bar-title-text";
+                        imgtitleText.innerHTML = "Images:";
+
+                        const uploadImg = window.document.createElement("input");
+                        uploadImg.id = "uploadImages";
+                        uploadImg.type = "file";
+                        uploadImg.multiple = true;
+                        uploadImg.accept = "image/*";
+                        uploadImg.hidden = true;
+                        // Todo: add uploadImg mouse events
+                        // uploadImg.onchange = uploadImages(this);
+
+                        const uploadImgBtn = window.document.createElement("button");
+                        uploadImgBtn.id = "upload-images-button";
+                        uploadImgBtn.className = "toolkit-button toolkit-button-default";
+                        uploadImgBtn.innerHTML = "Upload Images";
+                        uploadImgBtn.style.paddingRight = "9px";
+                        // Todo: add uploadImgBtn mouse events
+                        // uploadImgBtn.onmouseup = triggerImageUpload(event);
+
+                            const uploadImgBtnIcon = window.document.createElement("img");
+                            uploadImgBtnIcon.id = "upload-images-icon";
+                            uploadImgBtnIcon.src = "../assets/svg/method-draw-image - 2020-05-05T022144.694.svg";
+                            uploadImgBtnIcon.alt = "visibility";
+                            uploadImgBtnIcon.draggable = false;
+
+                        uploadImgBtn.appendChild(uploadImgBtnIcon);
+
+                        const uploadImgBtnPopover = window.document.createElement("div");
+                        uploadImgBtnPopover.id = "upload-images-button-popover";
+                        uploadImgBtnPopover.className = "core-button-hover-popover image-list-button-hover-popover-v-position";
+                        uploadImgBtnPopover.innerHTML = "Upload Images";
+
+                    imgListTitleParent.appendChild(imgtitleText);
+                    imgListTitleParent.appendChild(uploadImg);
+                    imgListTitleParent.appendChild(uploadImgBtn);
+                    imgListTitleParent.appendChild(uploadImgBtnPopover);
+
+                    const imgListDragDropOverlay = window.document.createElement("div");
+                    imgListDragDropOverlay.id = "image-list-drag-and-drop-overlay";
+                    imgListDragDropOverlay.style.display = "none";
+
+                    const imgListContainer = window.document.createElement("div");
+                    imgListContainer.id = "image-list-image-container";
+
+                imgListComponent.appendChild(imgListTitleParent);
+                imgListComponent.appendChild(imgListDragDropOverlay);
+                imgListComponent.appendChild(imgListContainer);
+                // ---------------------------------------------------------------------------------------------------------------------
+            
+            rightSideBarComponents.appendChild(labelListComponent);
+            rightSideBarComponents.appendChild(imgListComponent);
+
+        rightSideBar.appendChild(rightSideBarComponents);
+
+        return rightSideBar;
     }
     // #endregion
+
+    // #region Top panel Image switch panel
+    initTopImageSwitchPanel() {
+        const imgSwitchPanel = window.document.createElement("div");
+        imgSwitchPanel.id = "image-switch-panel";
+
+            const imgSwitchContents = window.document.createElement("div");
+            imgSwitchContents.id = "image-switch-contents";
+
+                const prvImgBtn = window.document.createElement("button");
+                prvImgBtn.id = "previous-image-button";
+                prvImgBtn.className = "toolkit-button toolkit-button-disabled image-switch-button image-switch-button-disabled";
+                prvImgBtn.innerHTML = "&lt;";
+                // Todo: add prvImgBtn mouse events
+                // prvImgBtn.onclick = switchImage('previous', event);
+
+                    const prvImgBtnPopover = window.document.createElement("div");
+                    prvImgBtnPopover.id = "previous-image-button-popover";
+                    prvImgBtnPopover.className = "core-button-hover-popover image-switch-button-hover-popover";
+                    prvImgBtnPopover.innerHTML = "Previous Image (";
+                    
+                        const leftArrowBtn = window.document.createElement("div");
+                        leftArrowBtn.id = "image-switch-button-popover-arrow-left";
+                        leftArrowBtn.className = "image-switch-button-popover-arrow";
+                        leftArrowBtn.innerHTML = "&lt;";
+
+                        const prvImgBtnBrct = window.document.createElement("div");
+                        prvImgBtnBrct.className = "image-switch-button-popover-closing-bracket";
+                        prvImgBtnBrct.innerHTML = ")";
+
+                    prvImgBtnPopover.appendChild(leftArrowBtn);
+                    prvImgBtnPopover.appendChild(prvImgBtnBrct);
+
+                prvImgBtn.appendChild(prvImgBtnPopover);
+
+                const imgName = window.document.createElement("div");
+                imgName.id = "image-name";
+                imgName.innerHTML = "Image name";
+
+                const nxtImgBtn = window.document.createElement("button");
+                nxtImgBtn.id = "next-image-button";
+                nxtImgBtn.className = "toolkit-button toolkit-button-disabled image-switch-button image-switch-button-disabled";
+                nxtImgBtn.innerHTML = "&gt;";
+                // Todo: add nxtImgBtn mouse events
+                // nxtImgBtn.onclick = switchImage('next', event);
+
+                    const nxtImgBtnPopover = window.document.createElement("div");
+                    
+    }
+    // #endregion
+
+
+
 
 }

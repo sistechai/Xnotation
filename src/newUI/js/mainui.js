@@ -9,8 +9,9 @@ class Xnotation {
         this.initCrosshair(); // init crosshair line XY
         this.initHeaderPanel(); // init header panel
         this.initMainPanel(); // init main panel
-
-
+        this.initWinDim(); // init window dim
+        this.initDragDropOverlay(); // init drag and drop overlay
+        
         console.log(this.container)
     }
 
@@ -61,6 +62,7 @@ class Xnotation {
         mainPanel.appendChild(this.initSettingsPopupMenu());
         mainPanel.appendChild(this.initLeftMenuBar());
         mainPanel.appendChild(this.initRightSideBar());
+        mainPanel.appendChild(this.initTopImageSwitchPanel());
         
         this.container.appendChild(mainPanel);
     }
@@ -901,11 +903,51 @@ class Xnotation {
                 // nxtImgBtn.onclick = switchImage('next', event);
 
                     const nxtImgBtnPopover = window.document.createElement("div");
-                    
+                    nxtImgBtnPopover.id = "next-image-button-popover";
+                    nxtImgBtnPopover.className = "core-button-hover-popover image-switch-button-hover-popover";
+                    nxtImgBtnPopover.innerHTML = "Next Image (";
+
+                        const rightArrowBtn = window.document.createElement("div");
+                        rightArrowBtn.id = "image-switch-button-popover-arrow-right";
+                        rightArrowBtn.className = "image-switch-button-popover-arrow";
+                        rightArrowBtn.innerHTML = "&gt;";
+
+                        const nxtImgBtnBrct = window.document.createElement("div");
+                        nxtImgBtnBrct.className = "image-switch-button-popover-closing-bracket";
+                        nxtImgBtnBrct.innerHTML = ")";
+
+                    nxtImgBtnPopover.appendChild(rightArrowBtn);
+                    nxtImgBtnPopover.appendChild(nxtImgBtnBrct);
+
+                nxtImgBtn.appendChild(nxtImgBtnPopover);
+
+            imgSwitchContents.appendChild(prvImgBtn);
+            imgSwitchContents.appendChild(imgName);
+            imgSwitchContents.appendChild(nxtImgBtn);
+
+        imgSwitchPanel.appendChild(imgSwitchContents);
+
+        return imgSwitchPanel;               
     }
     // #endregion
 
+    // #region init window dim
+    initWinDim() {
+        const windowDim = window.document.createElement("div");
+        windowDim.id = "window-dim";
+        windowDim.style.position = "unset";
+        this.container.appendChild(windowDim);
+    }
+    // #endregion
 
+    // #region init Drag and Drop overlay
+    initDragDropOverlay() {
+        const dragDropOverlay = window.document.createElement("div");
+        dragDropOverlay.id = "window-drag-and-drop-overlay";
+        dragDropOverlay.style.display = "none";
+        this.container.appendChild(dragDropOverlay);
+    }
+    // #endregion
 
 
 }

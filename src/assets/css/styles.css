@@ -5,41 +5,7 @@
 input:focus {
   outline:none; 
 }
-#welcome-modal-parent {
-  z-index: 4;
-  opacity: 0;
-}
-
-#welcome-modal-contour-animation-parent {
-  background-color: transparent;
-  border: none; 
-  position: absolute;
-  display: inline-block;
-}
-
-.welcome-modal-base {
-  height: calc(342px / var(--screen-size-delta));
-  width: calc(450px / var(--screen-size-delta));
-  left: calc(-151px / var(--screen-size-delta));
-}
-
-#welcome-modal-contour-animation-svg {
-  width: calc(448.8px / var(--screen-size-delta));
-  height: calc(342.1px / var(--screen-size-delta));
-}
-
-#welcome-modal-contour-animation-svg-rectangle {
-  animation: sketchIn 0.5s 0.4s cubic-bezier(1, 0.84, 1, 1) forwards;
-  /* remove this to get the fade in animation */
-  stroke: #fff;
-  stroke-width: 4px;
-  stroke-dasharray: 2000;
-  stroke-dashoffset: 2000;
-  fill: none;
-  width: inherit;
-  height: inherit;
-}
-
+/* 
 @keyframes sketchIn {
 	0% {
 		stroke-dashoffset: 2000;
@@ -92,7 +58,7 @@ input:focus {
 
 #welcome-modal-buttons {
   line-height: initial;
-}
+} */
 
 #labeller-modal-input {
   width: calc(162px / var(--screen-size-delta));
@@ -1020,7 +986,7 @@ input:focus {
   float: left;
   background-color: white;
   height: 100vh;
-  max-height: calc(100vh - 34px);
+  /* max-height: calc(100vh - 34px); */
   overflow-y: auto;
   overflow-x: hidden;
   border-right: solid;
@@ -1053,7 +1019,8 @@ input:focus {
   width: 208px;
   float: right;
   background-color: white;
-  height: calc(100vh - 34px);
+  height: 100vh;
+  /* max-height: calc(100vh - 34px); */
   border-right: solid;
   border-left: solid;
   border-width: 1px;
@@ -1597,10 +1564,10 @@ body {
   padding: 2px;
 }
 
-#github-mark-button-popover {
+/* #github-mark-button-popover {
   right: 33px;
   margin-top: 6px;
-}
+} */
 
 #image-switch-parent {
   border-bottom: solid;
@@ -1608,7 +1575,7 @@ body {
   border-width: 1px;
   background-color: white;
   margin-left: calc(59px / var(--screen-size-delta));
-  margin-right: 209px;
+  margin-right: 210px;
   height: calc(29px / var(--screen-size-delta));
   text-align: center;
   user-select: none;

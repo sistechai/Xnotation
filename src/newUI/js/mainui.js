@@ -11,7 +11,7 @@ class Xnotation {
         this.initMainPanel(); // init main panel
         this.initWinDim(); // init window dim
         this.initDragDropOverlay(); // init drag and drop overlay
-        
+
         console.log(this.container)
     }
 
@@ -813,7 +813,6 @@ class Xnotation {
                         const uploadImgBtn = window.document.createElement("button");
                         uploadImgBtn.id = "upload-images-button";
                         uploadImgBtn.className = "toolkit-button toolkit-button-default";
-                        uploadImgBtn.innerHTML = "Upload Images";
                         uploadImgBtn.style.paddingRight = "9px";
                         // Todo: add uploadImgBtn mouse events
                         // uploadImgBtn.onmouseup = triggerImageUpload(event);
@@ -860,7 +859,7 @@ class Xnotation {
     // #region Top panel Image switch panel
     initTopImageSwitchPanel() {
         const imgSwitchPanel = window.document.createElement("div");
-        imgSwitchPanel.id = "image-switch-panel";
+        imgSwitchPanel.id = "image-switch-parent";
 
             const imgSwitchContents = window.document.createElement("div");
             imgSwitchContents.id = "image-switch-contents";

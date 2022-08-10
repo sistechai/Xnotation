@@ -130,6 +130,7 @@ function createNewShapeObject(shapeObj, shapeColor) {
 // after choosing Upload JSON object option
 function getStatementsForCurrentImageToJSON(images) {
   let colorHex;
+  let colorRGB;
   let currentShapes = getAllExistingShapes();
   let key;
   let points = [];
@@ -143,11 +144,10 @@ function getStatementsForCurrentImageToJSON(images) {
   polygons = [];
   lines = [];
   rectangles = [];
-
   for (key in currentShapes) {
 
     if (currentShapes[key].shapeRef.previousShapeName === 'polygon') {
-      colorHex = HSLToHex(currentShapes[key].color.stroke);
+      colorRGB = hslToRgb(currentShapes[key].color.stroke);
       for (let i=0; i< currentShapes[key].shapeRef.points.length; i++) {
         points.push(currentShapes[key].shapeRef.points[i].x, currentShapes[key].shapeRef.points[i].y);
       }
@@ -159,7 +159,7 @@ function getStatementsForCurrentImageToJSON(images) {
       }
 
       polygons.push({
-        "color": colorHex,
+        "color": colorRGB,
         'points': points_scaled
       });
       points = [];
@@ -167,7 +167,7 @@ function getStatementsForCurrentImageToJSON(images) {
     }
 
     if (currentShapes[key].shapeRef.previousShapeName === 'newLine') {
-      colorHex = HSLToHex(currentShapes[key].color.stroke);
+      colorRGB = hslToRgb(currentShapes[key].color.stroke);
       for (let i=0; i< currentShapes[key].shapeRef.points.length; i++) {
         if ( (currentShapes[key].shapeRef.points[i].x) && (currentShapes[key].shapeRef.points[i].y) ) {
           points.push(currentShapes[key].shapeRef.points[i].x, currentShapes[key].shapeRef.points[i].y);
@@ -184,14 +184,14 @@ function getStatementsForCurrentImageToJSON(images) {
 
       lines.push({
         'points': points_scaled,
-        "color": colorHex,
+        "color": colorRGB,
       });
       points = [];
       points_scaled = [];
     }
 
     if (currentShapes[key].shapeRef.shapeName === 'bndBox'){
-      colorHex = HSLToHex(currentShapes[key].color.stroke);
+      colorRGB = hslToRgb(currentShapes[key].color.stroke);
 
       points.push(currentShapes[key].shapeRef.aCoords.tl.x, currentShapes[key].shapeRef.aCoords.tl.y);
       points.push(currentShapes[key].shapeRef.aCoords.br.x, currentShapes[key].shapeRef.aCoords.br.y);
@@ -203,7 +203,7 @@ function getStatementsForCurrentImageToJSON(images) {
       }
 
       rectangles.push({
-        "color": colorHex,
+        "color": colorRGB,
         'points': points_scaled
       });
       points = [];
@@ -243,56 +243,22 @@ function getStatementsForCurrentImageToJSON(images) {
   return objectJSON;
 }
 
-function HSLToHex(hslColor) {
-  // hslColor = hsl(154, 98%, 54%);
-  // regular expression to get numbers;
-  // numbers is array in format: ['154', '98', '54' ];
-  const NUMERIC_REGEXP = /[-]{0,1}[\d]*[.]{0,1}[\d]+/g;
-  const numbers = hslColor.match(NUMERIC_REGEXP);
+function hslToRgb(hslColor){
 
-  let h,s,l;
+    const NUMERIC_REGEXP = /[-]{0,1}[\d]*[.]{0,1}[\d]+/g;
+    const numbers = hslColor.match(NUMERIC_REGEXP);
+    let h,s,l;
 
-  h = numbers[0];
-  s = numbers[1];
-  l = numbers[2];
-
-  s /= 100;
-  l /= 100;
-
-  let c = (1 - Math.abs(2 * l - 1)) * s,
-      x = c * (1 - Math.abs((h / 60) % 2 - 1)),
-      m = l - c/2,
-      r = 0,
-      g = 0,
-      b = 0;
-
-  if (0 <= h && h < 60) {
-    r = c; g = x; b = 0;
-  } else if (60 <= h && h < 120) {
-    r = x; g = c; b = 0;
-  } else if (120 <= h && h < 180) {
-    r = 0; g = c; b = x;
-  } else if (180 <= h && h < 240) {
-    r = 0; g = x; b = c;
-  } else if (240 <= h && h < 300) {
-    r = x; g = 0; b = c;
-  } else if (300 <= h && h < 360) {
-    r = c; g = 0; b = x;
-  }
-  // Having obtained RGB, convert channels to hex
-  r = Math.round((r + m) * 255).toString(16);
-  g = Math.round((g + m) * 255).toString(16);
-  b = Math.round((b + m) * 255).toString(16);
-
-  // Prepend 0s, if necessary
-  if (r.length == 1)
-    r = "0" + r;
-  if (g.length == 1)
-    g = "0" + g;
-  if (b.length == 1)
-    b = "0" + b;
-
-  return "#" + r + g + b;
+    h = numbers[0];
+    s = numbers[1];
+    l = numbers[2];
+    s /= 100;
+    l /= 100;
+    const k = n => (n + h / 30) % 12;
+    const a = s * Math.min(l, 1 - l);
+    const f = n =>
+    l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+    return [Math.round(255 * f(0)), Math.round(255 * f(8)), Math.round(255 * f(4))];
 }
 
 // executed after switching back to previous image and then shapes appear

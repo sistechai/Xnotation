@@ -243,7 +243,6 @@ function getStatementsForCurrentImageToJSON(images) {
   return objectJSON;
 }
 
-
 function hslToRgb(hslColor){
 
     const NUMERIC_REGEXP = /[-]{0,1}[\d]*[.]{0,1}[\d]+/g;

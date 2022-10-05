@@ -1,0 +1,23 @@
+:root {
+    --color-switch-btn: #666;
+    --color-toolkit-btn: #777;
+    --color-main-bg: #111;
+    --color-canvas-bg: #222;
+    --color-title-bg: #333;
+    --color-border: #777;
+}
+
+@import 
+'toolbar/axises',
+'toolbar/tools',
+'toolbar/right_sidebar',
+'toolbar/top_panel'
+;
+
+#zoom-overflow-wrapper-parent {
+    background-color: var(--color-canvas-bg);    
+}
+
+#right-side-bar {
+    background-color: var(--color-main-bg);
+}

@@ -1,0 +1,21 @@
+#image-switch-parent {
+    background-color: #111;
+}
+
+
+button#previous-image-button {
+    border: none;
+    background-color: var(--color-switch-btn);
+    color: #fff;
+    height: 23px;
+    width: 23px;
+    border-radius: 50%;
+}
+
+#image-name {
+    color: #fff !important;
+}
+
+button#next-image-button   {
+    @extend button#previous-image-button;
+}

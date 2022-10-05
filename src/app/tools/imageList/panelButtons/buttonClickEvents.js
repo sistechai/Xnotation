@@ -13,9 +13,9 @@ import {
 import { discardActiveObject } from './discardActiveObject.js';
 import { triggerRemoveImage } from '../removeImages/removeImages.js';
 
-function triggeUploadImagesButton() {
-  document.getElementById('uploadImages').click();
-}
+// function triggeUploadImagesButton() {
+//   document.getElementById('uploadImages').click();
+// }
 
 function uploadImageFiles(uploadData) {
   discardActiveObject();
@@ -27,7 +27,7 @@ function initialiseImageListButtonClickEvents() {
   window.switchImage = replaceExistingCanvas.bind(this, switchImage, resetCanvasEventsToDefault);
   
   // uploadImages button
-  window.triggerImageUpload = removeButtonPopoverIfActive.bind(this, triggeUploadImagesButton);
+  // window.triggerImageUpload = removeButtonPopoverIfActive.bind(this, triggeUploadImagesButton);
   window.uploadImages = interruptAllCanvasEventsBeforeFuncWInputs.bind(this, this, { uploadImageFiles, resetCanvasEventsToDefault });
   window.removeImage = doNothingIfNotLeftMouseButtonPress.bind(this, triggerRemoveImage);
 }

@@ -6,14 +6,15 @@ let screenSizeDelta = 1;
 
 // delta uses screen width only
 function calculateDesiredScreenSizeDelta() {
-  const defaultScreenWidth = 1920;
-  const currentScreenWidth = window.screen.width;
-  const quotient = defaultScreenWidth / currentScreenWidth;
-  return quotient > 1.1 ? 1.1 : quotient;
+  // const defaultScreenWidth = 1920;
+  // const currentScreenWidth = window.screen.width;
+  // const quotient = defaultScreenWidth / currentScreenWidth;
+  // return quotient > 1.1 ? 1.1 : quotient;
+  return 1;
 }
 
 function getScreenSizeDelta() {
-  return screenSizeDelta;
+  return 1; //screenSizeDelta;
 }
 
 function setScreenSizeDelta() {

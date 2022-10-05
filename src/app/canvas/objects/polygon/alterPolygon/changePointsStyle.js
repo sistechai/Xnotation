@@ -1,6 +1,7 @@
 import polygonProperties from '../properties.js';
 import {
-  prepareObjectsForEditablePolygonPoints, setObjectPropertiesToDefault,
+  prepareObjectsForEditablePolygonPoints, 
+  setObjectPropertiesToDefault,
 } from '../../objectsProperties/changeProperties.js';
 import { getDefaultState, getAddingPolygonPointsState } from '../../../../tools/state.js';
 import { setCreateNewLineToDefault } from '../../../../tools/toolkit/styling/state.js';

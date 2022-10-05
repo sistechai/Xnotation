@@ -1,0 +1,57 @@
+:root {
+  --color-switch-btn: #666;
+  --color-toolkit-btn: #777;
+  --color-main-bg: #111;
+  --color-canvas-bg: #222;
+  --color-title-bg: #333;
+  --color-border: #777;
+}
+
+#left-side-bar {
+  background-color: var(--color-main-bg);
+}
+
+#left-side-bar button {
+  border: none;
+  background-color: var(--color-toolkit-btn);
+  margin-top: 5px;
+  min-height: 46px;
+}
+
+.right-side-bar-component-title {
+  background-color: var(--color-title-bg);
+}
+
+.right-side-bar-title-text {
+  color: #fff;
+}
+
+.labelText {
+  color: #fff;
+}
+
+#image-switch-parent {
+  background-color: #111;
+}
+
+button#previous-image-button, button#next-image-button {
+  border: none;
+  background-color: var(--color-switch-btn);
+  color: #fff;
+  height: 23px;
+  width: 23px;
+  border-radius: 50%;
+}
+
+#image-name {
+  color: #fff !important;
+}
+
+#zoom-overflow-wrapper-parent {
+  background-color: var(--color-canvas-bg);
+}
+
+#right-side-bar {
+  background-color: var(--color-main-bg);
+}
+/*# sourceMappingURL=main.css.map */

@@ -1,0 +1,1 @@
+rollup src/app/index.js --file build/main.js --format iife

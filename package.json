@@ -5,19 +5,21 @@
   "main": "index.js",
   "scripts": {
     "start": "python3 -m http.server --directory src",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup src/app/index.js --file build/main.js --format iife && gulp build && rm build/main.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Shekhrozx/Xnotation.git"
+    "url": "git+https://github.com/sistechai/Xnotation.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Shekhrozx/Xnotation/issues"
+    "url": "https://github.com/sistechai/Xnotation/issues"
   },
-  "homepage": "https://github.com/Shekhrozx/Xnotation#readme",
+  "homepage": "https://github.com/sistechai/Xnotation#readme",
   "dependencies": {
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^3.0.2"
   }
 }

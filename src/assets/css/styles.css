@@ -1140,7 +1140,7 @@ input:focus {
 #image-list-image-container {
   overflow-x: hidden;
   overflow-y: auto;
-  height: calc(100vh - (100vh - 287px) / 2 - 37px - (54px / var(--screen-size-delta)));
+  height: calc(100vh - (100vh - 240px) / 2 - 37px - (54px / var(--screen-size-delta)));
   scrollbar-color: #8c8c8c #f9f9f9;
   scrollbar-width: thin;
   padding-top: 1px;

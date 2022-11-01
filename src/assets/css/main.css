@@ -30,6 +30,20 @@
   color: #fff;
 }
 
+#saveBtnContainer {
+  padding: 2px;
+}
+
+#saveBtnContainer button {
+  border: 1px solid #267eb9;
+  background-color: #40a8ee;
+  padding: 15px;
+  width: 100%;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 #image-switch-parent {
   background-color: #111;
 }

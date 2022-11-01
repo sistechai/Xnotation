@@ -30,19 +30,26 @@ async function uploadLocalImagesByPath(){
     let filePath, response;
     const dataTransfer = new DataTransfer();
 
-    for (let i = 0; i < window.localImageFiles.length; i += 1) {
-      filePath = window.localImageFiles[i];
-      response = await (await fetch(filePath)).blob();
-      const imgFile = new File([response], filePath.split('/').slice(-1), { type: 'image/jpeg' });
-      dataTransfer.items.add(imgFile);
+    try {
+      for (let i = 0; i < window.localImageFiles.length; i += 1) {
+        filePath = window.localImageFiles[i];        
+        response = await fetch(filePath);
+        if (!response.ok) {
+          throw new Error('Network response was not ok, status: ' + response.status);
+        }
+        response = await response.blob();
+        const imgFile = new File([response], filePath.split('/').slice(-1), { type: 'image/jpeg' });
+        dataTransfer.items.add(imgFile);
+      }
+      const inputFiles = document.getElementById('uploadImages');
+      inputFiles.files = dataTransfer.files;
+      uploadImageFiles(inputFiles);
+
+    } catch (e) {
+      window.alert('Invalid URL. Please check the URL and try again.');
+      console.log(e); 
     }
-
-    const inputFiles = document.getElementById('uploadImages');
-    inputFiles.files = dataTransfer.files;
-    uploadImageFiles(inputFiles);
   }
-
 }
-
 
 export { initialiseImageListFunctionality as default };

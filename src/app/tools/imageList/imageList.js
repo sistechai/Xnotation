@@ -422,12 +422,10 @@ function writeJSON(objectJSON){
   const stringJSONparsed = JSON.parse(stringJSON);
 
 // Start file download.
-  download("annotation.json", stringJSON);
-  
-  if (wondow.DEBUG) {
+  download("annotation.json", stringJSON);  
+  if (window.DEBUG) {
     console.log("stringJSONparsed", stringJSONparsed);
   }
-
   return stringJSONparsed;
 }
 
@@ -438,9 +436,7 @@ function download(filename, text) {
 
   element.style.display = 'none';
   document.body.appendChild(element);
-
   element.click();
-
   document.body.removeChild(element);
 }
 

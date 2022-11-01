@@ -9,3 +9,16 @@
 .labelText {
     color: #fff;
 }
+
+#saveBtnContainer {
+    padding: 2px;
+    button {
+        border: 1px solid rgb(38, 126, 185);;
+        background-color: rgb(64, 168, 238);
+        padding: 15px;
+        width: 100%;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+    }
+}

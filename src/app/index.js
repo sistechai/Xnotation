@@ -28,23 +28,16 @@ import { initialisePulseAnimationCancelling } from './tools/utils/buttons/pulseA
 import initialiseShapeManipulationDeltas from './canvas/objects/deltaValueSetters/initialiseShapeManipulationDeltas.js';
 import initialiseBrowserExitHandler from './tools/browserExit/browserExitHandler.js';
 
+import fileLoader from './services/fileLoader.js';
+import { initDataSerice } from './services/saveNotation.js';
 // ------------------------------------------------------------
 // Debugging Mode
 window.DEBUG = true;
 
-
 // ------------------------------------------------------------
 // Temporarly uploaded image
-var param = new URLSearchParams(window.location.search);
-
-const imagePath = param.get('images') || null;
-if (imagePath) {
-    var imageNames = imagePath.split(',');
-    window.localImageFiles = [];
-    for (let i = 0; i < imageNames.length; i += 1) {
-        window.localImageFiles.push('/src/storage/images/' + imageNames[i]);
-    }
-}
+fileLoader();
+initDataSerice();
 // ------------------------------------------------------------
 
 
